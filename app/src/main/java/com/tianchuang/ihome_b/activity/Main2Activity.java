@@ -1,16 +1,16 @@
 package com.tianchuang.ihome_b.activity;
 
 import android.os.Bundle;
-import android.support.annotation.ArrayRes;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.adapter.DrawMenuAdapter;
 import com.tianchuang.ihome_b.base.BaseActivity;
@@ -23,8 +23,7 @@ import java.util.ArrayList;
 import butterknife.BindArray;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static android.nfc.tech.MifareUltralight.PAGE_SIZE;
+import butterknife.OnClick;
 
 /**
  * Created by Abyss on 2017/2/9.
@@ -32,15 +31,16 @@ import static android.nfc.tech.MifareUltralight.PAGE_SIZE;
  */
 public class Main2Activity extends BaseActivity {
 
-	@BindView(R.id.iv_navigation_icon)
-	ImageView ivNavigation;
 	@BindView(R.id.id_draw_menu_item_list_select)
 	RecyclerView mRecyclerView;
 	@BindView(R.id.id_drawer_layout)
 	DrawerLayout mDrawerLayout;
 	@BindArray(R.array.draw_menu_items)
 	String[] items;
+	@BindView(R.id.spinner)
+	MaterialSpinner spinner;
 	private DrawMenuAdapter menuAdapter;
+
 	@Override
 	protected int getLayoutId() {
 		return R.layout.activity_main2;
@@ -56,7 +56,7 @@ public class Main2Activity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(getLayoutId());
 		ButterKnife.bind(this);
-		addFragment(MainFragment.newInstance());
+		addFragment(MainFragment.newInstance());//添加主页fragment
 		initView();
 		//设置监听
 		initListener();
@@ -71,22 +71,39 @@ public class Main2Activity extends BaseActivity {
 			drawMenuItem.setName(item);
 			drawMenuItems.add(drawMenuItem);
 		}
-		menuAdapter = new DrawMenuAdapter(R.layout.draw_menu_item_holder,drawMenuItems);
+		menuAdapter = new DrawMenuAdapter(R.layout.draw_menu_item_holder, drawMenuItems);
 		mRecyclerView.setAdapter(menuAdapter);
+		String[] ITEMS = {"Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6"};
+		spinner.setItems(items);
+		spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
+
+			@Override
+			public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
+
+			}
+
+		});
 	}
+		@OnClick({R.id.iv_navigation_icon, R.id.iv_right})
+		public void onClick(View view) {
+			switch (view.getId()) {
+				case R.id.iv_navigation_icon://侧滑菜单的入口
+					toggle();
+					break;
+				case R.id.iv_right://抢单大厅的入口
+					Toast.makeText(this, "抢单大厅", Toast.LENGTH_SHORT).show();
+					break;
+			}
+		}
+
+
 
 
 	private void initListener() {
 		menuAdapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
 			@Override
 			public void onItemClick(View view, int i) {
-				Toast.makeText(Main2Activity.this, i+"", Toast.LENGTH_SHORT).show();
-			}
-		});
-		ivNavigation.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				toggle();
+				Toast.makeText(Main2Activity.this, i + "", Toast.LENGTH_SHORT).show();
 			}
 		});
 		mDrawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
@@ -133,4 +150,5 @@ public class Main2Activity extends BaseActivity {
 			mDrawerLayout.openDrawer(GravityCompat.START);
 		}
 	}
+
 }

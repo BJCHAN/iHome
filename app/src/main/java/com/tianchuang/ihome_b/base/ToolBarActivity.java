@@ -3,6 +3,9 @@ package com.tianchuang.ihome_b.base;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.view.KeyEvent;
+import android.widget.TextView;
 
 import com.tianchuang.ihome_b.R;
 
@@ -19,6 +22,8 @@ public abstract class ToolBarActivity extends BaseActivity {
 
 	@BindView(R.id.ac_toolbar_toolbar)
 	Toolbar toolbar;
+	@BindView(R.id.toolbar_title)
+	TextView toolbarTitle;
 
 	//获取第一个fragment
 	protected abstract BaseFragment getFirstFragment();
@@ -33,8 +38,8 @@ public abstract class ToolBarActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(getLayoutId());
 		ButterKnife.bind(this);
-		if (toolbar!=null)
-		initToolBar(toolbar);
+		if (toolbar != null)
+			initToolBar(toolbar);
 		if (null != getIntent()) {
 			handleIntent(getIntent());
 		}
@@ -48,6 +53,11 @@ public abstract class ToolBarActivity extends BaseActivity {
 
 	}
 
+	public void setToolbarTitle(String title) {
+		if (!TextUtils.isEmpty(title))
+			toolbarTitle.setText(title);
+	}
+
 	protected abstract void initToolBar(Toolbar toolbar);
 
 	@Override
@@ -58,5 +68,17 @@ public abstract class ToolBarActivity extends BaseActivity {
 	@Override
 	protected int getFragmentContainerId() {
 		return R.id.fragment_container;
+	}
+
+	//返回键返回事件
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (KeyEvent.KEYCODE_BACK == keyCode) {
+			if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+				finish();
+				return true;
+			}
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 }

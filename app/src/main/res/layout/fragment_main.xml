@@ -1,33 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.tianchuang.ihome_b.MainActivity"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:id="@+id/textView"/>
+<LinearLayout
+    android:background="@color/app_primary_color"
+    android:layout_width="match_parent"
+    android:gravity="center_vertical"
+    android:layout_height="90dp">
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:src="@mipmap/rich_scan"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_marginTop="12dp"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:text="扫一扫"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:src="@mipmap/write_form"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_marginTop="6dp"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:text="表单填报"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:src="@mipmap/internal_reports"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_marginTop="12dp"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:text="内部报事"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:src="@mipmap/main_query"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_marginTop="6dp"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:text="查询"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+</LinearLayout>
 
     <Button
-        android:text="Button"
+        android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView"
         android:layout_marginLeft="29dp"
         android:layout_marginStart="29dp"
         android:layout_marginTop="75dp"
-        android:id="@+id/button"
-        android:layout_below="@+id/textView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
+        android:text="Button"/>
 </LinearLayout>

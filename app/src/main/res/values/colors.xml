@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="app_primary_color">#4286F5</color>
+    <color name="app_primary_color">#218ADB</color>
     <color name="app_primary_color_dark">#3367D5</color>
     <color name="app_color_background">#FFF</color>
 
@@ -20,4 +20,10 @@
     <color name="pink">#ff6666</color>
     <color name="red">#d90c09</color>
     <color name="white">#FFF</color>
+    <!--按钮颜色-->
+    <color name="BC_1">#cccccc</color>
+    <!--文字颜色-->
+    <color name="TC_1">#333333</color>
+    <color name="TC_2">#999999</color>
+    <color name="TC_3">#ff6d6d</color>
 </resources>

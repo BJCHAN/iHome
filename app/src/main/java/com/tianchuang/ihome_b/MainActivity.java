@@ -26,7 +26,7 @@ public class MainActivity extends ToolBarActivity {
 		toolbar.setTitle("主页");
 		toolbar.setTitleTextColor(Color.WHITE);
 		// 设置导航按钮
-		toolbar.setNavigationIcon(R.drawable.menu);
+		toolbar.setNavigationIcon(R.mipmap.menu);
 		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

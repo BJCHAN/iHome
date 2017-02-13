@@ -17,35 +17,49 @@
             android:id="@+id/rl_main_top"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="#14B6F6"
+            android:background="@color/app_primary_color"
             android:gravity="center_vertical">
 
             <ImageView
                 android:id="@+id/iv_navigation_icon"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginLeft="10dp"
-                android:src="@mipmap/ic_launcher"/>
-
-            <TextView
-                android:id="@+id/tv_center"
                 android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:layout_centerHorizontal="true"
-                android:gravity="center"
-                android:text="消息    电话"
-                android:textColor="#ffffff"
-                android:textSize="15sp"/>
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:padding="10dp"
+                android:src="@mipmap/menu"/>
 
-            <TextView
-                android:id="@+id/tv_right"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+            <com.jaredrummler.materialspinner.MaterialSpinner
+                android:id="@+id/spinner"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_centerHorizontal="true"
+                android:background="@null"
+                android:textSize="18sp"
+                app:ms_background_color="@color/app_primary_color"
+                app:ms_hide_arrow="false"
+                app:ms_text_color="#ffffff"
+            />
+            <ImageView android:layout_width="wrap_content"
+                       android:layout_alignRight="@id/spinner"
+                       android:layout_marginRight="10dp"
+                       android:visibility="gone"
+                       android:layout_height="wrap_content"
+                       android:layout_centerVertical="true"
+                       android:src="@mipmap/down_arrow"
+            />
+            <ImageView
+                android:id="@+id/iv_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="8dp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
                 android:gravity="center"
-                android:textColor="#ffffff"
-                android:textSize="15sp"/>
+                android:padding="10dp"
+                android:src="@mipmap/rob_hall"
+            />
         </RelativeLayout>
 
         <FrameLayout

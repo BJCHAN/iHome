@@ -16,13 +16,15 @@ public abstract class BaseActivity extends RxFragmentActivity {
 	protected abstract int getFragmentContainerId();
 
 	//添加fragment
-	protected void addFragment(BaseFragment fragment) {
+	protected int addFragment(BaseFragment fragment) {
+		int i = 0;
 		if (fragment != null) {
-			getSupportFragmentManager().beginTransaction()
+			i = getSupportFragmentManager().beginTransaction()
 					.replace(getFragmentContainerId(), fragment, fragment.getClass().getSimpleName())
 					.addToBackStack(fragment.getClass().getSimpleName())
 					.commitAllowingStateLoss();
 		}
+		return i;
 	}
 
 	//移除fragment
@@ -34,15 +36,5 @@ public abstract class BaseActivity extends RxFragmentActivity {
 		}
 	}
 
-	//返回键返回事件
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (KeyEvent.KEYCODE_BACK == keyCode) {
-			if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
-				finish();
-				return true;
-			}
-		}
-		return super.onKeyDown(keyCode, event);
-	}
+
 }

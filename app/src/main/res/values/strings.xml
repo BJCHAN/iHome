@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">i家帮</string>
+    <string name="register_account"><b>注册账户</b></string>
+    <string name="logo_text">i家帮 (员工版)</string>
+
+    <!--通用-->
+    <string name="network_error_message">网络访问错误，请检查网络设置！</string>
+    <string name="connect_server_error">连接服务器失败！</string>
+    <string name="login_phone_error">请输入正确的11位手机号</string>
+    <!--material dialog-->
+    <string name="material_dialog_sure">确定</string>
+    <string name="material_dialog_cancel">取消</string>
+    <string name="pwd_format_error">密码格式不正确，请输入6-16位数字和大小写字 母组合的密码</string>
+    <string name="auth_code_error">验证码不正确，请重新输入</string>
 </resources>
