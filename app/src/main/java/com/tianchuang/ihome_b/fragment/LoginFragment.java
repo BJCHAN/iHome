@@ -144,11 +144,11 @@ public class LoginFragment extends BaseFragment {
 	/**
 	 * 账号和密码控制登录按钮
 	 *
-	 * @param email
+	 * @param phone
 	 * @param pwd
 	 */
-	private void loginBtnEnable(Observable<CharSequence> email, Observable<CharSequence> pwd) {
-		Observable.combineLatest(email, pwd, new Func2<CharSequence, CharSequence, Boolean>() {
+	private void loginBtnEnable(Observable<CharSequence> phone, Observable<CharSequence> pwd) {
+		Observable.combineLatest(phone, pwd, new Func2<CharSequence, CharSequence, Boolean>() {
 			@Override
 			public Boolean call(CharSequence email, CharSequence pwd) {//每当发射数据结合最近一个
 				return email.length() > 0 && pwd.length() >= 6;

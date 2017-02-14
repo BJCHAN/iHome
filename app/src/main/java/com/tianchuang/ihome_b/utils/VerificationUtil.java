@@ -22,4 +22,14 @@ public class VerificationUtil {
 
 		return false;
 	}
+	/**
+	 * 判断手机号码是否有效
+	 */
+	public static boolean isValidPassword(String passwrod) {
+		if (!TextUtils.isEmpty(passwrod)) {
+			String regex = "[\\da-zA-Z]{6,16}";//6-16位数字或密码的组合
+			return Pattern.matches(regex, passwrod);
+		}
+		return false;
+	}
 }

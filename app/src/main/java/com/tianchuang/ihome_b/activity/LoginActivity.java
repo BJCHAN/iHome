@@ -7,6 +7,7 @@ import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.base.ToolBarActivity;
 import com.tianchuang.ihome_b.fragment.LoginFragment;
+import com.tianchuang.ihome_b.utils.SystemUtil;
 
 /**
  * Created by Abyss on 2017/2/13.
@@ -24,6 +25,7 @@ public class LoginActivity extends ToolBarActivity {
 	@Override
 	protected void initToolBar(Toolbar toolbar) {
 		this.toolbar = toolbar;
+		SystemUtil.changeStatusBarColor(this, R.color.white);//改变状态栏颜色
 		toolbar.setNavigationIcon(R.mipmap.back);
 		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
 			@Override
@@ -39,8 +41,9 @@ public class LoginActivity extends ToolBarActivity {
 	 */
 	public void closeFragment() {
 		removeFragment();
-		if (getSupportFragmentManager().getBackStackEntryCount() == 2) {
+		if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
 			toolbar.setVisibility(View.GONE);
+			SystemUtil.changeStatusBarColor(this, R.color.white);//改变状态栏颜色
 		}
 	}
 
@@ -50,6 +53,7 @@ public class LoginActivity extends ToolBarActivity {
 	public void openFragment(BaseFragment fragment) {
 		if (toolbar.getVisibility() == View.GONE) {
 			toolbar.setVisibility(View.VISIBLE);
+			SystemUtil.changeStatusBarColor(this, R.color.app_primary_color);
 		}
 		addFragment(fragment);
 	}
@@ -59,6 +63,7 @@ public class LoginActivity extends ToolBarActivity {
 		super.onBackPressed();
 		if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
 			toolbar.setVisibility(View.GONE);
+			SystemUtil.changeStatusBarColor(this, R.color.white);
 		}
 	}
 }

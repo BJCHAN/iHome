@@ -42,7 +42,6 @@ android {
 
     dexOptions {
         jumboMode true
-//        incremental true  //开启incremental dexing,优化编译效率，这个功能android studio默认是关闭的。2.2去除此选项
         javaMaxHeapSize "4g"  //增加java堆内存大小
     }
 
@@ -85,7 +84,9 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.1.2'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:v1.9.7'
     compile project(':matiral-spinner')
+    compile 'com.orhanobut:logger:1.11'
     compile('com.github.afollestad.material-dialogs:commons:0.8.5.7@aar') {
         transitive = true
     }
+    compile 'net.oauth.core:oauth:20100527'
 }

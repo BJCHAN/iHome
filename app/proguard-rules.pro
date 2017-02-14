@@ -75,6 +75,8 @@
 -keepclassmembers class * {
     void *(**On*Event);
 }
+
+
 #=========================Android API相关====start==================================
 #【保护Android相关组件类】
 -keep public class * extends android.app.Fragment
@@ -130,6 +132,20 @@
 #【保护R资源索引类】
 -keepclassmembers class **.R$* {
     public static <fields>;
+}
+
+#权限工具类不参与混淆
+-keep class com.tianchuang.ihome_b.permission.** { *; }
+
+-keepclassmembers class ** {
+    @com.tianchuang.ihome_b.permission.OnMPermissionGranted <methods>;
+}
+-keepclassmembers class ** {
+    @com.tianchuang.ihome_b.permission.OnMPermissionDenied <methods>;
+}
+
+-keepclassmembers class ** {
+    @com.tianchuang.ihome_b.permission.OnMPermissionNeverAskAgain <methods>;
 }
 ################common###############
 -keep class com.tianchuang.ihome_b.bean.** { *; } #实体类不参与混淆
