@@ -1,15 +1,9 @@
 package com.tianchuang.ihome_b.http.retrofit.model;
 
-import com.tianchuang.ihome_b.bean.BaseHttpBean;
 import com.tianchuang.ihome_b.http.retrofit.HttpModle;
 import com.tianchuang.ihome_b.http.retrofit.RetrofitService;
-import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
 /**
  * Created by Abyss on 2017/2/14.
@@ -22,5 +16,19 @@ public class LoginModel {
 	 */
 	public static Observable<HttpModle<String>> requestAuthCode(String phone) {
 		return RetrofitService.createShowApi().sendAuthCode(phone);
+	}
+
+	/**
+	 * 注册账号
+	 */
+	public static Observable<HttpModle<String>> requestRegisterAccount(String phone, String pwd, String authCode) {
+		return RetrofitService.createShowApi().registerAccount(phone, pwd, authCode);
+	}
+
+	/**
+	 * 登录
+	 */
+	public static Observable<HttpModle<String>> requestLogin(String phone, String pwd) {
+		return RetrofitService.createShowApi().Login(phone, pwd);
 	}
 }

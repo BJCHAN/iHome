@@ -1,12 +1,13 @@
 package com.tianchuang.ihome_b.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -29,7 +30,7 @@ import butterknife.OnClick;
  * Created by Abyss on 2017/2/9.
  * description:主页
  */
-public class Main2Activity extends BaseActivity {
+public class MainActivity extends BaseActivity {
 
 	@BindView(R.id.id_draw_menu_item_list_select)
 	RecyclerView mRecyclerView;
@@ -84,26 +85,29 @@ public class Main2Activity extends BaseActivity {
 
 		});
 	}
-		@OnClick({R.id.iv_navigation_icon, R.id.iv_right})
-		public void onClick(View view) {
-			switch (view.getId()) {
-				case R.id.iv_navigation_icon://侧滑菜单的入口
-					toggle();
-					break;
-				case R.id.iv_right://抢单大厅的入口
-					Toast.makeText(this, "抢单大厅", Toast.LENGTH_SHORT).show();
-					break;
-			}
+
+	@OnClick({R.id.iv_navigation_icon, R.id.iv_right})
+	public void onClick(View view) {
+		switch (view.getId()) {
+			case R.id.iv_navigation_icon://侧滑菜单的入口
+				toggle();
+				break;
+			case R.id.iv_right://抢单大厅的入口
+				Toast.makeText(this, "抢单大厅", Toast.LENGTH_SHORT).show();
+				break;
 		}
-
-
+	}
 
 
 	private void initListener() {
 		menuAdapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
 			@Override
 			public void onItemClick(View view, int i) {
-				Toast.makeText(Main2Activity.this, i + "", Toast.LENGTH_SHORT).show();
+				switch (i) {
+					case 8:
+						startActivity(new Intent(MainActivity.this, SettingActivity.class));
+						break;
+				}
 			}
 		});
 		mDrawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
@@ -151,4 +155,15 @@ public class Main2Activity extends BaseActivity {
 		}
 	}
 
+	//返回键返回事件
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (KeyEvent.KEYCODE_BACK == keyCode) {
+			if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+				finish();
+				return true;
+			}
+		}
+		return super.onKeyDown(keyCode, event);
+	}
 }

@@ -11,8 +11,11 @@ import android.widget.TextView;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.activity.LoginActivity;
-import com.tianchuang.ihome_b.activity.Main2Activity;
+import com.tianchuang.ihome_b.activity.MainActivity;
 import com.tianchuang.ihome_b.base.BaseFragment;
+import com.tianchuang.ihome_b.http.retrofit.RxHelper;
+import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
+import com.tianchuang.ihome_b.http.retrofit.model.LoginModel;
 import com.tianchuang.ihome_b.utils.MaterialDialogsUtil;
 import com.tianchuang.ihome_b.utils.VerificationUtil;
 
@@ -114,11 +117,28 @@ public class LoginFragment extends BaseFragment {
 						return aBoolean;
 					}
 				})
-				.subscribe(new Action1<Boolean>() {
+				.flatMap(new Func1<Boolean, Observable<String>>() {
 					@Override
-					public void call(Boolean aBoolean) {
-						mActivity.startActivity(new Intent(mActivity, Main2Activity.class));
+					public Observable<String> call(Boolean aBoolean) {
+						return LoginModel.requestLogin(phone, pwd).compose(RxHelper.<String>handleResult());
+					}
+				})
+
+				.subscribe(new RxSubscribe<String>() {
+					@Override
+					protected void _onNext(String s) {
+						startActivityWithAnim(new Intent(mActivity, MainActivity.class));
 						mActivity.finish();
+					}
+
+					@Override
+					protected void _onError(String message) {
+						showRedTip(message);
+					}
+
+					@Override
+					public void onCompleted() {
+
 					}
 				});
 

@@ -25,6 +25,7 @@ public class LoginActivity extends ToolBarActivity {
 	@Override
 	protected void initToolBar(Toolbar toolbar) {
 		this.toolbar = toolbar;
+		toolbar.setVisibility(View.INVISIBLE);
 		SystemUtil.changeStatusBarColor(this, R.color.white);//改变状态栏颜色
 		toolbar.setNavigationIcon(R.mipmap.back);
 		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -33,7 +34,6 @@ public class LoginActivity extends ToolBarActivity {
 				closeFragment();
 			}
 		});
-		toolbar.setVisibility(View.GONE);
 	}
 
 	/**
@@ -42,19 +42,23 @@ public class LoginActivity extends ToolBarActivity {
 	public void closeFragment() {
 		removeFragment();
 		if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
-			toolbar.setVisibility(View.GONE);
-			SystemUtil.changeStatusBarColor(this, R.color.white);//改变状态栏颜色
+			setToolbarVisible(false);
 		}
 	}
 
 	/**
+	 * 关闭所有fragment
+	 */
+	public void closeAllFragment() {
+		while (getSupportFragmentManager().getBackStackEntryCount() != 1) {
+			closeFragment();
+		}
+	}
+	/**
 	 * 打开新的fragment
 	 */
 	public void openFragment(BaseFragment fragment) {
-		if (toolbar.getVisibility() == View.GONE) {
-			toolbar.setVisibility(View.VISIBLE);
-			SystemUtil.changeStatusBarColor(this, R.color.app_primary_color);
-		}
+		setToolbarVisible(true);
 		addFragment(fragment);
 	}
 
@@ -62,8 +66,20 @@ public class LoginActivity extends ToolBarActivity {
 	public void onBackPressed() {
 		super.onBackPressed();
 		if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
-			toolbar.setVisibility(View.GONE);
-			SystemUtil.changeStatusBarColor(this, R.color.white);
+			setToolbarVisible(false);
+		}
+	}
+
+	/**
+	 * 设置状态栏和工具栏的颜色
+	 */
+	private void setToolbarVisible(Boolean isVisible) {
+		if (isVisible) {
+			toolbar.setVisibility(View.VISIBLE);
+			SystemUtil.changeStatusBarColor(this, R.color.app_primary_color);
+		} else {
+			toolbar.setVisibility(View.INVISIBLE);
+			SystemUtil.changeStatusBarColor(this, R.color.white);//改变状态栏颜色
 		}
 	}
 }

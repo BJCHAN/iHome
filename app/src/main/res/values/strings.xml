@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">i家帮</string>
-    <string name="register_account"><b>注册账户</b></string>
+    <string name="register_account">
+        <b>注册账户</b>
+    </string>
     <string name="logo_text">i家帮 (员工版)</string>
 
     <!--通用-->
@@ -16,4 +18,5 @@
     <string name="perssion_tip">权限申请</string>
     <string name="perssion_go_setting">去设置</string>
     <string name="perssion_cancel">取消</string>
+    <string name="register_custom_dialog_tip">注册账号需要验证您的手机号码,\n验证短信将发送到以下手机号：\n%s</string>
 </resources>

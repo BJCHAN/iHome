@@ -2,10 +2,13 @@ package com.tianchuang.ihome_b.base;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.tianchuang.ihome_b.R;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -66,7 +69,10 @@ public abstract class BaseFragment extends RxFragment {
 	protected void initData() {
 
 	}
-
+	public void startActivityWithAnim(Intent intent) {
+		startActivity(intent);
+		mActivity.overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
+	}
 
 	@Override
 	public void onDestroy() {

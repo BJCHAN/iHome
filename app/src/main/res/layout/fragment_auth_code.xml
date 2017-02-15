@@ -29,11 +29,16 @@
                           android:layout_marginLeft="47dp"
                           android:layout_marginRight="47dp"
                           android:layout_marginTop="15dp"
+                          android:paddingLeft="10dp"
                           android:background="@drawable/bg_edittext_normal_shape"
                           android:gravity="center_vertical"
                           android:orientation="horizontal">
                 <EditText android:id="@+id/et_auth_code"
                           android:layout_width="0dp"
+                          android:background="@null"
+                          android:textColor="@color/TC_1"
+                          android:textSize="18sp"
+                          android:maxLength="4"
                           android:layout_height="wrap_content"
                           android:layout_weight="3"/>
                 <View android:layout_width="1dp"
@@ -48,7 +53,8 @@
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:maxLines="1"
-                    android:text="发送验证码"
+                    android:gravity="center"
+                    android:text="60s"
                     android:textColor="@color/app_primary_color"
                 />
             </LinearLayout>
@@ -60,6 +66,7 @@
                             android:layout_marginTop="12dp">
 
                 <TextView
+                    android:visibility="invisible"
                     android:id="@+id/tv_red_tip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

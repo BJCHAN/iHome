@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.tianchuang.ihome_b">
-    <!-- 网络相关 -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
 
-    <!-- 读写文件 -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.PERMISSION_NAME" />
+    <!-- 网络相关 -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+
+    <!-- &lt;!&ndash; 读写文件 &ndash;&gt; -->
+    <!-- <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> -->
+    <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> -->
+    <!-- <uses-permission android:name="android.permission.PERMISSION_NAME" /> -->
     <application
         android:name=".TianChuangApplication"
         android:allowBackup="true"
@@ -19,9 +20,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/ToolBarTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".Main3Activity">
         </activity>
-        <activity android:name=".activity.Main2Activity">
+        <activity android:name=".activity.MainActivity">
 
         </activity>
         <activity android:name=".activity.LoginActivity">
@@ -30,6 +31,8 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity android:name=".activity.SettingActivity">
         </activity>
     </application>
 

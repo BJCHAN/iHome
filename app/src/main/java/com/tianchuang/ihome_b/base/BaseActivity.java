@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.tianchuang.ihome_b.R;
@@ -63,6 +64,7 @@ public abstract class BaseActivity extends RxFragmentActivity {
 				.permissions(manifestStrings)
 				.request();
 	}
+
 
 	//权限提示框
 	public void showPermissionInfo(String permissionContent, final boolean isCloese) {

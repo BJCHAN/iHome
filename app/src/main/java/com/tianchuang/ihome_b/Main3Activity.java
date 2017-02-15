@@ -14,7 +14,7 @@ import com.tianchuang.ihome_b.fragment.MainFragment;
  * Created by Abyss on 2017/2/9.
  * description:主页
  */
-public class MainActivity extends ToolBarActivity {
+public class Main3Activity extends ToolBarActivity {
 
 	@Override
 	protected BaseFragment getFirstFragment() {
@@ -30,7 +30,7 @@ public class MainActivity extends ToolBarActivity {
 		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(MainActivity.this, "Navigation", Toast.LENGTH_SHORT).show();
+				Toast.makeText(Main3Activity.this, "Navigation", Toast.LENGTH_SHORT).show();
 			}
 		});
 
@@ -58,7 +58,7 @@ public class MainActivity extends ToolBarActivity {
 						result = "Email";
 						break;
 				}
-				Toast.makeText(MainActivity.this, result, Toast.LENGTH_SHORT).show();
+				Toast.makeText(Main3Activity.this, result, Toast.LENGTH_SHORT).show();
 				return true;
 			}
 		});
