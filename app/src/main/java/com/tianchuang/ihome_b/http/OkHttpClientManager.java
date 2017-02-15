@@ -11,6 +11,7 @@ import com.tianchuang.ihome_b.Constants;
 import com.tianchuang.ihome_b.TianChuangApplication;
 import com.tianchuang.ihome_b.utils.AppUtils;
 import com.tianchuang.ihome_b.utils.NetworkUtil;
+import com.tianchuang.ihome_b.utils.UserUtil;
 import com.tianchuang.ihome_b.utils.Utils;
 
 import net.oauth.OAuth;
@@ -187,9 +188,9 @@ public class OkHttpClientManager {
 			HttpUrl.Builder httpUrlBuilder = original.url().newBuilder()
 					.addQueryParameter("deviceInfo", "tempdevice")
 					.addQueryParameter("appVersion", AppUtils.getAppVersionName(Utils.getContext()));
-//			if (UserUtil.isLogin()) {
-//				httpUrlBuilder.addQueryParameter("token", UserUtil.getToken());
-//			}
+			if (UserUtil.isLogin()) {
+				httpUrlBuilder.addQueryParameter("token", UserUtil.getToken());
+			}
 
 			String url = httpUrlBuilder.build().url().toString();
 			List<Map.Entry<String, String>> mOAuthParamList = null;

@@ -1,6 +1,8 @@
 package com.tianchuang.ihome_b.http.retrofit;
 
 
+import com.tianchuang.ihome_b.bean.LoginBean;
+
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -31,7 +33,7 @@ public interface ShowApi {
 	 * passwd:******       （密码6-16位）
 	 */
 	@POST(BizInterface.LOGIN_URL)
-	Observable<HttpModle<String>> Login(@Query("mobile") String phone,
-										@Query("passwd") String passwd);
+	Observable<HttpModle<LoginBean>> Login(@Query("mobile") String phone,
+										   @Query("passwd") String passwd);
 
 }

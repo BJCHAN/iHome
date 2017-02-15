@@ -13,10 +13,12 @@ import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.activity.LoginActivity;
 import com.tianchuang.ihome_b.activity.MainActivity;
 import com.tianchuang.ihome_b.base.BaseFragment;
+import com.tianchuang.ihome_b.bean.LoginBean;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
 import com.tianchuang.ihome_b.http.retrofit.model.LoginModel;
 import com.tianchuang.ihome_b.utils.MaterialDialogsUtil;
+import com.tianchuang.ihome_b.utils.UserUtil;
 import com.tianchuang.ihome_b.utils.VerificationUtil;
 
 import butterknife.BindView;
@@ -117,16 +119,18 @@ public class LoginFragment extends BaseFragment {
 						return aBoolean;
 					}
 				})
-				.flatMap(new Func1<Boolean, Observable<String>>() {
+				.flatMap(new Func1<Boolean, Observable<LoginBean>>() {
 					@Override
-					public Observable<String> call(Boolean aBoolean) {
-						return LoginModel.requestLogin(phone, pwd).compose(RxHelper.<String>handleResult());
+					public Observable<LoginBean> call(Boolean aBoolean) {
+						return LoginModel.requestLogin(phone, pwd).compose(RxHelper.<LoginBean>handleResult());
 					}
 				})
 
-				.subscribe(new RxSubscribe<String>() {
+				.subscribe(new RxSubscribe<LoginBean>() {
 					@Override
-					protected void _onNext(String s) {
+					protected void _onNext(LoginBean s) {
+						UserUtil.setIsLogined(true);
+						UserUtil.setToken(s.token);
 						startActivityWithAnim(new Intent(mActivity, MainActivity.class));
 						mActivity.finish();
 					}

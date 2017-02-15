@@ -1,5 +1,6 @@
 package com.tianchuang.ihome_b.http.retrofit.model;
 
+import com.tianchuang.ihome_b.bean.LoginBean;
 import com.tianchuang.ihome_b.http.retrofit.HttpModle;
 import com.tianchuang.ihome_b.http.retrofit.RetrofitService;
 
@@ -28,7 +29,7 @@ public class LoginModel {
 	/**
 	 * 登录
 	 */
-	public static Observable<HttpModle<String>> requestLogin(String phone, String pwd) {
+	public static Observable<HttpModle<LoginBean>> requestLogin(String phone, String pwd) {
 		return RetrofitService.createShowApi().Login(phone, pwd);
 	}
 }
