@@ -23,7 +23,6 @@
         <activity android:name=".Main3Activity">
         </activity>
         <activity android:name=".activity.MainActivity">
-
         </activity>
         <activity android:name=".activity.LoginActivity">
             <intent-filter>
@@ -33,6 +32,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.SettingActivity">
+        </activity>
+        <activity android:name=".activity.ChangePasswordActivity">
         </activity>
     </application>
 

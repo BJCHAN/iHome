@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.Theme;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.activity.LoginActivity;
@@ -24,6 +26,7 @@ import com.tianchuang.ihome_b.utils.VerificationUtil;
 import butterknife.BindView;
 import butterknife.OnClick;
 import rx.Observable;
+import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.functions.Func2;
@@ -48,7 +51,6 @@ public class LoginFragment extends BaseFragment {
 	@BindView(R.id.registerbt)
 	TextView registerbt;
 
-	private MaterialDialogsUtil materialDialogsUtil;
 	private LoginActivity mActivity;
 
 	public static LoginFragment newInstance() {
@@ -59,7 +61,6 @@ public class LoginFragment extends BaseFragment {
 	protected void initView(View view, Bundle savedInstanceState) {
 		registerbt.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
 		registerbt.getPaint().setAntiAlias(true);//抗锯齿
-		materialDialogsUtil = new MaterialDialogsUtil(getHoldingActivity());
 		mActivity = (LoginActivity) getHoldingActivity();
 		mLoginBt.setEnabled(false);
 
@@ -125,19 +126,28 @@ public class LoginFragment extends BaseFragment {
 						return LoginModel.requestLogin(phone, pwd).compose(RxHelper.<LoginBean>handleResult());
 					}
 				})
-
+				.compose(this.<LoginBean>bindToLifecycle())
+				.doOnSubscribe(new Action0() {
+					@Override
+					public void call() {
+						mActivity.showProgress();
+					}
+				})
 				.subscribe(new RxSubscribe<LoginBean>() {
 					@Override
 					protected void _onNext(LoginBean s) {
 						UserUtil.setIsLogined(true);
 						UserUtil.setToken(s.token);
+						mActivity.dismissProgress();
 						startActivityWithAnim(new Intent(mActivity, MainActivity.class));
 						mActivity.finish();
 					}
 
 					@Override
 					protected void _onError(String message) {
+						mActivity.getMaterialDialogsUtil().dismiss();
 						showRedTip(message);
+						mActivity.dismissProgress();
 					}
 
 					@Override

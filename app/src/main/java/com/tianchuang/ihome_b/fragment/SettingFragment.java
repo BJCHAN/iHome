@@ -23,9 +23,6 @@ public class SettingFragment extends BaseFragment {
 
 	@Override
 	protected int getLayoutId() {
-		return R.layout.fragment_setting;
-
-
-
+		return R.layout.activity_setting;
 	}
 }

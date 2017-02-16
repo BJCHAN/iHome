@@ -19,13 +19,6 @@ public class MaterialDialogsUtil {
         this.mContext = context;
     }
 
-    public String getLuckySid() {
-        return luckySid;
-    }
-
-    public void setLuckySid(String luckySid) {
-        this.luckySid = luckySid;
-    }
 
     MaterialDialog materialDialog;
     MaterialDialog.Builder builder;
@@ -286,6 +279,14 @@ public class MaterialDialogsUtil {
         return builder;
     }
 
+
+
+    /**
+     * 返回加载的dialog
+     * */
+    public MaterialDialog getProgressDialog() {
+        return new MaterialDialog.Builder(mContext).customView(R.layout.base_progress_view, false).canceledOnTouchOutside(false).build();
+    }
 
     public void show() {
 

@@ -1,6 +1,8 @@
 package com.tianchuang.ihome_b.activity;
 
+import android.content.Intent;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.tianchuang.ihome_b.R;
@@ -8,6 +10,7 @@ import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.base.ToolBarActivity;
 import com.tianchuang.ihome_b.fragment.LoginFragment;
 import com.tianchuang.ihome_b.utils.SystemUtil;
+import com.tianchuang.ihome_b.utils.UserUtil;
 
 /**
  * Created by Abyss on 2017/2/13.
@@ -24,6 +27,7 @@ public class LoginActivity extends ToolBarActivity {
 
 	@Override
 	protected void initToolBar(Toolbar toolbar) {
+		checkToWhere();
 		this.toolbar = toolbar;
 		toolbar.setVisibility(View.INVISIBLE);
 		SystemUtil.changeStatusBarColor(this, R.color.white);//改变状态栏颜色
@@ -34,6 +38,16 @@ public class LoginActivity extends ToolBarActivity {
 				closeFragment();
 			}
 		});
+	}
+
+	/**
+	 * 判断是否已经登录，跳转主页
+	 */
+	private void checkToWhere() {
+		if (UserUtil.isLogin() && !TextUtils.isEmpty(UserUtil.getToken())) {
+			startActivity(new Intent(this, MainActivity.class));
+			finish();
+		}
 	}
 
 	/**
@@ -54,6 +68,7 @@ public class LoginActivity extends ToolBarActivity {
 			closeFragment();
 		}
 	}
+
 	/**
 	 * 打开新的fragment
 	 */
@@ -82,4 +97,5 @@ public class LoginActivity extends ToolBarActivity {
 			SystemUtil.changeStatusBarColor(this, R.color.white);//改变状态栏颜色
 		}
 	}
+
 }

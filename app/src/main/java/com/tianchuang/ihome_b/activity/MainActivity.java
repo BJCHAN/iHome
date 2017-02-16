@@ -17,7 +17,13 @@ import com.tianchuang.ihome_b.adapter.DrawMenuAdapter;
 import com.tianchuang.ihome_b.base.BaseActivity;
 import com.tianchuang.ihome_b.bean.DrawMenuItem;
 import com.tianchuang.ihome_b.bean.DrawMenuItemDecoration;
+import com.tianchuang.ihome_b.bean.event.LogoutEvent;
 import com.tianchuang.ihome_b.fragment.MainFragment;
+import com.tianchuang.ihome_b.utils.ToastUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
@@ -57,6 +63,7 @@ public class MainActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(getLayoutId());
 		ButterKnife.bind(this);
+		EventBus.getDefault().register(this);
 		addFragment(MainFragment.newInstance());//添加主页fragment
 		initView();
 		//设置监听
@@ -105,7 +112,7 @@ public class MainActivity extends BaseActivity {
 			public void onItemClick(View view, int i) {
 				switch (i) {
 					case 8:
-						startActivity(new Intent(MainActivity.this, SettingActivity.class));
+						startActivityWithAnim(new Intent(MainActivity.this, SettingActivity.class));
 						break;
 				}
 			}
@@ -141,6 +148,7 @@ public class MainActivity extends BaseActivity {
 		});
 	}
 
+	private Boolean drawerIsClose = true;
 
 	/**
 	 * 自定义NavigationIcon设置关联DrawerLayout
@@ -150,8 +158,10 @@ public class MainActivity extends BaseActivity {
 		if (mDrawerLayout.isDrawerVisible(GravityCompat.START)
 				&& (drawerLockMode != DrawerLayout.LOCK_MODE_LOCKED_OPEN)) {
 			mDrawerLayout.closeDrawer(GravityCompat.START);
+			drawerIsClose = true;
 		} else if (drawerLockMode != DrawerLayout.LOCK_MODE_LOCKED_CLOSED) {
 			mDrawerLayout.openDrawer(GravityCompat.START);
+			drawerIsClose = false;
 		}
 	}
 
@@ -160,10 +170,27 @@ public class MainActivity extends BaseActivity {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (KeyEvent.KEYCODE_BACK == keyCode) {
 			if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
-				finish();
+				if (!drawerIsClose) {//菜单未关闭先关闭菜单
+					toggle();
+				} else {//关闭页面
+					finish();
+				}
 				return true;
 			}
 		}
 		return super.onKeyDown(keyCode, event);
+	}
+
+	@Subscribe(threadMode = ThreadMode.MAIN)
+	public void onMessageEvent(LogoutEvent event) {
+		finish();
+	}
+
+
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		EventBus.getDefault().unregister(this);
 	}
 }

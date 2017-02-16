@@ -27,7 +27,7 @@ public class Utils {
 	 */
 	public static void init(Context context) {
 		Utils.context = context.getApplicationContext();
-		spUtils = new SPUtils("utilcode");
+		spUtils = new SPUtils("tianchuang");
 	}
 
 	/**

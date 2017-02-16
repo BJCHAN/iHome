@@ -19,4 +19,5 @@
     <string name="perssion_go_setting">去设置</string>
     <string name="perssion_cancel">取消</string>
     <string name="register_custom_dialog_tip">注册账号需要验证您的手机号码,\n验证短信将发送到以下手机号：\n%s</string>
+    <string name="logout_warning_string">你确认要退出当前账号吗？</string>
 </resources>

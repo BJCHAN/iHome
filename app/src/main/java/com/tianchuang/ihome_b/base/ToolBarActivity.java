@@ -8,6 +8,7 @@ import android.view.KeyEvent;
 import android.widget.TextView;
 
 import com.tianchuang.ihome_b.R;
+import com.tianchuang.ihome_b.utils.FragmentUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -15,10 +16,10 @@ import butterknife.ButterKnife;
 
 /**
  * Created by Abyss on 2017/2/8.
- * description:带toolbar的Activity
+ * description:带toolbar,带添加fragment的Activity
  */
 
-public abstract class ToolBarActivity extends BaseActivity {
+public abstract class ToolBarActivity extends BaseCustomActivity {
 
 	@BindView(R.id.ac_toolbar_toolbar)
 	Toolbar toolbar;
@@ -36,8 +37,6 @@ public abstract class ToolBarActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(getLayoutId());
-		ButterKnife.bind(this);
 		if (toolbar != null)
 			initToolBar(toolbar);
 		if (null != getIntent()) {
@@ -70,15 +69,4 @@ public abstract class ToolBarActivity extends BaseActivity {
 		return R.id.fragment_container;
 	}
 
-	//返回键返回事件
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (KeyEvent.KEYCODE_BACK == keyCode) {
-			if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
-				finish();
-				return true;
-			}
-		}
-		return super.onKeyDown(keyCode, event);
-	}
 }

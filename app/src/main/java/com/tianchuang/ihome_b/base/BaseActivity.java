@@ -1,13 +1,11 @@
 package com.tianchuang.ihome_b.base;
 
-import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.view.KeyEvent;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.tianchuang.ihome_b.R;
@@ -22,6 +20,10 @@ import com.tianchuang.ihome_b.utils.MaterialDialogsUtil;
  */
 
 public abstract class BaseActivity extends RxFragmentActivity {
+	public MaterialDialogsUtil getMaterialDialogsUtil() {
+		return materialDialogsUtil;
+	}
+
 	private MaterialDialogsUtil materialDialogsUtil;
 
 	//布局文件ID
@@ -30,17 +32,19 @@ public abstract class BaseActivity extends RxFragmentActivity {
 	//添加Fragment容器的ID
 	protected abstract int getFragmentContainerId();
 
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		materialDialogsUtil = new MaterialDialogsUtil(this);
+
 	}
 
 	//添加fragment
 	protected Fragment addFragment(BaseFragment fragment) {
 		Fragment i = null;
 		if (fragment != null) {
-			i = FragmentUtils.replaceFragment(getSupportFragmentManager(),getFragmentContainerId(),fragment,true);
+			i = FragmentUtils.replaceFragment(getSupportFragmentManager(), getFragmentContainerId(), fragment, true);
 		}
 		return i;
 	}
@@ -53,11 +57,13 @@ public abstract class BaseActivity extends RxFragmentActivity {
 			finish();
 		}
 	}
+
 	/**
 	 * 申请权限
+	 *
 	 * @param permissionRequestCode 权限的标识码
-	 * @param manifestStrings 权限对应的stirng
-	 * */
+	 * @param manifestStrings       权限对应的stirng
+	 */
 	public void requestPermission(int permissionRequestCode, String[] manifestStrings) {
 		MPermission.with(this)
 				.addRequestCode(permissionRequestCode)
@@ -113,5 +119,25 @@ public abstract class BaseActivity extends RxFragmentActivity {
 			}
 		}, 500);
 		materialDialogsUtil.dismiss();
+	}
+
+
+	public void startActivityWithAnim(Intent intent) {
+		startActivity(intent);
+		overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
+	}
+
+	private MaterialDialog progressDialog;
+
+	public void showProgress() {
+		if (progressDialog == null) {
+			progressDialog = getMaterialDialogsUtil().getProgressDialog();
+		}
+		progressDialog.show();
+	}
+
+	public void dismissProgress() {
+		if (progressDialog!=null)
+			progressDialog.dismiss();
 	}
 }

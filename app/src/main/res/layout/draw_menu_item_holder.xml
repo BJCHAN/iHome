@@ -3,13 +3,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
-    >
+>
 
     <View
-        android:layout_marginLeft="15dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignParentTop="true"
+        android:layout_marginLeft="15dp"
         android:background="@color/background_gray"/>
 
     <TextView
@@ -31,6 +31,6 @@
         android:layout_centerVertical="true"
         android:layout_gravity="right"
         android:layout_marginRight="15dp"
-     android:src="@mipmap/menu_arrow"
-        />
+        android:src="@mipmap/menu_arrow"
+    />
 </RelativeLayout>
