@@ -35,6 +35,8 @@
         </activity>
         <activity android:name=".activity.ChangePasswordActivity">
         </activity>
+        <activity android:name=".activity.AboutMessageActivity">
+        </activity>
     </application>
 
 </manifest>

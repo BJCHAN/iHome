@@ -19,6 +19,7 @@ import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
 import com.tianchuang.ihome_b.http.retrofit.model.LoginModel;
 import com.tianchuang.ihome_b.utils.VerificationUtil;
+import com.tianchuang.ihome_b.view.RegisterDialogFragment;
 
 import java.util.concurrent.TimeUnit;
 

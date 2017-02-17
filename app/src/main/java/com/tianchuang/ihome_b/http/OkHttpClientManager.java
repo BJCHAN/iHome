@@ -8,7 +8,6 @@ import com.google.gson.Gson;
 import com.google.gson.internal.$Gson$Types;
 import com.orhanobut.logger.Logger;
 import com.tianchuang.ihome_b.Constants;
-import com.tianchuang.ihome_b.TianChuangApplication;
 import com.tianchuang.ihome_b.utils.AppUtils;
 import com.tianchuang.ihome_b.utils.NetworkUtil;
 import com.tianchuang.ihome_b.utils.UserUtil;
@@ -70,8 +69,8 @@ import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
- * okhttp 编码支持utf-8
- * Created by wangning on 15/9/8.
+ * Created by Abyss on 2017/2/11.
+ * description:Okhttp的封装与配置
  */
 public class OkHttpClientManager {
 	private static final String TAG = "OkHttpClientManager";
@@ -177,7 +176,7 @@ public class OkHttpClientManager {
 		private OAuthAccessor oAuthAccessor;
 
 		public BaseInterceptor() {
-			oAuthAccessor = new OAuthAccessor(new OAuthConsumer(null,Constants.Http.KEY, Constants.Http.SECRET, new OAuthServiceProvider(null, null, null)));
+			oAuthAccessor = new OAuthAccessor(new OAuthConsumer(null, Constants.Http.KEY, Constants.Http.SECRET, new OAuthServiceProvider(null, null, null)));
 		}
 
 		@Override

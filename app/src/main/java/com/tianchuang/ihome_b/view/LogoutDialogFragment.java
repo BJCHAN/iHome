@@ -1,4 +1,4 @@
-package com.tianchuang.ihome_b.fragment;
+package com.tianchuang.ihome_b.view;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -37,13 +37,17 @@ public class LogoutDialogFragment extends DialogFragment {
 	TextView tvSure;
 	private Unbinder bind;
 
+	//属性
+	private String sureText;
+	private String tip;
 
-	public static LogoutDialogFragment newInstance(String tip) {
-		Bundle args = new Bundle();
-		args.putString("tip", tip);
-		LogoutDialogFragment fragment = new LogoutDialogFragment();
-		fragment.setArguments(args);
-		return fragment;
+	public LogoutDialogFragment(Builder builder) {
+		this.sureText = builder.sureText;
+		this.tip = builder.tip;
+	}
+
+	public LogoutDialogFragment() {
+		this(new Builder());
 	}
 
 	@Override
@@ -56,29 +60,32 @@ public class LogoutDialogFragment extends DialogFragment {
 		return dialog;
 	}
 
-	public void setSureText(String text) {
-		tvSure.setText(text);
-	}
 	@Override
 	public void onStart() {
 		super.onStart();
 		Window window = getDialog().getWindow();
 		WindowManager.LayoutParams params = window.getAttributes();
 		params.gravity = Gravity.CENTER;
-		params.width = DensityUtil.dip2px(getActivity(),270);
+		params.width = DensityUtil.dip2px(getActivity(), 270);
 		window.setAttributes(params);
 		window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 	}
 
 	private void initData() {
-		String tip = getArguments().getString("tip");
 		if (!TextUtils.isEmpty(tip)) tvTip.setText(tip);
+		if (!TextUtils.isEmpty(sureText)) tvSure.setText(sureText);
 	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
 		bind.unbind();
+	}
+
+	public LogoutDialogFragment setSureText(String text) {
+
+		tvSure.setText(text);
+		return this;
 	}
 
 	private OnClickButtonListener onClickButtonListener;
@@ -111,5 +118,27 @@ public class LogoutDialogFragment extends DialogFragment {
 		void onClickCancel();
 
 		void onClickSure();
+	}
+
+	public static final class Builder {
+		private String sureText;
+		private String tip;
+
+		public Builder() {
+		}
+
+		public Builder setSureText(String sureText) {
+			this.sureText = sureText;
+			return this;
+		}
+
+		public Builder setTipText(String tip) {
+			this.tip = tip;
+			return this;
+		}
+
+		public LogoutDialogFragment build() {
+			return new LogoutDialogFragment(this);
+		}
 	}
 }

@@ -1,32 +1,20 @@
 package com.tianchuang.ihome_b.fragment;
 
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
 
-import com.jakewharton.rxbinding.view.RxView;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.base.BaseFragment;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import rx.functions.Action1;
+import butterknife.OnClick;
 
 
 /**
  * Created by Abyss on 2017/2/9.
- * description:
+ * description:主页
  */
 
 public class MainFragment extends BaseFragment {
-
-	@BindView(R.id.button)
-	Button button;
-
 
 	public static MainFragment newInstance() {
 		return new MainFragment();
@@ -38,12 +26,7 @@ public class MainFragment extends BaseFragment {
 
 	@Override
 	protected void initListener() {
-		RxView.clicks(button).compose(this.<Void>bindToLifecycle()).subscribe(new Action1<Void>() {
-			@Override
-			public void call(Void aVoid) {
-				Toast.makeText(getHoldingActivity(), "你好啊", Toast.LENGTH_LONG).show();
-			}
-		});
+
 	}
 
 	@Override
@@ -52,4 +35,17 @@ public class MainFragment extends BaseFragment {
 	}
 
 
+	@OnClick({R.id.ll_rich_scan, R.id.ll_write_form, R.id.ll_internal_reports, R.id.ll_main_query})
+	public void onClick(View view) {
+		switch (view.getId()) {
+			case R.id.ll_rich_scan://扫一扫
+				break;
+			case R.id.ll_write_form://表单填报
+				break;
+			case R.id.ll_internal_reports://内部报事
+				break;
+			case R.id.ll_main_query://查询
+				break;
+		}
+	}
 }

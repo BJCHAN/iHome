@@ -148,7 +148,6 @@ public class MainActivity extends BaseActivity {
 		});
 	}
 
-	private Boolean drawerIsClose = true;
 
 	/**
 	 * 自定义NavigationIcon设置关联DrawerLayout
@@ -158,10 +157,8 @@ public class MainActivity extends BaseActivity {
 		if (mDrawerLayout.isDrawerVisible(GravityCompat.START)
 				&& (drawerLockMode != DrawerLayout.LOCK_MODE_LOCKED_OPEN)) {
 			mDrawerLayout.closeDrawer(GravityCompat.START);
-			drawerIsClose = true;
 		} else if (drawerLockMode != DrawerLayout.LOCK_MODE_LOCKED_CLOSED) {
 			mDrawerLayout.openDrawer(GravityCompat.START);
-			drawerIsClose = false;
 		}
 	}
 
@@ -170,8 +167,10 @@ public class MainActivity extends BaseActivity {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (KeyEvent.KEYCODE_BACK == keyCode) {
 			if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
-				if (!drawerIsClose) {//菜单未关闭先关闭菜单
-					toggle();
+				int drawerLockMode = mDrawerLayout.getDrawerLockMode(GravityCompat.START);
+				if (mDrawerLayout.isDrawerVisible(GravityCompat.START)
+						&& (drawerLockMode != DrawerLayout.LOCK_MODE_LOCKED_OPEN)) {//菜单未关闭，先关闭菜单
+					mDrawerLayout.closeDrawer(GravityCompat.START);
 				} else {//关闭页面
 					finish();
 				}

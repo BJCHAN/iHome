@@ -4,14 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.KeyEvent;
+import android.view.View;
 import android.widget.TextView;
 
 import com.tianchuang.ihome_b.R;
-import com.tianchuang.ihome_b.utils.FragmentUtils;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 
 /**
@@ -67,6 +65,17 @@ public abstract class ToolBarActivity extends BaseCustomActivity {
 	@Override
 	protected int getFragmentContainerId() {
 		return R.id.fragment_container;
+	}
+
+	public void initNormalToolbar(Toolbar toolbar) {
+		setFinishWithAnim(true);
+		toolbar.setNavigationIcon(R.mipmap.back);
+		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				removeFragment();
+			}
+		});
 	}
 
 }

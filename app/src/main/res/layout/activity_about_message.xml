@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:id="@+id/login_rl"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@color/white">
+    <TextView android:layout_width="match_parent"
+              android:textColor="@color/TC_1"
+              android:layout_marginLeft="15dp"
+              android:layout_marginRight="15dp"
+              android:layout_marginTop="20dp"
+              android:textSize="13sp"
+              android:text="XX小区物业近期已对部分服务流程进行优化整改，本次调查主要是为了了解各位业主对优化后流程的体验，谢谢各位的配合！"
+              android:layout_height="wrap_content"/>
+</FrameLayout>

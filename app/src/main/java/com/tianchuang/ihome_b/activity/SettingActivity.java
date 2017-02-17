@@ -4,15 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.base.BaseCustomActivity;
 import com.tianchuang.ihome_b.bean.event.LogoutEvent;
-import com.tianchuang.ihome_b.fragment.LogoutDialogFragment;
 import com.tianchuang.ihome_b.utils.UserUtil;
+import com.tianchuang.ihome_b.view.LogoutDialogFragment;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -65,17 +64,18 @@ public class SettingActivity extends BaseCustomActivity {
 	}
 
 
-	@OnClick({R.id.setting_logout,R.id.setting_item1,R.id.setting_item2})
+	@OnClick({R.id.setting_logout, R.id.setting_item1, R.id.setting_item2})
 	public void onClick(View view) {
 		switch (view.getId()) {
 			case R.id.setting_item1://修改密码
-					startActivityWithAnim(new Intent(this,ChangePasswordActivity.class));
+				startActivityWithAnim(new Intent(this, ChangePasswordActivity.class));
 				break;
 			case R.id.setting_item2://关于物管宝
-
+				startActivityWithAnim(new Intent(this, AboutMessageActivity.class));
 				break;
 			case R.id.setting_logout:
-				LogoutDialogFragment.newInstance(getString(R.string.logout_warning_string))
+				LogoutDialogFragment.Builder builder = new LogoutDialogFragment.Builder();
+				builder.setSureText("退出").setTipText(getString(R.string.logout_warning_string)).build()
 						.setOnClickButtonListener(new LogoutDialogFragment.OnClickButtonListener() {
 							@Override
 							public void onClickCancel() {
@@ -86,10 +86,10 @@ public class SettingActivity extends BaseCustomActivity {
 							public void onClickSure() {
 								EventBus.getDefault().post(new LogoutEvent());
 								UserUtil.logout();
-								startActivity(new Intent(SettingActivity.this,LoginActivity.class));
+								startActivity(new Intent(SettingActivity.this, LoginActivity.class));
 								finish();
 							}
-						}).show(getFragmentManager(),LogoutDialogFragment.class.getSimpleName());
+						}).show(getFragmentManager(), LogoutDialogFragment.class.getSimpleName());
 				break;
 		}
 	}
