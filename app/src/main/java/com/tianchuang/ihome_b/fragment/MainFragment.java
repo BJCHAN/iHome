@@ -1,10 +1,16 @@
 package com.tianchuang.ihome_b.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import com.tianchuang.ihome_b.R;
+import com.tianchuang.ihome_b.activity.MainActivity;
 import com.tianchuang.ihome_b.base.BaseFragment;
+import com.tianchuang.ihome_b.bean.event.OpenScanEvent;
+import com.uuzuche.lib_zxing.activity.CaptureActivity;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.OnClick;
 
@@ -39,6 +45,7 @@ public class MainFragment extends BaseFragment {
 	public void onClick(View view) {
 		switch (view.getId()) {
 			case R.id.ll_rich_scan://扫一扫
+				EventBus.getDefault().post(new OpenScanEvent());
 				break;
 			case R.id.ll_write_form://表单填报
 				break;

@@ -8,6 +8,13 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <!-- 相机权限 -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
+
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <!-- &lt;!&ndash; 读写文件 &ndash;&gt; -->
     <!-- <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> -->
@@ -36,6 +43,8 @@
         <activity android:name=".activity.ChangePasswordActivity">
         </activity>
         <activity android:name=".activity.AboutMessageActivity">
+        </activity>
+        <activity android:name=".activity.ScanCodeActivity">
         </activity>
     </application>
 

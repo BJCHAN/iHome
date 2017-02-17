@@ -1,7 +1,9 @@
 package com.tianchuang.ihome_b.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,14 +14,21 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.jaredrummler.materialspinner.MaterialSpinner;
+import com.tianchuang.ihome_b.Constants;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.adapter.DrawMenuAdapter;
 import com.tianchuang.ihome_b.base.BaseActivity;
 import com.tianchuang.ihome_b.bean.DrawMenuItem;
 import com.tianchuang.ihome_b.bean.DrawMenuItemDecoration;
 import com.tianchuang.ihome_b.bean.event.LogoutEvent;
+import com.tianchuang.ihome_b.bean.event.OpenScanEvent;
 import com.tianchuang.ihome_b.fragment.MainFragment;
+import com.tianchuang.ihome_b.permission.MPermission;
+import com.tianchuang.ihome_b.permission.OnMPermissionDenied;
+import com.tianchuang.ihome_b.permission.OnMPermissionGranted;
 import com.tianchuang.ihome_b.utils.ToastUtil;
+import com.uuzuche.lib_zxing.activity.CaptureActivity;
+import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -47,6 +56,10 @@ public class MainActivity extends BaseActivity {
 	@BindView(R.id.spinner)
 	MaterialSpinner spinner;
 	private DrawMenuAdapter menuAdapter;
+	/**
+	 * 扫描跳转Activity RequestCode
+	 */
+	public static final int REQUEST_CODE = 111;
 
 	@Override
 	protected int getLayoutId() {
@@ -181,15 +194,68 @@ public class MainActivity extends BaseActivity {
 	}
 
 	@Subscribe(threadMode = ThreadMode.MAIN)
-	public void onMessageEvent(LogoutEvent event) {
+	public void onMessageEvent(LogoutEvent event) {//退出登录的事件
 		finish();
+	}
+	@Subscribe(threadMode = ThreadMode.MAIN)
+	public void onMessageEvent(OpenScanEvent event) {//打开扫一扫的事件
+		requestCameraPermission();
+
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		/**
+		 * 处理二维码扫描结果
+		 */
+		if (requestCode == REQUEST_CODE) {
+			//处理扫描结果（在界面上显示）
+			if (null != data) {
+				Bundle bundle = data.getExtras();
+				if (bundle == null) {
+					return;
+				}
+				if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
+					String result = bundle.getString(CodeUtils.RESULT_STRING);
+					Toast.makeText(this, "解析结果:" + result, Toast.LENGTH_LONG).show();
+				} else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
+					Toast.makeText(MainActivity.this, "解析二维码失败", Toast.LENGTH_LONG).show();
+				}
+			}
+		}
+	}
+	//基本权限 相机权限请求
+	private void requestCameraPermission() {
+		MPermission.with(this)
+				.addRequestCode(Constants.PERMISSION_REQUEST_CODE.BASIC_PERMISSION_CAMERA_REQUEST_CODE)
+				.permissions(android.Manifest.permission.CAMERA)
+				.request();
 	}
 
 
+	/**
+	 * MPermission接管权限处理逻辑
+	 */
+	@Override
+	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+		MPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+	}
 
+
+	@OnMPermissionGranted(Constants.PERMISSION_REQUEST_CODE.BASIC_PERMISSION_CAMERA_REQUEST_CODE)
+	public void onBasicPermissionSucces() {
+		Intent intent = new Intent(MainActivity.this, ScanCodeActivity.class);
+		startActivityForResult(intent, REQUEST_CODE);
+	}
+
+	@RequiresApi(api = Build.VERSION_CODES.M)
+	@OnMPermissionDenied(Constants.PERMISSION_REQUEST_CODE.BASIC_PERMISSION_CAMERA_REQUEST_CODE)
+	public void onBasicPermissionFailed() {
+		showPermissionInfo(getString(R.string.perssion_camera_tip), false);
+	}
 	@Override
 	protected void onDestroy() {
-		super.onDestroy();
 		EventBus.getDefault().unregister(this);
+		super.onDestroy();
 	}
 }

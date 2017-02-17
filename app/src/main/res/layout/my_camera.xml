@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:layout_width="fill_parent"
+             android:layout_height="fill_parent">
+        <SurfaceView
+            android:layout_gravity="center"
+            android:id="@+id/preview_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+        />
+
+    <com.uuzuche.lib_zxing.view.ViewfinderView
+        android:id="@+id/viewfinder_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:inner_corner_color="@color/app_primary_color"
+        app:inner_corner_length="30dp"
+        app:inner_corner_width="2dp"
+        app:inner_height="260dp"
+        app:inner_margintop="150dp"
+        app:inner_scan_bitmap="@null"
+        app:inner_scan_iscircle="false"
+        app:inner_width="260dp"/>
+    <TextView
+        android:layout_marginTop="410dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="将二维码/条码放入框内，即可自动扫描"
+        android:textColor="@color/TC_2"/>
+</FrameLayout>

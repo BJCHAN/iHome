@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -73,10 +74,19 @@ public abstract class BaseActivity extends RxFragmentActivity {
 
 
 	//权限提示框
+	@RequiresApi(api = Build.VERSION_CODES.M)
 	public void showPermissionInfo(String permissionContent, final boolean isCloese) {
 		if (materialDialogsUtil == null)
 			materialDialogsUtil = new MaterialDialogsUtil(this);
-		materialDialogsUtil.getBuilder(getString(R.string.perssion_tip), permissionContent, getString(R.string.perssion_go_setting), getString(R.string.perssion_cancel)).cancelable(false).callback(new MaterialDialog.ButtonCallback() {
+//		int color = getResources().getColor(R.color.chartreuse);
+		int titleColor = getResources().getColor(R.color.TC_1);
+		int contentColor = getResources().getColor(R.color.TC_2);
+		materialDialogsUtil.getBuilder(getString(R.string.perssion_tip), permissionContent, getString(R.string.perssion_go_setting), getString(R.string.perssion_cancel))
+				.negativeColor(titleColor)
+				.positiveColor(titleColor)
+				.titleColor(titleColor)
+				.contentColor(contentColor)
+				.cancelable(false).callback(new MaterialDialog.ButtonCallback() {
 			@Override
 			public void onPositive(MaterialDialog dialog) {
 				dialogDismiss(isCloese);

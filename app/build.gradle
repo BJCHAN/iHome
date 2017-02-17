@@ -88,5 +88,9 @@ dependencies {
     compile('com.github.afollestad.material-dialogs:commons:0.8.5.7@aar') {
         transitive = true
     }
+    //加验证的库
     compile 'net.oauth.core:oauth:20100527'
+    //zxing扫码
+    compile 'cn.yipianfengye.android:zxing-library:2.0'
+
 }
