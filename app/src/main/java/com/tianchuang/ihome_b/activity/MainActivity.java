@@ -18,16 +18,14 @@ import com.tianchuang.ihome_b.Constants;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.adapter.DrawMenuAdapter;
 import com.tianchuang.ihome_b.base.BaseActivity;
-import com.tianchuang.ihome_b.bean.DrawMenuItem;
-import com.tianchuang.ihome_b.bean.DrawMenuItemDecoration;
+import com.tianchuang.ihome_b.bean.recyclerview.DrawMenuItem;
+import com.tianchuang.ihome_b.bean.recyclerview.DrawMenuItemDecoration;
 import com.tianchuang.ihome_b.bean.event.LogoutEvent;
 import com.tianchuang.ihome_b.bean.event.OpenScanEvent;
 import com.tianchuang.ihome_b.fragment.MainFragment;
 import com.tianchuang.ihome_b.permission.MPermission;
 import com.tianchuang.ihome_b.permission.OnMPermissionDenied;
 import com.tianchuang.ihome_b.permission.OnMPermissionGranted;
-import com.tianchuang.ihome_b.utils.ToastUtil;
-import com.uuzuche.lib_zxing.activity.CaptureActivity;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -94,7 +92,6 @@ public class MainActivity extends BaseActivity {
 		}
 		menuAdapter = new DrawMenuAdapter(R.layout.draw_menu_item_holder, drawMenuItems);
 		mRecyclerView.setAdapter(menuAdapter);
-		String[] ITEMS = {"Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6"};
 		spinner.setItems(items);
 		spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
 
@@ -113,7 +110,7 @@ public class MainActivity extends BaseActivity {
 				toggle();
 				break;
 			case R.id.iv_right://抢单大厅的入口
-				Toast.makeText(this, "抢单大厅", Toast.LENGTH_SHORT).show();
+				startActivityWithAnim(new Intent(this,RobHallActivity.class));
 				break;
 		}
 	}
@@ -197,10 +194,10 @@ public class MainActivity extends BaseActivity {
 	public void onMessageEvent(LogoutEvent event) {//退出登录的事件
 		finish();
 	}
-	@Subscribe(threadMode = ThreadMode.MAIN)
+
+	@Subscribe(threadMode = ThreadMode.MAIN)//接收打开扫一扫的事件
 	public void onMessageEvent(OpenScanEvent event) {//打开扫一扫的事件
 		requestCameraPermission();
-
 	}
 
 	@Override
@@ -224,6 +221,7 @@ public class MainActivity extends BaseActivity {
 			}
 		}
 	}
+
 	//基本权限 相机权限请求
 	private void requestCameraPermission() {
 		MPermission.with(this)
@@ -253,6 +251,7 @@ public class MainActivity extends BaseActivity {
 	public void onBasicPermissionFailed() {
 		showPermissionInfo(getString(R.string.perssion_camera_tip), false);
 	}
+
 	@Override
 	protected void onDestroy() {
 		EventBus.getDefault().unregister(this);

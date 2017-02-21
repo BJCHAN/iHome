@@ -6,6 +6,8 @@
 package com.tianchuang.ihome_b.utils;
 
 
+import android.text.TextUtils;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -60,5 +62,12 @@ public class StringUtils {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * 字符串始终不为空
+	 */
+	public static String getNotNull(String text) {
+		return TextUtils.isEmpty(text) ? "" : text;
 	}
 }

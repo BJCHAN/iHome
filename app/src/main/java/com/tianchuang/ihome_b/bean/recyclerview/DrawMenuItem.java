@@ -1,4 +1,4 @@
-package com.tianchuang.ihome_b.bean;
+package com.tianchuang.ihome_b.bean.recyclerview;
 
 /**
  * Created by Abyss on 2017/2/9.

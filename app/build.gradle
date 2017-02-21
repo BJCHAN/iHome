@@ -67,7 +67,6 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.0.1'
     apt 'com.jakewharton:butterknife-compiler:8.0.1'
     compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'com.github.bumptech.glide:glide:3.7.0'
     //rx的库
     compile 'io.reactivex:rxjava:1.1.6'
     compile 'io.reactivex:rxandroid:1.2.1'
@@ -92,5 +91,5 @@ dependencies {
     compile 'net.oauth.core:oauth:20100527'
     //zxing扫码
     compile 'cn.yipianfengye.android:zxing-library:2.0'
-
+    compile project(':photoviewlibrary')
 }
