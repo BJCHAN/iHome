@@ -9,15 +9,21 @@ import com.tianchuang.ihome_b.Constants;
  */
 
 public interface BizInterface {
-    /**
-     * API接口
-     */
-    String API = Constants.Http.getUrl();
-    //登录接口
-    String LOGIN_URL = "login.html";
-    //发送验证码
-    String SEND_AUTH_CODE_URL ="sendSms.html";
-    //注册
-    String REGISTER_URL = "register.html";
+	/**
+	 * API接口
+	 */
+	String API = Constants.Http.getUrl();
+	//登录接口
+	String LOGIN_URL = "login.html";
+	//发送验证码
+	String SEND_AUTH_CODE_URL = "sendSms.html";
+	//注册
+	String REGISTER_URL = "register.html";
+	//物业列表
+	String PROPERTY_LIST_URL = "property/role/join/list.html";
+	//设为常用
+	String PROPERTY_SET_OFTEN_URL = "property/role/often/set.html";
+	//全部取消
+	String PROPERTY_CANCEL_OFTEN_URL = "property/role/often/cancel.html";
 
 }

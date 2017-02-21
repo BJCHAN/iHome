@@ -2,6 +2,9 @@ package com.tianchuang.ihome_b.http.retrofit;
 
 
 import com.tianchuang.ihome_b.bean.LoginBean;
+import com.tianchuang.ihome_b.bean.PropertyListItem;
+
+import java.util.ArrayList;
 
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -35,5 +38,26 @@ public interface ShowApi {
 	@POST(BizInterface.LOGIN_URL)
 	Observable<HttpModle<LoginBean>> Login(@Query("mobile") String phone,
 										   @Query("passwd") String passwd);
+
+	/***
+	 * 物业列表
+	 * params 无
+	 */
+	@POST(BizInterface.PROPERTY_LIST_URL)
+	Observable<HttpModle<ArrayList<PropertyListItem>>> getPropertyList();
+
+	/***
+	 * 设置常用
+	 * params   roleId:xx
+	 */
+	@POST(BizInterface.PROPERTY_SET_OFTEN_URL)
+	Observable<HttpModle<String>> setOften(@Query("roleId") int id);
+
+	/***
+	 * 常用全部取消
+	 * params 无
+	 */
+	@POST(BizInterface.PROPERTY_CANCEL_OFTEN_URL)
+	Observable<HttpModle<String>> allCancel();
 
 }

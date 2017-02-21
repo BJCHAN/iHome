@@ -76,7 +76,7 @@ public abstract class BaseFragment extends RxFragment {
 
 	@Override
 	public void onDestroy() {
-		bind.unbind();
 		super.onDestroy();
+		bind.unbind();
 	}
 }

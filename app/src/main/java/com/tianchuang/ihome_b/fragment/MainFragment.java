@@ -22,6 +22,8 @@ import butterknife.OnClick;
 
 public class MainFragment extends BaseFragment {
 
+	private MainActivity holdingActivity;
+
 	public static MainFragment newInstance() {
 		return new MainFragment();
 	}
@@ -33,6 +35,13 @@ public class MainFragment extends BaseFragment {
 	@Override
 	protected void initListener() {
 
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		holdingActivity = ((MainActivity) getHoldingActivity());
+		holdingActivity.setSpinnerText("海创园小区");
 	}
 
 	@Override

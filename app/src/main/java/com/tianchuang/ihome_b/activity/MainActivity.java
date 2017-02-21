@@ -1,31 +1,38 @@
 package com.tianchuang.ihome_b.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.tianchuang.ihome_b.Constants;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.adapter.DrawMenuAdapter;
 import com.tianchuang.ihome_b.base.BaseActivity;
-import com.tianchuang.ihome_b.bean.recyclerview.DrawMenuItem;
-import com.tianchuang.ihome_b.bean.recyclerview.DrawMenuItemDecoration;
 import com.tianchuang.ihome_b.bean.event.LogoutEvent;
 import com.tianchuang.ihome_b.bean.event.OpenScanEvent;
+import com.tianchuang.ihome_b.bean.recyclerview.DrawMenuItem;
+import com.tianchuang.ihome_b.bean.recyclerview.DrawMenuItemDecoration;
 import com.tianchuang.ihome_b.fragment.MainFragment;
+import com.tianchuang.ihome_b.fragment.PropertyListFragment;
 import com.tianchuang.ihome_b.permission.MPermission;
 import com.tianchuang.ihome_b.permission.OnMPermissionDenied;
 import com.tianchuang.ihome_b.permission.OnMPermissionGranted;
+import com.tianchuang.ihome_b.utils.DensityUtil;
+import com.tianchuang.ihome_b.utils.FragmentUtils;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -52,7 +59,10 @@ public class MainActivity extends BaseActivity {
 	@BindArray(R.array.draw_menu_items)
 	String[] items;
 	@BindView(R.id.spinner)
-	MaterialSpinner spinner;
+	TextView spinner;
+	@BindView(R.id.iv_right)
+	ImageView ivRight;
+
 	private DrawMenuAdapter menuAdapter;
 	/**
 	 * 扫描跳转Activity RequestCode
@@ -61,7 +71,7 @@ public class MainActivity extends BaseActivity {
 
 	@Override
 	protected int getLayoutId() {
-		return R.layout.activity_main2;
+		return R.layout.activity_main;
 	}
 
 	@Override
@@ -75,10 +85,29 @@ public class MainActivity extends BaseActivity {
 		setContentView(getLayoutId());
 		ButterKnife.bind(this);
 		EventBus.getDefault().register(this);
-		addFragment(MainFragment.newInstance());//添加主页fragment
+		//添加主页fragment
+		addFragment(MainFragment.newInstance());
 		initView();
 		//设置监听
 		initListener();
+	}
+
+	/**
+	 * 设置头部的title
+	 */
+	public void setSpinnerText(String text) {
+		if (FragmentUtils.findFragment(getSupportFragmentManager(), PropertyListFragment.class) == null) {//非二级fragment，为主页
+			Drawable drawable = ContextCompat.getDrawable(this, R.mipmap.down_arrow);
+			drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+			spinner.setCompoundDrawables(null, null, drawable, null);
+			spinner.setCompoundDrawablePadding(DensityUtil.dip2px(this, 5));
+			spinner.setText(text);
+			ivRight.setVisibility(View.VISIBLE);
+		} else {
+			spinner.setCompoundDrawables(null, null, null, null);
+			spinner.setText(text);
+			ivRight.setVisibility(View.INVISIBLE);
+		}
 	}
 
 	private void initView() {
@@ -92,25 +121,21 @@ public class MainActivity extends BaseActivity {
 		}
 		menuAdapter = new DrawMenuAdapter(R.layout.draw_menu_item_holder, drawMenuItems);
 		mRecyclerView.setAdapter(menuAdapter);
-		spinner.setItems(items);
-		spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
-
-			@Override
-			public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
-
-			}
-
-		});
 	}
 
-	@OnClick({R.id.iv_navigation_icon, R.id.iv_right})
+	@OnClick({R.id.iv_navigation_icon, R.id.iv_right, R.id.spinner})
 	public void onClick(View view) {
 		switch (view.getId()) {
 			case R.id.iv_navigation_icon://侧滑菜单的入口
 				toggle();
 				break;
 			case R.id.iv_right://抢单大厅的入口
-				startActivityWithAnim(new Intent(this,RobHallActivity.class));
+				startActivityWithAnim(new Intent(this, RobHallActivity.class));
+				break;
+			case R.id.spinner://物业列表入口
+				if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+					addFragment(PropertyListFragment.newInstance());//避免重复添加
+				}
 				break;
 		}
 	}
@@ -226,7 +251,7 @@ public class MainActivity extends BaseActivity {
 	private void requestCameraPermission() {
 		MPermission.with(this)
 				.addRequestCode(Constants.PERMISSION_REQUEST_CODE.BASIC_PERMISSION_CAMERA_REQUEST_CODE)
-				.permissions(android.Manifest.permission.CAMERA)
+				.permissions(Manifest.permission.CAMERA)
 				.request();
 	}
 

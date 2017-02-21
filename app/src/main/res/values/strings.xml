@@ -22,4 +22,5 @@
     <string name="logout_warning_string">你确认要退出当前账号吗？</string>
     <string name="perssion_camera_tip">在设置-应用-i家帮-权限中开启相机权限，以正常使用拍照、扫一扫等功能</string>
     <string name="rob_hall_empty_tip">当前还没有报修订单</string>
+    <string name="property_often_text">设为\n常用</string>
 </resources>
