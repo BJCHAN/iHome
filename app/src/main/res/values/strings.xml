@@ -9,6 +9,7 @@
     <string name="network_error_message">网络访问错误，请检查网络设置！</string>
     <string name="connect_server_error">连接服务器失败！</string>
     <string name="login_phone_error">请输入正确的11位手机号</string>
+    <string name="loading_text">请稍后...</string>
     <!--material dialog-->
     <string name="material_dialog_sure">确定</string>
     <string name="material_dialog_cancel">取消</string>
@@ -19,6 +20,7 @@
     <string name="perssion_go_setting">去设置</string>
     <string name="perssion_cancel">取消</string>
     <string name="register_custom_dialog_tip">注册账号需要验证您的手机号码,\n验证短信将发送到以下手机号：\n%s</string>
+    <string name="retrieve_pwd_custom_dialog_tip">找回密码需要验证您的手机号码,\n验证短信将发送到以下手机号：\n%s</string>
     <string name="logout_warning_string">你确认要退出当前账号吗？</string>
     <string name="perssion_camera_tip">在设置-应用-i家帮-权限中开启相机权限，以正常使用拍照、扫一扫等功能</string>
     <string name="rob_hall_empty_tip">当前还没有报修订单</string>

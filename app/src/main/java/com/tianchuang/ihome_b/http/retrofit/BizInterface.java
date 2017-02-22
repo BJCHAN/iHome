@@ -19,6 +19,10 @@ public interface BizInterface {
 	String SEND_AUTH_CODE_URL = "sendSms.html";
 	//注册
 	String REGISTER_URL = "register.html";
+	//找回密码发送短信验证
+	String RETRIEVE_URL = "password/reset/sendSms.html";
+	//注册
+	String RESET_PWD_URL = "password/reset.html";
 	//物业列表
 	String PROPERTY_LIST_URL = "property/role/join/list.html";
 	//设为常用

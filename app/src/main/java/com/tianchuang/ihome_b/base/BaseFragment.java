@@ -19,7 +19,7 @@ import butterknife.Unbinder;
  * description:fragment的基类
  */
 
-public abstract class BaseFragment extends RxFragment {
+public abstract class BaseFragment extends RxFragment implements DialogProgress {
 	protected BaseActivity mActivity;
 	private Unbinder bind;
 
@@ -34,7 +34,7 @@ public abstract class BaseFragment extends RxFragment {
 	}
 
 	@Override
-	public void onAttach(Context context) {//Modified 2016-06-01</span>
+	public void onAttach(Context context) {
 		super.onAttach(context);
 		this.mActivity = (BaseActivity) context;
 	}
@@ -55,20 +55,33 @@ public abstract class BaseFragment extends RxFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(getLayoutId(), container, false);
-		bind = ButterKnife.bind(this,view);
+		bind = ButterKnife.bind(this, view);
 		initView(view, savedInstanceState);
 		initData();
 		initListener();
 		return view;
 	}
+
 	//初始化监听
 	protected void initListener() {
 
 	}
+
 	//初始化数据
 	protected void initData() {
 
 	}
+
+	@Override
+	public void showProgress() {
+		getHoldingActivity().showProgress();
+	}
+
+	@Override
+	public void dismissProgress() {
+		getHoldingActivity().dismissProgress();
+	}
+
 	public void startActivityWithAnim(Intent intent) {
 		startActivity(intent);
 		mActivity.overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);

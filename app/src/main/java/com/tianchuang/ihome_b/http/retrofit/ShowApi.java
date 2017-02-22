@@ -36,8 +36,29 @@ public interface ShowApi {
 	 * passwd:******       （密码6-16位）
 	 */
 	@POST(BizInterface.LOGIN_URL)
-	Observable<HttpModle<LoginBean>> Login(@Query("mobile") String phone,
+	Observable<HttpModle<LoginBean>> login(@Query("mobile") String phone,
 										   @Query("passwd") String passwd);
+
+	/***
+	 * 找回密码发送短信验证
+	 * params
+	 * mobile:138********  （手机号11位）
+	 */
+	@POST(BizInterface.RETRIEVE_URL)
+	Observable<HttpModle<String>> retrievePassword(@Query("mobile") String phone);
+
+
+	/***
+	 * 重置密码
+	 * params
+	 * mobile:138********  （手机号11位）
+	 * passwd:******       （密码6-16位）
+	 * smsCode:****        （4位数字）
+	 */
+	@POST(BizInterface.RESET_PWD_URL)
+	Observable<HttpModle<String>> resetPassword(@Query("mobile") String phone,
+												@Query("passwd") String passwd,
+												@Query("smsCode") String smsCode);
 
 	/***
 	 * 物业列表

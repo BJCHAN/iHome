@@ -23,7 +23,7 @@ public class VerificationUtil {
 		return false;
 	}
 	/**
-	 * 判断手机号码是否有效
+	 * 判断密码是否有效
 	 */
 	public static boolean isValidPassword(String passwrod) {
 		if (!TextUtils.isEmpty(passwrod)) {

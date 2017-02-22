@@ -59,19 +59,29 @@ public class PropertyListFragment extends BaseFragment {
 
 	@Override
 	protected void initData() {
+		//请求物业列表的数据
 		PropertyModel.requestPropertyList()
 				.compose(RxHelper.<ArrayList<PropertyListItem>>handleResult())
+				.compose(this.<ArrayList<PropertyListItem>>bindToLifecycle())
+				.doOnSubscribe(new Action0() {
+					@Override
+					public void call() {
+						showProgress();
+					}
+				})
 				.subscribe(new RxSubscribe<ArrayList<PropertyListItem>>() {
 					@Override
 					protected void _onNext(ArrayList<PropertyListItem> propertyList) {
 						data = propertyList;
 						listAdapter = new PropertyListAdapter(R.layout.property_list_item_holder, data);
 						rvList.setAdapter(listAdapter);
+						dismissProgress();
 					}
 
 					@Override
 					protected void _onError(String message) {
 						ToastUtil.showToast(getHoldingActivity(), message);
+						dismissProgress();
 					}
 
 					@Override
@@ -95,7 +105,7 @@ public class PropertyListFragment extends BaseFragment {
 					case R.id.fl_often_btn:
 						PropertyListItem propertyListItem = data.get(i);
 						if (!propertyListItem.getOftenUse()) {//已经是常用的不用再请求
-							requestSetOften(propertyListItem,i);
+							requestSetOften(propertyListItem, i);
 						}
 						break;
 					default:
@@ -123,7 +133,7 @@ public class PropertyListFragment extends BaseFragment {
 				.doOnSubscribe(new Action0() {
 					@Override
 					public void call() {
-						holdingActivity.showProgress();
+						showProgress();
 					}
 				})
 				.subscribe(new Subscriber<Boolean>() {
@@ -133,7 +143,7 @@ public class PropertyListFragment extends BaseFragment {
 
 					@Override
 					public void onError(Throwable e) {
-						holdingActivity.dismissProgress();
+						dismissProgress();
 					}
 
 					@Override
@@ -148,7 +158,7 @@ public class PropertyListFragment extends BaseFragment {
 						} else {
 							ToastUtil.showToast(getHoldingActivity(), "设为常用失败");
 						}
-						holdingActivity.dismissProgress();
+						dismissProgress();
 
 					}
 				});

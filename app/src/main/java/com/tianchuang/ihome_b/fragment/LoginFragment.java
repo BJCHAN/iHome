@@ -130,7 +130,7 @@ public class LoginFragment extends BaseFragment {
 				.doOnSubscribe(new Action0() {
 					@Override
 					public void call() {
-						mActivity.showProgress();
+						showProgress();
 					}
 				})
 				.subscribe(new RxSubscribe<LoginBean>() {
@@ -147,7 +147,7 @@ public class LoginFragment extends BaseFragment {
 					protected void _onError(String message) {
 						mActivity.getMaterialDialogsUtil().dismiss();
 						showRedTip(message);
-						mActivity.dismissProgress();
+						dismissProgress();
 					}
 
 					@Override

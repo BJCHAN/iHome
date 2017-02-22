@@ -138,16 +138,15 @@ public abstract class BaseActivity extends RxFragmentActivity {
 	}
 
 	private MaterialDialog progressDialog;
-
 	public void showProgress() {
 		if (progressDialog == null) {
 			progressDialog = getMaterialDialogsUtil().getProgressDialog();
 		}
 		progressDialog.show();
 	}
-
 	public void dismissProgress() {
 		if (progressDialog!=null)
 			progressDialog.dismiss();
 	}
+
 }
