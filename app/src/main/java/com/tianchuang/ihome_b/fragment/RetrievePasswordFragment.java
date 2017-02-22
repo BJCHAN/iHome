@@ -141,6 +141,7 @@ public class RetrievePasswordFragment extends BaseFragment {
 				return LoginModel.retrievePassword(etPhoneNum.getText().toString().trim()).compose(RxHelper.<String>handleResult());
 			}
 		})
+				.compose(this.<String>bindToLifecycle())
 				.subscribe(new RxSubscribe<String>() {
 					@Override
 					protected void _onNext(String s) {

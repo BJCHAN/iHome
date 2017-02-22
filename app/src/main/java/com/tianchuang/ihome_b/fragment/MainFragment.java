@@ -5,10 +5,10 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.tianchuang.ihome_b.R;
+import com.tianchuang.ihome_b.activity.InnerReportsActivity;
 import com.tianchuang.ihome_b.activity.MainActivity;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.event.OpenScanEvent;
-import com.uuzuche.lib_zxing.activity.CaptureActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -59,6 +59,7 @@ public class MainFragment extends BaseFragment {
 			case R.id.ll_write_form://表单填报
 				break;
 			case R.id.ll_internal_reports://内部报事
+				startActivity(new Intent(getHoldingActivity(), InnerReportsActivity.class));
 				break;
 			case R.id.ll_main_query://查询
 				break;

@@ -63,7 +63,7 @@ public abstract class ToolBarActivity extends BaseCustomActivity {
 	}
 
 	@Override
-	protected int getFragmentContainerId() {
+	public int getFragmentContainerId() {
 		return R.id.fragment_container;
 	}
 

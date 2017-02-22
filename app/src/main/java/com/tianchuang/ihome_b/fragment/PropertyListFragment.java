@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.tianchuang.ihome_b.EmptyViewHolder;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.activity.MainActivity;
 import com.tianchuang.ihome_b.adapter.PropertyListAdapter;
@@ -74,6 +75,9 @@ public class PropertyListFragment extends BaseFragment {
 					protected void _onNext(ArrayList<PropertyListItem> propertyList) {
 						data = propertyList;
 						listAdapter = new PropertyListAdapter(R.layout.property_list_item_holder, data);
+						EmptyViewHolder emptyViewHolder = new EmptyViewHolder();
+						emptyViewHolder.bindData(getString(R.string.property_no_join));
+						listAdapter.setEmptyView(emptyViewHolder.getholderView());
 						rvList.setAdapter(listAdapter);
 						dismissProgress();
 					}

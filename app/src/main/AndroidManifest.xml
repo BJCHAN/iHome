@@ -28,11 +28,13 @@
         android:supportsRtl="true"
         android:theme="@style/ToolBarTheme">
         <activity android:name=".Main3Activity"/>
-        <activity android:name=".activity.MainActivity"
-                  android:screenOrientation="portrait">
+        <activity
+            android:name=".activity.MainActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".activity.LoginActivity"
-                  android:screenOrientation="portrait">
+        <activity
+            android:name=".activity.LoginActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -45,6 +47,10 @@
         <activity android:name=".activity.ScanCodeActivity"/>
         <activity android:name=".activity.RobHallActivity"/>
         <activity android:name=".activity.FaultDetailActivity"/>
+        <activity android:name=".activity.InnerReportsActivity">
+        </activity>
+        <activity android:name=".activity.MenuInnerReportsActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -16,7 +16,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 /**
- * Created by Abyss on 2017/220.
+ * Created by Abyss on 2017/2/22.
  * description:故障详情页面
  */
 public class FaultDetailActivity extends ToolBarActivity {

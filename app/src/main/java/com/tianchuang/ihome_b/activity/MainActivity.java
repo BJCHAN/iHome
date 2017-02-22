@@ -146,6 +146,9 @@ public class MainActivity extends BaseActivity {
 			@Override
 			public void onItemClick(View view, int i) {
 				switch (i) {
+					case 7:
+						startActivityWithAnim(new Intent(MainActivity.this, MenuInnerReportsActivity.class));
+						break;
 					case 8:
 						startActivityWithAnim(new Intent(MainActivity.this, SettingActivity.class));
 						break;
