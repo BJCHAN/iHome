@@ -1,6 +1,5 @@
 package com.tianchuang.ihome_b.adapter;
 
-import android.util.SparseIntArray;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -8,7 +7,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.tianchuang.ihome_b.R;
-import com.tianchuang.ihome_b.bean.PropertyListItem;
+import com.tianchuang.ihome_b.bean.recyclerview.PropertyListItemBean;
 
 import java.util.List;
 
@@ -16,7 +15,7 @@ import java.util.List;
  * Created by Abyss on 2017/2/9.
  * description:物业列表的适配器
  */
-public class PropertyListAdapter extends BaseQuickAdapter<PropertyListItem> {
+public class PropertyListAdapter extends BaseQuickAdapter<PropertyListItemBean> {
 	private int selsctedPostion = -1;
 
 	public int getSelsctedPostion() {
@@ -26,13 +25,13 @@ public class PropertyListAdapter extends BaseQuickAdapter<PropertyListItem> {
 	public void setSelsctedPostion(int selsctedPostion) {
 		this.selsctedPostion = selsctedPostion;
 	}
-	public PropertyListAdapter(int layoutResId, List<PropertyListItem> data) {
+	public PropertyListAdapter(int layoutResId, List<PropertyListItemBean> data) {
 		super(layoutResId, data);
 	}
 
 
 	@Override
-	protected void convert(BaseViewHolder helper, PropertyListItem item) {
+	protected void convert(BaseViewHolder helper, PropertyListItemBean item) {
 		helper.setOnClickListener(R.id.fl_often_btn, new OnItemChildClickListener());
 		helper.setText(R.id.tv_company_name, item.getPropertyCompanyName())
 				.setText(R.id.tv_department_name, item.getDepartmentName())

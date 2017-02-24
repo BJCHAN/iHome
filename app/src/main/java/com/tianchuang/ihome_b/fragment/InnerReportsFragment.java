@@ -64,7 +64,7 @@ public class InnerReportsFragment extends BaseFragment {
 			case R.id.iv_add3:
 				break;
 			case R.id.loginBt:
-				FragmentUtils.popAddFragment(getFragmentManager(), holdingActivity.getFragmentContainerId(), InnerReportsSuccess.newInstance(), true);
+				FragmentUtils.popAddFragment(getFragmentManager(), holdingActivity.getFragmentContainerId(), InnerReportsSuccessFragment.newInstance(), true);
 				break;
 		}
 	}

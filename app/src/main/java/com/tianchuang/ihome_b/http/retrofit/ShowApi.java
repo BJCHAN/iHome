@@ -2,7 +2,8 @@ package com.tianchuang.ihome_b.http.retrofit;
 
 
 import com.tianchuang.ihome_b.bean.LoginBean;
-import com.tianchuang.ihome_b.bean.PropertyListItem;
+import com.tianchuang.ihome_b.bean.recyclerview.MenuInnerReportsItemBean;
+import com.tianchuang.ihome_b.bean.recyclerview.PropertyListItemBean;
 
 import java.util.ArrayList;
 
@@ -65,7 +66,7 @@ public interface ShowApi {
 	 * params 无
 	 */
 	@POST(BizInterface.PROPERTY_LIST_URL)
-	Observable<HttpModle<ArrayList<PropertyListItem>>> getPropertyList();
+	Observable<HttpModle<ArrayList<PropertyListItemBean>>> getPropertyList();
 
 	/***
 	 * 设置常用
@@ -80,5 +81,11 @@ public interface ShowApi {
 	 */
 	@POST(BizInterface.PROPERTY_CANCEL_OFTEN_URL)
 	Observable<HttpModle<String>> allCancel();
+	/***
+	 * 内部报事列表
+	 * params 无
+	 */
+	@POST(BizInterface.INNER_PROPORTS_LIST_URL)
+	Observable<HttpModle<ArrayList<MenuInnerReportsItemBean>>> reportsList(@Query("propertyCompanyId") int propertyCompanyId);
 
 }

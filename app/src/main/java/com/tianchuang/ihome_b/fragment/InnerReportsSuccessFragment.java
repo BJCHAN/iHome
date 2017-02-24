@@ -13,10 +13,10 @@ import butterknife.OnClick;
  * description:
  */
 
-public class InnerReportsSuccess extends BaseFragment {
+public class InnerReportsSuccessFragment extends BaseFragment {
 
-	public static InnerReportsSuccess newInstance() {
-		return new InnerReportsSuccess();
+	public static InnerReportsSuccessFragment newInstance() {
+		return new InnerReportsSuccessFragment();
 	}
 
 	@Override

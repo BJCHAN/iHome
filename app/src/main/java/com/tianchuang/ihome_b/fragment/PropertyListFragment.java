@@ -11,7 +11,7 @@ import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.activity.MainActivity;
 import com.tianchuang.ihome_b.adapter.PropertyListAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
-import com.tianchuang.ihome_b.bean.PropertyListItem;
+import com.tianchuang.ihome_b.bean.recyclerview.PropertyListItemBean;
 import com.tianchuang.ihome_b.bean.recyclerview.RobHallItemDecoration;
 import com.tianchuang.ihome_b.http.retrofit.HttpModle;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
@@ -39,7 +39,7 @@ public class PropertyListFragment extends BaseFragment {
 	RecyclerView rvList;
 	private MainActivity holdingActivity;
 	private PropertyListAdapter listAdapter;
-	private ArrayList<PropertyListItem> data;
+	private ArrayList<PropertyListItemBean> data;
 
 	public static PropertyListFragment newInstance() {
 		return new PropertyListFragment();
@@ -62,17 +62,17 @@ public class PropertyListFragment extends BaseFragment {
 	protected void initData() {
 		//请求物业列表的数据
 		PropertyModel.requestPropertyList()
-				.compose(RxHelper.<ArrayList<PropertyListItem>>handleResult())
-				.compose(this.<ArrayList<PropertyListItem>>bindToLifecycle())
+				.compose(RxHelper.<ArrayList<PropertyListItemBean>>handleResult())
+				.compose(this.<ArrayList<PropertyListItemBean>>bindToLifecycle())
 				.doOnSubscribe(new Action0() {
 					@Override
 					public void call() {
 						showProgress();
 					}
 				})
-				.subscribe(new RxSubscribe<ArrayList<PropertyListItem>>() {
+				.subscribe(new RxSubscribe<ArrayList<PropertyListItemBean>>() {
 					@Override
-					protected void _onNext(ArrayList<PropertyListItem> propertyList) {
+					protected void _onNext(ArrayList<PropertyListItemBean> propertyList) {
 						data = propertyList;
 						listAdapter = new PropertyListAdapter(R.layout.property_list_item_holder, data);
 						EmptyViewHolder emptyViewHolder = new EmptyViewHolder();
@@ -107,9 +107,9 @@ public class PropertyListFragment extends BaseFragment {
 			public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
 				switch (view.getId()) {
 					case R.id.fl_often_btn:
-						PropertyListItem propertyListItem = data.get(i);
-						if (!propertyListItem.getOftenUse()) {//已经是常用的不用再请求
-							requestSetOften(propertyListItem, i);
+						PropertyListItemBean propertyListItemBean = data.get(i);
+						if (!propertyListItemBean.getOftenUse()) {//已经是常用的不用再请求
+							requestSetOften(propertyListItemBean, i);
 						}
 						break;
 					default:
@@ -123,8 +123,8 @@ public class PropertyListFragment extends BaseFragment {
 	/**
 	 * 请求网络设为常用
 	 */
-	private void requestSetOften(PropertyListItem propertyListItem, final int i) {
-		Observable<HttpModle<String>> setOften = PropertyModel.requestSetOften(propertyListItem.getId());
+	private void requestSetOften(PropertyListItemBean propertyListItemBean, final int i) {
+		Observable<HttpModle<String>> setOften = PropertyModel.requestSetOften(propertyListItemBean.getId());
 		Observable<HttpModle<String>> allCancel = PropertyModel.requestAllCancel();
 		Observable.zip(allCancel, setOften, new Func2<HttpModle<String>, HttpModle<String>, Boolean>() {
 			@Override
@@ -153,8 +153,8 @@ public class PropertyListFragment extends BaseFragment {
 					@Override
 					public void onNext(Boolean aBoolean) {
 						if (aBoolean) {//设为常用成功
-							for (PropertyListItem propertyListItem : data) {
-								propertyListItem.setOftenUse(false);
+							for (PropertyListItemBean propertyListItemBean : data) {
+								propertyListItemBean.setOftenUse(false);
 							}
 							data.get(i).setOftenUse(!data.get(i).getOftenUse());
 							listAdapter.setSelsctedPostion(i);

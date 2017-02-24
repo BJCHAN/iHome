@@ -36,7 +36,7 @@
                 android:layout_centerVertical="true"
                 android:background="@color/app_primary_color"
                 android:drawablePadding="5dp"
-                android:drawableRight="@mipmap/down_arrow"
+                android:drawableRight="@drawable/triangle_icon"
                 android:gravity="center_horizontal"
                 android:text="海创园小区"
                 android:textColor="@color/white"

@@ -1,4 +1,4 @@
-package com.tianchuang.ihome_b.bean;
+package com.tianchuang.ihome_b.bean.recyclerview;
 
 import java.io.Serializable;
 
@@ -7,12 +7,24 @@ import java.io.Serializable;
  * description:物业列表的item
  */
 
-public class PropertyListItem implements Serializable {
-
+public class PropertyListItemBean implements Serializable {
+	/**
+	 * "id": 1,
+	 * "employeeId": 2,
+	 * "employeeName": "李斯",
+	 * "propertyCompanyId": 1,
+	 * "propertyCompanyName": "海创园",
+	 * "departmentId": 1,
+	 * "departmentName": "工程维修部",
+	 * "positionId": 1,
+	 * "positionName": "水电维修工",
+	 * "oftenUse": true
+	 */
 	private int id;
 	private int employeeId;
 	private int propertyCompanyId;
 	private String propertyCompanyName;
+	private String employeeName;
 	private int departmentId;
 	private String departmentName;
 	private int positionId;
@@ -89,5 +101,13 @@ public class PropertyListItem implements Serializable {
 
 	public void setPositionName(String positionName) {
 		this.positionName = positionName;
+	}
+
+	public String getEmployeeName() {
+		return employeeName;
+	}
+
+	public void setEmployeeName(String employeeName) {
+		this.employeeName = employeeName;
 	}
 }

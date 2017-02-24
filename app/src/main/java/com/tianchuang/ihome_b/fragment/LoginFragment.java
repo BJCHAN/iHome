@@ -8,18 +8,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.Theme;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.activity.LoginActivity;
 import com.tianchuang.ihome_b.activity.MainActivity;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.LoginBean;
+import com.tianchuang.ihome_b.database.UserInfoDbHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
 import com.tianchuang.ihome_b.http.retrofit.model.LoginModel;
-import com.tianchuang.ihome_b.utils.MaterialDialogsUtil;
+import com.tianchuang.ihome_b.utils.ToastUtil;
 import com.tianchuang.ihome_b.utils.UserUtil;
 import com.tianchuang.ihome_b.utils.VerificationUtil;
 
@@ -63,7 +62,6 @@ public class LoginFragment extends BaseFragment {
 		registerbt.getPaint().setAntiAlias(true);//抗锯齿
 		mActivity = (LoginActivity) getHoldingActivity();
 		mLoginBt.setEnabled(false);
-
 	}
 
 	@Override
@@ -136,8 +134,11 @@ public class LoginFragment extends BaseFragment {
 				.subscribe(new RxSubscribe<LoginBean>() {
 					@Override
 					protected void _onNext(LoginBean s) {
-						UserUtil.setIsLogined(true);
-						UserUtil.setToken(s.token);
+						UserUtil.setToken(s.getToken());
+						UserUtil.setUserId(s.getId());
+						UserUtil.setLoginBean(s);//储存在内存中
+						//储存在数据库
+						ToastUtil.showToast(getContext(), UserInfoDbHelper.saveUserInfo(s) + "");
 						mActivity.dismissProgress();
 						startActivityWithAnim(new Intent(mActivity, MainActivity.class));
 						mActivity.finish();
@@ -157,6 +158,7 @@ public class LoginFragment extends BaseFragment {
 				});
 
 	}
+
 
 	/**
 	 * 检验是否可以登录

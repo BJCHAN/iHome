@@ -184,6 +184,7 @@
 -keepattributes Signature
 -keepattributes Exceptions
 # baseRecyclerAdapterHelper
--keep class com.chad.library.adapter.** {
-   *;
-}
+-keep class com.chad.library.adapter.** {*;}
+#【litepal】
+-keep class org.litepal.** { *; }
+-keep class * extends org.litepal.crud.DataSupport{*;}

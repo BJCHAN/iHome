@@ -3,7 +3,6 @@ package com.tianchuang.ihome_b.base;
 import android.os.Bundle;
 import android.view.KeyEvent;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.utils.FragmentUtils;
 

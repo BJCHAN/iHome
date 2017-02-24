@@ -1,11 +1,14 @@
-package com.tianchuang.ihome_b.bean;
+package com.tianchuang.ihome_b.database;
+
+import org.litepal.annotation.Column;
+import org.litepal.crud.DataSupport;
 
 /**
- * Created by Abyss on 2017/2/15.
- * description:
+ * Created by Abyss on 2017/2/23.
+ * description:用户信息
  */
 
-public class LoginBean {
+public class UserInfo extends DataSupport {
 
 	/**
 	 * id : 2
@@ -20,11 +23,12 @@ public class LoginBean {
 	 * positionId : 1
 	 * positionName : 水电维修工
 	 */
-
-	private int id;
+	@Column(unique = true)
+	private int userId;
+	@Column(defaultValue = "unknown")
 	private String name;
 	private String mobile;
-	public String token;
+	private String token;
 	private int roleId;
 	private int propertyCompanyId;
 	private String propertyCompanyName;
@@ -33,12 +37,12 @@ public class LoginBean {
 	private int positionId;
 	private String positionName;
 
-	public int getId() {
-		return id;
+	public int getUserId() {
+		return userId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 	public String getName() {

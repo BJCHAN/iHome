@@ -22,6 +22,7 @@ import butterknife.Unbinder;
 public abstract class BaseFragment extends RxFragment implements DialogProgress {
 	protected BaseActivity mActivity;
 	private Unbinder bind;
+	private View rootView;
 
 	protected abstract void initView(View view, Bundle savedInstanceState);
 
@@ -54,15 +55,24 @@ public abstract class BaseFragment extends RxFragment implements DialogProgress 
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(getLayoutId(), container, false);
-		bind = ButterKnife.bind(this, view);
-		initView(view, savedInstanceState);
-		initData();
-		initListener();
-		return view;
+		if (null != rootView) {//处理fragment的view重复加载
+			ViewGroup parent = (ViewGroup) rootView.getParent();
+			if (null != parent) {
+				parent.removeView(rootView);
+			}
+		} else {
+			rootView = inflater.inflate(getLayoutId(), container, false);
+			bind = ButterKnife.bind(this, rootView);
+			initView(rootView, savedInstanceState);
+			initData();
+			initListener();
+
+		}
+		return rootView;
 	}
 
 	//初始化监听
+
 	protected void initListener() {
 
 	}

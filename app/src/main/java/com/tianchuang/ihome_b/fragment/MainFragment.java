@@ -8,9 +8,13 @@ import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.activity.InnerReportsActivity;
 import com.tianchuang.ihome_b.activity.MainActivity;
 import com.tianchuang.ihome_b.base.BaseFragment;
+import com.tianchuang.ihome_b.bean.LoginBean;
 import com.tianchuang.ihome_b.bean.event.OpenScanEvent;
+import com.tianchuang.ihome_b.database.UserInfo;
+import com.tianchuang.ihome_b.utils.UserUtil;
 
 import org.greenrobot.eventbus.EventBus;
+import org.litepal.crud.DataSupport;
 
 import butterknife.OnClick;
 
@@ -41,7 +45,11 @@ public class MainFragment extends BaseFragment {
 	public void onStart() {
 		super.onStart();
 		holdingActivity = ((MainActivity) getHoldingActivity());
-		holdingActivity.setSpinnerText("海创园小区");
+		LoginBean loginBean = UserUtil.getLoginBean();
+		if (loginBean != null) {
+			holdingActivity.setSpinnerText(loginBean.getPropertyCompanyName());
+		}
+
 	}
 
 	@Override
