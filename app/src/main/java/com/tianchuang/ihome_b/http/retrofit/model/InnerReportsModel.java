@@ -21,4 +21,11 @@ public class InnerReportsModel {
 		return RetrofitService.createShowApi().reportsList(propertyCompanyId);
 	}
 
+	/**
+	 * 内部报事提交
+	 */
+	public static Observable<HttpModle<String>> requestReportsSubmit(int propertyCompanyId, String content) {
+		return RetrofitService.createShowApi().reportsSubmit(propertyCompanyId, content);
+	}
+
 }

@@ -29,7 +29,8 @@ public interface BizInterface {
 	String PROPERTY_SET_OFTEN_URL = "property/role/often/set.html";
 	//全部取消
 	String PROPERTY_CANCEL_OFTEN_URL = "property/role/often/cancel.html";
-	//全部取消
-	String INNER_PROPORTS_LIST_URL = "internalreport/list.html";
-
+	//内部报事列表(菜单)
+	String INNER_REPORTS_LIST_URL = "internalreport/list.html";
+	//内部报事提交(主页)
+	String INNER_REPORTS_SUBMIT_URL = "internalreport/add.html";
 }

@@ -81,11 +81,23 @@ public interface ShowApi {
 	 */
 	@POST(BizInterface.PROPERTY_CANCEL_OFTEN_URL)
 	Observable<HttpModle<String>> allCancel();
+
 	/***
 	 * 内部报事列表
-	 * params 无
+	 * params
+	 * propertyCompanyId:xxx                   应物业公司ID-对应物业列表物业公司ID
 	 */
-	@POST(BizInterface.INNER_PROPORTS_LIST_URL)
+	@POST(BizInterface.INNER_REPORTS_LIST_URL)
 	Observable<HttpModle<ArrayList<MenuInnerReportsItemBean>>> reportsList(@Query("propertyCompanyId") int propertyCompanyId);
+
+	/***
+	 * 内部报事提交
+	 * params
+	 * propertyCompanyId:xxx                   应物业公司ID-对应物业列表物业公司ID
+	 * content:xxx                             报告内容（文本内容）
+	 */
+	@POST(BizInterface.INNER_REPORTS_SUBMIT_URL)
+	Observable<HttpModle<String>> reportsSubmit(@Query("propertyCompanyId") int propertyCompanyId,
+												@Query("content") String content);
 
 }

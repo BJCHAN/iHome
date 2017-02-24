@@ -3,10 +3,9 @@ package com.tianchuang.ihome_b.utils;
 import android.text.TextUtils;
 
 import com.tianchuang.ihome_b.bean.LoginBean;
+import com.tianchuang.ihome_b.bean.recyclerview.PropertyListItemBean;
 import com.tianchuang.ihome_b.database.UserInfo;
 import com.tianchuang.ihome_b.database.UserInfoDbHelper;
-
-import org.litepal.crud.DataSupport;
 
 /**
  * Created by Abyss on 2017/2/15.
@@ -22,7 +21,7 @@ public class UserUtil {
 
 	public static LoginBean getLoginBean() {
 		if (loginBean == null) {//内存中没有去数据库取
-			UserInfo userInfo = DataSupport.where("userid = ?",String.valueOf(getUserid())).find(UserInfo.class).get(0);
+			UserInfo userInfo = UserInfoDbHelper.findUserInfo(getUserid());
 			if (userInfo != null) {
 				loginBean = new LoginBean();
 				loginBean.setId(userInfo.getUserId());
@@ -47,10 +46,18 @@ public class UserUtil {
 
 	//退出登录
 	public static void logout() {
+		UserInfoDbHelper.deleteUserInfo(getUserid());//删除指定用户信息
 		setToken(null);
 		setLoginBean(null);
 		setUserId(0);
-		UserInfoDbHelper.deleteAllUserInfo();//删除所有用户信息
+	}
+
+	//登录
+	public static void login(LoginBean s) {
+		UserUtil.setToken(s.getToken());
+		UserUtil.setUserId(s.getId());//userid一定不能为空
+		UserUtil.setLoginBean(s);//储存在内存中
+		UserInfoDbHelper.saveUserInfo(s, UserUtil.getUserid());//储存在数据库
 	}
 
 	public static void setToken(String token) {
@@ -81,5 +88,21 @@ public class UserUtil {
 	//用户是否已经登录
 	public static Boolean isLogin() {
 		return !TextUtils.isEmpty(getToken());
+	}
+
+	public static LoginBean propertyListItemBeanToLoginBean(PropertyListItemBean bean) {
+		LoginBean loginBean = new LoginBean();
+		loginBean.setId(getUserid());
+		loginBean.setToken(getToken());
+		loginBean.setName(bean.getEmployeeName());
+		loginBean.setMobile(UserInfoDbHelper.findUserInfo(getUserid()).getMobile());
+		loginBean.setRoleId(bean.getId());
+		loginBean.setPropertyCompanyId(bean.getPropertyCompanyId());
+		loginBean.setPropertyCompanyName(bean.getPropertyCompanyName());
+		loginBean.setDepartmentName(bean.getDepartmentName());
+		loginBean.setPositionId(bean.getPositionId());
+		loginBean.setDepartmentId(bean.getDepartmentId());
+		loginBean.setPositionName(bean.getPositionName());
+		return loginBean;
 	}
 }

@@ -1,6 +1,7 @@
 package com.tianchuang.ihome_b.base;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ public abstract class BaseFragment extends RxFragment implements DialogProgress 
 	protected BaseActivity getHoldingActivity() {
 		return mActivity;
 	}
+
 
 	@Override
 	public void onAttach(Context context) {

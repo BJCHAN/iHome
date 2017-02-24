@@ -4,6 +4,9 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.tianchuang.ihome_b.R;
+import com.tianchuang.ihome_b.bean.event.LogoutEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 
 /**
@@ -67,6 +70,9 @@ public class ToastUtil {
 			}
 		}
 		oneTime = twoTime;
+		if ("登录失效".equals(message)) {
+			EventBus.getDefault().post(new LogoutEvent());
+		}
 
 	}
 

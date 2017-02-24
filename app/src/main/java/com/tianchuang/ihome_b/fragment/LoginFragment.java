@@ -18,7 +18,6 @@ import com.tianchuang.ihome_b.database.UserInfoDbHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
 import com.tianchuang.ihome_b.http.retrofit.model.LoginModel;
-import com.tianchuang.ihome_b.utils.ToastUtil;
 import com.tianchuang.ihome_b.utils.UserUtil;
 import com.tianchuang.ihome_b.utils.VerificationUtil;
 
@@ -134,11 +133,7 @@ public class LoginFragment extends BaseFragment {
 				.subscribe(new RxSubscribe<LoginBean>() {
 					@Override
 					protected void _onNext(LoginBean s) {
-						UserUtil.setToken(s.getToken());
-						UserUtil.setUserId(s.getId());
-						UserUtil.setLoginBean(s);//储存在内存中
-						//储存在数据库
-						ToastUtil.showToast(getContext(), UserInfoDbHelper.saveUserInfo(s) + "");
+						UserUtil.login(s);
 						mActivity.dismissProgress();
 						startActivityWithAnim(new Intent(mActivity, MainActivity.class));
 						mActivity.finish();

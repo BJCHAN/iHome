@@ -11,22 +11,24 @@ import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.activity.MainActivity;
 import com.tianchuang.ihome_b.adapter.PropertyListAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
+import com.tianchuang.ihome_b.bean.LoginBean;
 import com.tianchuang.ihome_b.bean.recyclerview.PropertyListItemBean;
 import com.tianchuang.ihome_b.bean.recyclerview.RobHallItemDecoration;
+import com.tianchuang.ihome_b.database.UserInfoDbHelper;
 import com.tianchuang.ihome_b.http.retrofit.HttpModle;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
 import com.tianchuang.ihome_b.http.retrofit.model.PropertyModel;
 import com.tianchuang.ihome_b.utils.ToastUtil;
+import com.tianchuang.ihome_b.utils.UserUtil;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
-import rx.functions.Func2;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -79,6 +81,7 @@ public class PropertyListFragment extends BaseFragment {
 						emptyViewHolder.bindData(getString(R.string.property_no_join));
 						listAdapter.setEmptyView(emptyViewHolder.getholderView());
 						rvList.setAdapter(listAdapter);
+						initmListener(listAdapter);
 						dismissProgress();
 					}
 
@@ -90,16 +93,20 @@ public class PropertyListFragment extends BaseFragment {
 
 					@Override
 					public void onCompleted() {
-						initmListener();
+
 					}
 				});
 	}
 
-	private void initmListener() {
+	private void initmListener(PropertyListAdapter listAdapter) {
 		listAdapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
 			@Override
 			public void onItemClick(View view, int i) {
-				ToastUtil.showToast(getHoldingActivity(), "按a");
+				PropertyListItemBean propertyListItemBean = PropertyListFragment.this.listAdapter.getData().get(i);
+				LoginBean loginBean = UserUtil.propertyListItemBeanToLoginBean(propertyListItemBean);
+				UserUtil.setLoginBean(loginBean);//更新内存中的loginbean
+				PropertyListFragment.this.removeFragment();
+				ToastUtil.showToast(holdingActivity, "切换成功");
 			}
 		});
 		listAdapter.setOnRecyclerViewItemChildClickListener(new BaseQuickAdapter.OnRecyclerViewItemChildClickListener() {
@@ -107,13 +114,12 @@ public class PropertyListFragment extends BaseFragment {
 			public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
 				switch (view.getId()) {
 					case R.id.fl_often_btn:
-						PropertyListItemBean propertyListItemBean = data.get(i);
+						PropertyListItemBean propertyListItemBean = PropertyListFragment.this.listAdapter.getData().get(i);
 						if (!propertyListItemBean.getOftenUse()) {//已经是常用的不用再请求
 							requestSetOften(propertyListItemBean, i);
 						}
 						break;
 					default:
-						ToastUtil.showToast(getHoldingActivity(), "没按到");
 				}
 
 			}
@@ -124,14 +130,13 @@ public class PropertyListFragment extends BaseFragment {
 	 * 请求网络设为常用
 	 */
 	private void requestSetOften(PropertyListItemBean propertyListItemBean, final int i) {
-		Observable<HttpModle<String>> setOften = PropertyModel.requestSetOften(propertyListItemBean.getId());
-		Observable<HttpModle<String>> allCancel = PropertyModel.requestAllCancel();
-		Observable.zip(allCancel, setOften, new Func2<HttpModle<String>, HttpModle<String>, Boolean>() {
-			@Override
-			public Boolean call(HttpModle<String> stringHttpModle, HttpModle<String> stringHttpModle2) {
-				return stringHttpModle.success() && stringHttpModle2.success();
-			}
-		})
+		PropertyModel.requestSetOften(propertyListItemBean.getId())
+				.map(new Func1<HttpModle<String>, Boolean>() {
+					@Override
+					public Boolean call(HttpModle<String> stringHttpModle) {
+						return stringHttpModle.success();
+					}
+				})
 				.subscribeOn(Schedulers.io())
 				.observeOn(AndroidSchedulers.mainThread())
 				.doOnSubscribe(new Action0() {
@@ -156,7 +161,11 @@ public class PropertyListFragment extends BaseFragment {
 							for (PropertyListItemBean propertyListItemBean : data) {
 								propertyListItemBean.setOftenUse(false);
 							}
-							data.get(i).setOftenUse(!data.get(i).getOftenUse());
+							PropertyListItemBean bean = data.get(i);
+							LoginBean loginBean = UserUtil.propertyListItemBeanToLoginBean(bean);
+							//储存到数据库中
+							UserInfoDbHelper.saveUserInfo(loginBean, UserUtil.getUserid());
+							bean.setOftenUse(!bean.getOftenUse());
 							listAdapter.setSelsctedPostion(i);
 							listAdapter.notifyDataSetChanged();
 						} else {
