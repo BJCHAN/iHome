@@ -80,7 +80,6 @@ dependencies {
     //支持Gson 及 rxjava
     compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:v1.9.7'
-    compile project(':matiral-spinner')
     compile 'com.orhanobut:logger:1.11'
     compile('com.github.afollestad.material-dialogs:commons:0.8.5.7@aar') {
         transitive = true

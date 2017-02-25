@@ -1,1 +1,1 @@
-include ':app', ':matiral-spinner', ':photoviewlibrary'
+include ':app', ':photoviewlibrary'
