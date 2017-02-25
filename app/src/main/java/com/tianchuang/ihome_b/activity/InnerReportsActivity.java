@@ -50,7 +50,7 @@ public class InnerReportsActivity extends ToolBarActivity {
 		if (requestCode == REQUEST_CODE_IMAGE && resultCode == RESULT_OK && data != null) {
 			List<String> pathList = data.getStringArrayListExtra(ImgSelActivity.INTENT_RESULT);
 			if (getImageByCodeListener != null) {
-				getImageByCodeListener.onImage(pathList.get(0));
+				getImageByCodeListener.onImage(pathList);
 			}
 		}
 	}
@@ -62,7 +62,6 @@ public class InnerReportsActivity extends ToolBarActivity {
 	private GetImageByCodeListener getImageByCodeListener;
 
 	public interface GetImageByCodeListener {
-		void onImage(String path);
-
+		void onImage(List<String> path);
 	}
 }

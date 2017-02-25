@@ -1,19 +1,16 @@
 package com.tianchuang.ihome_b.fragment;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.hitomi.tilibrary.TransferImage;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.adapter.FaultDetailAdapter;
@@ -30,10 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static android.R.attr.data;
 
 /**
  * Created by Abyss on 2017/2/20.
@@ -69,6 +63,7 @@ public class FaultDetailFragment extends BaseFragment {
 //		imageStrList.add("http://static.fdc.com.cn/avatar/sns/1486173639603.png");
 //		imageStrList.add("http://static.fdc.com.cn/avatar/sns/1486172566083.png");
 	}
+
 	@Override
 	protected int getLayoutId() {
 		return R.layout.fragment_fault_detail;
@@ -90,27 +85,29 @@ public class FaultDetailFragment extends BaseFragment {
 			tvDate.setText(StringUtils.getNotNull(item.getDate()));
 			tvContent.setText(StringUtils.getNotNull(item.getContent()));
 		}
-		rvList.setLayoutManager(new GridLayoutManager(getHoldingActivity(),3));
+		rvList.setLayoutManager(new GridLayoutManager(getHoldingActivity(), 3));
 		rvList.addItemDecoration(new RobHallItemDecoration(10));
 		FaultDetailAdapter adapter = new FaultDetailAdapter(R.layout.fault_image_item_holder, imageStrList);
 		rvList.setAdapter(adapter);
-		adapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
+		rvList.addOnItemTouchListener(new OnItemClickListener() {
 			@Override
-			public void onItemClick(View view, int i) {
+			public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
 				transferLayout = new TransferImage.Builder(getHoldingActivity())
 						.setBackgroundColor(ContextCompat.getColor(getHoldingActivity(), R.color.black))
 						.setOriginImageList(wrapOriginImageViewList())
 						.setImageUrlList(imageStrList)
-						.setOriginIndex(i)
+						.setOriginIndex(position)
 						.create();
 				transferLayout.show();
 				EventBus.getDefault().post(new TransferLayoutEvent(transferLayout));
 			}
 		});
+
 	}
 
 	/**
 	 * 包装缩略图 ImageView 集合
+	 *
 	 * @return
 	 */
 	@NonNull
@@ -122,6 +119,7 @@ public class FaultDetailFragment extends BaseFragment {
 		}
 		return originImgList;
 	}
+
 	@OnClick(R.id.tv_rob_order)
 	public void onClick() {
 		OneButtonDialogFragment.newInstance("当前报修单已被其他用户抢单，\n" +

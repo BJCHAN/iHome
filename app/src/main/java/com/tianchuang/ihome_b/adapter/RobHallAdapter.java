@@ -11,7 +11,7 @@ import java.util.List;
  * Created by Abyss on 2017/2/9.
  * description:抢单大厅的适配器
  */
-public class RobHallAdapter extends BaseQuickAdapter<RobHallItem> {
+public class RobHallAdapter extends BaseQuickAdapter<RobHallItem,BaseViewHolder> {
 	public RobHallAdapter(int layoutResId, List<RobHallItem> data) {
 		super(layoutResId, data);
 	}

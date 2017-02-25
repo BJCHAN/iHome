@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.adapter.MenuInnerReportsAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
@@ -74,13 +75,14 @@ public class MenuInnerReportsFragment extends BaseFragment {
 	}
 
 	private void initAdapter(final MenuInnerReportsAdapter adapter) {
-		adapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
+		rvList.addOnItemTouchListener(new OnItemClickListener() {
 			@Override
-			public void onItemClick(View view, int i) {
-				MenuInnerReportsItemBean menuInnerReportsItemBean = adapter.getData().get(i);
+			public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+				MenuInnerReportsItemBean menuInnerReportsItemBean = (MenuInnerReportsItemBean) adapter.getData().get(position);
 				addFragment(MenuInnerReportsDetailFragment.newInstance(menuInnerReportsItemBean));
 			}
 		});
+
 	}
 
 	@Override

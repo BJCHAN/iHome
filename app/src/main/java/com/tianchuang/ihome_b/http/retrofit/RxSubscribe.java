@@ -20,7 +20,7 @@ public abstract class RxSubscribe<T> extends Subscriber<T> {
             //网络未连接
             _onError(Utils.getContext().getResources().getString(R.string.network_error_message));
         } else if (e instanceof ServerException) {
-            //服务器错误 收到的都是除了1以外错误的状态码 或者可以加上errorinfo
+            //服务器错误 收到的都是除了200以外错误的状态码 或者可以加上errorinfo
             _onError(e.getMessage());
         } else {
             //其他错误，404,连接超时,或自己的代码错误等

@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.tianchuang.ihome_b.Constants;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.adapter.DrawMenuAdapter;
@@ -33,6 +34,7 @@ import com.tianchuang.ihome_b.permission.OnMPermissionDenied;
 import com.tianchuang.ihome_b.permission.OnMPermissionGranted;
 import com.tianchuang.ihome_b.utils.DensityUtil;
 import com.tianchuang.ihome_b.utils.FragmentUtils;
+import com.tianchuang.ihome_b.utils.UserUtil;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -142,10 +144,10 @@ public class MainActivity extends BaseActivity {
 
 
 	private void initListener() {
-		menuAdapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
+		mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
 			@Override
-			public void onItemClick(View view, int i) {
-				switch (i) {
+			public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+				switch (position) {
 					case 7:
 						startActivityWithAnim(new Intent(MainActivity.this, MenuInnerReportsActivity.class));
 						break;
@@ -155,6 +157,7 @@ public class MainActivity extends BaseActivity {
 				}
 			}
 		});
+
 		mDrawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
 
 			/**
@@ -220,6 +223,8 @@ public class MainActivity extends BaseActivity {
 
 	@Subscribe(threadMode = ThreadMode.MAIN)
 	public void onMessageEvent(LogoutEvent event) {//退出登录的事件
+		UserUtil.logout();
+		startActivity(new Intent(MainActivity.this, LoginActivity.class));
 		finish();
 	}
 

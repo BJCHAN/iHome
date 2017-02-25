@@ -85,8 +85,6 @@ public class SettingActivity extends BaseCustomActivity {
 							@Override
 							public void onClickSure() {
 								EventBus.getDefault().post(new LogoutEvent());
-								UserUtil.logout();
-								startActivity(new Intent(SettingActivity.this, LoginActivity.class));
 								finish();
 							}
 						}).show(getFragmentManager(), LogoutDialogFragment.class.getSimpleName());

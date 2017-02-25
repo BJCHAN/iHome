@@ -13,7 +13,7 @@ import java.util.List;
  * Created by Abyss on 2017/2/23.
  * description:菜单内部报事的适配器
  */
-public class MenuInnerReportsAdapter extends BaseQuickAdapter<MenuInnerReportsItemBean> {
+public class MenuInnerReportsAdapter extends BaseQuickAdapter<MenuInnerReportsItemBean,BaseViewHolder> {
 	public MenuInnerReportsAdapter(int layoutResId, List<MenuInnerReportsItemBean> data) {
 		super(layoutResId, data);
 	}

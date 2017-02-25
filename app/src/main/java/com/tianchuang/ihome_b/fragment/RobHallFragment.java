@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.tianchuang.ihome_b.EmptyViewHolder;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.activity.FaultDetailActivity;
@@ -62,12 +63,12 @@ public class RobHallFragment extends BaseFragment {
 		emptyViewHolder.bindData(getString(R.string.rob_hall_empty_tip));
 		robHallAdapter.setEmptyView(emptyViewHolder.getholderView());
 		//条目的点击事件
-		robHallAdapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
+		mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
 			@Override
-			public void onItemClick(View view, int i) {
+			public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
 				Intent intent = new Intent(getHoldingActivity(), FaultDetailActivity.class);
 				Bundle bundle = new Bundle();
-				bundle.putSerializable("item", robHallAdapter.getItem(i));
+				bundle.putSerializable("item", robHallAdapter.getItem(position));
 				intent.putExtras(bundle);
 				getHoldingActivity().startActivityWithAnim(intent);
 			}

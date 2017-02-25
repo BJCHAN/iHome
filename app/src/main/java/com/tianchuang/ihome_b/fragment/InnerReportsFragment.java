@@ -8,21 +8,23 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.jakewharton.rxbinding.view.RxView;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.activity.InnerReportsActivity;
+import com.tianchuang.ihome_b.adapter.ImagesSelectorAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.LoginBean;
-import com.tianchuang.ihome_b.bean.recyclerview.RobHallItemDecoration;
+import com.tianchuang.ihome_b.bean.recyclerview.ImagesMultipleItem;
+import com.tianchuang.ihome_b.bean.recyclerview.ImagesSelectorItemDecoration;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
 import com.tianchuang.ihome_b.http.retrofit.model.InnerReportsModel;
@@ -33,10 +35,12 @@ import com.tianchuang.ihome_b.utils.UserUtil;
 import com.yuyh.library.imgsel.ImageLoader;
 import com.yuyh.library.imgsel.ImgSelConfig;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import rx.functions.Action0;
 import rx.functions.Action1;
 
@@ -49,9 +53,6 @@ public class InnerReportsFragment extends BaseFragment implements InnerReportsAc
 
 	@BindView(R.id.et_content)
 	EditText etContent;
-
-
-	ImageView ivAdd3;
 	@BindView(R.id.loginBt)
 	Button loginBt;
 	@BindView(R.id.tv_name)
@@ -62,6 +63,8 @@ public class InnerReportsFragment extends BaseFragment implements InnerReportsAc
 	RecyclerView rvList;
 	private InnerReportsActivity holdingActivity;
 	private ImgSelConfig config;
+	private ArrayList<ImagesMultipleItem> mData;
+	private ImagesSelectorAdapter imagesSelectorAdapter;
 
 	@Override
 	protected int getLayoutId() {
@@ -78,12 +81,54 @@ public class InnerReportsFragment extends BaseFragment implements InnerReportsAc
 		tvName.setText(StringUtils.getNotNull(loginBean.getName()));
 		tvDepartmentName.setText(StringUtils.getNotNull(loginBean.getDepartmentName()));
 		initImageSelector();
-		rvList.addItemDecoration(new RobHallItemDecoration(5));
-		rvList.setLayoutManager(new GridLayoutManager(getContext(),3));
-//		new
+		rvList.addItemDecoration(new ImagesSelectorItemDecoration(5));
+		rvList.setLayoutManager(new GridLayoutManager(getContext(), 3));
+		initAdapter();
 
 	}
 
+	private void initAdapter() {
+		mData = new ArrayList<>();
+		imagesSelectorAdapter = new ImagesSelectorAdapter(mData);
+		rvList.setAdapter(imagesSelectorAdapter);
+		rvList.addOnItemTouchListener(new OnItemClickListener() {
+			@Override
+			public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+				switch (((ImagesMultipleItem) adapter.getData().get(position)).getItemType()) {
+					case ImagesMultipleItem.ADD_IMG:
+						if (config.maxNum > 0) {
+							holdingActivity.startImageSelector(config);//去选择图片
+						} else {
+							ToastUtil.showToast(getContext(), "选择图片数量到达上限");
+						}
+						break;
+					case ImagesMultipleItem.IMG:
+						config.maxNum += 1;//图片上限加上删除数量
+						mData.remove(position);
+						adapter.notifyItemRemoved(position);
+						break;
+				}
+			}
+		});
+	}
+
+	/**
+	 * 接收选择的图片的回调
+	 *
+	 * @param paths
+	 */
+	@Override
+	public void onImage(List<String> paths) {
+		for (String s : paths) {
+			mData.add(0, new ImagesMultipleItem(ImagesMultipleItem.IMG).setUrl(s));
+		}
+		imagesSelectorAdapter.notifyItemRangeInserted(0, paths.size());
+		config.maxNum -= paths.size();//图片上限减去选中数量
+	}
+
+	/**
+	 * 初始化图片选择器
+	 */
 	private void initImageSelector() {
 		// 自定义图片加载器
 		ImageLoader loader = new ImageLoader() {
@@ -95,9 +140,9 @@ public class InnerReportsFragment extends BaseFragment implements InnerReportsAc
 
 		config = new ImgSelConfig.Builder(getContext(), loader)
 				// 是否多选, 默认true
-				.multiSelect(false)
+				.multiSelect(true)
 				// 是否记住上次选中记录, 仅当multiSelect为true的时候配置，默认为true
-				.rememberSelected(true)
+				.rememberSelected(false)
 				// “确定”按钮背景色
 				.btnBgColor(Color.BLACK)
 				// “确定”按钮文字颜色
@@ -141,11 +186,11 @@ public class InnerReportsFragment extends BaseFragment implements InnerReportsAc
 						requestNet();
 					}
 				});
-		holdingActivity.setGetImageByCodeListener(this);
+		holdingActivity.setGetImageByCodeListener(this);//选择图片的监听
 	}
 
 	/**
-	 * 请求网络
+	 * 请求网络上传数据
 	 */
 	private void requestNet() {
 		String content = etContent.getText().toString().trim();
@@ -153,7 +198,13 @@ public class InnerReportsFragment extends BaseFragment implements InnerReportsAc
 			ToastUtil.showToast(getContext(), "内容不能为空");
 			return;
 		}
-		InnerReportsModel.requestReportsSubmit(UserUtil.getLoginBean().getPropertyCompanyId(), content)
+		ArrayList<File> files = new ArrayList<>();
+		for (ImagesMultipleItem imagesMultipleItem : mData) {
+			if (imagesMultipleItem.getItemType() == imagesMultipleItem.IMG) {
+				files.add(new File(imagesMultipleItem.getUrl()));
+			}
+		}
+		InnerReportsModel.requestReportsSubmit(UserUtil.getLoginBean().getPropertyCompanyId(), content, files)
 				.compose(RxHelper.<String>handleResult())
 				.compose(this.<String>bindToLifecycle())
 				.doOnSubscribe(new Action0() {
@@ -171,6 +222,7 @@ public class InnerReportsFragment extends BaseFragment implements InnerReportsAc
 
 					@Override
 					protected void _onError(String message) {
+						ToastUtil.showToast(getContext(), message);
 						dismissProgress();
 					}
 
@@ -179,18 +231,5 @@ public class InnerReportsFragment extends BaseFragment implements InnerReportsAc
 
 					}
 				});
-	}
-
-
-	private void loadImage(String path, ImageView view) {
-		Glide.with(getContext()).load(path)
-				.centerCrop()
-				.placeholder(ContextCompat.getDrawable(getContext(), R.drawable.add_photo_icon))
-				.into(view);
-	}
-
-	@Override
-	public void onImage(String path) {
-
 	}
 }

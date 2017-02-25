@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemChildClickListener;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.tianchuang.ihome_b.EmptyViewHolder;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.activity.MainActivity;
@@ -99,29 +101,28 @@ public class PropertyListFragment extends BaseFragment {
 	}
 
 	private void initmListener(PropertyListAdapter listAdapter) {
-		listAdapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
+		rvList.addOnItemTouchListener(new OnItemChildClickListener() {
 			@Override
-			public void onItemClick(View view, int i) {
-				PropertyListItemBean propertyListItemBean = PropertyListFragment.this.listAdapter.getData().get(i);
-				LoginBean loginBean = UserUtil.propertyListItemBeanToLoginBean(propertyListItemBean);
-				UserUtil.setLoginBean(loginBean);//更新内存中的loginbean
-				PropertyListFragment.this.removeFragment();
-				ToastUtil.showToast(holdingActivity, "切换成功");
-			}
-		});
-		listAdapter.setOnRecyclerViewItemChildClickListener(new BaseQuickAdapter.OnRecyclerViewItemChildClickListener() {
-			@Override
-			public void onItemChildClick(BaseQuickAdapter baseQuickAdapter, View view, int i) {
+			public void onSimpleItemChildClick(BaseQuickAdapter adapter, View view, int position) {
 				switch (view.getId()) {
 					case R.id.fl_often_btn:
-						PropertyListItemBean propertyListItemBean = PropertyListFragment.this.listAdapter.getData().get(i);
+						PropertyListItemBean propertyListItemBean = PropertyListFragment.this.listAdapter.getData().get(position);
 						if (!propertyListItemBean.getOftenUse()) {//已经是常用的不用再请求
-							requestSetOften(propertyListItemBean, i);
+							requestSetOften(propertyListItemBean, position);
 						}
 						break;
 					default:
 				}
-
+			}
+		});
+		rvList.addOnItemTouchListener(new OnItemClickListener() {
+			@Override
+			public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+				PropertyListItemBean propertyListItemBean = PropertyListFragment.this.listAdapter.getData().get(position);
+				LoginBean loginBean = UserUtil.propertyListItemBeanToLoginBean(propertyListItemBean);
+				UserUtil.setLoginBean(loginBean);//更新内存中的loginbean
+				PropertyListFragment.this.removeFragment();
+				ToastUtil.showToast(holdingActivity, "切换成功");
 			}
 		});
 	}

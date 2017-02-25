@@ -6,8 +6,12 @@ import com.tianchuang.ihome_b.bean.recyclerview.MenuInnerReportsItemBean;
 import com.tianchuang.ihome_b.bean.recyclerview.PropertyListItemBean;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import okhttp3.MultipartBody;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -95,9 +99,12 @@ public interface ShowApi {
 	 * params
 	 * propertyCompanyId:xxx                   应物业公司ID-对应物业列表物业公司ID
 	 * content:xxx                             报告内容（文本内容）
+	 * 图片文件
 	 */
+	@Multipart
 	@POST(BizInterface.INNER_REPORTS_SUBMIT_URL)
 	Observable<HttpModle<String>> reportsSubmit(@Query("propertyCompanyId") int propertyCompanyId,
-												@Query("content") String content);
+												@Query("content") String content,
+												@Part() List<MultipartBody.Part> parts);
 
 }

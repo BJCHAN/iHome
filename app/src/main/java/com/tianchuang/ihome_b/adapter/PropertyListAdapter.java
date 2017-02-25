@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.bean.recyclerview.PropertyListItemBean;
 
@@ -15,7 +16,7 @@ import java.util.List;
  * Created by Abyss on 2017/2/9.
  * description:物业列表的适配器
  */
-public class PropertyListAdapter extends BaseQuickAdapter<PropertyListItemBean> {
+public class PropertyListAdapter extends BaseQuickAdapter<PropertyListItemBean,BaseViewHolder> {
 	private int selsctedPostion = -1;
 
 	public int getSelsctedPostion() {
@@ -32,7 +33,7 @@ public class PropertyListAdapter extends BaseQuickAdapter<PropertyListItemBean> 
 
 	@Override
 	protected void convert(BaseViewHolder helper, PropertyListItemBean item) {
-		helper.setOnClickListener(R.id.fl_often_btn, new OnItemChildClickListener());
+		helper.addOnClickListener(R.id.fl_often_btn);
 		helper.setText(R.id.tv_company_name, item.getPropertyCompanyName())
 				.setText(R.id.tv_department_name, item.getDepartmentName())
 				.setText(R.id.tv_position_name, item.getPositionName());

@@ -11,7 +11,7 @@ import java.util.List;
  * Created by Abyss on 2017/2/9.
  * description:主页菜单的适配器
  */
-public class DrawMenuAdapter extends BaseQuickAdapter<DrawMenuItem> {
+public class DrawMenuAdapter extends BaseQuickAdapter<DrawMenuItem,BaseViewHolder> {
     public DrawMenuAdapter(int layoutResId, List<DrawMenuItem> data) {
         super(layoutResId, data);
     }
