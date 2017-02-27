@@ -89,6 +89,7 @@ public class InnerReportsFragment extends BaseFragment implements InnerReportsAc
 
 	private void initAdapter() {
 		mData = new ArrayList<>();
+		mData.add(new ImagesMultipleItem(ImagesMultipleItem.ADD_IMG));//添加图片按钮
 		imagesSelectorAdapter = new ImagesSelectorAdapter(mData);
 		rvList.setAdapter(imagesSelectorAdapter);
 		rvList.addOnItemTouchListener(new OnItemClickListener() {
@@ -120,9 +121,9 @@ public class InnerReportsFragment extends BaseFragment implements InnerReportsAc
 	@Override
 	public void onImage(List<String> paths) {
 		for (String s : paths) {
-			mData.add(0, new ImagesMultipleItem(ImagesMultipleItem.IMG).setUrl(s));
+			mData.add(mData.size() - 1, new ImagesMultipleItem(ImagesMultipleItem.IMG).setUrl(s));
 		}
-		imagesSelectorAdapter.notifyItemRangeInserted(0, paths.size());
+		imagesSelectorAdapter.notifyItemRangeInserted(mData.size()-1, paths.size());
 		config.maxNum -= paths.size();//图片上限减去选中数量
 	}
 

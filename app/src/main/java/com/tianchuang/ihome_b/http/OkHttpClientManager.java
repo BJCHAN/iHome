@@ -136,7 +136,7 @@ public class OkHttpClientManager {
 		OkHttpClient.Builder builder = new OkHttpClient.Builder();
 		if (Constants.DEBUG_MODE) {
 			HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-			logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+			logging.setLevel(HttpLoggingInterceptor.Level.HEADERS);
 			builder.addNetworkInterceptor(logging);
 		}
 		OkHttpClient Client = builder.cache(cache)

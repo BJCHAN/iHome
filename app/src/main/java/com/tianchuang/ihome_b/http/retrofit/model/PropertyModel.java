@@ -27,11 +27,5 @@ public class PropertyModel {
 	public static Observable<HttpModle<String>> requestSetOften(int id) {
 		return RetrofitService.createShowApi().setOften(id);
 	}
-	/**
-	 * 全部取消
-	 */
-	public static Observable<HttpModle<String>> requestAllCancel() {
-		return RetrofitService.createShowApi().allCancel();
-	}
 
 }

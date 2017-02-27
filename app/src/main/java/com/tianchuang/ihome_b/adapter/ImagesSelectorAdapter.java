@@ -19,7 +19,7 @@ public class ImagesSelectorAdapter extends BaseMultiItemQuickAdapter<ImagesMulti
 
 	public ImagesSelectorAdapter(List<ImagesMultipleItem> data) {
 		super(data);
-		data.add(new ImagesMultipleItem(ImagesMultipleItem.ADD_IMG));//添加图片按钮
+
 		addItemType(ImagesMultipleItem.ADD_IMG, R.layout.images_add_item_holder);
 		addItemType(ImagesMultipleItem.IMG, R.layout.images_normal_item_holder);
 	}
