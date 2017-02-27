@@ -1,5 +1,6 @@
 package com.tianchuang.ihome_b.database;
 
+import com.tianchuang.ihome_b.TianChuangApplication;
 import com.tianchuang.ihome_b.bean.LoginBean;
 
 import org.litepal.crud.DataSupport;
@@ -26,6 +27,7 @@ public class UserInfoDbHelper {
 		userInfo.setPositionId(bean.getPositionId());
 		userInfo.setDepartmentId(bean.getDepartmentId());
 		userInfo.setPositionName(bean.getPositionName());
+		TianChuangApplication.application.setUserInfo(userInfo);
 		return userInfo.saveIfNotExist("userid = ?", String.valueOf(userid));
 	}
 
@@ -65,7 +67,7 @@ public class UserInfoDbHelper {
 	/**
 	 * 查到指定用户信息
 	 */
-	public static UserInfo findUserInfo(int userid) {
-		return DataSupport.where("userid = ?", String.valueOf(userid)).find(UserInfo.class).get(0);
-	}
+//	public static UserInfo findUserInfo(int userid) {
+//		return DataSupport.where("userid = ?", String.valueOf(userid)).find(UserInfo.class).get(0);
+//	}
 }

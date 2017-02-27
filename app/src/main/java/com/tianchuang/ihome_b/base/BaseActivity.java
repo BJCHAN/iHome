@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.tianchuang.ihome_b.R;
+import com.tianchuang.ihome_b.TianChuangApplication;
 import com.tianchuang.ihome_b.permission.MPermission;
 import com.tianchuang.ihome_b.utils.FragmentUtils;
 import com.tianchuang.ihome_b.utils.MaterialDialogsUtil;
@@ -38,6 +39,7 @@ public abstract class BaseActivity extends RxFragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		materialDialogsUtil = new MaterialDialogsUtil(this);
+		TianChuangApplication.application.addActivity(this);
 
 	}
 
@@ -149,4 +151,9 @@ public abstract class BaseActivity extends RxFragmentActivity {
 			progressDialog.dismiss();
 	}
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		TianChuangApplication.application.removeActivity(this);
+	}
 }
