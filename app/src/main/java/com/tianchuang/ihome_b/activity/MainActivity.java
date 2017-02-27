@@ -290,10 +290,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        int drawerLockMode = mDrawerLayout.getDrawerLockMode(GravityCompat.START);
-        if (mDrawerLayout.isDrawerVisible(GravityCompat.START) && (drawerLockMode != DrawerLayout.LOCK_MODE_LOCKED_OPEN)) {
-            mDrawerLayout.closeDrawer(GravityCompat.START);
-        }
     }
 
     @Override
