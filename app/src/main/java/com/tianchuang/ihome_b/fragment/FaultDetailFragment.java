@@ -16,7 +16,7 @@ import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.adapter.FaultDetailAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.event.TransferLayoutEvent;
-import com.tianchuang.ihome_b.bean.recyclerview.RobHallItem;
+import com.tianchuang.ihome_b.bean.recyclerview.RobHallListItem;
 import com.tianchuang.ihome_b.bean.recyclerview.RobHallItemDecoration;
 import com.tianchuang.ihome_b.utils.StringUtils;
 import com.tianchuang.ihome_b.view.OneButtonDialogFragment;
@@ -69,7 +69,7 @@ public class FaultDetailFragment extends BaseFragment {
 		return R.layout.fragment_fault_detail;
 	}
 
-	public static FaultDetailFragment newInstance(RobHallItem item) {
+	public static FaultDetailFragment newInstance(RobHallListItem item) {
 		Bundle bundle = new Bundle();
 		bundle.putSerializable("item", item);
 		FaultDetailFragment faultDetailFragment = new FaultDetailFragment();
@@ -79,10 +79,10 @@ public class FaultDetailFragment extends BaseFragment {
 
 	@Override
 	protected void initView(View view, Bundle savedInstanceState) {
-		RobHallItem item = (RobHallItem) getArguments().getSerializable("item");
+		RobHallListItem item = (RobHallListItem) getArguments().getSerializable("item");
 		if (item != null) {
-			tvType.setText(StringUtils.getNotNull(item.getType()));
-			tvDate.setText(StringUtils.getNotNull(item.getDate()));
+			tvType.setText(StringUtils.getNotNull(item.getRepairsTypeName()));
+			tvDate.setText(StringUtils.getNotNull(item.getCreatedDate()+""));
 			tvContent.setText(StringUtils.getNotNull(item.getContent()));
 		}
 		rvList.setLayoutManager(new GridLayoutManager(getHoldingActivity(), 3));

@@ -33,4 +33,8 @@ public interface BizInterface {
 	String INNER_REPORTS_LIST_URL = "internalreport/list.html";
 	//内部报事提交(主页)
 	String INNER_REPORTS_SUBMIT_URL = "internalreport/add.html";
+	//抢单大厅
+	String ROB_HALL_LIST_URL = "repairs/hall.html";
+	//报修故障详情
+	String ROB_HALL_DETAIL_URL ="repairs/detail.html";
 }

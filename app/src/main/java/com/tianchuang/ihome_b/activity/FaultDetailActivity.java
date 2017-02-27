@@ -8,7 +8,7 @@ import com.hitomi.tilibrary.TransferImage;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.base.ToolBarActivity;
 import com.tianchuang.ihome_b.bean.event.TransferLayoutEvent;
-import com.tianchuang.ihome_b.bean.recyclerview.RobHallItem;
+import com.tianchuang.ihome_b.bean.recyclerview.RobHallListItem;
 import com.tianchuang.ihome_b.fragment.FaultDetailFragment;
 
 import org.greenrobot.eventbus.EventBus;
@@ -21,7 +21,7 @@ import org.greenrobot.eventbus.ThreadMode;
  */
 public class FaultDetailActivity extends ToolBarActivity {
 
-	private RobHallItem item;
+	private RobHallListItem item;
 	private TransferImage mTransferImage;
 
 	@Override
@@ -31,7 +31,7 @@ public class FaultDetailActivity extends ToolBarActivity {
 
 	@Override
 	protected void handleIntent(Intent intent) {
-		item = ((RobHallItem) intent.getExtras().getSerializable("item"));
+		item = ((RobHallListItem) intent.getExtras().getSerializable("item"));
 		EventBus.getDefault().register(this);
 	}
 

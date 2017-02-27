@@ -1,18 +1,12 @@
 package com.tianchuang.ihome_b.adapter;
 
-import android.support.annotation.NonNull;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.tianchuang.ihome_b.R;
-import com.tianchuang.ihome_b.bean.recyclerview.FaultImageItem;
-import com.tianchuang.ihome_b.bean.recyclerview.RobHallItem;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

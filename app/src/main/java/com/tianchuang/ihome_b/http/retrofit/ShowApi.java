@@ -4,6 +4,8 @@ package com.tianchuang.ihome_b.http.retrofit;
 import com.tianchuang.ihome_b.bean.LoginBean;
 import com.tianchuang.ihome_b.bean.recyclerview.MenuInnerReportsItemBean;
 import com.tianchuang.ihome_b.bean.recyclerview.PropertyListItemBean;
+import com.tianchuang.ihome_b.bean.recyclerview.RobHallListItem;
+import com.tianchuang.ihome_b.bean.recyclerview.RobHallRepairDetailItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -106,5 +108,23 @@ public interface ShowApi {
 	Observable<HttpModle<String>> reportsSubmit(@Query("propertyCompanyId") int propertyCompanyId,
 												@Query("content") String content,
 												@Part() List<MultipartBody.Part> parts);
+
+	/***
+	 * 抢单大厅列表
+	 * params
+	 * propertyCompanyId:xxx       应物业公司ID-对应物业列表物业公司ID
+	 * maxId:xxx
+	 */
+	@POST(BizInterface.ROB_HALL_LIST_URL)
+	Observable<HttpModle<ArrayList<RobHallListItem>>> robHallList(@Query("propertyCompanyId") int propertyCompanyId,
+													   @Query("maxId") int maxId);
+
+	/***
+	 * 报修故障详情
+	 * params
+	 * repairsId:xxx               报修ID-对应报修抢单列表ID
+	 */
+	@POST(BizInterface.ROB_HALL_DETAIL_URL)
+	Observable<HttpModle<ArrayList<RobHallRepairDetailItem>>> robHallRepairDetail(@Query("repairsId") int repairsId);
 
 }
