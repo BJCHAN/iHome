@@ -26,4 +26,5 @@
     <string name="rob_hall_empty_tip">当前还没有报修订单</string>
     <string name="property_often_text">设为\n常用</string>
     <string name="property_no_join">您未加入任何物业公司</string>
+    <string name="menu_inner_list_empty">还没有未处理完成的内部报事</string>
 </resources>

@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.tianchuang.ihome_b.EmptyViewHolder;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.adapter.MenuInnerReportsAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
@@ -31,7 +32,6 @@ import rx.functions.Action0;
 public class MenuInnerReportsFragment extends BaseFragment {
 	@BindView(R.id.rv_list)
 	RecyclerView rvList;
-	private MenuInnerReportsAdapter adapter;
 
 	public static MenuInnerReportsFragment newInstance() {
 		return new MenuInnerReportsFragment();
@@ -54,7 +54,7 @@ public class MenuInnerReportsFragment extends BaseFragment {
 
 					@Override
 					protected void _onNext(ArrayList<MenuInnerReportsItemBean> arrayList) {
-						adapter = new MenuInnerReportsAdapter(R.layout.inner_reports_item_holder
+						MenuInnerReportsAdapter adapter = new MenuInnerReportsAdapter(R.layout.inner_reports_item_holder
 								, arrayList);
 						initAdapter(adapter);
 						rvList.setAdapter(adapter);
@@ -75,6 +75,9 @@ public class MenuInnerReportsFragment extends BaseFragment {
 	}
 
 	private void initAdapter(final MenuInnerReportsAdapter adapter) {
+		EmptyViewHolder emptyViewHolder = new EmptyViewHolder();//添加空页面
+		emptyViewHolder.bindData(getString(R.string.menu_inner_list_empty));
+		adapter.setEmptyView(emptyViewHolder.getholderView());
 		rvList.addOnItemTouchListener(new OnItemClickListener() {
 			@Override
 			public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {

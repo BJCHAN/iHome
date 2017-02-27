@@ -4,10 +4,10 @@ import java.io.Serializable;
 
 /**
  * Created by Abyss on 2017/2/9.
- * description:
+ * description：菜单内部报事详情的bean
  */
 
-public class MenuInnerReportsItemBean implements Serializable{
+public class MenuInnerReportsItemBean implements Serializable {
 
 	/**
 	 * id : 1

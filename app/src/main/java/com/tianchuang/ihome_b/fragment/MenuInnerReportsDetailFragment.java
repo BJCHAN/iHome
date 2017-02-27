@@ -1,5 +1,6 @@
 package com.tianchuang.ihome_b.fragment;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -7,13 +8,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.recyclerview.MenuInnerReportsItemBean;
+import com.tianchuang.ihome_b.utils.ImageLoader;
 import com.tianchuang.ihome_b.utils.StringUtils;
 
 import butterknife.BindView;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Abyss on 2017/2/22.
@@ -65,14 +69,21 @@ public class MenuInnerReportsDetailFragment extends BaseFragment {
 		loadPhoto(photo3Url, ivAdd3);
 
 	}
+
 	//加载图片
-	private void loadPhoto(String photoUrl, ImageView ivAdd1) {
+	private void loadPhoto(final String photoUrl, final ImageView ivAdd) {
 		if (!TextUtils.isEmpty(photoUrl)) {
 			ivAdd1.setVisibility(View.VISIBLE);
-			Glide.with(getContext())
-					.load(photoUrl)
-					.placeholder(R.mipmap.default_logo)
-					.into(ivAdd1);
+			ImageLoader.loadPhoto(photoUrl)
+					.subscribeOn(Schedulers.io())
+					.compose(this.<Bitmap>bindToLifecycle())
+					.observeOn(AndroidSchedulers.mainThread())
+					.subscribe(new Action1<Bitmap>() {
+						@Override
+						public void call(Bitmap bitmap) {
+							ivAdd.setImageBitmap(bitmap);
+						}
+					});
 		}
 	}
 
