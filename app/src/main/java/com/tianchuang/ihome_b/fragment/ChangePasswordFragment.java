@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.activity.ChangePasswordActivity;
-import com.tianchuang.ihome_b.base.BaseActivity;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.utils.FragmentUtils;
 

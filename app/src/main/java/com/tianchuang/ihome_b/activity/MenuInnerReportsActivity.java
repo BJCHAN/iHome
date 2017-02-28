@@ -16,7 +16,7 @@ public class MenuInnerReportsActivity extends ToolBarActivity {
 
 	@Override
 	protected void initToolBar(Toolbar toolbar) {
-		initNormalToolbar(toolbar);
+		initNormalToolbar(toolbar,true);
 		setToolbarTitle("内部报事");
 	}
 }

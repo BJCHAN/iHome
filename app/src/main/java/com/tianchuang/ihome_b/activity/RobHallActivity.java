@@ -19,8 +19,7 @@ public class RobHallActivity extends ToolBarActivity {
 
 	@Override
 	protected void initToolBar(Toolbar toolbar) {
-		setFinishWithAnim(true);
-		initNormalToolbar(toolbar);
+		initNormalToolbar(toolbar,true);
 		setToolbarTitle("抢单大厅");
 	}
 }

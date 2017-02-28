@@ -31,11 +31,9 @@
                 android:text="@string/logo_text"
                 android:textColor="@color/TC_1"
                 android:textSize="15sp"
-            />
+                />
 
             <EditText
-                android:drawablePadding="10dp"
-                android:drawableLeft="@mipmap/phone_icon"
                 android:id="@+id/et_phone_num"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -43,6 +41,8 @@
                 android:layout_marginRight="47dp"
                 android:layout_marginTop="40dp"
                 android:background="@drawable/bg_edittext_normal_shape"
+                android:drawableLeft="@mipmap/phone_icon"
+                android:drawablePadding="10dp"
                 android:hint="手机号"
                 android:paddingBottom="10dp"
                 android:paddingLeft="10dp"
@@ -52,9 +52,8 @@
                 android:textColor="@color/black"
                 android:textColorHint="@color/BC_1"
                 android:textSize="15sp"/>
+
             <EditText
-                android:drawablePadding="10dp"
-                android:drawableLeft="@mipmap/lock_icon"
                 android:id="@+id/et_passwrod"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -62,6 +61,8 @@
                 android:layout_marginRight="47dp"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/bg_edittext_normal_shape"
+                android:drawableLeft="@mipmap/lock_icon"
+                android:drawablePadding="10dp"
                 android:hint="密码"
                 android:inputType="textPassword"
                 android:paddingBottom="10dp"
@@ -71,13 +72,15 @@
                 android:textColor="@color/black"
                 android:textColorHint="@color/BC_1"
                 android:textSize="15sp"/>
-            <RelativeLayout android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="47dp"
-                            android:layout_marginRight="47dp"
-                            android:layout_marginTop="12dp"
 
-            >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="47dp"
+                android:layout_marginRight="47dp"
+                android:layout_marginTop="12dp"
+
+                >
 
                 <TextView
                     android:id="@+id/tv_red_tip"
@@ -86,10 +89,11 @@
                     android:layout_gravity="right"
                     android:gravity="center"
                     android:text="请输入正确的11位手机号"
-                    android:visibility="invisible"
                     android:textColor="@color/TC_3"
                     android:textSize="13sp"
-                />
+                    android:visibility="invisible"
+                    />
+
                 <TextView
                     android:id="@+id/tv_forget_pwd"
                     android:layout_width="wrap_content"
@@ -99,7 +103,7 @@
                     android:text="忘记密码？"
                     android:textColor="@color/TC_2"
                     android:textSize="13sp"
-                />
+                    />
             </RelativeLayout>
 
             <Button
@@ -132,7 +136,8 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:paddingTop="10dp"
-        android:text="@string/register_account" android:textColor="@color/app_primary_color"
+        android:text="@string/register_account"
+        android:textColor="@color/app_primary_color"
         android:textSize="15sp"/>
 
 </RelativeLayout>

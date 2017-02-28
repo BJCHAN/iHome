@@ -37,8 +37,7 @@ public class FaultDetailActivity extends ToolBarActivity {
 
 	@Override
 	protected void initToolBar(Toolbar toolbar) {
-		setFinishWithAnim(true);
-		initNormalToolbar(toolbar);
+		initNormalToolbar(toolbar,true);
 		setToolbarTitle("故障详情");
 	}
 
