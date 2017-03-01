@@ -26,6 +26,7 @@ import com.tianchuang.ihome_b.bean.recyclerview.ImagesSelectorItemDecoration;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
 import com.tianchuang.ihome_b.http.retrofit.model.InnerReportsModel;
+import com.tianchuang.ihome_b.utils.FileUtils;
 import com.tianchuang.ihome_b.utils.FragmentUtils;
 import com.tianchuang.ihome_b.utils.ImagesSelectorUtils;
 import com.tianchuang.ihome_b.utils.StringUtils;
@@ -220,12 +221,14 @@ public class InnerReportsFragment extends BaseFragment implements InnerReportsAc
 					protected void _onNext(String s) {
 						FragmentUtils.popAddFragment(getFragmentManager(), holdingActivity.getFragmentContainerId(), InnerReportsSuccessFragment.newInstance(), true);
 						dismissProgress();
+						FileUtils.deleteImageFile();
 					}
 
 					@Override
 					protected void _onError(String message) {
 						ToastUtil.showToast(getContext(), message);
 						dismissProgress();
+						FileUtils.deleteImageFile();//删除压缩的图片
 					}
 
 					@Override

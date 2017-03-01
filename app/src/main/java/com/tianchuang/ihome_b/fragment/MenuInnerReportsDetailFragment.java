@@ -73,7 +73,7 @@ public class MenuInnerReportsDetailFragment extends BaseFragment {
 	//加载图片
 	private void loadPhoto(final String photoUrl, final ImageView ivAdd) {
 		if (!TextUtils.isEmpty(photoUrl)) {
-			ivAdd1.setVisibility(View.VISIBLE);
+			ivAdd.setVisibility(View.VISIBLE);
 			ImageLoader.loadPhoto(photoUrl)
 					.subscribeOn(Schedulers.io())
 					.compose(this.<Bitmap>bindToLifecycle())

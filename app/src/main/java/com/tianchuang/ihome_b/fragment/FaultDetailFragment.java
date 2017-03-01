@@ -53,15 +53,6 @@ public class FaultDetailFragment extends BaseFragment {
 		imageStrList.add("http://static.fdc.com.cn/avatar/sns/1486263782969.png");
 		imageStrList.add("http://static.fdc.com.cn/avatar/sns/1486263820142.png");
 		imageStrList.add("http://static.fdc.com.cn/avatar/sns/1485136117467.jpg");
-//		imageStrList.add("http://static.fdc.com.cn/avatar/sns/1485055822651.png");
-//		imageStrList.add("http://static.fdc.com.cn/avatar/sns/1485053874297.png");
-//		imageStrList.add("http://static.fdc.com.cn/avatar/sns/1486194909983.png");
-//		imageStrList.add("http://static.fdc.com.cn/avatar/sns/1486194996586.png");
-//		imageStrList.add("http://static.fdc.com.cn/avatar/sns/1486195059137.png");
-//		imageStrList.add("http://static.fdc.com.cn/avatar/sns/1486173497249.png");
-//		imageStrList.add("http://static.fdc.com.cn/avatar/sns/1486173526402.png");
-//		imageStrList.add("http://static.fdc.com.cn/avatar/sns/1486173639603.png");
-//		imageStrList.add("http://static.fdc.com.cn/avatar/sns/1486172566083.png");
 	}
 
 	@Override
@@ -79,12 +70,7 @@ public class FaultDetailFragment extends BaseFragment {
 
 	@Override
 	protected void initView(View view, Bundle savedInstanceState) {
-		RobHallListItem item = (RobHallListItem) getArguments().getSerializable("item");
-		if (item != null) {
-			tvType.setText(StringUtils.getNotNull(item.getRepairsTypeName()));
-			tvDate.setText(StringUtils.getNotNull(item.getCreatedDate()+""));
-			tvContent.setText(StringUtils.getNotNull(item.getContent()));
-		}
+		initMyData();
 		rvList.setLayoutManager(new GridLayoutManager(getHoldingActivity(), 3));
 		rvList.addItemDecoration(new RobHallItemDecoration(10));
 		FaultDetailAdapter adapter = new FaultDetailAdapter(R.layout.fault_image_item_holder, imageStrList);
@@ -103,6 +89,15 @@ public class FaultDetailFragment extends BaseFragment {
 			}
 		});
 
+	}
+
+	private void initMyData() {
+		RobHallListItem item = (RobHallListItem) getArguments().getSerializable("item");
+		if (item != null) {
+			tvType.setText(StringUtils.getNotNull(item.getRepairsTypeName()));
+			tvDate.setText(StringUtils.getNotNull(item.getCreatedDate()+""));
+			tvContent.setText(StringUtils.getNotNull(item.getContent()));
+		}
 	}
 
 	/**

@@ -17,15 +17,27 @@ import java.util.Date;
  */
 
 public class PhotoUtil {
+
+	private static String pathname;
+
+	public static String getPathname() {
+		return pathname;
+	}
+
 	/**
 	 * 创建图片压缩的临时文件
-	 * */
-	public static Uri createImageFile(){
+	 */
+	public static Uri createImageFile() {
+
 		// Create an image file name
 		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 		String imageFileName = "JPEG_" + timeStamp + "_";
-		File storageDir = Environment.getExternalStoragePublicDirectory(
-				Environment.DIRECTORY_PICTURES);
+		pathname = Environment.getExternalStorageDirectory().getAbsolutePath() + "/tianchuang/image/";
+		File storageDir = new File(pathname);
+		if (!storageDir.exists()) {
+			storageDir.mkdirs();
+		}
+
 		File image = null;
 		try {
 			image = File.createTempFile(
@@ -40,7 +52,8 @@ public class PhotoUtil {
 		// Save a file: path for use with ACTION_VIEW intents
 		return Uri.fromFile(image);
 	}
-	public static void copyFileUsingFileChannels(File source, File dest){
+
+	public static void copyFileUsingFileChannels(File source, File dest) {
 		FileChannel inputChannel = null;
 		FileChannel outputChannel = null;
 		try {

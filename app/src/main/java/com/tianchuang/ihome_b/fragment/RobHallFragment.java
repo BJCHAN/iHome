@@ -8,7 +8,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -18,13 +17,18 @@ import com.tianchuang.ihome_b.activity.FaultDetailActivity;
 import com.tianchuang.ihome_b.activity.RobHallActivity;
 import com.tianchuang.ihome_b.adapter.RobHallAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
+import com.tianchuang.ihome_b.bean.PullToLoadMoreListener;
+import com.tianchuang.ihome_b.bean.recyclerview.EmptyLoadMore;
 import com.tianchuang.ihome_b.bean.recyclerview.RobHallItemDecoration;
+import com.tianchuang.ihome_b.bean.recyclerview.RobHallListBean;
 import com.tianchuang.ihome_b.bean.recyclerview.RobHallListItem;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
 import com.tianchuang.ihome_b.http.retrofit.model.RobHallModel;
+import com.tianchuang.ihome_b.utils.LogUtils;
 import com.tianchuang.ihome_b.utils.ToastUtil;
 import com.tianchuang.ihome_b.utils.UserUtil;
+import com.tianchuang.ihome_b.utils.ViewHelper;
 
 import java.util.ArrayList;
 
@@ -37,7 +41,7 @@ import rx.functions.Action0;
  * description:抢单大厅fragment
  */
 
-public class RobHallFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
+public class RobHallFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, PullToLoadMoreListener.OnLoadMoreListener {
 
 	@BindView(R.id.rv_list)
 	RecyclerView mRecyclerView;
@@ -46,14 +50,8 @@ public class RobHallFragment extends BaseFragment implements SwipeRefreshLayout.
 	private RobHallActivity holdingActivity;
 	private RobHallAdapter robHallAdapter;
 	private ArrayList<RobHallListItem> mData;
+	private int pageSize;
 
-	private static final int TOTAL_COUNTER = 18;
-
-	private static final int PAGE_SIZE = 6;
-
-	private int mCurrentCounter = 0;
-
-	private boolean mLoadMoreEndGone = false;
 
 	@Override
 	public void onStart() {
@@ -77,6 +75,7 @@ public class RobHallFragment extends BaseFragment implements SwipeRefreshLayout.
 		mRecyclerView.addItemDecoration(new RobHallItemDecoration(20));
 		mSwipeRefreshLayout.setOnRefreshListener(this);
 		mSwipeRefreshLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
+		mRecyclerView.addOnScrollListener(new PullToLoadMoreListener(mSwipeRefreshLayout, this));
 		initAdapter();
 		//条目的点击事件
 		mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
@@ -101,19 +100,22 @@ public class RobHallFragment extends BaseFragment implements SwipeRefreshLayout.
 						showProgress();
 					}
 				})
-				.subscribe(new RxSubscribe<ArrayList<RobHallListItem>>() {
+				.compose(this.<RobHallListBean>bindToLifecycle())
+				.subscribe(new RxSubscribe<RobHallListBean>() {
 
 					@Override
-					protected void _onNext(ArrayList<RobHallListItem> robHallListItems) {
-						mData = robHallListItems;
+					protected void _onNext(RobHallListBean bean) {
+						pageSize = bean.getPageSize();
+						mData = bean.getListVo();
 						robHallAdapter = new RobHallAdapter(R.layout.rob_hall_item_holder, mData);
 						//设置空页面
-						EmptyViewHolder emptyViewHolder = new EmptyViewHolder();
-						emptyViewHolder.bindData(getString(R.string.rob_hall_empty_tip));
-						robHallAdapter.setEmptyView(emptyViewHolder.getholderView());
-						robHallAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
-						robHallAdapter.setOnLoadMoreListener(RobHallFragment.this);
+						robHallAdapter.setEmptyView(ViewHelper.getEmptyView(getString(R.string.rob_hall_empty_tip)));
+						robHallAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
+						robHallAdapter.setOnLoadMoreListener(new EmptyLoadMore());
 						mRecyclerView.setAdapter(robHallAdapter);
+						if (mData.size() < pageSize) {//加载的view Gone掉
+							robHallAdapter.loadMoreEnd(true);
+						}
 						dismissProgress();
 					}
 
@@ -131,84 +133,87 @@ public class RobHallFragment extends BaseFragment implements SwipeRefreshLayout.
 
 	}
 
+	private boolean isLoadMoreLoading = false;//是否正在加载更多
+
+	/**
+	 * 上拉加载
+	 */
+	@Override
+	public void requestLoadMore() {
+		LogUtils.d(RobHallFragment.class.getName(), "aaa");
+		if (isLoadMoreLoading) {
+			return;
+		}
+		mSwipeRefreshLayout.setEnabled(false);
+		isLoadMoreLoading = true;
+		getHallListObservable(robHallAdapter.getData().get(robHallAdapter.getData().size() - 1).getId())
+				.compose(this.<RobHallListBean>bindToLifecycle())
+				.subscribe(new RxSubscribe<RobHallListBean>() {
+					@Override
+					protected void _onNext(RobHallListBean bean) {
+						robHallAdapter.addData(bean.getListVo());
+						if (bean.getListVo().size() < pageSize) {//没有更多数据
+							robHallAdapter.loadMoreEnd(false);
+							isLoadMoreLoading = true;
+						} else {
+							robHallAdapter.loadMoreComplete();//加载完成
+							isLoadMoreLoading = false;
+						}
+						mSwipeRefreshLayout.setEnabled(true);
+					}
+
+					@Override
+					protected void _onError(String message) {
+						isLoadMoreLoading = false;
+						robHallAdapter.loadMoreFail();
+						ToastUtil.showToast(getContext(), message);
+					}
+
+					@Override
+					public void onCompleted() {
+
+					}
+				});
+	}
 
 	/**
 	 * 下拉刷新
 	 */
 	@Override
 	public void onRefresh() {
-		robHallAdapter.setEnableLoadMore(false);
-		getHallListObservable(0).subscribe(new RxSubscribe<ArrayList<RobHallListItem>>() {
-			@Override
-			protected void _onNext(ArrayList<RobHallListItem> robHallListItems) {
-				mData.clear();
-				mData.addAll(robHallListItems);
-				robHallAdapter.setNewData(mData);
-				mSwipeRefreshLayout.setRefreshing(false);
-				robHallAdapter.setEnableLoadMore(true);
-			}
+		getHallListObservable(0)
+				.compose(this.<RobHallListBean>bindToLifecycle())
+				.subscribe(new RxSubscribe<RobHallListBean>() {
+					@Override
+					protected void _onNext(RobHallListBean bean) {
+						isLoadMoreLoading = false;
+						mData.clear();
+						if (bean.getListVo().size() < pageSize) {//加载的view Gone掉
+							robHallAdapter.loadMoreEnd(true);
+						}
+						mData.addAll(bean.getListVo());
+						robHallAdapter.setNewData(mData);
+						mSwipeRefreshLayout.setRefreshing(false);//刷新完成
+					}
 
-			@Override
-			protected void _onError(String message) {
-				ToastUtil.showToast(getContext(), message);
-			}
+					@Override
+					protected void _onError(String message) {
+						mSwipeRefreshLayout.setRefreshing(false);
+						ToastUtil.showToast(getContext(), message);
+					}
 
-			@Override
-			public void onCompleted() {
+					@Override
+					public void onCompleted() {
 
-			}
-		});
+					}
+				});
 	}
 
-	/**
-	 * 上拉加载
-	 */
-	@Override
-	public void onLoadMoreRequested() {
-//		mSwipeRefreshLayout.setEnabled(false);
-//		getHallListObservable(mCurrentCounter)
-//				.subscribe(new RxSubscribe<ArrayList<RobHallListItem>>() {
-//					@Override
-//					protected void _onNext(ArrayList<RobHallListItem> robHallListItems) {
-//						if (robHallAdapter.getData().size() < PAGE_SIZE) {
-//							robHallAdapter.loadMoreEnd(true);
-//						} else {
-//							if (mCurrentCounter >= TOTAL_COUNTER) {
-////                    pullToRefreshAdapter.loadMoreEnd();//default visible
-//								robHallAdapter.loadMoreEnd(mLoadMoreEndGone);//true is gone,false is visible
-//							} else {
-//								if (isErr) {
-//									robHallAdapter.addData(DataServer.getSampleData(PAGE_SIZE));
-//									mCurrentCounter = robHallAdapter.getData().size();
-//									robHallAdapter.loadMoreComplete();
-//								} else {
-//									isErr = true;
-//									Toast.makeText(PullToRefreshUseActivity.this, R.string.network_err, Toast.LENGTH_LONG).show();
-//									robHallAdapter.loadMoreFail();
-//
-//								}
-//							}
-//							mSwipeRefreshLayout.setEnabled(true);
-//						}
-//
-//					}
-//
-//					@Override
-//					protected void _onError(String message) {
-//
-//					}
-//
-//					@Override
-//					public void onCompleted() {
-//
-//					}
-//				});
-
-	}
-
+	//请求数据
 	@NonNull
-	private Observable<ArrayList<RobHallListItem>> getHallListObservable(int maxid) {
+	private Observable<RobHallListBean> getHallListObservable(int maxid) {
 		return RobHallModel.requestRobHallList(UserUtil.getLoginBean().getPropertyCompanyId(), maxid)
-				.compose(RxHelper.<ArrayList<RobHallListItem>>handleResult());
+				.compose(RxHelper.<RobHallListBean>handleResult());
 	}
+
 }

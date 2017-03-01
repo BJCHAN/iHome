@@ -2,8 +2,10 @@ package com.tianchuang.ihome_b.http.retrofit;
 
 
 import com.tianchuang.ihome_b.bean.LoginBean;
+import com.tianchuang.ihome_b.bean.recyclerview.MenuInnerListBean;
 import com.tianchuang.ihome_b.bean.recyclerview.MenuInnerReportsItemBean;
 import com.tianchuang.ihome_b.bean.recyclerview.PropertyListItemBean;
+import com.tianchuang.ihome_b.bean.recyclerview.RobHallListBean;
 import com.tianchuang.ihome_b.bean.recyclerview.RobHallListItem;
 import com.tianchuang.ihome_b.bean.recyclerview.RobHallRepairDetailItem;
 
@@ -94,7 +96,8 @@ public interface ShowApi {
 	 * propertyCompanyId:xxx                   应物业公司ID-对应物业列表物业公司ID
 	 */
 	@POST(BizInterface.INNER_REPORTS_LIST_URL)
-	Observable<HttpModle<ArrayList<MenuInnerReportsItemBean>>> reportsList(@Query("propertyCompanyId") int propertyCompanyId);
+	Observable<HttpModle<MenuInnerListBean>> reportsList(@Query("propertyCompanyId") int propertyCompanyId,
+														 @Query("maxId") int maxId);
 
 	/***
 	 * 内部报事提交
@@ -116,8 +119,8 @@ public interface ShowApi {
 	 * maxId:xxx
 	 */
 	@POST(BizInterface.ROB_HALL_LIST_URL)
-	Observable<HttpModle<ArrayList<RobHallListItem>>> robHallList(@Query("propertyCompanyId") int propertyCompanyId,
-													   @Query("maxId") int maxId);
+	Observable<HttpModle<RobHallListBean>>  robHallList(@Query("propertyCompanyId") int propertyCompanyId,
+														@Query("maxId") int maxId);
 
 	/***
 	 * 报修故障详情
