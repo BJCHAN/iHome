@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/H0"
+    android:layout_marginRight="@dimen/H0"
+    android:layout_marginTop="@dimen/H0"
+    app:cardBackgroundColor="@color/white"
+    app:cardElevation="1.5dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/H1">
+
+        <!--投诉建议姓名-->
+        <TextView
+            android:id="@+id/tv_complain_suggest_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="张三三/4-2-902"
+            android:textColor="@color/TC_2"
+            android:textSize="13sp"/>
+
+        <!--投诉建议时间-->
+        <TextView
+            android:id="@+id/tv_complain_suggest_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="2016/12/13  08:30"
+            android:textColor="@color/TC_2"
+            android:textSize="13sp"/>
+
+        <!--投诉建议内容-->
+        <TextView
+            android:id="@+id/tv_complain_suggest_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_complain_suggest_name"
+            android:layout_marginTop="@dimen/H0"
+            android:text="为什么老是停水啊！为什么老是停水啊！为什么老是停水啊！为什么老是停水啊！为什么老是停水啊！为什么老是！"
+            android:textColor="@color/TC_1"
+            android:textSize="13sp"/>
+
+        <!--投诉建议回复-->
+        <com.daasuu.bl.BubbleLayout
+            android:id="@+id/bl_complain_suggest_content_apply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_complain_suggest_content"
+            android:layout_marginTop="5dp"
+            android:minHeight="55dp"
+            android:minWidth="325dp"
+            android:padding="7.5dp"
+            android:visibility="gone"
+            app:bl_arrowDirection="top"
+            app:bl_arrowHeight="5dp"
+            app:bl_arrowPosition="13dp"
+            app:bl_arrowWidth="9.5dp"
+            app:bl_bubbleColor="#F7F7F7"
+            app:bl_cornersRadius="6dp"
+            app:bl_strokeColor="#F7F7F7"
+            app:bl_strokeWidth="0.5sp">
+
+            <TextView
+                android:id="@+id/tv_complain_suggest_content_apply"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="你好，这个问题是因为XXXXXXXXXXX造成的，我们已经为XXXXXXXXXX，给你带来的不便请您谅解。"
+                android:textColor="@color/TC_1"
+                android:textSize="13sp"/>
+
+        </com.daasuu.bl.BubbleLayout>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

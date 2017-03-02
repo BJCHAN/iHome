@@ -1,5 +1,6 @@
 package com.tianchuang.ihome_b.base;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.v4.app.Fragment;
@@ -38,8 +39,8 @@ public class RxFragment extends Fragment implements FragmentLifecycleProvider {
 
 	@Override
 	@CallSuper
-	public void onAttach(android.app.Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context c) {
+		super.onAttach(c);
 		lifecycleSubject.onNext(FragmentEvent.ATTACH);
 	}
 

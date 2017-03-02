@@ -149,6 +149,9 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (position) {
+                    case 6:
+                        startActivityWithAnim(new Intent(MainActivity.this, ComplainSuggestActivity.class));
+                        break;
                     case 7:
                         startActivityWithAnim(new Intent(MainActivity.this, MenuInnerReportsActivity.class));
                         break;

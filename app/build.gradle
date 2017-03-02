@@ -94,4 +94,6 @@ dependencies {
     compile project(':photoviewlibrary')
     //图片选择器
     compile 'com.yuyh.imgsel:library:1.3.7'
+    //气泡背景框
+    compile 'com.daasuu:BubbleLayout:1.1.1'
 }

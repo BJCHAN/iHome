@@ -27,4 +27,12 @@
     <string name="property_often_text">设为\n常用</string>
     <string name="property_no_join">您未加入任何物业公司</string>
     <string name="menu_inner_list_empty">还没有未处理完成的内部报事</string>
+
+    <!--投诉建议-->
+    <string name="untreated">未处理</string>
+    <string name="processed">已处理</string>
+    <string name="complain_suggest_untreated_empty">还没有未处理的投诉建议</string>
+    <string name="complain_suggest_processed_empty">还没有已处理的投诉建议</string>
+
+
 </resources>
