@@ -60,7 +60,7 @@
             app:bl_arrowHeight="5dp"
             app:bl_arrowPosition="13dp"
             app:bl_arrowWidth="9.5dp"
-            app:bl_bubbleColor="#F7F7F7"
+            app:bl_bubbleColor="@color/background_gray"
             app:bl_cornersRadius="6dp"
             app:bl_strokeColor="#F7F7F7"
             app:bl_strokeWidth="0.5sp">
