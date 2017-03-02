@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_gray"
@@ -11,57 +10,15 @@
                   android:layout_height="0dp"
                   android:layout_weight="1"
                   android:orientation="vertical">
-        <LinearLayout android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:background="@android:color/white"
-                      android:orientation="vertical"
-                      android:paddingBottom="20dp"
-                      android:paddingLeft="15dp"
-                      android:paddingRight="15dp"
-        >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingBottom="15dp"
-                android:paddingTop="15dp">
-                <TextView
-                    android:id="@+id/tv_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/TC_2"
-                    android:textSize="15sp"
-                    tools:text="电梯"/>
-                <TextView
-                    android:id="@+id/tv_date"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:textColor="@color/TC_2"
-                    android:textSize="15sp"
-                    tools:text="12月9日"/>
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_alignParentTop="true"
-                android:background="@color/background_gray"/>
-            <TextView
-                android:id="@+id/tv_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="15dp"
-                android:paddingTop="15dp"
-                android:textColor="@color/black"
-                android:textSize="13sp"
-                tools:text="出水口怎么又坏了？"/>
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-            />
-        </LinearLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:overScrollMode="never"
+            android:paddingBottom="15dp"
+            android:scrollbars="none"
+        />
     </LinearLayout>
     <TextView
         android:id="@+id/tv_rob_order"

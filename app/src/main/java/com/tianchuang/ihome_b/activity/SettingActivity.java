@@ -67,7 +67,7 @@ public class SettingActivity extends BaseCustomActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.setting_item1://修改密码
-                startActivityWithAnim(new Intent(this, ChangePasswordActivity.class));
+                startActivityWithAnim(new Intent(this, ModifyPasswordActivity.class));
                 break;
             case R.id.setting_item2://关于物管宝
                 startActivityWithAnim(new Intent(this, AboutMessageActivity.class));

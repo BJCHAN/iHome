@@ -47,4 +47,11 @@ public class LoginModel {
 		return RetrofitService.createShowApi().resetPassword(phone, pwd, authCode);
 	}
 
+	/**
+	 * 修改密码
+	 */
+	public static Observable<HttpModle<String>> modifyPassword(String oldpwd, String pwd) {
+		return RetrofitService.createShowApi().modifyPassword(oldpwd, pwd);
+	}
+
 }

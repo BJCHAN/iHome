@@ -13,7 +13,7 @@ import butterknife.OnClick;
  * description:修改密码界面
  */
 
-public class ChangePwdSuccessFragment extends BaseFragment {
+public class ModifyPwdSuccessFragment extends BaseFragment {
 
 
 	@Override
@@ -21,8 +21,8 @@ public class ChangePwdSuccessFragment extends BaseFragment {
 
 	}
 
-	public static ChangePwdSuccessFragment newInstance() {
-		return new ChangePwdSuccessFragment();
+	public static ModifyPwdSuccessFragment newInstance() {
+		return new ModifyPwdSuccessFragment();
 	}
 
 	@Override

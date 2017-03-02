@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.tianchuang.ihome_b.R;
+import com.tianchuang.ihome_b.activity.DataSearchActivity;
 import com.tianchuang.ihome_b.activity.InnerReportsActivity;
 import com.tianchuang.ihome_b.activity.MainActivity;
 import com.tianchuang.ihome_b.base.BaseFragment;
@@ -70,6 +71,7 @@ public class MainFragment extends BaseFragment {
 				startActivity(new Intent(getHoldingActivity(), InnerReportsActivity.class));
 				break;
 			case R.id.ll_main_query://查询
+				startActivity(new Intent(getHoldingActivity(), DataSearchActivity.class));
 				break;
 		}
 	}

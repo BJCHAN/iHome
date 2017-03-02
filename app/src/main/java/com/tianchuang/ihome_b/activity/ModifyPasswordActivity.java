@@ -6,18 +6,18 @@ import android.view.View;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.base.ToolBarActivity;
-import com.tianchuang.ihome_b.fragment.ChangePasswordFragment;
+import com.tianchuang.ihome_b.fragment.ModifyPasswordFragment;
 
 /**
  * Created by Abyss on 2017/2/13.
  * description:修改密码模块
  */
-public class ChangePasswordActivity extends ToolBarActivity {
+public class ModifyPasswordActivity extends ToolBarActivity {
 
 
 	@Override
 	protected BaseFragment getFirstFragment() {
-		return ChangePasswordFragment.newInstance();
+		return ModifyPasswordFragment.newInstance();
 	}
 
 	@Override

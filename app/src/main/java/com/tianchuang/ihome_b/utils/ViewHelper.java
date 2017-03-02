@@ -2,7 +2,9 @@ package com.tianchuang.ihome_b.utils;
 
 import android.view.View;
 
+import com.tianchuang.ihome_b.DetailHeaderViewHolder;
 import com.tianchuang.ihome_b.EmptyViewHolder;
+import com.tianchuang.ihome_b.bean.DetailHeaderBean;
 
 /**
  * Created by Abyss on 2017/3/1.
@@ -17,5 +19,14 @@ public class ViewHelper {
 		EmptyViewHolder emptyViewHolder = new EmptyViewHolder();
 		emptyViewHolder.bindData(tip);
 		return emptyViewHolder.getholderView();
+	}
+
+	/**
+	 * 详情页的头部
+	 */
+	public static View getDetailHeaderView(String typeName, int createdDate) {
+		DetailHeaderViewHolder holder = new DetailHeaderViewHolder();
+		holder.bindData(new DetailHeaderBean().setTypeName(typeName).setCreatedDate(createdDate));
+		return holder.getholderView();
 	}
 }

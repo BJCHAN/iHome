@@ -14,6 +14,7 @@
     <string name="material_dialog_sure">确定</string>
     <string name="material_dialog_cancel">取消</string>
     <string name="pwd_format_error">密码格式不正确，请输入6-16位数字和大小写字母组合的密码</string>
+    <string name="pwd_modify_error">新密码输入不一致</string>
     <string name="auth_code_error">验证码不正确，请重新输入</string>
     <!--权限申请框-->
     <string name="perssion_tip">权限申请</string>

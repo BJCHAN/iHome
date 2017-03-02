@@ -11,6 +11,7 @@ import java.util.Calendar;
 public class DateUtils {
 	public static final String TYPE_01 = "yyyy/MM/dd HH:mm";
 	public static final String TYPE_02 = "MM月dd日";
+	public static final String TYPE_03 = "yyyy年MM月dd日";
 
 	public static String formatDate(long time, String format) {
 		Calendar cal = Calendar.getInstance();

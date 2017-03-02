@@ -11,7 +11,6 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
-import com.tianchuang.ihome_b.EmptyViewHolder;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.activity.FaultDetailActivity;
 import com.tianchuang.ihome_b.activity.RobHallActivity;

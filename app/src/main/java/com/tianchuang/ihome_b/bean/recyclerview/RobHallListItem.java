@@ -11,14 +11,14 @@ public class RobHallListItem implements Serializable{
 
 	/**
 	 * id : 2
-	 * repairsTypeName : 进水
+	 * TypeName : 进水
 	 * content : 2报修文字描述内容报修文字描述内容报修文字描述内容
 	 * imgCount : 2
 	 * createdDate : 1487324326
 	 */
 
 	private int id;
-	private String repairsTypeName;
+	private String typeName;
 	private String content;
 	private int imgCount;
 	private int createdDate;
@@ -32,11 +32,11 @@ public class RobHallListItem implements Serializable{
 	}
 
 	public String getRepairsTypeName() {
-		return repairsTypeName;
+		return typeName;
 	}
 
 	public void setRepairsTypeName(String repairsTypeName) {
-		this.repairsTypeName = repairsTypeName;
+		this.typeName = repairsTypeName;
 	}
 
 	public String getContent() {
