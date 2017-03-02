@@ -2,6 +2,7 @@ package com.tianchuang.ihome_b.utils;
 
 import android.view.View;
 
+import com.tianchuang.ihome_b.DetailFooterViewHolder;
 import com.tianchuang.ihome_b.DetailHeaderViewHolder;
 import com.tianchuang.ihome_b.EmptyViewHolder;
 import com.tianchuang.ihome_b.bean.DetailHeaderBean;
@@ -25,6 +26,24 @@ public class ViewHelper {
 	 * 详情页的头部
 	 */
 	public static View getDetailHeaderView(String typeName, int createdDate) {
+		DetailHeaderViewHolder holder = new DetailHeaderViewHolder();
+		holder.bindData(new DetailHeaderBean().setTypeName(typeName).setCreatedDate(createdDate));
+		return holder.getholderView();
+	}
+
+	/**
+	 * 详情页的底部，不可回复
+	 */
+	public static View getDetailFooterView(String content) {
+		DetailFooterViewHolder holder = new DetailFooterViewHolder();
+		holder.bindData(content);
+		return holder.getholderView();
+	}
+
+	/**
+	 * 详情页的底部，可回复
+	 */
+	public static View getDetailFooterView2(String typeName, int createdDate) {
 		DetailHeaderViewHolder holder = new DetailHeaderViewHolder();
 		holder.bindData(new DetailHeaderBean().setTypeName(typeName).setCreatedDate(createdDate));
 		return holder.getholderView();

@@ -23,7 +23,7 @@ public class RobHallRepairDetailListBean implements Serializable {
 	private String typeName;
 	private int status;
 	private int createdDate;
-	private List<RobHallRepairDetailMultiItem> repairsDataVos;
+	private List<DetailMultiItem> repairsDataVos;
 
 	public int getId() {
 		return id;
@@ -57,11 +57,11 @@ public class RobHallRepairDetailListBean implements Serializable {
 		this.createdDate = createdDate;
 	}
 
-	public List<RobHallRepairDetailMultiItem> getRepairsDataVos() {
+	public List<DetailMultiItem> getRepairsDataVos() {
 		return repairsDataVos;
 	}
 
-	public void setRepairsDataVos(List<RobHallRepairDetailMultiItem> repairsDataVos) {
+	public void setRepairsDataVos(List<DetailMultiItem> repairsDataVos) {
 		this.repairsDataVos = repairsDataVos;
 	}
 

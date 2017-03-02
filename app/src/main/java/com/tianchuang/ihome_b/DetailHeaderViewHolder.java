@@ -7,7 +7,6 @@ import com.tianchuang.ihome_b.base.BaseHolder;
 import com.tianchuang.ihome_b.bean.DetailHeaderBean;
 import com.tianchuang.ihome_b.utils.DateUtils;
 import com.tianchuang.ihome_b.utils.LayoutUtil;
-import com.tianchuang.ihome_b.utils.StringUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

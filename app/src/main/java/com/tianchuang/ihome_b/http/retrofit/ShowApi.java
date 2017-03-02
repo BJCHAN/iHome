@@ -1,6 +1,7 @@
 package com.tianchuang.ihome_b.http.retrofit;
 
 
+import com.tianchuang.ihome_b.bean.ComplainDetailBean;
 import com.tianchuang.ihome_b.bean.ComplainSuggestProcessedBean;
 import com.tianchuang.ihome_b.bean.ComplainSuggestUntratedBean;
 import com.tianchuang.ihome_b.bean.DataBuildingSearchBean;
@@ -188,5 +189,21 @@ public interface ShowApi {
 	@POST(BizInterface.COMPLAIN_SUGGEST_PROCESSED_URL)
 	Observable<HttpModle<ComplainSuggestProcessedBean>> complainSuggestProcessed(@Query("propertyCompanyId") int propertyCompanyId,
 																				 @Query("maxId") int maxId);
+
+	/**
+	 * 投诉详细
+	 * complaintsId:xxx                    投诉ID-对应投诉列表ID
+	 */
+	@POST(BizInterface.COMPLAIN_DETAIL_URL)
+	Observable<HttpModle<ComplainDetailBean>> complainDetail(@Query("complaintsId") int complaintsId);
+
+	/**
+	 * 投诉回复
+	 * complaintsId:xxx                    投诉ID-对应投诉列表ID
+	 */
+	@POST(BizInterface.COMPLAIN_REPLY_URL)
+	Observable<HttpModle<String>> complainReply(@Query("complaintsId") int complaintsId,
+															@Query("content") String content);
+
 
 }

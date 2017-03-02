@@ -2,6 +2,8 @@ package com.tianchuang.ihome_b.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Abyss on 2017/2/23.
@@ -13,9 +15,10 @@ public class DateUtils {
 	public static final String TYPE_02 = "MM月dd日";
 	public static final String TYPE_03 = "yyyy年MM月dd日";
 
-	public static String formatDate(long time, String format) {
+	public static String formatDate(int time, String format) {
+		long time1 = time * 1000l;
 		Calendar cal = Calendar.getInstance();
-		cal.setTimeInMillis(time);
+		cal.setTimeInMillis(time1);
 		return new SimpleDateFormat(format).format(cal.getTime());
 	}
 }

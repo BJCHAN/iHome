@@ -10,7 +10,7 @@ import java.util.List;
  * description:故障报修详情
  */
 
-public class RobHallRepairDetailMultiItem implements Serializable,MultiItemEntity{
+public class DetailMultiItem implements Serializable, MultiItemEntity {
 
 
 	/**
@@ -29,6 +29,7 @@ public class RobHallRepairDetailMultiItem implements Serializable,MultiItemEntit
 	private int typeId;
 	private int fieldId;
 	private int fieldType;
+	private String fieldName;
 	private String fieldKey;
 	private String fieldValue;
 	private List<String> fieldValues;
@@ -39,6 +40,14 @@ public class RobHallRepairDetailMultiItem implements Serializable,MultiItemEntit
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public String getFieldName() {
+		return fieldName;
+	}
+
+	public void setFieldName(String fieldName) {
+		this.fieldName = fieldName;
 	}
 
 	public int getRepairsId() {

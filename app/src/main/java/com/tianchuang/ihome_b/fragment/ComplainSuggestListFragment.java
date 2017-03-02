@@ -125,7 +125,14 @@ public class ComplainSuggestListFragment extends BaseFragment implements SwipeRe
 		mRvList.addOnItemTouchListener(new OnItemClickListener() {
 			@Override
 			public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-
+				int itemViewType = adapter.getItemViewType(position);
+				if (itemViewType == ComplainSuggestListItem.TYPE_PROCESSED) {
+					ComplainSuggestListItem item = (ComplainSuggestListItem) adapter.getItem(position);
+					addFragment(ComplainDetailFragment.newInstance(item.getProcessedListVoBean().getId()));//跳转详情页面
+				} else {
+					ComplainSuggestListItem item = (ComplainSuggestListItem) adapter.getItem(position);
+					addFragment(ComplainDetailFragment.newInstance(item.getUntratedListVoBean().getId()));
+				}
 			}
 		});
 	}

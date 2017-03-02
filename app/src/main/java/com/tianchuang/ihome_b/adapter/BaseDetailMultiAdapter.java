@@ -9,12 +9,9 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.hitomi.tilibrary.TransferImage;
 import com.tianchuang.ihome_b.R;
-import com.tianchuang.ihome_b.bean.recyclerview.RobHallRepairDetailMultiItem;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
 /**
  * Created by Abyss on 2017/3/2.

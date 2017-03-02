@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.jakewharton.rxbinding.view.RxView;
 import com.tianchuang.ihome_b.R;
-import com.tianchuang.ihome_b.adapter.FaultDetailMultiAdapter;
+import com.tianchuang.ihome_b.adapter.DetailMultiAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.recyclerview.RobHallListItem;
 import com.tianchuang.ihome_b.bean.recyclerview.RobHallRepairDetailListBean;
@@ -37,7 +37,7 @@ public class FaultDetailFragment extends BaseFragment {
 	RecyclerView rvList;
 	@BindView(R.id.tv_rob_order)
 	TextView tvRobOrder;
-	private FaultDetailMultiAdapter mAdapter;
+	private DetailMultiAdapter mAdapter;
 	private int repairsId;
 
 
@@ -69,7 +69,7 @@ public class FaultDetailFragment extends BaseFragment {
 					.subscribe(new RxSubscribe<RobHallRepairDetailListBean>() {
 						@Override
 						protected void _onNext(RobHallRepairDetailListBean bean) {
-							mAdapter = new FaultDetailMultiAdapter(bean.getRepairsDataVos());
+							mAdapter = new DetailMultiAdapter(bean.getRepairsDataVos());
 							//recyclerView添加头部
 							mAdapter.addHeaderView(ViewHelper.getDetailHeaderView(bean.getTypeName(), bean.getCreatedDate()));
 							rvList.setAdapter(mAdapter);
