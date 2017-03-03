@@ -10,7 +10,7 @@ import com.tianchuang.ihome_b.activity.DataSearchActivity;
 import com.tianchuang.ihome_b.adapter.BuildingSearchAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.DataBuildingSearchBean;
-import com.tianchuang.ihome_b.bean.recyclerview.RobHallItemDecoration;
+import com.tianchuang.ihome_b.bean.recyclerview.CommonItemDecoration;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
 import com.tianchuang.ihome_b.http.retrofit.model.DataSearchModel;
@@ -46,7 +46,7 @@ public class BuildingSearchFragment extends BaseFragment {
 	@Override
 	protected void initView(View view, Bundle savedInstanceState) {
 		holdingActivity = ((DataSearchActivity) getHoldingActivity());
-		rvList.addItemDecoration(new RobHallItemDecoration(20));
+		rvList.addItemDecoration(new CommonItemDecoration(20));
 		rvList.setLayoutManager(new LinearLayoutManager(getContext()));
 		requestNet();
 	}

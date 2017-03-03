@@ -9,11 +9,11 @@ import android.view.View;
  * description:抢单大厅item之间的间隔
  */
 
-public class RobHallItemDecoration extends RecyclerView.ItemDecoration {
+public class CommonItemDecoration extends RecyclerView.ItemDecoration {
 
 	private int space;
 
-	public RobHallItemDecoration(int space) {
+	public CommonItemDecoration(int space) {
 		this.space = space;
 	}
 

@@ -11,7 +11,7 @@ import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.activity.DataSearchActivity;
 import com.tianchuang.ihome_b.adapter.SimpleItemAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
-import com.tianchuang.ihome_b.bean.recyclerview.RobHallItemDecoration;
+import com.tianchuang.ihome_b.bean.recyclerview.CommonItemDecoration;
 import com.tianchuang.ihome_b.bean.recyclerview.SimpleItemBean;
 
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ public class DataSearchFragment extends BaseFragment {
 	@Override
 	protected void initView(View view, Bundle savedInstanceState) {
 		holdingActivity = ((DataSearchActivity) getHoldingActivity());
-		rvList.addItemDecoration(new RobHallItemDecoration(20));
+		rvList.addItemDecoration(new CommonItemDecoration(20));
 		rvList.setLayoutManager(new LinearLayoutManager(getContext()));
 		final ArrayList<SimpleItemBean> mData = new ArrayList<>();
 		mData.add(new SimpleItemBean().setId(1).setText("楼宇查询"));

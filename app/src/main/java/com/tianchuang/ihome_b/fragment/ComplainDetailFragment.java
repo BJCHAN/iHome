@@ -15,7 +15,7 @@ import com.tianchuang.ihome_b.activity.ComplainSuggestActivity;
 import com.tianchuang.ihome_b.adapter.DetailMultiAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.ComplainDetailBean;
-import com.tianchuang.ihome_b.bean.recyclerview.RobHallItemDecoration;
+import com.tianchuang.ihome_b.bean.recyclerview.CommonItemDecoration;
 import com.tianchuang.ihome_b.http.retrofit.HttpModle;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
@@ -65,7 +65,7 @@ public class ComplainDetailFragment extends BaseFragment {
 	protected void initView(View view, Bundle savedInstanceState) {
 		int id = getArguments().getInt("id");
 		holdingActivity = ((ComplainSuggestActivity) getHoldingActivity());
-		rvList.addItemDecoration(new RobHallItemDecoration(20));
+		rvList.addItemDecoration(new CommonItemDecoration(20));
 		rvList.setLayoutManager(new LinearLayoutManager(getContext()));
 		requestNet(id);
 	}
@@ -184,7 +184,7 @@ public class ComplainDetailFragment extends BaseFragment {
 				//此处就是用来获取键盘的高度的， 在键盘没有弹出的时候 此高度为0 键盘弹出的时候为一个正数
 				int heightDifference = screenHeight - r.bottom;
 				needToScrollView.scrollBy(0, heightDifference);
-				if (heightDifference > 0) {
+				if (heightDifference > 0 && tv_content != null) {
 					tv_content.setFocusable(true);
 					tv_content.setFocusableInTouchMode(true);
 					tv_content.requestFocus();

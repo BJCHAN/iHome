@@ -18,7 +18,7 @@ import com.tianchuang.ihome_b.adapter.RobHallAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.PullToLoadMoreListener;
 import com.tianchuang.ihome_b.bean.recyclerview.EmptyLoadMore;
-import com.tianchuang.ihome_b.bean.recyclerview.RobHallItemDecoration;
+import com.tianchuang.ihome_b.bean.recyclerview.LoadMoreItemDecoration;
 import com.tianchuang.ihome_b.bean.recyclerview.RobHallListBean;
 import com.tianchuang.ihome_b.bean.recyclerview.RobHallListItem;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
@@ -71,7 +71,7 @@ public class RobHallFragment extends BaseFragment implements SwipeRefreshLayout.
 	protected void initView(View view, Bundle savedInstanceState) {
 		holdingActivity = ((RobHallActivity) getHoldingActivity());
 		mRecyclerView.setLayoutManager(new LinearLayoutManager(getHoldingActivity()));
-		mRecyclerView.addItemDecoration(new RobHallItemDecoration(20));
+		mRecyclerView.addItemDecoration(new LoadMoreItemDecoration(20));
 		mSwipeRefreshLayout.setOnRefreshListener(this);
 		mSwipeRefreshLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
 		mRecyclerView.addOnScrollListener(new PullToLoadMoreListener(mSwipeRefreshLayout, this));
@@ -140,12 +140,13 @@ public class RobHallFragment extends BaseFragment implements SwipeRefreshLayout.
 	@Override
 	public void requestLoadMore() {
 		LogUtils.d(RobHallFragment.class.getName(), "aaa");
-		if (isLoadMoreLoading) {
+		int size = robHallAdapter.getData().size();
+		if (isLoadMoreLoading || size == 0) {
 			return;
 		}
 		mSwipeRefreshLayout.setEnabled(false);
 		isLoadMoreLoading = true;
-		getHallListObservable(robHallAdapter.getData().get(robHallAdapter.getData().size() - 1).getId())
+		getHallListObservable(robHallAdapter.getData().get(size - 1).getId())
 				.compose(this.<RobHallListBean>bindToLifecycle())
 				.subscribe(new RxSubscribe<RobHallListBean>() {
 					@Override

@@ -7,7 +7,7 @@ import java.io.Serializable;
  * description:设备类型查询
  */
 
-public class EquipmentTypeSearchBean implements Serializable {
+public class EquipmentTypeSearchBean extends SelectedBean implements Serializable {
 
 
 	/**

@@ -15,7 +15,7 @@ import com.tianchuang.ihome_b.adapter.PropertyListAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.LoginBean;
 import com.tianchuang.ihome_b.bean.recyclerview.PropertyListItemBean;
-import com.tianchuang.ihome_b.bean.recyclerview.RobHallItemDecoration;
+import com.tianchuang.ihome_b.bean.recyclerview.CommonItemDecoration;
 import com.tianchuang.ihome_b.database.UserInfoDbHelper;
 import com.tianchuang.ihome_b.http.retrofit.HttpModle;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
@@ -59,7 +59,7 @@ public class PropertyListFragment extends BaseFragment {
 	@Override
 	protected void initView(View view, Bundle savedInstanceState) {
 		rvList.setLayoutManager(new LinearLayoutManager(getHoldingActivity()));
-		rvList.addItemDecoration(new RobHallItemDecoration(10));
+		rvList.addItemDecoration(new CommonItemDecoration(10));
 	}
 
 	@Override

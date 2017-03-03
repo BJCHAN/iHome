@@ -19,7 +19,7 @@ public class BuildingSearchInnerItemAdapter extends BaseQuickAdapter<DataBuildin
 
 	@Override
 	protected void convert(BaseViewHolder helper, DataBuildingSearchBean.ItemListBean item) {
-		helper.setText(R.id.tv_building_number, item.getNumber())
+		helper.setText(R.id.tv_building_number, item.getNumber() + "幢")
 				.setText(R.id.tv_building_unit_and_floor, item.getUnit() + "个单元，" + item.getFloor() + "层");
 	}
 }

@@ -19,7 +19,7 @@ import butterknife.OnClick;
 
 /**
  * Created by Abyss on 2017/2/15.
- * description:设置模块
+ * description:设置
  */
 public class SettingActivity extends BaseCustomActivity {
 

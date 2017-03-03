@@ -7,6 +7,8 @@ import com.tianchuang.ihome_b.bean.ComplainSuggestUntratedBean;
 import com.tianchuang.ihome_b.bean.DataBuildingSearchBean;
 import com.tianchuang.ihome_b.bean.EquipmentTypeSearchBean;
 import com.tianchuang.ihome_b.bean.LoginBean;
+import com.tianchuang.ihome_b.bean.MyOrderDetailBean;
+import com.tianchuang.ihome_b.bean.MyOrderListBean;
 import com.tianchuang.ihome_b.bean.recyclerview.MenuInnerListBean;
 import com.tianchuang.ihome_b.bean.recyclerview.PropertyListItemBean;
 import com.tianchuang.ihome_b.bean.recyclerview.RobHallListBean;
@@ -203,7 +205,36 @@ public interface ShowApi {
 	 */
 	@POST(BizInterface.COMPLAIN_REPLY_URL)
 	Observable<HttpModle<String>> complainReply(@Query("complaintsId") int complaintsId,
-															@Query("content") String content);
+												@Query("content") String content);
 
+	/**
+	 * 我的订单未完成
+	 *
+	 * @param propertyCompanyId 应物业公司ID-对应物业列表物业公司ID
+	 * @param maxId
+	 * @return
+	 */
+	@POST(BizInterface.MY_ORDER_UNFINISHED_URL)
+	Observable<HttpModle<MyOrderListBean>> myOrderUnfinished(@Query("propertyCompanyId") int propertyCompanyId,
+															 @Query("maxId") int maxId);
+
+	/**
+	 * 我的订单已完成
+	 *
+	 * @param propertyCompanyId 应物业公司ID-对应物业列表物业公司ID
+	 * @param maxId
+	 * @return
+	 */
+	@POST(BizInterface.MY_ORDER_FINISHED_URL)
+	Observable<HttpModle<MyOrderListBean>> myOrderfinished(@Query("propertyCompanyId") int propertyCompanyId,
+														   @Query("maxId") int maxId);
+
+	/**
+	 * 我的订单详情
+	 * params
+	 * repairsId:xxx               报修ID-对应报修抢单列表ID
+	 */
+	@POST(BizInterface.MY_ORDER_DETAIL_URL)
+	Observable<HttpModle<MyOrderDetailBean>> myOrderDetail(@Query("repairsId") int repairsId);
 
 }

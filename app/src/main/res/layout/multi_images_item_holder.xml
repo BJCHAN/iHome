@@ -17,6 +17,7 @@
         android:text="分区:"
         android:textColor="@color/TC_2"/>
     <android.support.v7.widget.RecyclerView
+        android:paddingBottom="20dp"
         android:id="@+id/rv_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
