@@ -37,7 +37,7 @@ public class MyOrderDetailBean implements Serializable {
 	private String evaluate;
 	private List<DetailMultiItem> repairsDataVos;
 	private List<RepairsFeeVosBean> repairsFeeVos;
-	private List<?> repairsOrderLogVos;
+	private List<RepairsOrderLogVo> repairsOrderLogVos;
 
 	public int getId() {
 		return id;
@@ -119,12 +119,79 @@ public class MyOrderDetailBean implements Serializable {
 		this.repairsFeeVos = repairsFeeVos;
 	}
 
-	public List<?> getRepairsOrderLogVos() {
+	public List<RepairsOrderLogVo> getRepairsOrderLogVos() {
 		return repairsOrderLogVos;
 	}
 
-	public void setRepairsOrderLogVos(List<?> repairsOrderLogVos) {
+	public void setRepairsOrderLogVos(List<RepairsOrderLogVo> repairsOrderLogVos) {
 		this.repairsOrderLogVos = repairsOrderLogVos;
+	}
+
+	public static class RepairsOrderLogVo {
+
+		/**
+		 * id : 1
+		 * refUserType : 1
+		 * refUserId : 1
+		 * content : 创建报修订单
+		 * createdDate : 1488252083
+		 * lastUpdatedDate : 1488252083
+		 */
+
+		private int id;
+		private int refUserType;
+		private int refUserId;
+		private String content;
+		private int createdDate;
+		private int lastUpdatedDate;
+
+		public int getId() {
+			return id;
+		}
+
+		public void setId(int id) {
+			this.id = id;
+		}
+
+		public int getRefUserType() {
+			return refUserType;
+		}
+
+		public void setRefUserType(int refUserType) {
+			this.refUserType = refUserType;
+		}
+
+		public int getRefUserId() {
+			return refUserId;
+		}
+
+		public void setRefUserId(int refUserId) {
+			this.refUserId = refUserId;
+		}
+
+		public String getContent() {
+			return content;
+		}
+
+		public void setContent(String content) {
+			this.content = content;
+		}
+
+		public int getCreatedDate() {
+			return createdDate;
+		}
+
+		public void setCreatedDate(int createdDate) {
+			this.createdDate = createdDate;
+		}
+
+		public int getLastUpdatedDate() {
+			return lastUpdatedDate;
+		}
+
+		public void setLastUpdatedDate(int lastUpdatedDate) {
+			this.lastUpdatedDate = lastUpdatedDate;
+		}
 	}
 
 	public static class OwnersInfoVoBean {

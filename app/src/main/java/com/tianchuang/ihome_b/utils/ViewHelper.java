@@ -2,10 +2,19 @@ package com.tianchuang.ihome_b.utils;
 
 import android.view.View;
 
-import com.tianchuang.ihome_b.DetailFooterViewHolder;
-import com.tianchuang.ihome_b.DetailHeaderViewHolder;
-import com.tianchuang.ihome_b.EmptyViewHolder;
+import com.tianchuang.ihome_b.view.viewholder.DetailFooterViewHolder;
+import com.tianchuang.ihome_b.view.viewholder.DetailHeaderViewHolder;
+import com.tianchuang.ihome_b.view.viewholder.EmptyViewHolder;
+import com.tianchuang.ihome_b.view.viewholder.MyOrderEvaluatenfoViewHolder;
+import com.tianchuang.ihome_b.view.viewholder.MyOrderFeeInfoViewHolder;
+import com.tianchuang.ihome_b.view.viewholder.MyOrderOwnerInfoViewHolder;
+import com.tianchuang.ihome_b.view.viewholder.MyOrderTimeLineViewHolder;
 import com.tianchuang.ihome_b.bean.DetailHeaderBean;
+import com.tianchuang.ihome_b.bean.EvaluateBean;
+import com.tianchuang.ihome_b.bean.MyOrderDetailBean;
+import com.tianchuang.ihome_b.bean.RepairsFeeBean;
+
+import java.util.List;
 
 /**
  * Created by Abyss on 2017/3/1.
@@ -41,11 +50,52 @@ public class ViewHelper {
 	}
 
 	/**
-	 * 详情页的底部，可回复
+	 * 我的订单，报修人员信息的底部
+	 *
+	 * @param ownersInfoVo
 	 */
-	public static View getDetailFooterView2(String typeName, int createdDate) {
-		DetailHeaderViewHolder holder = new DetailHeaderViewHolder();
-		holder.bindData(new DetailHeaderBean().setTypeName(typeName).setCreatedDate(createdDate));
+	public static View getMyOrderOwnerInfoFooterView(MyOrderDetailBean.OwnersInfoVoBean ownersInfoVo) {
+		MyOrderOwnerInfoViewHolder holder = new MyOrderOwnerInfoViewHolder();
+		holder.bindData(ownersInfoVo);
+		return holder.getholderView();
+	}
+
+	/**
+	 * 我的订单，维修费用的底部
+	 *
+	 * @param feeInfoVo
+	 */
+	public static View getMyOrderFeeInfoFooterView(RepairsFeeBean feeInfoVo) {
+		MyOrderFeeInfoViewHolder holder = new MyOrderFeeInfoViewHolder();
+		holder.bindData(feeInfoVo);
+		return holder.getholderView();
+	}
+
+	/**
+	 * 我的订单，评价的底部
+	 *
+	 * @param evaluateBean
+	 */
+	public static View getMyOrderEvaluateInfoFooterView(EvaluateBean evaluateBean) {
+		MyOrderEvaluatenfoViewHolder holder = new MyOrderEvaluatenfoViewHolder();
+		holder.bindData(evaluateBean);
+		return holder.getholderView();
+	}
+
+	/**
+	 * 我的订单，时间轴的底部
+	 *
+	 * @param list
+	 */
+	public static View getTimeLineFooterView(List<MyOrderDetailBean.RepairsOrderLogVo> list) {
+		MyOrderTimeLineViewHolder holder = new MyOrderTimeLineViewHolder();
+		holder.bindData(list);
+		return holder.getholderView();
+	}
+
+	public static View getImagesHolder(List<MyOrderDetailBean.RepairsOrderLogVo> list) {
+		MyOrderTimeLineViewHolder holder = new MyOrderTimeLineViewHolder();
+		holder.bindData(list);
 		return holder.getholderView();
 	}
 }

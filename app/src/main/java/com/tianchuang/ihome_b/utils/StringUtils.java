@@ -8,6 +8,7 @@ package com.tianchuang.ihome_b.utils;
 
 import android.text.TextUtils;
 
+import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -69,5 +70,12 @@ public class StringUtils {
 	 */
 	public static String getNotNull(String text) {
 		return TextUtils.isEmpty(text) ? "" : text;
+	}
+
+	/**
+	 * 保留两位的数
+	 */
+	public static String formatNum(int num) {
+		return new DecimalFormat("#.00").format(num);
 	}
 }

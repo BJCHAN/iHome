@@ -131,43 +131,7 @@ public class InnerReportsFragment extends BaseFragment implements InnerReportsAc
 	 * 初始化图片选择器
 	 */
 	private void initImageSelector() {
-		// 自定义图片加载器
-		ImageLoader loader = new ImageLoader() {
-			@Override
-			public void displayImage(Context context, String path, ImageView imageView) {
-				Glide.with(context).load(path).into(imageView);
-			}
-		};
-
 		config = ImagesSelectorUtils.getImgSelConfig();//获取本项目图片选择器的配置
-
-//				new ImgSelConfig.Builder(getContext(), loader)
-//				// 是否多选, 默认true
-//				.multiSelect(true)
-//				// 是否记住上次选中记录, 仅当multiSelect为true的时候配置，默认为true
-//				.rememberSelected(false)
-//				// “确定”按钮背景色
-//				.btnBgColor(Color.BLACK)
-//				// “确定”按钮文字颜色
-//				.btnTextColor(Color.WHITE)
-//				// 使用沉浸式状态栏
-//				.statusBarColor(ContextCompat.getColor(getContext(), R.color.app_primary_color))
-//				// 返回图标ResId
-//				.backResId(R.mipmap.back)
-//				// 标题
-//				.title("图片")
-//				// 标题文字颜色
-//				.titleColor(Color.WHITE)
-//				// TitleBar背景色
-//				.titleBgColor(ContextCompat.getColor(getContext(), R.color.app_primary_color))
-//				// 裁剪大小。needCrop为true的时候配置
-//				.cropSize(1, 1, 200, 200)
-//				.needCrop(false)
-//				// 第一个是否显示相机，默认true
-//				.needCamera(true)
-//				// 最大选择图片数量，默认9
-//				.maxNum(3)
-//				.build();
 	}
 
 

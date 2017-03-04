@@ -37,8 +37,12 @@
     <!--投诉建议-->
     <string name="underway">进行中</string>
     <string name="finished">已完成</string>
+    <!--我的订单-->
     <string name="myorder_underway_empty">您还没有进行中的订单</string>
     <string name="myorder_finished_empty">您还没有已完成的订单</string>
+    <string name="myorder_fee_confirm">我已完成修复</string>
+    <string name="myorder_wait_pay">等待用户支付</string>
+    <string name="myorder_wait_evaluate">等待用户评价</string>
 
 
 </resources>

@@ -1,8 +1,9 @@
-package com.tianchuang.ihome_b;
+package com.tianchuang.ihome_b.view.viewholder;
 
 import android.view.View;
 import android.widget.TextView;
 
+import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.base.BaseHolder;
 import com.tianchuang.ihome_b.bean.DetailHeaderBean;
 import com.tianchuang.ihome_b.utils.DateUtils;

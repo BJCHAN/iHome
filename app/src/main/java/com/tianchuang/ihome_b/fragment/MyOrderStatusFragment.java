@@ -219,8 +219,7 @@ public class MyOrderStatusFragment extends BaseFragment implements PullToLoadMor
 		rvList.addOnItemTouchListener(new OnItemClickListener() {
 			@Override
 			public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-//				MenuInnerReportsItemBean menuInnerReportsItemBean = (MenuInnerReportsItemBean) adapter.getData().get(position);
-//				addFragment(MenuInnerReportsDetailFragment.newInstance(menuInnerReportsItemBean));
+
 				MyOrderCommonBean myOrderCommonBean = (MyOrderCommonBean) adapter.getData().get(position);
 				addFragment(MyOrderDetailFragment.newInstance(myOrderCommonBean.getId()));
 

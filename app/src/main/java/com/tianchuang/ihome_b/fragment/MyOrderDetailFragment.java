@@ -1,11 +1,10 @@
 package com.tianchuang.ihome_b.fragment;
 
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.google.gson.FieldNamingPolicy;
@@ -15,14 +14,17 @@ import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.activity.MyOrderActivity;
 import com.tianchuang.ihome_b.adapter.DetailMultiAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
+import com.tianchuang.ihome_b.bean.EvaluateBean;
 import com.tianchuang.ihome_b.bean.MyOrderDetailBean;
+import com.tianchuang.ihome_b.bean.RepairsFeeBean;
 import com.tianchuang.ihome_b.bean.recyclerview.CommonItemDecoration;
 import com.tianchuang.ihome_b.http.retrofit.HttpModle;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
 import com.tianchuang.ihome_b.http.retrofit.model.MyOrderModel;
 import com.tianchuang.ihome_b.utils.ViewHelper;
-import com.tianchuang.ihome_b.view.OneButtonDialogFragment;
+
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -34,15 +36,13 @@ import butterknife.BindView;
 public class MyOrderDetailFragment extends BaseFragment {
 	@BindView(R.id.rv_list)
 	RecyclerView rvList;
-	@BindView(R.id.fl_complain)
-	FrameLayout flComplain;
+	@BindView(R.id.tv_status)
+	TextView tvStatus;
 	private MyOrderActivity holdingActivity;
-	private TextView tv_sure;
-	private EditText tv_content;
 
 	@Override
 	protected int getLayoutId() {
-		return R.layout.fragment_complain_detail;
+		return R.layout.fragment_myorder_detail;
 	}
 
 	public static MyOrderDetailFragment newInstance(int id) {
@@ -78,37 +78,58 @@ public class MyOrderDetailFragment extends BaseFragment {
 				.compose(this.<HttpModle<MyOrderDetailBean>>bindToLifecycle())
 				.compose(RxHelper.<MyOrderDetailBean>handleResult())
 				.subscribe(new RxSubscribe<MyOrderDetailBean>() {
-
-
 					@Override
 					protected void _onNext(MyOrderDetailBean bean) {
 						DetailMultiAdapter detailMultiAdapter = new DetailMultiAdapter(bean.getRepairsDataVos());
 						rvList.setAdapter(detailMultiAdapter);
-//						int status = bean.getStatus();
+						int status = bean.getStatus();
 						//添加头部
 						detailMultiAdapter.addHeaderView(ViewHelper.getDetailHeaderView(bean.getTypeName(), bean.getCreatedDate()));
 						//添加底部
-//						当status == 1时显示回复内容
-//						当status == 0时才可以进行回复
-//						if (status == 1) {
-//							detailMultiAdapter.addFooterView(ViewHelper.getDetailFooterView(bean.getReplayContent()));
-//						} else {
-//							View view = LayoutUtil.inflate(R.layout.multi_detail_footer_holder2);
-//							detailMultiAdapter.addFooterView(view);
-//							tv_content = ((EditText) view.findViewById(R.id.tv_content));
-//							tv_sure = ((TextView) view.findViewById(R.id.tv_sure));
-//							tv_sure.setOnClickListener(new View.OnClickListener() {
-//								@Override
-//								public void onClick(View v) {
-//									String content = tv_content.getText().toString().trim();
-//									if (content.length() == 0) {
-//										ToastUtil.showToast(getContext(), "内容不能为空");
-//									} else {
-//										requestNetToReplay(id, content);
-//									}
-//								}
-//							});
-//						}
+						MyOrderDetailBean.OwnersInfoVoBean ownersInfoVo = bean.getOwnersInfoVo();
+						List<MyOrderDetailBean.RepairsFeeVosBean> repairsFeeVos = bean.getRepairsFeeVos();
+						RepairsFeeBean repairsFeeBean = new RepairsFeeBean().setRepairsFeeVos(repairsFeeVos).setTotalFee(bean.getTotalFee());
+						EvaluateBean evaluateBean = new EvaluateBean().setStars(bean.getEvaluateStar()).setEvaluateContent(bean.getEvaluate());
+						List<MyOrderDetailBean.RepairsOrderLogVo> repairsOrderLogVos = bean.getRepairsOrderLogVos();
+						if (status >= 1) {
+							//添加报修人员信息的底部
+							detailMultiAdapter.addFooterView(ViewHelper.getMyOrderOwnerInfoFooterView(ownersInfoVo));
+						}
+						if (status > 3) {
+							//添加费用列表信息
+							detailMultiAdapter.addFooterView(ViewHelper.getMyOrderFeeInfoFooterView(repairsFeeBean));
+						}
+						if (status > 4) {
+							//评价信息
+							detailMultiAdapter.addFooterView(ViewHelper.getMyOrderEvaluateInfoFooterView(evaluateBean));
+						}
+
+						//添加事件轴信息
+						detailMultiAdapter.addFooterView(ViewHelper.getTimeLineFooterView(repairsOrderLogVos));
+						switch (status) {
+							case 0://待接单
+								break;
+							case 1://待服务
+							case 2://费用确认
+								tvStatus.setText(R.string.myorder_fee_confirm);
+								tvStatus.setTextColor(ContextCompat.getColor(getContext(), R.color.TC_3));
+								tvStatus.setOnClickListener(new View.OnClickListener() {
+									@Override
+									public void onClick(View v) {
+										addFragment(ConfirmFixedFragment.newInstance());
+									}
+								});
+								break;
+							case 3://待付款
+								tvStatus.setText(R.string.myorder_wait_pay);
+								break;
+							case 4://待评价
+								tvStatus.setText(R.string.myorder_wait_evaluate);
+								break;
+							case 5://已完成
+								tvStatus.setVisibility(View.INVISIBLE);
+								break;
+						}
 
 					}
 
@@ -124,29 +145,31 @@ public class MyOrderDetailFragment extends BaseFragment {
 				});
 	}
 
-
-	private void showDialog(String tip) {
-		OneButtonDialogFragment.newInstance(tip)
-				.show(getHoldingActivity().getFragmentManager(), OneButtonDialogFragment.class.getSimpleName());
-	}
+//
+//	private void showDialog(String tip) {
+//		OneButtonDialogFragment.newInstance(tip)
+//				.show(getHoldingActivity().getFragmentManager(), OneButtonDialogFragment.class.getSimpleName());
+//	}
 
 	/**
 	 * 将实体类转换成json字符串对象            注意此方法需要第三方gson  jar包
-	 * @param obj  对象
-	 * @return  map
+	 *
+	 * @param obj 对象
+	 * @return map
 	 */
-	private String toJson(Object obj,int method) {
-		if (method==1) {
+	private String toJson(Object obj, int method) {
+		if (method == 1) {
 
 			Gson gson = new Gson();
 			String obj2 = gson.toJson(obj);
 			return obj2;
-		}else if(method==2){
+		} else if (method == 2) {
 
-			Gson gson2=new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES).create();
-			String obj2=gson2.toJson(obj);
+			Gson gson2 = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES).create();
+			String obj2 = gson2.toJson(obj);
 			return obj2;
 		}
 		return "";
 	}
+
 }
