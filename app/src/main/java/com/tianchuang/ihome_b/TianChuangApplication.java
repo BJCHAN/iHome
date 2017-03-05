@@ -25,6 +25,7 @@ public class TianChuangApplication extends Application {
 
     @Override
     public void onCreate() {
+        super.onCreate();
         if (application == null)
             application = this;
         Utils.init(this);//初始化工具类

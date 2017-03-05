@@ -39,6 +39,7 @@ public class MyOrderDetailFragment extends BaseFragment {
 	@BindView(R.id.tv_status)
 	TextView tvStatus;
 	private MyOrderActivity holdingActivity;
+	private int id;
 
 	@Override
 	protected int getLayoutId() {
@@ -61,7 +62,7 @@ public class MyOrderDetailFragment extends BaseFragment {
 
 	@Override
 	protected void initView(View view, Bundle savedInstanceState) {
-		int id = getArguments().getInt("id");
+		id = getArguments().getInt("id");
 		holdingActivity = ((MyOrderActivity) getHoldingActivity());
 		rvList.addItemDecoration(new CommonItemDecoration(20));
 		rvList.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -116,7 +117,7 @@ public class MyOrderDetailFragment extends BaseFragment {
 								tvStatus.setOnClickListener(new View.OnClickListener() {
 									@Override
 									public void onClick(View v) {
-										addFragment(ConfirmFixedFragment.newInstance());
+										addFragment(ConfirmFixedFragment.newInstance(MyOrderDetailFragment.this.id));
 									}
 								});
 								break;

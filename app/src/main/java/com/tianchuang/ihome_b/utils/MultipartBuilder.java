@@ -41,4 +41,30 @@ public class MultipartBuilder {
 		}
 		return parts;
 	}
+
+	/**
+	 * 把File转化成MultipartBody.Part
+	 * 指定表单名
+	 */
+	public static List<MultipartBody.Part> filesToMultipartBodyParts(List<File> files,String formName) {
+		List<MultipartBody.Part> parts = new ArrayList<>(files.size());
+		for (File file : files) {
+			String path = file.getPath();
+			if (file.exists() && (MediaFile.isPngImageType(path) || MediaFile.isJpegImageType(file.getPath()))) {//判断是图片类型
+				file = FileUtils.scal(Uri.parse(path));
+				RequestBody requestBody;
+				if (MediaFile.isPngImageType(path)) {
+					requestBody = RequestBody.create(MediaType.parse("image/png"), file);
+				} else {
+					requestBody = RequestBody.create(MediaType.parse("image/jpg"), file);
+				}
+				MultipartBody.Part part = MultipartBody.Part.createFormData(formName, file.getName(), requestBody);
+				parts.add(part);
+			}
+		}
+		if (parts.isEmpty()) {
+			parts.add(MultipartBody.Part.createFormData(formName, ""));
+		}
+		return parts;
+	}
 }

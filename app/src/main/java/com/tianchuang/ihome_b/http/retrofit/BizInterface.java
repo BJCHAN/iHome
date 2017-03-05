@@ -60,11 +60,11 @@ public interface BizInterface {
 	//我的订单详情
 	String MY_ORDER_DETAIL_URL = "repairs/order/detail.html";
 	//维修确认
-	String REPAIR_CONFIRM_URL = "complaints/list/new.html";
+	String REPAIR_CONFIRM_URL = "repairs/confirm.html";
 	//材料列表
-	String MATERIAL_LIST_URL = "complaints/list/new.html";
+	String MATERIAL_LIST_URL = "repairs/material/list.html";
 	//维修费用
-	String REPAIR_FEE_URL = "complaints/list/new.html";
+	String CHARGE_TYPE_LIST_URL = "repairs/chargetype/list.html";
 
 
 }

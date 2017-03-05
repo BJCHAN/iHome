@@ -2,6 +2,7 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_gray"
@@ -11,34 +12,41 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="7dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="13dp"
-            android:text="修复前照片："
-            android:textColor="@color/TC_1"
-            android:textSize="15sp"/>
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_list_fix_before"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="7dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="13dp"
-            android:text="修复后照片："
-            android:textColor="@color/TC_1"
-            android:textSize="15sp"/>
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_list_fix_after"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"/>
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:paddingBottom="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="7dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="13dp"
+                android:text="修复前照片："
+                android:textColor="@color/TC_1"
+                android:textSize="15sp"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_list_fix_before"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="7dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="13dp"
+                android:text="修复后照片："
+                android:textColor="@color/TC_1"
+                android:textSize="15sp"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_list_fix_after"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"/>
+        </LinearLayout>
         <!--body-->
         <LinearLayout
             android:layout_width="match_parent"
@@ -66,6 +74,7 @@
                 android:background="@color/background_gray"
                 android:gravity="start"
                 android:hint="请简单说明故障修复过程。"
+                android:maxLength="200"
                 android:minLines="5"
                 android:paddingBottom="7dp"
                 android:paddingLeft="11dp"

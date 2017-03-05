@@ -1,12 +1,14 @@
 package com.tianchuang.ihome_b.http.retrofit;
 
 
+import com.tianchuang.ihome_b.bean.ChargeTypeListItemBean;
 import com.tianchuang.ihome_b.bean.ComplainDetailBean;
 import com.tianchuang.ihome_b.bean.ComplainSuggestProcessedBean;
 import com.tianchuang.ihome_b.bean.ComplainSuggestUntratedBean;
 import com.tianchuang.ihome_b.bean.DataBuildingSearchBean;
 import com.tianchuang.ihome_b.bean.EquipmentTypeSearchBean;
 import com.tianchuang.ihome_b.bean.LoginBean;
+import com.tianchuang.ihome_b.bean.MaterialListItemBean;
 import com.tianchuang.ihome_b.bean.MyOrderDetailBean;
 import com.tianchuang.ihome_b.bean.MyOrderListBean;
 import com.tianchuang.ihome_b.bean.recyclerview.MenuInnerListBean;
@@ -236,5 +238,31 @@ public interface ShowApi {
 	 */
 	@POST(BizInterface.MY_ORDER_DETAIL_URL)
 	Observable<HttpModle<MyOrderDetailBean>> myOrderDetail(@Query("repairsId") int repairsId);
+
+	/**
+	 * 我的订单详情
+	 * params
+	 * repairsId:xxxxxx      报修ID-对应我的订单列表-id
+	 * beforePhotos:         维修前图片（至多三张）
+	 * afterPhotos:          维修后图片（至多三张）
+	 * content:xxxx          维修文字描述（<=200）
+	 */
+	@Multipart
+	@POST(BizInterface.REPAIR_CONFIRM_URL)
+	Observable<HttpModle<String>> confirmOrder(@Query("repairsId") int repairsId,
+											   @Part() List<MultipartBody.Part> parts,
+											   @Query("content") String content);
+
+	/**
+	 * 填写维修费用时,添加材料列表
+	 */
+	@POST(BizInterface.MATERIAL_LIST_URL)
+	Observable<HttpModle<ArrayList<MaterialListItemBean>>> materialList(@Query("propertyCompanyId") int propertyCompanyId);
+
+	/**
+	 * 填写维修费用时,添加人工费用列表
+	 */
+	@POST(BizInterface.CHARGE_TYPE_LIST_URL)
+	Observable<HttpModle<ArrayList<ChargeTypeListItemBean>>> chargeTypeList(@Query("propertyCompanyId") int propertyCompanyId);
 
 }

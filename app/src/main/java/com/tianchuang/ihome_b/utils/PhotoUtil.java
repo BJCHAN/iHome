@@ -18,7 +18,7 @@ import java.util.Date;
 
 public class PhotoUtil {
 
-	private static String pathname;
+	private static String pathname = Environment.getExternalStorageDirectory().getAbsolutePath() + "/tianchuang/image/";;
 
 	public static String getPathname() {
 		return pathname;
@@ -28,11 +28,10 @@ public class PhotoUtil {
 	 * 创建图片压缩的临时文件
 	 */
 	public static Uri createImageFile() {
-
 		// Create an image file name
 		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 		String imageFileName = "JPEG_" + timeStamp + "_";
-		pathname = Environment.getExternalStorageDirectory().getAbsolutePath() + "/tianchuang/image/";
+
 		File storageDir = new File(pathname);
 		if (!storageDir.exists()) {
 			storageDir.mkdirs();
