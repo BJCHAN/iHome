@@ -65,4 +65,11 @@ public class MyOrderModel {
 	public static Observable<HttpModle<ArrayList<ChargeTypeListItemBean>>> chargeTypeList() {
 		return RetrofitService.createShowApi().chargeTypeList(UserUtil.getLoginBean().getPropertyCompanyId());
 	}
+
+	/**
+	 * 维修确认
+	 */
+	public static Observable<HttpModle<String>> submitFeeList(int repairId, int offline, String json) {
+		return RetrofitService.createShowApi().submitFeeList(repairId,offline,json);
+	}
 }

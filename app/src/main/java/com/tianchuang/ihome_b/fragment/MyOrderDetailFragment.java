@@ -152,25 +152,6 @@ public class MyOrderDetailFragment extends BaseFragment {
 //				.show(getHoldingActivity().getFragmentManager(), OneButtonDialogFragment.class.getSimpleName());
 //	}
 
-	/**
-	 * 将实体类转换成json字符串对象            注意此方法需要第三方gson  jar包
-	 *
-	 * @param obj 对象
-	 * @return map
-	 */
-	private String toJson(Object obj, int method) {
-		if (method == 1) {
 
-			Gson gson = new Gson();
-			String obj2 = gson.toJson(obj);
-			return obj2;
-		} else if (method == 2) {
-
-			Gson gson2 = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES).create();
-			String obj2 = gson2.toJson(obj);
-			return obj2;
-		}
-		return "";
-	}
 
 }

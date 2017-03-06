@@ -14,15 +14,7 @@ import java.util.List;
  * description:抢单大厅的适配器
  */
 public class EquipmentTypeAdapter extends BaseQuickAdapter<EquipmentTypeSearchBean, BaseViewHolder> {
-	public int getmSelectedPos() {
-		return mSelectedPos;
-	}
 
-	public void setmSelectedPos(int mSelectedPos) {
-		this.mSelectedPos = mSelectedPos;
-	}
-
-	private int mSelectedPos = -1;//实现单选
 
 	public EquipmentTypeAdapter(int layoutResId, List<EquipmentTypeSearchBean> data) {
 		super(layoutResId, data);

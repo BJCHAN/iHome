@@ -66,5 +66,7 @@ public interface BizInterface {
 	//维修费用
 	String CHARGE_TYPE_LIST_URL = "repairs/chargetype/list.html";
 
+	String SUBMIT_FEE_URL = "repairs/confirm/fee.html";
+
 
 }

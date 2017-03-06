@@ -2,7 +2,7 @@ package com.tianchuang.ihome_b.view;
 
 import android.view.View;
 
-public interface OnItemClickListener {
+public interface OnItemRemoveClickListener {
     /**
      * item点击回调
      *

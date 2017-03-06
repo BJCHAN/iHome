@@ -1,11 +1,16 @@
 package com.tianchuang.ihome_b.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
 /**
  * Created by Abyss on 2017/3/5.
  * description:
  */
 
-public class MaterialListItemBean {
+public class MaterialListItemBean extends SelectedBean implements Serializable {
 
 
 	/**
@@ -112,6 +117,5 @@ public class MaterialListItemBean {
 	public void setModel(String model) {
 		this.model = model;
 	}
-
 
 }

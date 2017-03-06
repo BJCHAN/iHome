@@ -42,7 +42,7 @@ public class ItemRemoveRecyclerView extends RecyclerView {
 	//检测手指在滑动过程中的速度
 	private VelocityTracker mVelocityTracker;
 	private Scroller mScroller;
-	private OnItemClickListener mListener;
+	private OnItemRemoveClickListener mListener;
 
 	public ItemRemoveRecyclerView(Context context) {
 		this(context, null);
@@ -188,7 +188,7 @@ public class ItemRemoveRecyclerView extends RecyclerView {
 		isDragging = state == SCROLL_STATE_DRAGGING;
 	}
 
-	public void setOnItemClickListener(OnItemClickListener listener) {
+	public void setOnItemClickListener(OnItemRemoveClickListener listener) {
 		mListener = listener;
 	}
 }

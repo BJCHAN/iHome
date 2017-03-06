@@ -10,16 +10,14 @@
                   android:background="@color/background_gray"
                   android:orientation="vertical">
         <com.tianchuang.ihome_b.view.ItemRemoveRecyclerView
-            android:id="@+id/id_item_remove_recyclerview"
+            android:id="@+id/rv_item_remove_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"/>
+            />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
             android:background="@color/white"
             android:orientation="horizontal"
             android:paddingBottom="15dp"

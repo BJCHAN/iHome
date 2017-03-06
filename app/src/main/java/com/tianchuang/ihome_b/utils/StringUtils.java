@@ -8,9 +8,11 @@ package com.tianchuang.ihome_b.utils;
 
 import android.text.TextUtils;
 
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.text.DecimalFormat;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class StringUtils {
 	public StringUtils() {
@@ -56,13 +58,9 @@ public class StringUtils {
 	/**
 	 * 判断字符串是否是数字
 	 */
-	public static boolean isNumeric(String str) {
-		Pattern pattern = Pattern.compile("-?[0-9]+.?[0-9]+");
-		Matcher isNum = pattern.matcher(str);
-		if (!isNum.matches()) {
-			return false;
-		}
-		return true;
+	public static boolean isNumber(String str) {
+		String reg = "^[0-9]+(.[0-9]+)?$";
+		return str.matches(reg);
 	}
 
 	/**
@@ -77,5 +75,36 @@ public class StringUtils {
 	 */
 	public static String formatNum(int num) {
 		return new DecimalFormat("#.00").format(num);
+	}
+
+	/**
+	 * 保留两位的数
+	 */
+	public static String formatNum(float num) {
+		if (num == 0) {
+			return "0.0";
+		}
+		return new DecimalFormat("#.00").format(num);
+	}
+
+	/**
+	 * 将实体类转换成json字符串对象            注意此方法需要第三方gson  jar包
+	 *
+	 * @param obj 对象
+	 * @return map
+	 */
+	public static String toJson(Object obj, int method) {
+		if (method == 1) {
+
+			Gson gson = new Gson();
+			String obj2 = gson.toJson(obj);
+			return obj2;
+		} else if (method == 2) {
+
+			Gson gson2 = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES).create();
+			String obj2 = gson2.toJson(obj);
+			return obj2;
+		}
+		return "";
 	}
 }

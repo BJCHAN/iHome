@@ -182,7 +182,7 @@ public class ConfirmFixedFragment extends BaseFragment implements MyOrderActivit
 					@Override
 					public void call(Void aVoid) {
 //						requestNet();
-						addFragment(MyOrderFeeDetailFragment.newInstance());
+						addFragment(MyOrderFeeDetailFragment.newInstance(repairId));
 					}
 				});
 		holdingActivity.setGetImageByCodeListener(this);//选择图片的监听
@@ -223,7 +223,7 @@ public class ConfirmFixedFragment extends BaseFragment implements MyOrderActivit
 					protected void _onNext(String s) {
 						// TODO: 2017/3/5
 						FileUtils.deleteImageFile();
-						addFragment(MyOrderFeeDetailFragment.newInstance());
+						addFragment(MyOrderFeeDetailFragment.newInstance(repairId));
 					}
 
 					@Override

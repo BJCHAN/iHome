@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.tianchuang.ihome_b.R;
+import com.tianchuang.ihome_b.bean.CommonFeeBean;
+import com.tianchuang.ihome_b.utils.StringUtils;
 import com.tianchuang.ihome_b.view.ItemRemoveViewHolder;
 
 import java.util.ArrayList;
@@ -13,9 +15,9 @@ import java.util.ArrayList;
 public class ItemRemoveAdapter extends RecyclerView.Adapter {
     private Context mContext;
     private LayoutInflater mInflater;
-    private ArrayList<String> mList;
+    private ArrayList<CommonFeeBean> mList;
 
-    public ItemRemoveAdapter(Context context, ArrayList<String> list) {
+    public ItemRemoveAdapter(Context context, ArrayList<CommonFeeBean> list) {
         mContext = context;
         mInflater = LayoutInflater.from(context);
         mList = list;
@@ -29,7 +31,9 @@ public class ItemRemoveAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final ItemRemoveViewHolder viewHolder = (ItemRemoveViewHolder) holder;
-        viewHolder.content.setText(mList.get(position));
+        CommonFeeBean commonFeeBean = mList.get(position);
+        viewHolder.content.setText(commonFeeBean.getTitle());
+        viewHolder.price.setText(StringUtils.formatNum(Float.valueOf(commonFeeBean.getFee())));
     }
 
     @Override
