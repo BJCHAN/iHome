@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Switch;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.tianchuang.ihome_b.bean.event.SwitchSuccess;
 import com.tianchuang.ihome_b.view.viewholder.EmptyViewHolder;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.activity.MainActivity;
@@ -23,6 +25,8 @@ import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
 import com.tianchuang.ihome_b.http.retrofit.model.PropertyModel;
 import com.tianchuang.ihome_b.utils.ToastUtil;
 import com.tianchuang.ihome_b.utils.UserUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -123,6 +127,7 @@ public class PropertyListFragment extends BaseFragment {
 				UserUtil.setLoginBean(loginBean);//更新内存中的loginbean
 				PropertyListFragment.this.removeFragment();
 				ToastUtil.showToast(holdingActivity, "切换成功");
+				EventBus.getDefault().post(new SwitchSuccess());
 			}
 		});
 	}

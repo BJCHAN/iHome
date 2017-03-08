@@ -27,6 +27,7 @@ public class UserInfoDbHelper {
 		userInfo.setPositionId(bean.getPositionId());
 		userInfo.setDepartmentId(bean.getDepartmentId());
 		userInfo.setPositionName(bean.getPositionName());
+		userInfo.setPropertyEnable(bean.getPropertyEnable());
 		TianChuangApplication.application.setUserInfo(userInfo);
 		return userInfo.saveIfNotExist("userid = ?", String.valueOf(userid));
 	}
@@ -61,6 +62,7 @@ public class UserInfoDbHelper {
 		userInfo.setPositionId(bean.getPositionId());
 		userInfo.setDepartmentId(bean.getDepartmentId());
 		userInfo.setPositionName(bean.getPositionName());
+		userInfo.setPropertyEnable(bean.getPropertyEnable());
 		return userInfo.updateAll("userid = ?", String.valueOf(userid)) == 1;
 	}
 

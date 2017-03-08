@@ -14,7 +14,6 @@ import com.tianchuang.ihome_b.activity.LoginActivity;
 import com.tianchuang.ihome_b.activity.MainActivity;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.LoginBean;
-import com.tianchuang.ihome_b.database.UserInfoDbHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
 import com.tianchuang.ihome_b.http.retrofit.model.LoginModel;
@@ -36,159 +35,159 @@ import rx.functions.Func2;
 
 public class LoginFragment extends BaseFragment {
 
-	@BindView(R.id.et_phone_num)
-	EditText etPhoneNum;
-	@BindView(R.id.et_passwrod)
-	EditText etPasswrod;
-	@BindView(R.id.tv_red_tip)
-	TextView tvRedTip;
-	@BindView(R.id.tv_forget_pwd)
-	TextView tvForgetPwd;
-	@BindView(R.id.loginBt)
-	Button mLoginBt;
-	@BindView(R.id.registerbt)
-	TextView registerbt;
+    @BindView(R.id.et_phone_num)
+    EditText etPhoneNum;
+    @BindView(R.id.et_passwrod)
+    EditText etPasswrod;
+    @BindView(R.id.tv_red_tip)
+    TextView tvRedTip;
+    @BindView(R.id.tv_forget_pwd)
+    TextView tvForgetPwd;
+    @BindView(R.id.loginBt)
+    Button mLoginBt;
+    @BindView(R.id.registerbt)
+    TextView registerbt;
 
-	private LoginActivity mActivity;
+    private LoginActivity mActivity;
 
-	public static LoginFragment newInstance() {
-		return new LoginFragment();
-	}
+    public static LoginFragment newInstance() {
+        return new LoginFragment();
+    }
 
-	@Override
-	protected void initView(View view, Bundle savedInstanceState) {
-		registerbt.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
-		registerbt.getPaint().setAntiAlias(true);//抗锯齿
-		mActivity = (LoginActivity) getHoldingActivity();
-		mLoginBt.setEnabled(false);
-	}
+    @Override
+    protected void initView(View view, Bundle savedInstanceState) {
+        registerbt.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
+        registerbt.getPaint().setAntiAlias(true);//抗锯齿
+        mActivity = (LoginActivity) getHoldingActivity();
+        mLoginBt.setEnabled(false);
+    }
 
-	@Override
-	protected void initListener() {
-		Observable<CharSequence> email = RxTextView.textChanges(etPhoneNum);
-		Observable<CharSequence> pwd = RxTextView.textChanges(etPasswrod);
-		loginBtnEnable(email, pwd);//控制登录按钮是否可用
-	}
+    @Override
+    protected void initListener() {
+        Observable<CharSequence> email = RxTextView.textChanges(etPhoneNum);
+        Observable<CharSequence> pwd = RxTextView.textChanges(etPasswrod);
+        loginBtnEnable(email, pwd);//控制登录按钮是否可用
+    }
 
-	@Override
-	protected void initData() {
+    @Override
+    protected void initData() {
 
-	}
+    }
 
-	@Override
-	protected int getLayoutId() {
-		return R.layout.fragment_login;
-	}
-
-
-	@OnClick({R.id.tv_forget_pwd, R.id.loginBt, R.id.registerbt})
-	public void onClick(View view) {
-		switch (view.getId()) {
-			case R.id.tv_forget_pwd://忘记密码
-				mActivity.openFragment(RetrievePasswordFragment.newInstance());
-				break;
-			case R.id.loginBt://登录
-				goToLogin(etPhoneNum, etPasswrod);
-				break;
-			case R.id.registerbt://注册账户
-				mActivity.openFragment(RegisterAccountFragment.newInstance());
-				break;
-		}
-	}
-
-	/**
-	 * 登录的操作
-	 *
-	 * @param etPhoneNum
-	 * @param etPasswrod
-	 */
-	private void goToLogin(EditText etPhoneNum, EditText etPasswrod) {
-		final String phone = etPhoneNum.getText().toString().trim();
-		final String pwd = etPasswrod.getText().toString().trim();
-		Observable.zip(Observable.just(phone), Observable.just(pwd), new Func2<String, String, Boolean>() {
-			@Override
-			public Boolean call(String phone, String pwd) {
-				return whetherCanLogin(phone);
-			}
-		})
-				.filter(new Func1<Boolean, Boolean>() {
-					@Override
-					public Boolean call(Boolean aBoolean) {
-						return aBoolean;
-					}
-				})
-				.flatMap(new Func1<Boolean, Observable<LoginBean>>() {
-					@Override
-					public Observable<LoginBean> call(Boolean aBoolean) {
-						return LoginModel.requestLogin(phone, pwd).compose(RxHelper.<LoginBean>handleResult());
-					}
-				})
-				.compose(this.<LoginBean>bindToLifecycle())
-				.doOnSubscribe(new Action0() {
-					@Override
-					public void call() {
-						showProgress();
-					}
-				})
-				.subscribe(new RxSubscribe<LoginBean>() {
-					@Override
-					protected void _onNext(LoginBean s) {
-						UserUtil.login(s);
-						mActivity.dismissProgress();
-						startActivityWithAnim(new Intent(mActivity, MainActivity.class));
-						mActivity.finish();
-					}
-
-					@Override
-					protected void _onError(String message) {
-						mActivity.getMaterialDialogsUtil().dismiss();
-						showRedTip(message);
-						dismissProgress();
-					}
-
-					@Override
-					public void onCompleted() {
-
-					}
-				});
-
-	}
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_login;
+    }
 
 
-	/**
-	 * 检验是否可以登录
-	 */
-	private Boolean whetherCanLogin(String phone) {
-		boolean b = VerificationUtil.isValidTelNumber(phone);
-		if (!b) showRedTip(getResources().getString(R.string.login_phone_error));
-		return b;
-	}
+    @OnClick({R.id.tv_forget_pwd, R.id.loginBt, R.id.registerbt})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_forget_pwd://忘记密码
+                mActivity.openFragment(RetrievePasswordFragment.newInstance());
+                break;
+            case R.id.loginBt://登录
+                goToLogin(etPhoneNum, etPasswrod);
+                break;
+            case R.id.registerbt://注册账户
+                mActivity.openFragment(RegisterAccountFragment.newInstance());
+                break;
+        }
+    }
 
-	/**
-	 * 展示提醒
-	 */
-	private void showRedTip(String message) {
-		tvRedTip.setVisibility(View.VISIBLE);
-		tvRedTip.setText(message);
-	}
+    /**
+     * 登录的操作
+     *
+     * @param etPhoneNum
+     * @param etPasswrod
+     */
+    private void goToLogin(EditText etPhoneNum, EditText etPasswrod) {
+        final String phone = etPhoneNum.getText().toString().trim();
+        final String pwd = etPasswrod.getText().toString().trim();
+        Observable.zip(Observable.just(phone), Observable.just(pwd), new Func2<String, String, Boolean>() {
+            @Override
+            public Boolean call(String phone, String pwd) {
+                return whetherCanLogin(phone);
+            }
+        })
+                .filter(new Func1<Boolean, Boolean>() {
+                    @Override
+                    public Boolean call(Boolean aBoolean) {
+                        return aBoolean;
+                    }
+                })
+                .flatMap(new Func1<Boolean, Observable<LoginBean>>() {
+                    @Override
+                    public Observable<LoginBean> call(Boolean aBoolean) {
+                        return LoginModel.requestLogin(phone, pwd).compose(RxHelper.<LoginBean>handleResult());
+                    }
+                })
+                .compose(this.<LoginBean>bindToLifecycle())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        showProgress();
+                    }
+                })
+                .subscribe(new RxSubscribe<LoginBean>() {
+                    @Override
+                    protected void _onNext(LoginBean s) {
+                        UserUtil.login(s);
+                        mActivity.dismissProgress();
+                        startActivityWithAnim(new Intent(mActivity, MainActivity.class));
+                        mActivity.finish();
+                    }
 
-	/**
-	 * 账号和密码控制登录按钮
-	 *
-	 * @param phone
-	 * @param pwd
-	 */
-	private void loginBtnEnable(Observable<CharSequence> phone, Observable<CharSequence> pwd) {
-		Observable.combineLatest(phone, pwd, new Func2<CharSequence, CharSequence, Boolean>() {
-			@Override
-			public Boolean call(CharSequence email, CharSequence pwd) {//每当发射数据结合最近一个
-				return email.length() > 0 && pwd.length() >= 6;
-			}
-		}).compose(this.<Boolean>bindToLifecycle()).subscribe(new Action1<Boolean>() {
-			@Override
-			public void call(Boolean aBoolean) {
-				mLoginBt.setEnabled(aBoolean);
-			}
-		});
-	}
+                    @Override
+                    protected void _onError(String message) {
+                        mActivity.getMaterialDialogsUtil().dismiss();
+                        showRedTip(message);
+                        dismissProgress();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+                });
+
+    }
+
+
+    /**
+     * 检验是否可以登录
+     */
+    private Boolean whetherCanLogin(String phone) {
+        boolean b = VerificationUtil.isValidTelNumber(phone);
+        if (!b) showRedTip(getResources().getString(R.string.login_phone_error));
+        return b;
+    }
+
+    /**
+     * 展示提醒
+     */
+    private void showRedTip(String message) {
+        tvRedTip.setVisibility(View.VISIBLE);
+        tvRedTip.setText(message);
+    }
+
+    /**
+     * 账号和密码控制登录按钮
+     *
+     * @param phone
+     * @param pwd
+     */
+    private void loginBtnEnable(Observable<CharSequence> phone, Observable<CharSequence> pwd) {
+        Observable.combineLatest(phone, pwd, new Func2<CharSequence, CharSequence, Boolean>() {
+            @Override
+            public Boolean call(CharSequence email, CharSequence pwd) {//每当发射数据结合最近一个
+                return email.length() > 0 && pwd.length() >= 6;
+            }
+        }).compose(this.<Boolean>bindToLifecycle()).subscribe(new Action1<Boolean>() {
+            @Override
+            public void call(Boolean aBoolean) {
+                mLoginBt.setEnabled(aBoolean);
+            }
+        });
+    }
 }

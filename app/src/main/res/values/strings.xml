@@ -44,6 +44,8 @@
     <string name="myorder_wait_pay">等待用户支付</string>
     <string name="myorder_wait_evaluate">等待用户评价</string>
     <string name="visitorlist_empty_text">当前还没有访客</string>
+    <!--主页-->
+    <string name="main_empty_text">系统维护中，请与物业公司联系</string>
 
 
 </resources>

@@ -19,6 +19,7 @@ public class PropertyListItemBean implements Serializable {
 	 * "positionId": 1,
 	 * "positionName": "水电维修工",
 	 * "oftenUse": true
+	 * propertyEnable
 	 */
 	private int id;
 	private int employeeId;
@@ -31,6 +32,15 @@ public class PropertyListItemBean implements Serializable {
 	private String positionName;
 	private Boolean oftenUse;
 
+	public boolean getPropertyEnable() {
+		return propertyEnable;
+	}
+
+	public void setPropertyEnable(boolean propertyEnable) {
+		this.propertyEnable = propertyEnable;
+	}
+
+	private boolean propertyEnable;
 	public Boolean getOftenUse() {
 		return oftenUse;
 	}

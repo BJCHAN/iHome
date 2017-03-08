@@ -19,6 +19,7 @@ public class LoginBean {
 	 * departmentName : 工程维修部
 	 * positionId : 1
 	 * positionName : 水电维修工
+	 * "propertyEnable": true   //物业是否可用
 	 */
 
 	private int id;
@@ -32,6 +33,15 @@ public class LoginBean {
 	private String departmentName;
 	private int positionId;
 	private String positionName;
+	private boolean propertyEnable;
+
+	public boolean getPropertyEnable() {
+		return propertyEnable;
+	}
+
+	public void setPropertyEnable(boolean propertyEnable) {
+		this.propertyEnable = propertyEnable;
+	}
 
 	public int getId() {
 		return id;

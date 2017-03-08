@@ -22,6 +22,7 @@ public class UserInfo extends DataSupport {
 	 * departmentName : 工程维修部
 	 * positionId : 1
 	 * positionName : 水电维修工
+	 * propertyEnable
 	 */
 	@Column(unique = true)
 	private int userId;
@@ -36,6 +37,15 @@ public class UserInfo extends DataSupport {
 	private String departmentName;
 	private int positionId;
 	private String positionName;
+	private boolean propertyEnable;
+
+	public boolean getPropertyEnable() {
+		return propertyEnable;
+	}
+
+	public void setPropertyEnable(boolean propertyEnable) {
+		this.propertyEnable = propertyEnable;
+	}
 
 	public int getUserId() {
 		return userId;

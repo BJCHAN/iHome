@@ -2,6 +2,7 @@ package com.tianchuang.ihome_b.utils;
 
 import android.text.TextUtils;
 
+import com.bumptech.glide.load.resource.bitmap.BitmapEncoder;
 import com.tianchuang.ihome_b.TianChuangApplication;
 import com.tianchuang.ihome_b.bean.LoginBean;
 import com.tianchuang.ihome_b.bean.recyclerview.PropertyListItemBean;
@@ -36,6 +37,7 @@ public class UserUtil {
                 loginBean.setPositionId(userInfo.getPositionId());
                 loginBean.setDepartmentId(userInfo.getDepartmentId());
                 loginBean.setPositionName(userInfo.getPositionName());
+                loginBean.setPropertyEnable(userInfo.getPropertyEnable());
             }
         }
         return loginBean;
@@ -111,6 +113,7 @@ public class UserUtil {
         loginBean.setPositionId(bean.getPositionId());
         loginBean.setDepartmentId(bean.getDepartmentId());
         loginBean.setPositionName(bean.getPositionName());
+        loginBean.setPropertyEnable(bean.getPropertyEnable());
         return loginBean;
     }
 }
