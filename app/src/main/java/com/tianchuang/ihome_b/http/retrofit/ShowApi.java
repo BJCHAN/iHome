@@ -11,6 +11,7 @@ import com.tianchuang.ihome_b.bean.LoginBean;
 import com.tianchuang.ihome_b.bean.MaterialListItemBean;
 import com.tianchuang.ihome_b.bean.MyOrderDetailBean;
 import com.tianchuang.ihome_b.bean.MyOrderListBean;
+import com.tianchuang.ihome_b.bean.VisitorBean;
 import com.tianchuang.ihome_b.bean.recyclerview.MenuInnerListBean;
 import com.tianchuang.ihome_b.bean.recyclerview.PropertyListItemBean;
 import com.tianchuang.ihome_b.bean.recyclerview.RobHallListBean;
@@ -270,11 +271,22 @@ public interface ShowApi {
 	 * repairsId:xxx               报修ID-对应报修抢单列表-id
 	 * payOffline:xxx              是否离线支付:1-选择离线支付;0-未选择离线支付;
 	 * feeItems:xxx                费用明细-格式:[{'title':'人工费','type':1,'refId':
-	 * 											1,'counts':1,'fee':'20.00'}, {'title':'水管','type':2,'refId': 2,'counts':3,'fee':'30.00'}]";
+	 * 1,'counts':1,'fee':'20.00'}, {'title':'水管','type':2,'refId': 2,'counts':3,'fee':'30.00'}]";
 	 */
 	@POST(BizInterface.SUBMIT_FEE_URL)
 	Observable<HttpModle<String>> submitFeeList(@Query("repairsId") int repairsId,
-												 @Query("payOffline") int payOffline,
-												 @Query("feeItems") String content);
+												@Query("payOffline") int payOffline,
+												@Query("feeItems") String content);
+
+	/**
+	 * params
+	 * propertyCompanyId:xxxxxx                //物业ID
+	 * mobile:138xxxxxx                        //手机号(可以为空)
+	 * maxId
+	 */
+	@POST(BizInterface.VISITOR_LIST_URL)
+	Observable<HttpModle<VisitorBean>> visitorList(@Query("propertyCompanyId") int propertyCompanyId,
+												   @Query("mobile") String repairsId,
+												   @Query("maxId") int maxId);
 
 }

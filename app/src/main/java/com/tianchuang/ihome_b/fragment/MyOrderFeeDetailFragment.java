@@ -15,6 +15,7 @@ import com.tianchuang.ihome_b.bean.ChargeTypeListItemBean;
 import com.tianchuang.ihome_b.bean.CommonFeeBean;
 import com.tianchuang.ihome_b.bean.ListBean;
 import com.tianchuang.ihome_b.bean.MaterialListItemBean;
+import com.tianchuang.ihome_b.bean.event.FeeSubmitSuccess;
 import com.tianchuang.ihome_b.bean.event.MaterialFeeEvent;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
@@ -36,8 +37,6 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import rx.Observable;
 import rx.functions.Action0;
-
-import static android.R.attr.id;
 
 /**
  * Created by Abyss on 2017/3/5.
@@ -108,7 +107,7 @@ public class MyOrderFeeDetailFragment extends BaseFragment implements ChargeType
 			@Override
 			public void onDeleteClick(int position) {
 				adapter.removeItem(position);
-				tvSumPrice.setText("￥"+ StringUtils.formatNum(getSum()) );
+				tvSumPrice.setText("￥" + StringUtils.formatNum(getSum()));
 			}
 		});
 		requestNet();
@@ -127,26 +126,37 @@ public class MyOrderFeeDetailFragment extends BaseFragment implements ChargeType
 						.show(getFragmentManager(), "");
 				break;
 			case R.id.bt_sure:
-				MyOrderModel.submitFeeList(repairId,1,StringUtils.toJson(commonFeeBeenList,2))
-						.compose(RxHelper.<String>handleResult())
-						.subscribe(new RxSubscribe<String>() {
-							@Override
-							protected void _onNext(String s) {
-								ToastUtil.showToast(getContext(),"成功");
-							}
-
-							@Override
-							protected void _onError(String message) {
-								ToastUtil.showToast(getContext(),message);
-							}
-
-							@Override
-							public void onCompleted() {
-
-							}
-						});
+				requestSubmit();//请求网络提交费用信息
 				break;
 		}
+	}
+
+	/**
+	 * 请求网络提交费用信息
+	 */
+	private void requestSubmit() {
+		boolean checked = cbIsunderLine.isChecked();
+		MyOrderModel.submitFeeList(repairId, checked ? 1 : 0, StringUtils.toJson(commonFeeBeenList, 2))
+				.compose(RxHelper.<String>handleResult())
+				.compose(this.<String>bindToLifecycle())
+				.subscribe(new RxSubscribe<String>() {
+					@Override
+					protected void _onNext(String s) {
+						ToastUtil.showToast(getContext(), "提交成功");
+						removeFragment();
+						EventBus.getDefault().post(new FeeSubmitSuccess());
+					}
+
+					@Override
+					protected void _onError(String message) {
+						ToastUtil.showToast(getContext(), message);
+					}
+
+					@Override
+					public void onCompleted() {
+
+					}
+				});
 	}
 
 	/**
@@ -204,7 +214,7 @@ public class MyOrderFeeDetailFragment extends BaseFragment implements ChargeType
 	public void onChargeFee(CommonFeeBean commonFeeBean) {
 		commonFeeBeenList.add(commonFeeBean);
 		adapter.notifyItemInserted(adapter.getItemCount());
-		tvSumPrice.setText("￥"+ StringUtils.formatNum(getSum()));
+		tvSumPrice.setText("￥" + StringUtils.formatNum(getSum()));
 	}
 
 	@Subscribe(threadMode = ThreadMode.MAIN)//获取选择的材料费用数据
@@ -212,7 +222,7 @@ public class MyOrderFeeDetailFragment extends BaseFragment implements ChargeType
 		CommonFeeBean commonFeeBean = event.getCommonFeeBean();
 		commonFeeBeenList.add(commonFeeBean);
 		adapter.notifyItemInserted(adapter.getItemCount());
-		tvSumPrice.setText("￥"+ StringUtils.formatNum(getSum()));
+		tvSumPrice.setText("￥" + StringUtils.formatNum(getSum()));
 	}
 
 	private float getSum() {

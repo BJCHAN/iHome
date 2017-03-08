@@ -96,10 +96,11 @@
             android:name=".activity.ComplainSuggestActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
-        <activity android:name=".activity.VisitorListActivity">
-        </activity>
-        <activity android:name=".activity.MyOrderActivity">
-        </activity>
+        <!--访客列表-->
+        <activity
+            android:name=".activity.VisitorListActivity"/>
+        <!--我的订单-->
+        <activity android:name=".activity.MyOrderActivity"/>
     </application>
 
 </manifest>

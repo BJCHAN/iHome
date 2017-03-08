@@ -26,6 +26,7 @@ import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
 import com.tianchuang.ihome_b.http.retrofit.model.MyOrderModel;
 import com.tianchuang.ihome_b.utils.FileUtils;
+import com.tianchuang.ihome_b.utils.FragmentUtils;
 import com.tianchuang.ihome_b.utils.ImagesSelectorUtils;
 import com.tianchuang.ihome_b.utils.MultipartBuilder;
 import com.tianchuang.ihome_b.utils.ToastUtil;
@@ -181,8 +182,8 @@ public class ConfirmFixedFragment extends BaseFragment implements MyOrderActivit
 				.subscribe(new Action1<Void>() {
 					@Override
 					public void call(Void aVoid) {
-//						requestNet();
-						addFragment(MyOrderFeeDetailFragment.newInstance(repairId));
+						requestNet();
+//						addFragment(MyOrderFeeDetailFragment.newInstance(repairId));
 					}
 				});
 		holdingActivity.setGetImageByCodeListener(this);//选择图片的监听
@@ -221,9 +222,9 @@ public class ConfirmFixedFragment extends BaseFragment implements MyOrderActivit
 				.subscribe(new RxSubscribe<String>() {
 					@Override
 					protected void _onNext(String s) {
-						// TODO: 2017/3/5
 						FileUtils.deleteImageFile();
-						addFragment(MyOrderFeeDetailFragment.newInstance(repairId));
+						//跳转到费用明细
+						FragmentUtils.popAddFragment(getFragmentManager(), holdingActivity.getFragmentContainerId(), MyOrderFeeDetailFragment.newInstance(repairId), true);
 					}
 
 					@Override

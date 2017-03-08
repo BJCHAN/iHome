@@ -54,4 +54,10 @@
             <item name="android:minHeight">13dip</item>
             <item name="android:maxHeight">30dip</item>
         </style>
+<!--15dp黑-->
+    <style name="normal_content_text">
+
+        <item name="android:textColor">@color/TC_1</item>
+        <item name="android:textSize">@dimen/text_normal_size</item>
+    </style>
 </resources>

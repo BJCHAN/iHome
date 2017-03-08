@@ -47,12 +47,19 @@ public class TraceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		int gray = ContextCompat.getColor(context, R.color.TC_2);
 		if (getItemViewType(position) == TYPE_TOP) {
 			// 第一行头的竖线不显示
-			itemHolder.tvTopLine.setVisibility(View.INVISIBLE);
-			itemHolder.tvBottomLine.setVisibility(View.VISIBLE);
-			itemHolder.tvAcceptTime.setTextColor(gray);
-			itemHolder.tvAcceptStation.setTextColor(gray);
-			itemHolder.tvDot.setBackgroundResource(R.drawable.timeline_dot_normal);
-
+			if (getItemCount() == 1) {//只有一条是特殊处理
+				itemHolder.tvTopLine.setVisibility(View.INVISIBLE);
+				itemHolder.tvBottomLine.setVisibility(View.INVISIBLE);
+				itemHolder.tvAcceptTime.setTextColor(color);
+				itemHolder.tvAcceptStation.setTextColor(color);
+				itemHolder.tvDot.setBackgroundResource(R.drawable.timeline_dot_last);
+			} else {
+				itemHolder.tvTopLine.setVisibility(View.INVISIBLE);
+				itemHolder.tvBottomLine.setVisibility(View.VISIBLE);
+				itemHolder.tvAcceptTime.setTextColor(gray);
+				itemHolder.tvAcceptStation.setTextColor(gray);
+				itemHolder.tvDot.setBackgroundResource(R.drawable.timeline_dot_normal);
+			}
 		} else if (getItemViewType(position) == TYPE_NORMAL) {
 			itemHolder.tvBottomLine.setVisibility(View.VISIBLE);
 			itemHolder.tvTopLine.setVisibility(View.VISIBLE);

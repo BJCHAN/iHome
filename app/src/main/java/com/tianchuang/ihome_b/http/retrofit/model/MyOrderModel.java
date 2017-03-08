@@ -6,10 +6,8 @@ import com.tianchuang.ihome_b.bean.MyOrderDetailBean;
 import com.tianchuang.ihome_b.bean.MyOrderListBean;
 import com.tianchuang.ihome_b.http.retrofit.HttpModle;
 import com.tianchuang.ihome_b.http.retrofit.RetrofitService;
-import com.tianchuang.ihome_b.utils.MultipartBuilder;
 import com.tianchuang.ihome_b.utils.UserUtil;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,27 +47,27 @@ public class MyOrderModel {
 	 * 维修确认
 	 */
 	public static Observable<HttpModle<String>> confirmOrder(int repairsId, String content, List<MultipartBody.Part> parts) {
-		return RetrofitService.createShowApi().confirmOrder(repairsId,parts,content);
+		return RetrofitService.createShowApi().confirmOrder(repairsId, parts, content);
 	}
 
 	/**
-	 * 维修确认
+	 * 材料费列表
 	 */
 	public static Observable<HttpModle<ArrayList<MaterialListItemBean>>> materialList() {
 		return RetrofitService.createShowApi().materialList(UserUtil.getLoginBean().getPropertyCompanyId());
 	}
 
 	/**
-	 * 维修确认
+	 * 人工费种类
 	 */
 	public static Observable<HttpModle<ArrayList<ChargeTypeListItemBean>>> chargeTypeList() {
 		return RetrofitService.createShowApi().chargeTypeList(UserUtil.getLoginBean().getPropertyCompanyId());
 	}
 
 	/**
-	 * 维修确认
+	 * 提交费用明细
 	 */
 	public static Observable<HttpModle<String>> submitFeeList(int repairId, int offline, String json) {
-		return RetrofitService.createShowApi().submitFeeList(repairId,offline,json);
+		return RetrofitService.createShowApi().submitFeeList(repairId, offline, json);
 	}
 }

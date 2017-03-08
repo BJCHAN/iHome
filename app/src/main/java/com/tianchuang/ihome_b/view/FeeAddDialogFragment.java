@@ -66,7 +66,7 @@ public class FeeAddDialogFragment extends BaseFragment {
 						if (StringUtils.isNumber(str)) {
 							float num = Float.parseFloat(str);
 							float sumPrice = buyPrice * num;
-							tvSumPrice.setText(String.valueOf("总计：￥"+StringUtils.formatNum(sumPrice) + ""));
+							tvSumPrice.setText(String.valueOf("总计：￥" + StringUtils.formatNum(sumPrice) + ""));
 						}
 
 					}
@@ -89,7 +89,7 @@ public class FeeAddDialogFragment extends BaseFragment {
 				commonFeeBean.setCounts(counts);
 				commonFeeBean.setTitle(bean.getTypeName());
 				commonFeeBean.setRefId(bean.getId());
-				commonFeeBean.setFee(bean.getSalePrice()*counts + "");
+				commonFeeBean.setFee(bean.getSalePrice() * counts + "");
 				EventBus.getDefault().post(new MaterialFeeEvent(commonFeeBean));
 			} else {
 				ToastUtil.showToast(getContext(), "请输入有效数量");

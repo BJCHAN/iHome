@@ -13,7 +13,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.accessibility.CaptioningManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -152,6 +151,9 @@ public class MainActivity extends BaseActivity {
 				switch (position) {
 					case 3:
 						startActivityWithAnim(new Intent(MainActivity.this, MyOrderActivity.class));
+						break;
+					case 4:
+						startActivityWithAnim(new Intent(MainActivity.this, VisitorListActivity.class));
 						break;
 					case 6://投诉建议
 						startActivityWithAnim(new Intent(MainActivity.this, ComplainSuggestActivity.class));

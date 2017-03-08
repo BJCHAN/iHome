@@ -13,6 +13,10 @@
     <dimen name="S7">20sp</dimen>
     <dimen name="S8">24sp</dimen>
     <dimen name="S9">30sp</dimen>
+    <dimen name="text_small_size">13sp</dimen>
+    <dimen name="text_normal_size">15sp</dimen>
+    <dimen name="text_large_size">18sp</dimen>
+
 
     <dimen name="H0">10dp</dimen>
     <dimen name="H1">15dp</dimen>

@@ -65,8 +65,9 @@ public interface BizInterface {
 	String MATERIAL_LIST_URL = "repairs/material/list.html";
 	//维修费用
 	String CHARGE_TYPE_LIST_URL = "repairs/chargetype/list.html";
-
+	//提交费用明细
 	String SUBMIT_FEE_URL = "repairs/confirm/fee.html";
-
+	//访客列表
+	String VISITOR_LIST_URL = "visitor/list.html";
 
 }

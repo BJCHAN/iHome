@@ -93,9 +93,4 @@ public class ViewHelper {
 		return holder.getholderView();
 	}
 
-	public static View getImagesHolder(List<MyOrderDetailBean.RepairsOrderLogVo> list) {
-		MyOrderTimeLineViewHolder holder = new MyOrderTimeLineViewHolder();
-		holder.bindData(list);
-		return holder.getholderView();
-	}
 }

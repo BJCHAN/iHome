@@ -68,7 +68,6 @@ public class MyOrderStatusFragment extends BaseFragment implements PullToLoadMor
 	protected void initView(View view, Bundle savedInstanceState) {
 		currentType = getArguments().getInt("type");
 		rvList.setLayoutManager(new LinearLayoutManager(getHoldingActivity()));
-		rvList.addItemDecoration(new LoadMoreItemDecoration(DensityUtil.dip2px(getContext(), 10)));
 		mSwipeRefreshLayout.setOnRefreshListener(this);
 		mSwipeRefreshLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
 		rvList.addOnScrollListener(new PullToLoadMoreListener(mSwipeRefreshLayout, this));
@@ -167,11 +166,11 @@ public class MyOrderStatusFragment extends BaseFragment implements PullToLoadMor
 					protected void _onNext(MyOrderListBean bean) {
 						isLoadMoreLoading = false;
 						mData.clear();
+						mData.addAll(bean.getListVo());
+						adapter.setNewData(mData);
 						if (bean.getListVo().size() < pageSize) {//加载的view Gone掉
 							adapter.loadMoreEnd(true);
 						}
-						mData.addAll(bean.getListVo());
-						adapter.setNewData(mData);
 						mSwipeRefreshLayout.setRefreshing(false);//刷新完成
 					}
 

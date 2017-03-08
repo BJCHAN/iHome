@@ -138,6 +138,11 @@ public abstract class BaseActivity extends RxFragmentActivity {
         overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
     }
 
+    public void finishWithAnim() {
+        finish();
+        overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
+    }
+
     private MaterialDialog progressDialog;
 
     public void showProgress() {

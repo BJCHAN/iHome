@@ -78,19 +78,17 @@ public class MaterialTypeDialogFragment extends DialogFragment implements Materi
 
 
 	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		bind.unbind();
-		EventBus.getDefault().unregister(this);
-	}
-
-
-	@Override
 	public void onSelectedType(MaterialListItemBean bean) {
 		FeeAddDialogFragment feeAddFragment = FeeAddDialogFragment.newInstance(bean);
 		FragmentUtils.replaceFragment(getChildFragmentManager(), R.id.dialog_container, feeAddFragment, false);
 	}
 
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		bind.unbind();
+		EventBus.getDefault().unregister(this);
+	}
 	@Subscribe(threadMode = ThreadMode.MAIN)//获取选择的材料费用数据
 	public void onMessageEvent(MaterialFeeEvent event) {
 		this.dismiss();

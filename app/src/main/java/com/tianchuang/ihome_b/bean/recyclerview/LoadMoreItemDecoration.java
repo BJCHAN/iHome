@@ -4,6 +4,8 @@ import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+
 /**
  * Created by Abyss on 2016/12/20.
  * description:加载更多的通用间隔
@@ -11,18 +13,25 @@ import android.view.View;
 
 public class LoadMoreItemDecoration extends RecyclerView.ItemDecoration {
 
-	private int space;
+    private int space;
 
-	public LoadMoreItemDecoration(int space) {
-		this.space = space;
-	}
+    public LoadMoreItemDecoration(int space) {
+        this.space = space;
+    }
 
-	@Override
-	public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-		int itemCount = parent.getAdapter().getItemCount();
-		if (!(itemCount > 0 && itemCount - 1 == parent.getChildAdapterPosition(view))) {//非最后一个
-			outRect.top = space;
-		}
-	}
+    @Override
+    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+
+        if (parent.getAdapter() instanceof BaseQuickAdapter) {
+            BaseQuickAdapter adapter = (BaseQuickAdapter) parent.getAdapter();
+
+            int itemViewType = adapter.getItemViewType(parent.getChildAdapterPosition(view));
+            if (itemViewType == BaseQuickAdapter.FOOTER_VIEW) {
+            } else {
+
+                outRect.top = space;
+            }
+        }
+    }
 
 }

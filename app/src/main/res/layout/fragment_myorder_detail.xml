@@ -23,6 +23,5 @@
         android:gravity="center"
         android:paddingBottom="15dp"
         android:paddingTop="15dp"
-        android:text="等待用户支付"
         android:textColor="@color/TC_2"/>
 </LinearLayout>
