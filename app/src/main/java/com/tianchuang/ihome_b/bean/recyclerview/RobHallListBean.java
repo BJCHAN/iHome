@@ -1,5 +1,7 @@
 package com.tianchuang.ihome_b.bean.recyclerview;
 
+import com.tianchuang.ihome_b.bean.BaseListLoadBean;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -8,23 +10,6 @@ import java.util.ArrayList;
  * description:
  */
 
-public class RobHallListBean implements Serializable {
-	private int pageSize;
-	private ArrayList<RobHallListItem> listVo;
+public class RobHallListBean extends BaseListLoadBean<RobHallListItem>  {
 
-	public int getPageSize() {
-		return pageSize;
-	}
-
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
-	}
-
-	public ArrayList<RobHallListItem> getListVo() {
-		return listVo;
-	}
-
-	public void setListVo(ArrayList<RobHallListItem> listVo) {
-		this.listVo = listVo;
-	}
 }

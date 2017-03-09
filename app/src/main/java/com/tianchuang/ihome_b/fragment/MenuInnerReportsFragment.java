@@ -1,198 +1,60 @@
 package com.tianchuang.ihome_b.fragment;
 
-import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.adapter.MenuInnerReportsAdapter;
-import com.tianchuang.ihome_b.base.BaseFragment;
-import com.tianchuang.ihome_b.bean.PullToLoadMoreListener;
-import com.tianchuang.ihome_b.bean.recyclerview.EmptyLoadMore;
 import com.tianchuang.ihome_b.bean.recyclerview.MenuInnerListBean;
 import com.tianchuang.ihome_b.bean.recyclerview.MenuInnerReportsItemBean;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
-import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
 import com.tianchuang.ihome_b.http.retrofit.model.InnerReportsModel;
-import com.tianchuang.ihome_b.utils.ToastUtil;
 import com.tianchuang.ihome_b.utils.UserUtil;
-import com.tianchuang.ihome_b.utils.ViewHelper;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
 import rx.Observable;
-import rx.functions.Action0;
 
 /**
  * Created by Abyss on 2017/2/22.
  * description:内部报事（菜单）
  */
 
-public class MenuInnerReportsFragment extends BaseFragment implements PullToLoadMoreListener.OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
-    @BindView(R.id.rv_list)
-    RecyclerView rvList;
-    @BindView(R.id.swipeLayout)
-    SwipeRefreshLayout mSwipeRefreshLayout;
-    private int pageSize;
-    private ArrayList<MenuInnerReportsItemBean> mData;
-    private MenuInnerReportsAdapter adapter;
-
-    @Override
-    protected int getLayoutId() {
-        return R.layout.base_fragment_refrsh_load;
-    }
+public class MenuInnerReportsFragment extends BaseRefreshAndLoadMoreFragment<MenuInnerReportsItemBean, MenuInnerListBean> {
 
     public static MenuInnerReportsFragment newInstance() {
         return new MenuInnerReportsFragment();
     }
 
-    @Override
-    protected void initView(View view, Bundle savedInstanceState) {
-        rvList.setLayoutManager(new LinearLayoutManager(getHoldingActivity()));
-        mSwipeRefreshLayout.setOnRefreshListener(this);
-        mSwipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(getContext(), R.color.refresh_scheme_color));
-        rvList.addOnScrollListener(new PullToLoadMoreListener(mSwipeRefreshLayout, this));
-        getNetObservable(0)
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        showProgress();
-                    }
-                })
-                .subscribe(new RxSubscribe<MenuInnerListBean>() {
-
-                    @Override
-                    protected void _onNext(MenuInnerListBean bean) {
-                        pageSize = bean.getPageSize();
-                        mData = bean.getListVo();
-                        adapter = new MenuInnerReportsAdapter(R.layout.inner_reports_item_holder
-                                , mData);
-                        initAdapter(adapter);
-                        rvList.setAdapter(adapter);
-                        dismissProgress();
-                    }
-
-                    @Override
-                    protected void _onError(String message) {
-                        ToastUtil.showToast(getContext(), message);
-                        dismissProgress();
-                    }
-
-                    @Override
-                    public void onCompleted() {
-
-                    }
-                });
-    }
-
-    private boolean isLoadMoreLoading = false;//是否正在加载更多
-
     /**
-     * 加载更多
+     * 首次访问网络成功,初始化adapter
      */
     @Override
-    public void requestLoadMore() {
-        int size = adapter.getData().size();
-        if (isLoadMoreLoading || size == 0) {
-            return;
-        }
-        mSwipeRefreshLayout.setEnabled(false);
-        isLoadMoreLoading = true;
-        getNetObservable(adapter.getData().get(size - 1).getId())
-                .compose(this.<MenuInnerListBean>bindToLifecycle())
-                .subscribe(new RxSubscribe<MenuInnerListBean>() {
-                    @Override
-                    protected void _onNext(MenuInnerListBean bean) {
-                        adapter.addData(bean.getListVo());
-                        if (bean.getListVo().size() < pageSize) {//没有更多数据
-                            adapter.loadMoreEnd(false);
-                            isLoadMoreLoading = true;
-                        } else {
-                            adapter.loadMoreComplete();//加载完成
-                            isLoadMoreLoading = false;
-                        }
-                        mSwipeRefreshLayout.setEnabled(true);
-                    }
-
-                    @Override
-                    protected void _onError(String message) {
-                        isLoadMoreLoading = false;
-                        adapter.loadMoreFail();
-                        ToastUtil.showToast(getContext(), message);
-                    }
-
-                    @Override
-                    public void onCompleted() {
-
-                    }
-                });
+    protected BaseQuickAdapter initAdapter(ArrayList<MenuInnerReportsItemBean> mData, MenuInnerListBean listBean) {
+        return new MenuInnerReportsAdapter(R.layout.inner_reports_item_holder
+                , mData);
     }
 
     /**
-     * 刷新
+     * item的点击事件
      */
     @Override
-    public void onRefresh() {
-        getNetObservable(0)
-                .compose(this.<MenuInnerListBean>bindToLifecycle())
-                .subscribe(new RxSubscribe<MenuInnerListBean>() {
-                    @Override
-                    protected void _onNext(MenuInnerListBean bean) {
-                        isLoadMoreLoading = false;
-                        mData.clear();
-                        mData.addAll(bean.getListVo());
-                        adapter.setNewData(mData);
-                        if (bean.getListVo().size() < pageSize) {//加载的view Gone掉
-                            adapter.loadMoreEnd(true);
-                        }
-                        mSwipeRefreshLayout.setRefreshing(false);//刷新完成
-                    }
-
-                    @Override
-                    protected void _onError(String message) {
-                        mSwipeRefreshLayout.setRefreshing(false);
-                        ToastUtil.showToast(getContext(), message);
-                    }
-
-                    @Override
-                    public void onCompleted() {
-
-                    }
-                });
+    protected void onListitemClick(MenuInnerReportsItemBean menuInnerReportsItemBean) {
+        addFragment(MenuInnerReportsDetailFragment.newInstance(menuInnerReportsItemBean));
     }
 
     /**
-     * 访问网络请求数据
+     * 请求网络的接口
      */
-    private Observable<MenuInnerListBean> getNetObservable(int maxId) {
+    @Override
+    protected Observable<MenuInnerListBean> getNetObservable(int maxId) {
         return InnerReportsModel.requestReportsList(UserUtil.getLoginBean().getPropertyCompanyId(), maxId)
-                .compose(RxHelper.<MenuInnerListBean>handleResult())
-                .compose(this.<MenuInnerListBean>bindToLifecycle());
+                .compose(RxHelper.<MenuInnerListBean>handleResult());
     }
 
-    private void initAdapter(final MenuInnerReportsAdapter adapter) {
-        //添加空页面
-        adapter.setEmptyView(ViewHelper.getEmptyView(getString(R.string.menu_inner_list_empty)));
-        adapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
-        adapter.setOnLoadMoreListener(new EmptyLoadMore());
-        if (mData.size() < pageSize) {//加载的view Gone掉
-            adapter.loadMoreEnd(true);
-        }
-        rvList.addOnItemTouchListener(new OnItemClickListener() {
-            @Override
-            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                MenuInnerReportsItemBean menuInnerReportsItemBean = (MenuInnerReportsItemBean) adapter.getData().get(position);
-                addFragment(MenuInnerReportsDetailFragment.newInstance(menuInnerReportsItemBean));
-            }
-        });
-
+    /**
+     * 获取数据为空时候的显示
+     */
+    @Override
+    protected String getEmptyString() {
+        return getString(R.string.menu_inner_list_empty);
     }
-
-
 }

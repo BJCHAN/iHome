@@ -5,7 +5,7 @@ package com.tianchuang.ihome_b.bean;
  * description:进行中与未完成订单的bean
  */
 
-public class MyOrderCommonBean {
+public class MyOrderCommonBean extends BaseItemLoadBean{
 
     /**
      * id : 5
@@ -17,7 +17,7 @@ public class MyOrderCommonBean {
      * createdDate : 1488253206
      */
 
-    private int id;
+
     private String typeName;
     private int status;
     private String statusMsg;
@@ -32,14 +32,6 @@ public class MyOrderCommonBean {
 
     public void setYear(String year) {
         this.year = year;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getTypeName() {

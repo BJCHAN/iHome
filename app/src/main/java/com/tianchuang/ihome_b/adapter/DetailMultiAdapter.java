@@ -25,46 +25,46 @@ import java.util.List;
  */
 public class DetailMultiAdapter extends BaseDetailMultiAdapter<DetailMultiItem, BaseViewHolder> {
 
-	public DetailMultiAdapter(List<DetailMultiItem> data) {
-		super(data);
-	}
+    public DetailMultiAdapter(List<DetailMultiItem> data) {
+        super(data);
+    }
 
-	@Override
-	protected void convert(BaseViewHolder helper, DetailMultiItem item) {
-		switch (helper.getItemViewType()) {
-			case TYPE_TEXT:
-				helper.setText(R.id.tv_fieldKey, item.getFieldName() + "：")
-						.setText(R.id.tv_fieldValue, item.getFieldValue());
-				break;
-			case TYPE_RADIO:
-				helper.setText(R.id.tv_fieldKey2, item.getFieldName() + "：")
-						.setText(R.id.tv_fieldValue2, item.getFieldValue());
-				break;
-			case TYPE_IMG:
-				helper.setText(R.id.tv_images_title, item.getFieldName() + "：");
-				final RecyclerView rvList = (RecyclerView) helper.getView(R.id.rv_list);
-				final Context context = rvList.getContext();
-				final List<String> imageStrList = item.getFieldValues();
-				rvList.setLayoutManager(new GridLayoutManager(context, 3));
-				rvList.addItemDecoration(new ImagesSelectorItemDecoration(10));
-				FaultDetailAdapter adapter = new FaultDetailAdapter(R.layout.fault_image_item_holder, imageStrList);
-				rvList.setAdapter(adapter);
-				rvList.addOnItemTouchListener(new OnItemClickListener() {
-					@Override
-					public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-						transferLayout = new TransferImage.Builder(context)
-								.setBackgroundColor(ContextCompat.getColor(context, R.color.black))
-								.setOriginImageList(wrapOriginImageViewList(imageStrList, rvList))
-								.setImageUrlList(imageStrList)
-								.setOriginIndex(position)
-								.create();
-						transferLayout.show();
-						EventBus.getDefault().post(new TransferLayoutEvent(transferLayout));
-					}
-				});
+    @Override
+    protected void convert(BaseViewHolder helper, DetailMultiItem item) {
+        switch (helper.getItemViewType()) {
+            case TYPE_TEXT:
+                helper.setText(R.id.tv_fieldKey, item.getFieldName() + "：")
+                        .setText(R.id.tv_fieldValue, item.getFieldValue());
+                break;
+            case TYPE_RADIO:
+                helper.setText(R.id.tv_fieldKey2, item.getFieldName() + "：")
+                        .setText(R.id.tv_fieldValue2, item.getFieldValue());
+                break;
+            case TYPE_IMG:
+                helper.setText(R.id.tv_images_title, item.getFieldName() + "：");
+                final RecyclerView rvList = (RecyclerView) helper.getView(R.id.rv_list);
+                final Context context = rvList.getContext();
+                final List<String> imageStrList = item.getFieldValues();
+                rvList.setLayoutManager(new GridLayoutManager(context, 3));
+                rvList.addItemDecoration(new ImagesSelectorItemDecoration(10));
+                FaultDetailAdapter adapter = new FaultDetailAdapter(R.layout.fault_image_item_holder, imageStrList);
+                rvList.setAdapter(adapter);
+                rvList.addOnItemTouchListener(new OnItemClickListener() {
+                    @Override
+                    public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                        transferLayout = new TransferImage.Builder(context)
+                                .setBackgroundColor(ContextCompat.getColor(context, R.color.black))
+                                .setOriginImageList(wrapOriginImageViewList(imageStrList, rvList))
+                                .setImageUrlList(imageStrList)
+                                .setOriginIndex(position)
+                                .create();
+                        transferLayout.show();
+                        EventBus.getDefault().post(new TransferLayoutEvent(transferLayout));
+                    }
+                });
 
-				break;
-		}
-	}
+                break;
+        }
+    }
 
 }

@@ -1,5 +1,7 @@
 package com.tianchuang.ihome_b.bean.recyclerview;
 
+import com.tianchuang.ihome_b.bean.BaseListLoadBean;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -8,23 +10,5 @@ import java.util.ArrayList;
  * description:菜单内部报事列表数据bean
  */
 
-public class MenuInnerListBean implements Serializable {
-	private int pageSize;
-	private ArrayList<MenuInnerReportsItemBean> listVo;
-
-	public int getPageSize() {
-		return pageSize;
-	}
-
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
-	}
-
-	public ArrayList<MenuInnerReportsItemBean> getListVo() {
-		return listVo;
-	}
-
-	public void setListVo(ArrayList<MenuInnerReportsItemBean> listVo) {
-		this.listVo = listVo;
-	}
+public class MenuInnerListBean extends BaseListLoadBean <MenuInnerReportsItemBean>{
 }
