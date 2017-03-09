@@ -1,9 +1,9 @@
 package com.tianchuang.ihome_b.fragment;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,7 +23,6 @@ import com.tianchuang.ihome_b.bean.recyclerview.RobHallListItem;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
 import com.tianchuang.ihome_b.http.retrofit.model.RobHallModel;
-import com.tianchuang.ihome_b.utils.LogUtils;
 import com.tianchuang.ihome_b.utils.ToastUtil;
 import com.tianchuang.ihome_b.utils.UserUtil;
 import com.tianchuang.ihome_b.utils.ViewHelper;
@@ -70,9 +69,8 @@ public class RobHallFragment extends BaseFragment implements SwipeRefreshLayout.
     protected void initView(View view, Bundle savedInstanceState) {
         holdingActivity = ((RobHallActivity) getHoldingActivity());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getHoldingActivity()));
-//		mRecyclerView.addItemDecoration(new LoadMoreItemDecoration(20));
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        mSwipeRefreshLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
+        mSwipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(getContext(), R.color.refresh_scheme_color));
         mRecyclerView.addOnScrollListener(new PullToLoadMoreListener(mSwipeRefreshLayout, this));
         initAdapter();
         //条目的点击事件
@@ -138,7 +136,6 @@ public class RobHallFragment extends BaseFragment implements SwipeRefreshLayout.
      */
     @Override
     public void requestLoadMore() {
-        LogUtils.d(RobHallFragment.class.getName(), "aaa");
         int size = robHallAdapter.getData().size();
         if (isLoadMoreLoading || size == 0) {
             return;

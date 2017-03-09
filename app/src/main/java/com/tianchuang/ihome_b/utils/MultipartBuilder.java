@@ -26,6 +26,7 @@ public class MultipartBuilder {
 			String path = file.getPath();
 			if (file.exists() && (MediaFile.isPngImageType(path) || MediaFile.isJpegImageType(file.getPath()))) {//判断是图片类型
 				file = FileUtils.scal(Uri.parse(path));
+
 				RequestBody requestBody;
 				if (MediaFile.isPngImageType(path)) {
 					requestBody = RequestBody.create(MediaType.parse("image/png"), file);

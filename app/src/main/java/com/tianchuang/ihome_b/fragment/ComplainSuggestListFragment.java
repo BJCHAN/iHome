@@ -4,6 +4,7 @@ package com.tianchuang.ihome_b.fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -89,7 +90,7 @@ public class ComplainSuggestListFragment extends BaseFragment implements SwipeRe
 		//设置recycleview滚动监听
 		mRvList.addOnScrollListener(new PullToLoadMoreListener(mSwipeRefreshLayout, this));
 		//设置刷新加载进度条颜色
-		mSwipeRefreshLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
+		mSwipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(getContext(),R.color.refresh_scheme_color));
 		//设置下拉刷新监听
 		mSwipeRefreshLayout.setOnRefreshListener(this);
 		mComplainSuggestListItemList.clear();

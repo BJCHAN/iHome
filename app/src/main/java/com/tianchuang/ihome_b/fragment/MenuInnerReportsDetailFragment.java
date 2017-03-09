@@ -1,23 +1,33 @@
 package com.tianchuang.ihome_b.fragment;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.hitomi.tilibrary.TransferImage;
 import com.tianchuang.ihome_b.R;
+import com.tianchuang.ihome_b.adapter.FaultDetailAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
+import com.tianchuang.ihome_b.bean.event.TransferLayoutEvent;
+import com.tianchuang.ihome_b.bean.recyclerview.ImagesSelectorItemDecoration;
 import com.tianchuang.ihome_b.bean.recyclerview.MenuInnerReportsItemBean;
-import com.tianchuang.ihome_b.utils.ImageLoader;
 import com.tianchuang.ihome_b.utils.StringUtils;
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by Abyss on 2017/2/22.
@@ -26,66 +36,85 @@ import rx.schedulers.Schedulers;
 
 public class MenuInnerReportsDetailFragment extends BaseFragment {
 
-	@BindView(R.id.tv_name)
-	TextView tvName;
-	@BindView(R.id.tv_department_name)
-	TextView tvDepartmentName;
-	@BindView(R.id.tv_content)
-	TextView tvContent;
-	@BindView(R.id.iv_add1)
-	ImageView ivAdd1;
-	@BindView(R.id.iv_add2)
-	ImageView ivAdd2;
-	@BindView(R.id.iv_add3)
-	ImageView ivAdd3;
-	@BindView(R.id.statusBt)
-	Button statusBt;
+    @BindView(R.id.tv_name)
+    TextView tvName;
+    @BindView(R.id.tv_department_name)
+    TextView tvDepartmentName;
+    @BindView(R.id.tv_content)
+    TextView tvContent;
+    @BindView(R.id.statusBt)
+    Button statusBt;
+    @BindView(R.id.rv_list)
+    RecyclerView rvList;
+    private ArrayList<String> urls;
+    protected TransferImage transferLayout;
 
-	@Override
-	protected int getLayoutId() {
-		return R.layout.fragment_inner_reports_detail;
-	}
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_inner_reports_detail;
+    }
 
-	public static MenuInnerReportsDetailFragment newInstance(MenuInnerReportsItemBean menuInnerReportsItemBean) {
-		Bundle bundle = new Bundle();
-		bundle.putSerializable("info", menuInnerReportsItemBean);
-		MenuInnerReportsDetailFragment fragment = new MenuInnerReportsDetailFragment();
-		fragment.setArguments(bundle);
-		return fragment;
-	}
+    public static MenuInnerReportsDetailFragment newInstance(MenuInnerReportsItemBean menuInnerReportsItemBean) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("info", menuInnerReportsItemBean);
+        MenuInnerReportsDetailFragment fragment = new MenuInnerReportsDetailFragment();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
 
-	@Override
-	protected void initView(View view, Bundle savedInstanceState) {
-		MenuInnerReportsItemBean info = ((MenuInnerReportsItemBean) getArguments().getSerializable("info"));
-		tvName.setText(StringUtils.getNotNull(info.getPropertyEmployeeRoleVo().getEmployeeName()));
-		tvDepartmentName.setText(StringUtils.getNotNull(info.getPropertyEmployeeRoleVo().getDepartmentName()));
-		tvContent.setText(StringUtils.getNotNull(info.getContent()));
-		statusBt.setText(StringUtils.getNotNull(info.getStatusMsg()));
-		String photo1Url = info.getPhoto1Url();
-		String photo2Url = info.getPhoto2Url();
-		String photo3Url = info.getPhoto3Url();
-		loadPhoto(photo1Url, ivAdd1);
-		loadPhoto(photo2Url, ivAdd2);
-		loadPhoto(photo3Url, ivAdd3);
+    @Override
+    protected void initView(View view, Bundle savedInstanceState) {
+        MenuInnerReportsItemBean info = ((MenuInnerReportsItemBean) getArguments().getSerializable("info"));
+        tvName.setText(StringUtils.getNotNull(info.getPropertyEmployeeRoleVo().getEmployeeName()));
+        tvDepartmentName.setText(StringUtils.getNotNull(info.getPropertyEmployeeRoleVo().getDepartmentName()));
+        tvContent.setText(StringUtils.getNotNull(info.getContent()));
+        statusBt.setText(StringUtils.getNotNull(info.getStatusMsg()));
+        urls = new ArrayList<>();
+        String photo1Url = info.getPhoto1Url();
+        String photo2Url = info.getPhoto2Url();
+        String photo3Url = info.getPhoto3Url();
+        addUrl(photo1Url);
+        addUrl(photo2Url);
+        addUrl(photo3Url);
+        rvList.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        rvList.addItemDecoration(new ImagesSelectorItemDecoration(10));
+        FaultDetailAdapter adapter = new FaultDetailAdapter(R.layout.fault_image_item_holder, urls);
+        rvList.setAdapter(adapter);
+        rvList.addOnItemTouchListener(new OnItemClickListener() {
+            @Override
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                transferLayout = new TransferImage.Builder(getContext())
+                        .setBackgroundColor(ContextCompat.getColor(getContext(), R.color.black))
+                        .setOriginImageList(wrapOriginImageViewList(urls, rvList))
+                        .setImageUrlList(urls)
+                        .setOriginIndex(position)
+                        .create();
+                transferLayout.show();
+                EventBus.getDefault().post(new TransferLayoutEvent(transferLayout));
+            }
+        });
+    }
 
-	}
+    private void addUrl(String photo1Url) {
+        if (!TextUtils.isEmpty(photo1Url)) {
+            urls.add(photo1Url);
+        }
+    }
 
-	//加载图片
-	private void loadPhoto(final String photoUrl, final ImageView ivAdd) {
-		if (!TextUtils.isEmpty(photoUrl)) {
-			ivAdd.setVisibility(View.VISIBLE);
-			ImageLoader.loadPhoto(photoUrl)
-					.subscribeOn(Schedulers.io())
-					.compose(this.<Bitmap>bindToLifecycle())
-					.observeOn(AndroidSchedulers.mainThread())
-					.subscribe(new Action1<Bitmap>() {
-						@Override
-						public void call(Bitmap bitmap) {
-							ivAdd.setImageBitmap(bitmap);
-						}
-					});
-		}
-	}
-
-
+    /**
+     * 包装缩略图 ImageView 集合
+     *
+     * @param imageStrList
+     * @param rvList
+     * @return
+     */
+    @NonNull
+    protected List<ImageView> wrapOriginImageViewList(List<String> imageStrList, RecyclerView rvList) {
+        List<ImageView> originImgList = new ArrayList<>();
+        for (int i = 0; i < imageStrList.size(); i++) {
+            ImageView thumImg = (ImageView) rvList.getChildAt(i);
+            originImgList.add(thumImg);
+        }
+        return originImgList;
+    }
 }

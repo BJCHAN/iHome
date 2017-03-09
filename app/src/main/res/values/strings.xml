@@ -46,6 +46,7 @@
     <string name="visitorlist_empty_text">当前还没有访客</string>
     <!--主页-->
     <string name="main_empty_text">系统维护中，请与物业公司联系</string>
-
-
+    <!--我的任务-->
+    <string name="mytask_underway_empty">您还没有进行中的任务</string>
+    <string name="mytask_finished_empty">您还没有已完成的任务</string>
 </resources>

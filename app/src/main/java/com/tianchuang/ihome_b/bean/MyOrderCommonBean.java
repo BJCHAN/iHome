@@ -1,7 +1,5 @@
 package com.tianchuang.ihome_b.bean;
 
-import java.util.List;
-
 /**
  * Created by Abyss on 2017/3/3.
  * description:进行中与未完成订单的bean
@@ -9,78 +7,87 @@ import java.util.List;
 
 public class MyOrderCommonBean {
 
-		/**
-		 * id : 5
-		 * typeName : 进水
-		 * status : 1
-		 * statusMsg : 待服务
-		 * content : lolo
-		 * imgCount : 0
-		 * createdDate : 1488253206
-		 */
+    /**
+     * id : 5
+     * typeName : 进水
+     * status : 1
+     * statusMsg : 待服务
+     * content : lolo
+     * imgCount : 0
+     * createdDate : 1488253206
+     */
 
-		private int id;
-		private String typeName;
-		private int status;
-		private String statusMsg;
-		private String content;
-		private int imgCount;
-		private int createdDate;
+    private int id;
+    private String typeName;
+    private int status;
+    private String statusMsg;
+    private String content;
+    private int imgCount;
+    private int createdDate;
+    private String year;
 
-		public int getId() {
-			return id;
-		}
+    public String getYear() {
+        return year;
+    }
 
-		public void setId(int id) {
-			this.id = id;
-		}
+    public void setYear(String year) {
+        this.year = year;
+    }
 
-		public String getTypeName() {
-			return typeName;
-		}
+    public int getId() {
+        return id;
+    }
 
-		public void setTypeName(String typeName) {
-			this.typeName = typeName;
-		}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-		public int getStatus() {
-			return status;
-		}
+    public String getTypeName() {
+        return typeName;
+    }
 
-		public void setStatus(int status) {
-			this.status = status;
-		}
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
 
-		public String getStatusMsg() {
-			return statusMsg;
-		}
+    public int getStatus() {
+        return status;
+    }
 
-		public void setStatusMsg(String statusMsg) {
-			this.statusMsg = statusMsg;
-		}
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
-		public String getContent() {
-			return content;
-		}
+    public String getStatusMsg() {
+        return statusMsg;
+    }
 
-		public void setContent(String content) {
-			this.content = content;
-		}
+    public void setStatusMsg(String statusMsg) {
+        this.statusMsg = statusMsg;
+    }
 
-		public int getImgCount() {
-			return imgCount;
-		}
+    public String getContent() {
+        return content;
+    }
 
-		public void setImgCount(int imgCount) {
-			this.imgCount = imgCount;
-		}
+    public void setContent(String content) {
+        this.content = content;
+    }
 
-		public int getCreatedDate() {
-			return createdDate;
-		}
+    public int getImgCount() {
+        return imgCount;
+    }
 
-		public void setCreatedDate(int createdDate) {
-			this.createdDate = createdDate;
-		}
+    public void setImgCount(int imgCount) {
+        this.imgCount = imgCount;
+    }
+
+    public int getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(int createdDate) {
+        this.createdDate = createdDate;
+    }
 
 }

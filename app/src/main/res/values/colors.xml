@@ -7,6 +7,8 @@
     <color name="app_primary_color">#218ADB</color>
     <color name="app_primary_color_dark">#3367D5</color>
     <color name="app_color_background">#FFF</color>
+    <color name="refresh_scheme_color">#2fdfbd</color>
+
 
     <color name="black">#000000</color>
     <color name="background_gray">#f2f2f2</color>

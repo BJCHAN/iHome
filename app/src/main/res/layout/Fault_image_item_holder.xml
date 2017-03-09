@@ -3,6 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/iv_fault"
     android:layout_width="90dp"
-    android:scaleType="fitXY"
+    android:scaleType="centerCrop"
     android:layout_height="90dp"
 />

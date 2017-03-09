@@ -185,14 +185,14 @@ public class InnerReportsFragment extends BaseFragment implements InnerReportsAc
 					protected void _onNext(String s) {
 						FragmentUtils.popAddFragment(getFragmentManager(), holdingActivity.getFragmentContainerId(), InnerReportsSuccessFragment.newInstance(), true);
 						dismissProgress();
-						FileUtils.deleteImageFile();
+//						FileUtils.deleteImageFile();
 					}
 
 					@Override
 					protected void _onError(String message) {
 						ToastUtil.showToast(getContext(), message);
 						dismissProgress();
-						FileUtils.deleteImageFile();//删除压缩的图片
+//						FileUtils.deleteImageFile();//删除压缩的图片
 					}
 
 					@Override

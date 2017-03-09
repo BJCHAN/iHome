@@ -20,7 +20,10 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
-
+/**
+ * Created by Abyss on 2017/3/9.
+ * description:我的订单
+ */
 public class MyOrderActivity extends ToolBarActivity {
 	private TransferImage mTransferImage;
 

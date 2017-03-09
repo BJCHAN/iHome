@@ -27,6 +27,7 @@ public class FaultDetailAdapter extends BaseQuickAdapter<String,BaseViewHolder> 
 		ImageView view = (ImageView) helper.getView(R.id.iv_fault);
 		Glide.with(view.getContext())
 				.load(url)
+				.centerCrop()
 				.placeholder(R.mipmap.default_logo)
 				.into(view);
 	}

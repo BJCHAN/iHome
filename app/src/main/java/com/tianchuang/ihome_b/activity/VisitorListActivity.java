@@ -72,7 +72,7 @@ public class VisitorListActivity extends BaseActivity implements SearchView.OnQu
         setContentView(getLayoutId());
         ButterKnife.bind(this);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        mSwipeRefreshLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
+        mSwipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(VisitorListActivity.this,R.color.refresh_scheme_color));
         mRecyclerView.addOnScrollListener(new PullToLoadMoreListener(mSwipeRefreshLayout, this));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mModels = new ArrayList<>();

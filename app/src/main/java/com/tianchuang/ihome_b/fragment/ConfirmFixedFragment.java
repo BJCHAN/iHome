@@ -222,7 +222,7 @@ public class ConfirmFixedFragment extends BaseFragment implements MyOrderActivit
 				.subscribe(new RxSubscribe<String>() {
 					@Override
 					protected void _onNext(String s) {
-						FileUtils.deleteImageFile();
+//						FileUtils.deleteImageFile();
 						//跳转到费用明细
 						FragmentUtils.popAddFragment(getFragmentManager(), holdingActivity.getFragmentContainerId(), MyOrderFeeDetailFragment.newInstance(repairId), true);
 					}
@@ -230,7 +230,7 @@ public class ConfirmFixedFragment extends BaseFragment implements MyOrderActivit
 					@Override
 					protected void _onError(String message) {
 						ToastUtil.showToast(getContext(), message);
-						FileUtils.deleteImageFile();//删除压缩的图片
+//						FileUtils.deleteImageFile();//删除压缩的图片
 					}
 
 					@Override

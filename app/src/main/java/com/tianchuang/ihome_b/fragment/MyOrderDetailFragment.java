@@ -148,7 +148,7 @@ public class MyOrderDetailFragment extends BaseFragment {
                                 tvStatus.setTextColor(ContextCompat.getColor(getContext(), R.color.TC_2));
                                 break;
                             case 5://已完成
-                                tvStatus.setVisibility(View.INVISIBLE);
+                                tvStatus.setVisibility(View.GONE);
                                 break;
                         }
 
