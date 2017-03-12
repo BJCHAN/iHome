@@ -5,6 +5,7 @@ import android.view.View;
 import com.tianchuang.ihome_b.view.viewholder.DetailFooterViewHolder;
 import com.tianchuang.ihome_b.view.viewholder.DetailHeaderViewHolder;
 import com.tianchuang.ihome_b.view.viewholder.EmptyViewHolder;
+import com.tianchuang.ihome_b.view.viewholder.FormSubmitHeaderViewHolder;
 import com.tianchuang.ihome_b.view.viewholder.MyOrderEvaluatenfoViewHolder;
 import com.tianchuang.ihome_b.view.viewholder.MyOrderFeeInfoViewHolder;
 import com.tianchuang.ihome_b.view.viewholder.MyOrderOwnerInfoViewHolder;
@@ -90,6 +91,14 @@ public class ViewHelper {
 	public static View getTimeLineFooterView(List<MyOrderDetailBean.RepairsOrderLogVo> list) {
 		MyOrderTimeLineViewHolder holder = new MyOrderTimeLineViewHolder();
 		holder.bindData(list);
+		return holder.getholderView();
+	}
+	/**
+	 * 表单提交页的头部
+	 */
+	public static View getFormSubmitHeaderView(String typeName) {
+		FormSubmitHeaderViewHolder holder = new FormSubmitHeaderViewHolder();
+		holder.bindData(typeName);
 		return holder.getholderView();
 	}
 

@@ -7,35 +7,35 @@ import java.util.List;
  * description:
  */
 
-public class VisitorBean {
+public class VisitorBean extends BaseListLoadBean<VisitorBean.VisitorItemBean> {
 
 
     /**
      * pageSize : 5
      * listVo : [{"propertyCompanyId":1,"ownersId":5,"roomId":1,"name":"lisi8","mobile":"18158171066","visitDate":1488883759,"num":5,"plateNumber":"沪C8GX01","year":"2017","ownersRoomVo":{"ownersId":5,"ownersName":"张三丰","ownersMobile":"18803040506","roomId":1,"num":"101","propertyCompanyName":"海创园","buildingName":"海创苑","buildingCellName":"1幢","buildingUnitName":"1单元"},"id":8,"createdDate":1488883858,"lastUpdatedDate":1488883858},{"propertyCompanyId":1,"ownersId":5,"roomId":1,"name":"lisi7","mobile":"18158171066","visitDate":1488883759,"num":5,"plateNumber":"沪C8GX01","year":"2017","ownersRoomVo":{"ownersId":5,"ownersName":"张三丰","ownersMobile":"18803040506","roomId":1,"num":"101","propertyCompanyName":"海创园","buildingName":"海创苑","buildingCellName":"1幢","buildingUnitName":"1单元"},"id":7,"createdDate":1488883857,"lastUpdatedDate":1488883857}]
      */
+//
+//    private int pageSize;
+//    private List<VisitorItemBean> listVo;
 
-    private int pageSize;
-    private List<VisitorItemBean> listVo;
+//
+//    public int getPageSize() {
+//        return pageSize;
+//    }
+//
+//    public void setPageSize(int pageSize) {
+//        this.pageSize = pageSize;
+//    }
+//
+//    public List<VisitorItemBean> getListVo() {
+//        return listVo;
+//    }
+//
+//    public void setListVo(List<VisitorItemBean> listVo) {
+//        this.listVo = listVo;
+//    }
 
-
-    public int getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
-
-    public List<VisitorItemBean> getListVo() {
-        return listVo;
-    }
-
-    public void setListVo(List<VisitorItemBean> listVo) {
-        this.listVo = listVo;
-    }
-
-    public static class VisitorItemBean {
+    public static class VisitorItemBean extends BaseItemLoadBean{
         /**
          * propertyCompanyId : 1
          * ownersId : 5
@@ -62,7 +62,7 @@ public class VisitorBean {
         private String plateNumber;
         private String year;
         private OwnersRoomVoBean ownersRoomVo;
-        private int id;
+//        private int id;
         private int createdDate;
         private int lastUpdatedDate;
 
@@ -164,14 +164,14 @@ public class VisitorBean {
         public void setOwnersRoomVo(OwnersRoomVoBean ownersRoomVo) {
             this.ownersRoomVo = ownersRoomVo;
         }
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
+//
+//        public int getId() {
+//            return id;
+//        }
+//
+//        public void setId(int id) {
+//            this.id = id;
+//        }
 
         public int getCreatedDate() {
             return createdDate;

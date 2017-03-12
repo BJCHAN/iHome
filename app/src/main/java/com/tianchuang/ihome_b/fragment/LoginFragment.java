@@ -16,7 +16,7 @@ import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.LoginBean;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
-import com.tianchuang.ihome_b.http.retrofit.model.LoginModel;
+import com.tianchuang.ihome_b.bean.model.LoginModel;
 import com.tianchuang.ihome_b.utils.UserUtil;
 import com.tianchuang.ihome_b.utils.VerificationUtil;
 

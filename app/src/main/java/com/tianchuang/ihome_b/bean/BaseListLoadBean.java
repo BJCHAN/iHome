@@ -1,16 +1,14 @@
 package com.tianchuang.ihome_b.bean;
 
-import com.tianchuang.ihome_b.bean.recyclerview.MenuInnerReportsItemBean;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Abyss on 2017/3/9.
- * description:
+ * description:加载更多的数据基类
  */
 
-public class BaseListLoadBean<T> implements Serializable {
+public class BaseListLoadBean<T extends BaseItemLoadBean> implements Serializable {
     private int pageSize;
     private ArrayList<T> listVo;
 

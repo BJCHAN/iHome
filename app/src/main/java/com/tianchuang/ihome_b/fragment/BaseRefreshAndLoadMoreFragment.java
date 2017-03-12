@@ -13,7 +13,7 @@ import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.BaseItemLoadBean;
 import com.tianchuang.ihome_b.bean.BaseListLoadBean;
-import com.tianchuang.ihome_b.bean.PullToLoadMoreListener;
+import com.tianchuang.ihome_b.bean.recyclerview.PullToLoadMoreListener;
 import com.tianchuang.ihome_b.bean.recyclerview.EmptyLoadMore;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
 import com.tianchuang.ihome_b.utils.ToastUtil;
@@ -35,6 +35,7 @@ abstract class BaseRefreshAndLoadMoreFragment<T extends BaseItemLoadBean, E exte
     protected int pageSize;
     protected ArrayList<T> mData;
     protected BaseQuickAdapter adapter;
+    private boolean isLoadMoreLoading = false;//是否正在加载更多
     @BindView(R.id.rv_list)
     RecyclerView rvList;
     @BindView(R.id.swipeLayout)
@@ -60,6 +61,7 @@ abstract class BaseRefreshAndLoadMoreFragment<T extends BaseItemLoadBean, E exte
                     }
                 })
                 .compose(this.<E>bindToLifecycle())
+                .retry(2)
                 .subscribe(new RxSubscribe<E>() {
 
                     @Override
@@ -85,8 +87,6 @@ abstract class BaseRefreshAndLoadMoreFragment<T extends BaseItemLoadBean, E exte
                 });
     }
 
-
-    private boolean isLoadMoreLoading = false;//是否正在加载更多
 
     /**
      * 加载更多

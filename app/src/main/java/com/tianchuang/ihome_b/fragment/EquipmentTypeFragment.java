@@ -15,7 +15,7 @@ import com.tianchuang.ihome_b.bean.EquipmentTypeSearchBean;
 import com.tianchuang.ihome_b.bean.recyclerview.EquipmentTypeItemDecoration;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
-import com.tianchuang.ihome_b.http.retrofit.model.DataSearchModel;
+import com.tianchuang.ihome_b.bean.model.DataSearchModel;
 import com.tianchuang.ihome_b.utils.DensityUtil;
 
 import java.util.ArrayList;

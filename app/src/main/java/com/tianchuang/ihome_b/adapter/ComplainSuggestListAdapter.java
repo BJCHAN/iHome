@@ -7,7 +7,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.bean.ComplainSuggestProcessedBean;
 import com.tianchuang.ihome_b.bean.ComplainSuggestUntratedBean;
-import com.tianchuang.ihome_b.bean.recyclerview.ComplainSuggestListItem;
+import com.tianchuang.ihome_b.bean.ComplainSuggestListItem;
 import com.tianchuang.ihome_b.utils.DateUtils;
 
 import java.util.List;

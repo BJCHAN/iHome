@@ -12,7 +12,7 @@ import com.tianchuang.ihome_b.activity.DataSearchActivity;
 import com.tianchuang.ihome_b.adapter.SimpleItemAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.recyclerview.CommonItemDecoration;
-import com.tianchuang.ihome_b.bean.recyclerview.SimpleItemBean;
+import com.tianchuang.ihome_b.bean.SimpleItemBean;
 
 import java.util.ArrayList;
 

@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.activity.DataSearchActivity;
+import com.tianchuang.ihome_b.activity.DeclareFormActivity;
 import com.tianchuang.ihome_b.activity.InnerReportsActivity;
 import com.tianchuang.ihome_b.activity.MainActivity;
 import com.tianchuang.ihome_b.base.BaseFragment;
@@ -77,6 +78,7 @@ public class MainFragment extends BaseFragment {
                 EventBus.getDefault().post(new OpenScanEvent());
                 break;
             case R.id.ll_write_form://表单填报
+                startActivity(new Intent(getHoldingActivity(), DeclareFormActivity.class));
                 break;
             case R.id.ll_internal_reports://内部报事
                 startActivity(new Intent(getHoldingActivity(), InnerReportsActivity.class));

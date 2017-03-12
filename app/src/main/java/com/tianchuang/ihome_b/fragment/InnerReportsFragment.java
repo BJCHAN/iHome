@@ -1,7 +1,6 @@
 package com.tianchuang.ihome_b.fragment;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,10 +8,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.jakewharton.rxbinding.view.RxView;
@@ -21,18 +18,16 @@ import com.tianchuang.ihome_b.activity.InnerReportsActivity;
 import com.tianchuang.ihome_b.adapter.ImagesSelectorAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.LoginBean;
-import com.tianchuang.ihome_b.bean.recyclerview.ImagesMultipleItem;
+import com.tianchuang.ihome_b.bean.ImagesMultipleItem;
 import com.tianchuang.ihome_b.bean.recyclerview.ImagesSelectorItemDecoration;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
-import com.tianchuang.ihome_b.http.retrofit.model.InnerReportsModel;
-import com.tianchuang.ihome_b.utils.FileUtils;
+import com.tianchuang.ihome_b.bean.model.InnerReportsModel;
 import com.tianchuang.ihome_b.utils.FragmentUtils;
 import com.tianchuang.ihome_b.utils.ImagesSelectorUtils;
 import com.tianchuang.ihome_b.utils.StringUtils;
 import com.tianchuang.ihome_b.utils.ToastUtil;
 import com.tianchuang.ihome_b.utils.UserUtil;
-import com.yuyh.library.imgsel.ImageLoader;
 import com.yuyh.library.imgsel.ImgSelConfig;
 
 import java.io.File;

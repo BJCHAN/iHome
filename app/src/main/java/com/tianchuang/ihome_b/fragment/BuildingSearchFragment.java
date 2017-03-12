@@ -13,7 +13,7 @@ import com.tianchuang.ihome_b.bean.DataBuildingSearchBean;
 import com.tianchuang.ihome_b.bean.recyclerview.CommonItemDecoration;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
-import com.tianchuang.ihome_b.http.retrofit.model.DataSearchModel;
+import com.tianchuang.ihome_b.bean.model.DataSearchModel;
 import com.tianchuang.ihome_b.utils.ToastUtil;
 
 import java.util.ArrayList;

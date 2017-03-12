@@ -3,8 +3,8 @@ package com.tianchuang.ihome_b.adapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.tianchuang.ihome_b.R;
-import com.tianchuang.ihome_b.bean.recyclerview.MenuInnerReportsItemBean;
-import com.tianchuang.ihome_b.bean.recyclerview.PropertyListItemBean;
+import com.tianchuang.ihome_b.bean.MenuInnerReportsItemBean;
+import com.tianchuang.ihome_b.bean.PropertyListItemBean;
 import com.tianchuang.ihome_b.utils.DateUtils;
 
 import java.util.List;

@@ -3,10 +3,10 @@ package com.tianchuang.ihome_b.fragment;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.adapter.MenuInnerReportsAdapter;
-import com.tianchuang.ihome_b.bean.recyclerview.MenuInnerListBean;
-import com.tianchuang.ihome_b.bean.recyclerview.MenuInnerReportsItemBean;
+import com.tianchuang.ihome_b.bean.MenuInnerListBean;
+import com.tianchuang.ihome_b.bean.MenuInnerReportsItemBean;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
-import com.tianchuang.ihome_b.http.retrofit.model.InnerReportsModel;
+import com.tianchuang.ihome_b.bean.model.InnerReportsModel;
 import com.tianchuang.ihome_b.utils.UserUtil;
 
 import java.util.ArrayList;

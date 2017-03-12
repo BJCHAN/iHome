@@ -83,23 +83,51 @@
             android:name=".activity.InnerReportsActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-        <!-- 内部报事 -->
+        <!-- 菜单内部报事 -->
         <activity
             android:name=".activity.MenuInnerReportsActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.DataSearchActivity"></activity>
-
+        <activity
+            android:name=".activity.DataSearchActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
         <!-- 投诉建议 -->
         <activity
             android:name=".activity.ComplainSuggestActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <!-- 访客列表 -->
-        <activity android:name=".activity.VisitorListActivity" />
+        <activity
+            android:name=".activity.VisitorListActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
         <!-- 我的订单 -->
-        <activity android:name=".activity.MyOrderActivity" />
-        <activity android:name=".activity.MyTaskActivity"></activity>
+        <activity
+            android:name=".activity.MyOrderActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <!--我的任务-->
+        <activity
+            android:name=".activity.MyTaskActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <!--表单申报-->
+        <activity
+            android:name=".activity.DeclareFormActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+
+        <!--表单提交-->
+        <activity
+            android:name=".activity.FormSubmitActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <!--表单提交-->
+        <activity
+            android:name=".activity.VisitorListActivity2"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

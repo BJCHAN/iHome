@@ -19,7 +19,7 @@ import com.tianchuang.ihome_b.bean.recyclerview.CommonItemDecoration;
 import com.tianchuang.ihome_b.http.retrofit.HttpModle;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
-import com.tianchuang.ihome_b.http.retrofit.model.MyOrderModel;
+import com.tianchuang.ihome_b.bean.model.MyOrderModel;
 import com.tianchuang.ihome_b.utils.FragmentUtils;
 import com.tianchuang.ihome_b.utils.ViewHelper;
 

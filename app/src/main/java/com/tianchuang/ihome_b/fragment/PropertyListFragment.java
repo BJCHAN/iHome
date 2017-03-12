@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Switch;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemChildClickListener;
@@ -16,13 +15,13 @@ import com.tianchuang.ihome_b.activity.MainActivity;
 import com.tianchuang.ihome_b.adapter.PropertyListAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.LoginBean;
-import com.tianchuang.ihome_b.bean.recyclerview.PropertyListItemBean;
+import com.tianchuang.ihome_b.bean.PropertyListItemBean;
 import com.tianchuang.ihome_b.bean.recyclerview.CommonItemDecoration;
 import com.tianchuang.ihome_b.database.UserInfoDbHelper;
 import com.tianchuang.ihome_b.http.retrofit.HttpModle;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
-import com.tianchuang.ihome_b.http.retrofit.model.PropertyModel;
+import com.tianchuang.ihome_b.bean.model.PropertyModel;
 import com.tianchuang.ihome_b.utils.ToastUtil;
 import com.tianchuang.ihome_b.utils.UserUtil;
 

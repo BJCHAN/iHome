@@ -8,10 +8,10 @@ import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.activity.FaultDetailActivity;
 import com.tianchuang.ihome_b.activity.RobHallActivity;
 import com.tianchuang.ihome_b.adapter.RobHallAdapter;
-import com.tianchuang.ihome_b.bean.recyclerview.RobHallListBean;
-import com.tianchuang.ihome_b.bean.recyclerview.RobHallListItem;
+import com.tianchuang.ihome_b.bean.RobHallListBean;
+import com.tianchuang.ihome_b.bean.RobHallListItem;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
-import com.tianchuang.ihome_b.http.retrofit.model.RobHallModel;
+import com.tianchuang.ihome_b.bean.model.RobHallModel;
 import com.tianchuang.ihome_b.utils.UserUtil;
 
 import java.util.ArrayList;

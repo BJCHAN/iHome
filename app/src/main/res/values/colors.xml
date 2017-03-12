@@ -27,6 +27,8 @@
     <color name="white_3">#19ffffff</color>
     <!--按钮颜色-->
     <color name="BC_1">#cccccc</color>
+    <color name="BC_2">#e0e0e0</color>
+    <color name="BC_3">#f7f7f7</color>
     <!--文字颜色-->
     <color name="TC_1">#333333</color>
     <color name="TC_2">#999999</color>

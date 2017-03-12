@@ -19,7 +19,7 @@ import com.tianchuang.ihome_b.adapter.FaultDetailAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.event.TransferLayoutEvent;
 import com.tianchuang.ihome_b.bean.recyclerview.ImagesSelectorItemDecoration;
-import com.tianchuang.ihome_b.bean.recyclerview.MenuInnerReportsItemBean;
+import com.tianchuang.ihome_b.bean.MenuInnerReportsItemBean;
 import com.tianchuang.ihome_b.utils.StringUtils;
 
 import org.greenrobot.eventbus.EventBus;

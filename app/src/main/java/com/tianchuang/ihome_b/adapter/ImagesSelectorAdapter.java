@@ -6,7 +6,8 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.tianchuang.ihome_b.R;
-import com.tianchuang.ihome_b.bean.recyclerview.ImagesMultipleItem;
+import com.tianchuang.ihome_b.bean.ImagesMultipleItem;
+import com.yuyh.library.imgsel.ImgSelConfig;
 
 import java.util.List;
 
@@ -16,6 +17,24 @@ import java.util.List;
  */
 
 public class ImagesSelectorAdapter extends BaseMultiItemQuickAdapter<ImagesMultipleItem, BaseViewHolder> {
+	private ImgSelConfig config;//选择图片需要的属性
+	private int id;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public ImgSelConfig getConfig() {
+		return config;
+	}
+
+	public void setConfig(ImgSelConfig config) {
+		this.config = config;
+	}
 
 	public ImagesSelectorAdapter(List<ImagesMultipleItem> data) {
 		super(data);

@@ -26,11 +26,11 @@ import com.tianchuang.ihome_b.TianChuangApplication;
 import com.tianchuang.ihome_b.adapter.DrawMenuAdapter;
 import com.tianchuang.ihome_b.base.BaseActivity;
 import com.tianchuang.ihome_b.base.BaseFragment;
+import com.tianchuang.ihome_b.bean.DrawMenuItem;
 import com.tianchuang.ihome_b.bean.LoginBean;
 import com.tianchuang.ihome_b.bean.event.LogoutEvent;
 import com.tianchuang.ihome_b.bean.event.OpenScanEvent;
 import com.tianchuang.ihome_b.bean.event.SwitchSuccess;
-import com.tianchuang.ihome_b.bean.recyclerview.DrawMenuItem;
 import com.tianchuang.ihome_b.bean.recyclerview.DrawMenuItemDecoration;
 import com.tianchuang.ihome_b.fragment.MainFragment;
 import com.tianchuang.ihome_b.fragment.PropertyListFragment;
@@ -170,7 +170,7 @@ public class MainActivity extends BaseActivity {
                         startActivityWithAnim(new Intent(MainActivity.this, MyOrderActivity.class));
                         break;
                     case 4:
-                        startActivityWithAnim(new Intent(MainActivity.this, VisitorListActivity.class));
+                        startActivityWithAnim(new Intent(MainActivity.this, VisitorListActivity2.class));
                         break;
                     case 6://投诉建议
                         startActivityWithAnim(new Intent(MainActivity.this, ComplainSuggestActivity.class));

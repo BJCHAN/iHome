@@ -12,7 +12,7 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.hitomi.tilibrary.TransferImage;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.bean.event.TransferLayoutEvent;
-import com.tianchuang.ihome_b.bean.recyclerview.DetailMultiItem;
+import com.tianchuang.ihome_b.bean.DetailMultiItem;
 import com.tianchuang.ihome_b.bean.recyclerview.ImagesSelectorItemDecoration;
 
 import org.greenrobot.eventbus.EventBus;

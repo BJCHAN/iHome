@@ -6,9 +6,8 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.chad.library.adapter.base.listener.OnItemChildClickListener;
 import com.tianchuang.ihome_b.R;
-import com.tianchuang.ihome_b.bean.recyclerview.PropertyListItemBean;
+import com.tianchuang.ihome_b.bean.PropertyListItemBean;
 
 import java.util.List;
 

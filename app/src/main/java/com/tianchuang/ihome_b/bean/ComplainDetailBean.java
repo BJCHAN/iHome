@@ -1,7 +1,5 @@
 package com.tianchuang.ihome_b.bean;
 
-import com.tianchuang.ihome_b.bean.recyclerview.DetailMultiItem;
-
 import java.io.Serializable;
 import java.util.List;
 

@@ -69,5 +69,9 @@ public interface BizInterface {
 	String SUBMIT_FEE_URL = "repairs/confirm/fee.html";
 	//访客列表
 	String VISITOR_LIST_URL = "visitor/list.html";
+	//表单类型列表
+	String Form_Type_LIST_URL = "form/type/list.html";
+	//表单提交
+	String FORM_SUBMIT_URL = "form/add.html";
 
 }

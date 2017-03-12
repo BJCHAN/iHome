@@ -98,7 +98,7 @@
                           android:layout_height="13dp"
                           android:background="@drawable/protocol_checkbox_selector"
                           android:button="@null"
-                          android:checked="true"/>
+                          android:checked="false"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

@@ -8,7 +8,7 @@ import com.hitomi.tilibrary.TransferImage;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.base.ToolBarActivity;
 import com.tianchuang.ihome_b.bean.event.TransferLayoutEvent;
-import com.tianchuang.ihome_b.bean.recyclerview.RobHallListItem;
+import com.tianchuang.ihome_b.bean.RobHallListItem;
 import com.tianchuang.ihome_b.fragment.FaultDetailFragment;
 
 import org.greenrobot.eventbus.EventBus;

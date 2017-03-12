@@ -2,10 +2,9 @@ package com.tianchuang.ihome_b.utils;
 
 import android.text.TextUtils;
 
-import com.bumptech.glide.load.resource.bitmap.BitmapEncoder;
 import com.tianchuang.ihome_b.TianChuangApplication;
 import com.tianchuang.ihome_b.bean.LoginBean;
-import com.tianchuang.ihome_b.bean.recyclerview.PropertyListItemBean;
+import com.tianchuang.ihome_b.bean.PropertyListItemBean;
 import com.tianchuang.ihome_b.database.UserInfo;
 import com.tianchuang.ihome_b.database.UserInfoDbHelper;
 

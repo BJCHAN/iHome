@@ -8,7 +8,7 @@ import com.tianchuang.ihome_b.adapter.MyOrderUnderWayAdapter;
 import com.tianchuang.ihome_b.bean.MyOrderCommonBean;
 import com.tianchuang.ihome_b.bean.MyOrderListBean;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
-import com.tianchuang.ihome_b.http.retrofit.model.MyOrderModel;
+import com.tianchuang.ihome_b.bean.model.MyOrderModel;
 import com.tianchuang.ihome_b.utils.UserUtil;
 
 import java.util.ArrayList;

@@ -19,7 +19,7 @@ import com.tianchuang.ihome_b.bean.event.FeeSubmitSuccess;
 import com.tianchuang.ihome_b.bean.event.MaterialFeeEvent;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
-import com.tianchuang.ihome_b.http.retrofit.model.MyOrderModel;
+import com.tianchuang.ihome_b.bean.model.MyOrderModel;
 import com.tianchuang.ihome_b.utils.StringUtils;
 import com.tianchuang.ihome_b.utils.ToastUtil;
 import com.tianchuang.ihome_b.view.ChargeTypeDialogFragment;
@@ -174,6 +174,7 @@ public class MyOrderFeeDetailFragment extends BaseFragment implements ChargeType
 						showProgress();
 					}
 				})
+				.retry(2)
 				.subscribe(new RxSubscribe<Object>() {
 					@Override
 					public void onCompleted() {

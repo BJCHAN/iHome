@@ -49,4 +49,6 @@
     <!--我的任务-->
     <string name="mytask_underway_empty">您还没有进行中的任务</string>
     <string name="mytask_finished_empty">您还没有已完成的任务</string>
+    <!--表单-->
+    <string name="form_type_string">表单类型：</string>
 </resources>

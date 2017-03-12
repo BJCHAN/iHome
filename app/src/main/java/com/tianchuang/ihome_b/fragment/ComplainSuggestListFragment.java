@@ -1,7 +1,6 @@
 package com.tianchuang.ihome_b.fragment;
 
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -17,12 +16,12 @@ import com.tianchuang.ihome_b.adapter.ComplainSuggestListAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.ComplainSuggestProcessedBean;
 import com.tianchuang.ihome_b.bean.ComplainSuggestUntratedBean;
-import com.tianchuang.ihome_b.bean.PullToLoadMoreListener;
-import com.tianchuang.ihome_b.bean.recyclerview.ComplainSuggestListItem;
+import com.tianchuang.ihome_b.bean.recyclerview.PullToLoadMoreListener;
+import com.tianchuang.ihome_b.bean.ComplainSuggestListItem;
 import com.tianchuang.ihome_b.bean.recyclerview.EmptyLoadMore;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
-import com.tianchuang.ihome_b.http.retrofit.model.ComplainSuggestModel;
+import com.tianchuang.ihome_b.bean.model.ComplainSuggestModel;
 import com.tianchuang.ihome_b.utils.ToastUtil;
 import com.tianchuang.ihome_b.utils.UserUtil;
 import com.tianchuang.ihome_b.utils.ViewHelper;
