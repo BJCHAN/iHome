@@ -40,6 +40,11 @@ abstract class BaseRefreshAndLoadMoreFragment<T extends BaseItemLoadBean, E exte
     RecyclerView rvList;
     @BindView(R.id.swipeLayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
+    private boolean isOpenListAnim = true;//是否开启列表动画,默认开启
+
+    public void setOpenListAnim(boolean openListAnim) {
+        isOpenListAnim = openListAnim;
+    }
 
     @Override
     protected int getLayoutId() {
@@ -172,7 +177,9 @@ abstract class BaseRefreshAndLoadMoreFragment<T extends BaseItemLoadBean, E exte
     private void setAdapter() {
         //添加空页面
         adapter.setEmptyView(ViewHelper.getEmptyView(getEmptyString()));
-        adapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
+        if (isOpenListAnim) {
+            adapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
+        }
         adapter.setOnLoadMoreListener(new EmptyLoadMore());
         int size = mData.size();
         if (size < pageSize) {//加载的view Gone掉

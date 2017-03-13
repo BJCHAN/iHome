@@ -11,6 +11,7 @@ import com.tianchuang.ihome_b.bean.FormTypeListBean;
 import com.tianchuang.ihome_b.bean.LoginBean;
 import com.tianchuang.ihome_b.bean.MaterialListItemBean;
 import com.tianchuang.ihome_b.bean.MenuInnerListBean;
+import com.tianchuang.ihome_b.bean.MyFormListBean;
 import com.tianchuang.ihome_b.bean.MyOrderDetailBean;
 import com.tianchuang.ihome_b.bean.MyOrderListBean;
 import com.tianchuang.ihome_b.bean.PropertyListItemBean;
@@ -282,6 +283,7 @@ public interface ShowApi {
                                                 @Query("feeItems") String content);
 
     /**
+     * 我的访客
      * params
      * propertyCompanyId:xxxxxx                //物业ID
      * mobile:138xxxxxx                        //手机号(可以为空)
@@ -293,6 +295,7 @@ public interface ShowApi {
                                                    @Query("maxId") int maxId);
 
     /**
+     * 表单类型列表
      * params
      * propertyCompanyId:xxxxxx                //物业ID
      * maxId
@@ -302,6 +305,7 @@ public interface ShowApi {
                                                          @Query("maxId") int maxId);
 
     /**
+     * 表单提交
      * params
      * propertyCompanyId:xxxxxx                //物业ID
      * formTypeId:xxx                          表单类型ID（对应在投诉类型列表接口中id）
@@ -312,4 +316,15 @@ public interface ShowApi {
     @POST(BizInterface.FORM_SUBMIT_URL)
     Observable<HttpModle<String>> formSubmit(@QueryMap Map<String, String> map,
                                              @Part() List<MultipartBody.Part> parts);
+
+    /**
+     * 我的表单列表
+     * params
+     * propertyCompanyId:xxxxxx                //物业ID
+     * maxId
+     */
+    @POST(BizInterface.MY_FORM_LIST_URL)
+    Observable<HttpModle<MyFormListBean>> myFormList(@Query("propertyCompanyId") int propertyCompanyId,
+                                                     @Query("maxId") int maxId);
+
 }

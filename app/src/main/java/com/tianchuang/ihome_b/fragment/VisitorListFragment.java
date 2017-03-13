@@ -19,13 +19,13 @@ import rx.Observable;
  * description:我的访客
  */
 
-public class VisitorListFragment2 extends BaseRefreshAndLoadMoreFragment<VisitorBean.VisitorItemBean, VisitorBean> implements VisitorListActivity.RequestSearchListener {
+public class VisitorListFragment extends BaseRefreshAndLoadMoreFragment<VisitorBean.VisitorItemBean, VisitorBean> implements VisitorListActivity.RequestSearchListener {
 
     private VisitorListActivity holdingActivity;
     private String phone = "";
 
-    public static VisitorListFragment2 newInstance() {
-        return new VisitorListFragment2();
+    public static VisitorListFragment newInstance() {
+        return new VisitorListFragment();
     }
 
 
@@ -38,6 +38,7 @@ public class VisitorListFragment2 extends BaseRefreshAndLoadMoreFragment<Visitor
 
     @Override
     protected BaseQuickAdapter initAdapter(ArrayList<VisitorBean.VisitorItemBean> mData, VisitorBean listBean) {
+        setOpenListAnim(false);//关闭列表加载动画
         return new VistorListAdapter(R.layout.item_visitor, mData);
     }
 

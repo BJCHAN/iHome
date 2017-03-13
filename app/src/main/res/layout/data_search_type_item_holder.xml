@@ -20,7 +20,6 @@
         android:text="会员权益" />
 
     <ImageView
-        android:id="@+id/tv_tag"
         android:layout_width="12dp"
         android:layout_height="12dp"
         android:layout_gravity="center_vertical|right"

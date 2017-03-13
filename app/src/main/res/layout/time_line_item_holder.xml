@@ -6,7 +6,6 @@
               android:orientation="horizontal">
 
     <RelativeLayout
-        android:id="@+id/rlTimeline"
         android:layout_width="32dp"
         android:layout_height="match_parent">
 
@@ -35,7 +34,6 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/rlCenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingBottom="6dp"

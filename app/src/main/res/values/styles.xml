@@ -60,6 +60,11 @@
         <item name="android:textColor">@color/TC_1</item>
         <item name="android:textSize">@dimen/text_normal_size</item>
     </style>
+    <!--15dp灰-->
+    <style name="normal_content_gray_text">
+    <item name="android:textColor">@color/TC_2</item>
+    <item name="android:textSize">@dimen/text_normal_size</item>
+    </style>
     <!--卡片布局的样式-->
     <style name="common_normal_cardview">
         <item name="android:layout_width">match_parent</item>

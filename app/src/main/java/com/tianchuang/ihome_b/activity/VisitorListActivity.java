@@ -1,6 +1,8 @@
 package com.tianchuang.ihome_b.activity;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -9,7 +11,7 @@ import android.widget.TextView;
 
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.base.BaseCustomActivity;
-import com.tianchuang.ihome_b.fragment.VisitorListFragment2;
+import com.tianchuang.ihome_b.fragment.VisitorListFragment;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -49,7 +51,28 @@ public class VisitorListActivity extends BaseCustomActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setFinishWithAnim(true);
-        addFragment(VisitorListFragment2.newInstance());
+        addFragment(VisitorListFragment.newInstance());
+        etSearchText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String phone = s.toString().trim();
+                if ("".equals(phone)) {
+                    if (requestSearchListener != null) {//搜索栏为空的时候,还原数据
+                        requestSearchListener.searchByPhoneNum(phone);
+                    }
+                }
+            }
+        });
     }
 
     @OnClick({R.id.iv_back, R.id.search_icon, R.id.iv_search_request})

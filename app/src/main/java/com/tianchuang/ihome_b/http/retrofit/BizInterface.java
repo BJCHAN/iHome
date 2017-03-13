@@ -73,5 +73,7 @@ public interface BizInterface {
 	String Form_Type_LIST_URL = "form/type/list.html";
 	//表单提交
 	String FORM_SUBMIT_URL = "form/add.html";
+	//我的表单
+	String MY_FORM_LIST_URL = "form/list/my.html";
 
 }

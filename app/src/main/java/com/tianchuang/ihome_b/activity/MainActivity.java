@@ -166,6 +166,9 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (position) {
+                    case 1:
+                        startActivityWithAnim(new Intent(MainActivity.this, MyFormActivity.class));
+                        break;
                     case 3:
                         startActivityWithAnim(new Intent(MainActivity.this, MyOrderActivity.class));
                         break;

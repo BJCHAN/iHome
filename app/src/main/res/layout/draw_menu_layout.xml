@@ -7,7 +7,6 @@
              android:tag="left">
 
     <ImageView
-        android:id="@+id/iv_drawer_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/app_primary_color"
@@ -19,7 +18,6 @@
         android:orientation="vertical">
 
         <RelativeLayout
-            android:id="@+id/id_draw_menu_header"
             android:layout_width="match_parent"
             android:layout_height="154dp">
 

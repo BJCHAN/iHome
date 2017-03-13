@@ -107,23 +107,23 @@
             android:name=".activity.MyOrderActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-        <!--我的任务-->
+        <!-- 我的任务 -->
         <activity
             android:name=".activity.MyTaskActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-        <!--表单申报-->
+        <!-- 表单申报 -->
         <activity
             android:name=".activity.DeclareFormActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
-        <!--表单提交-->
+        <!-- 表单提交 -->
         <activity
             android:name=".activity.FormSubmitActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-
+        <activity android:name=".activity.MyFormActivity"></activity>
     </application>
 
 </manifest>

@@ -65,12 +65,20 @@ dependencies {
         transitive = true
     }
     compile project(':photoviewlibrary')
+    //cardView
+    //rx的库
+    //数据库
+    //加验证的库
+    //zxing扫码
+    //图片选择器
+    //气泡背景框
+    //facebook提供的调试工具
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.android.support:design:25.2.0'
-    compile 'com.android.support:cardview-v7:25.2.0'    //cardView
+    compile 'com.android.support:cardview-v7:25.2.0'
     compile 'com.jakewharton:butterknife:8.0.1'
     compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'io.reactivex:rxjava:1.1.6'      //rx的库
+    compile 'io.reactivex:rxjava:1.1.6'
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'com.jakewharton.rxbinding:rxbinding:1.0.0'
     compile 'com.trello:rxlifecycle:0.4.0'
@@ -78,12 +86,13 @@ dependencies {
     compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:v2.8.2'
     compile 'com.orhanobut:logger:1.11'
-    compile 'org.litepal.android:core:1.4.1'//数据库
-    compile 'net.oauth.core:oauth:20100527'//加验证的库
-    compile 'cn.yipianfengye.android:zxing-library:2.0'//zxing扫码
-    compile 'com.yuyh.imgsel:library:1.3.7'    //图片选择器
-    compile 'com.daasuu:BubbleLayout:1.1.1'//气泡背景框
+    compile 'org.litepal.android:core:1.4.1'
+    compile 'net.oauth.core:oauth:20100527'
+    compile 'cn.yipianfengye.android:zxing-library:2.0'
+    compile 'com.yuyh.imgsel:library:1.3.7'
+    compile 'com.daasuu:BubbleLayout:1.1.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
+    compile 'com.facebook.stetho:stetho:1.4.2'
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.0.1'
 }

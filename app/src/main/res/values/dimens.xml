@@ -3,22 +3,9 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="S0">10.5sp</dimen>
-    <dimen name="S1">12sp</dimen>
-    <dimen name="S2">13sp</dimen>
-    <dimen name="S3">14sp</dimen>
-    <dimen name="S4">15sp</dimen>
-    <dimen name="S5">16sp</dimen>
-    <dimen name="S6">18sp</dimen>
-    <dimen name="S7">20sp</dimen>
-    <dimen name="S8">24sp</dimen>
-    <dimen name="S9">30sp</dimen>
-    <dimen name="text_small_size">13sp</dimen>
     <dimen name="text_normal_size">15sp</dimen>
-    <dimen name="text_large_size">18sp</dimen>
 
 
     <dimen name="H0">10dp</dimen>
     <dimen name="H1">15dp</dimen>
-    <dimen name="H2">20dp</dimen>
 </resources>
