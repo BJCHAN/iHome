@@ -108,7 +108,7 @@ public class MainActivity extends BaseActivity {
      */
     public void setSpinnerText(String text) {
         if (FragmentUtils.findFragment(getSupportFragmentManager(), PropertyListFragment.class) == null) {//非二级fragment，为主页
-            Drawable drawable = ContextCompat.getDrawable(this, R.mipmap.down_arrow);
+            Drawable drawable = ContextCompat.getDrawable(this, R.drawable.triangle_icon);
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
             spinner.setCompoundDrawables(null, null, drawable, null);
             spinner.setCompoundDrawablePadding(DensityUtil.dip2px(this, 5));
@@ -170,7 +170,7 @@ public class MainActivity extends BaseActivity {
                         startActivityWithAnim(new Intent(MainActivity.this, MyOrderActivity.class));
                         break;
                     case 4:
-                        startActivityWithAnim(new Intent(MainActivity.this, VisitorListActivity2.class));
+                        startActivityWithAnim(new Intent(MainActivity.this, VisitorListActivity.class));
                         break;
                     case 6://投诉建议
                         startActivityWithAnim(new Intent(MainActivity.this, ComplainSuggestActivity.class));

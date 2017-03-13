@@ -13,8 +13,8 @@ import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.BaseItemLoadBean;
 import com.tianchuang.ihome_b.bean.BaseListLoadBean;
-import com.tianchuang.ihome_b.bean.recyclerview.PullToLoadMoreListener;
 import com.tianchuang.ihome_b.bean.recyclerview.EmptyLoadMore;
+import com.tianchuang.ihome_b.bean.recyclerview.PullToLoadMoreListener;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
 import com.tianchuang.ihome_b.utils.ToastUtil;
 import com.tianchuang.ihome_b.utils.ViewHelper;
@@ -69,7 +69,7 @@ abstract class BaseRefreshAndLoadMoreFragment<T extends BaseItemLoadBean, E exte
                         pageSize = bean.getPageSize();
                         mData = bean.getListVo();
                         adapter = initAdapter(mData, bean);
-                        setAdapter(adapter);
+                        setAdapter();
                         rvList.setAdapter(adapter);
                         dismissProgress();
                     }
@@ -144,8 +144,10 @@ abstract class BaseRefreshAndLoadMoreFragment<T extends BaseItemLoadBean, E exte
                         mData.clear();
                         mData.addAll(bean.getListVo());
                         adapter.setNewData(mData);
-                        if (bean.getListVo().size() < pageSize) {//加载的view Gone掉
-                            adapter.loadMoreEnd(true);
+                        int size = bean.getListVo().size();
+                        if (size < pageSize) {//加载的view Gone掉
+//                            adapter.loadMoreEnd(true);
+                            setLoadMoreEnd(size);
                         }
                         mSwipeRefreshLayout.setRefreshing(false);//刷新完成
                     }
@@ -167,13 +169,14 @@ abstract class BaseRefreshAndLoadMoreFragment<T extends BaseItemLoadBean, E exte
     /**
      * 设置adapter
      */
-    private void setAdapter(final BaseQuickAdapter adapter) {
+    private void setAdapter() {
         //添加空页面
         adapter.setEmptyView(ViewHelper.getEmptyView(getEmptyString()));
         adapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
         adapter.setOnLoadMoreListener(new EmptyLoadMore());
-        if (mData.size() < pageSize) {//加载的view Gone掉
-            adapter.loadMoreEnd(true);
+        int size = mData.size();
+        if (size < pageSize) {//加载的view Gone掉
+            setLoadMoreEnd(size);
         }
         rvList.addOnItemTouchListener(new OnItemClickListener() {
             @Override
@@ -182,6 +185,14 @@ abstract class BaseRefreshAndLoadMoreFragment<T extends BaseItemLoadBean, E exte
             }
         });
 
+    }
+
+    private void setLoadMoreEnd(int listSize) {
+        if (listSize >= 6) {
+            adapter.loadMoreEnd(false);
+        } else {
+            adapter.loadMoreEnd(true);
+        }
     }
 
     /**
@@ -210,4 +221,5 @@ abstract class BaseRefreshAndLoadMoreFragment<T extends BaseItemLoadBean, E exte
      * 空页面的字符串
      */
     protected abstract String getEmptyString();
+
 }

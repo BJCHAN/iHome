@@ -5,13 +5,13 @@ import android.os.Bundle;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tianchuang.ihome_b.R;
-import com.tianchuang.ihome_b.activity.DeclareFormActivity;
 import com.tianchuang.ihome_b.activity.FormSubmitActivity;
 import com.tianchuang.ihome_b.adapter.FormTypeListAdapter;
 import com.tianchuang.ihome_b.bean.FormTypeItemBean;
 import com.tianchuang.ihome_b.bean.FormTypeListBean;
 import com.tianchuang.ihome_b.bean.model.FormModel;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
+import com.tianchuang.ihome_b.utils.LayoutUtil;
 
 import java.util.ArrayList;
 
@@ -23,7 +23,6 @@ import rx.Observable;
  */
 
 public class FormTypeListFragment extends BaseRefreshAndLoadMoreFragment<FormTypeItemBean, FormTypeListBean> {
-    private DeclareFormActivity holdingActivity;
 
     public static FormTypeListFragment newInstance() {
         return new FormTypeListFragment();
@@ -31,15 +30,17 @@ public class FormTypeListFragment extends BaseRefreshAndLoadMoreFragment<FormTyp
 
     @Override
     protected BaseQuickAdapter initAdapter(ArrayList<FormTypeItemBean> mData, FormTypeListBean listBean) {
-        return new FormTypeListAdapter(R.layout.form_type_item_holder, mData);
+        FormTypeListAdapter formTypeListAdapter = new FormTypeListAdapter(R.layout.form_type_item_holder, mData);
+        formTypeListAdapter.addHeaderView(LayoutUtil.inflate(R.layout.form_type_list_header_holder));
+        return formTypeListAdapter;
     }
 
 
     @Override
     protected void onListitemClick(FormTypeItemBean itemBean) {
-        Intent intent = new Intent(getHoldingActivity(),FormSubmitActivity.class);
+        Intent intent = new Intent(getHoldingActivity(), FormSubmitActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable("item",itemBean);
+        bundle.putSerializable("item", itemBean);
         intent.putExtras(bundle);
         startActivityWithAnim(intent);
     }

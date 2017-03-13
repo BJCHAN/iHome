@@ -66,8 +66,6 @@ public class FormSubmitActivity extends BaseActivity implements View.OnClickList
     private FormTypeItemBean formTypeItemBean;
     private List<FormTypeItemBean.FieldsBean> fields;
     private SparseArray<String> editTexts;
-    private HashMap<String, String> radioTexts;
-    private HashMap<String, String> textTexts;
     private SubmitMultiAdapter submitMultiAdapter;
 
     @Override
@@ -87,7 +85,6 @@ public class FormSubmitActivity extends BaseActivity implements View.OnClickList
         ButterKnife.bind(this);
         initNormalToolbar(acToolbarToolbar);
         toolbarTitle.setText("表单申报");
-//        EventBus.getDefault().register(this);
         handleIntent();
     }
 
@@ -120,7 +117,6 @@ public class FormSubmitActivity extends BaseActivity implements View.OnClickList
             CustomLinearLayoutManager customLinearLayoutManager = new CustomLinearLayoutManager(FormSubmitActivity.this);
             customLinearLayoutManager.setScrollEnabled(false);
             mRecyclerView.setLayoutManager(customLinearLayoutManager);
-//            controlKeyboardLayout(llSubmitForm, mRecyclerView);
         }
     }
 
@@ -168,7 +164,7 @@ public class FormSubmitActivity extends BaseActivity implements View.OnClickList
                             cheakBean.setCan(true);
                         } else if (!textIsPut) {
                             cheakBean.setCan(false);
-                            cheakBean.setTip("文本不能为空");
+                            cheakBean.setTip("文本或选项不能为空");
                         } else if (!imagesIsPut) {
                             cheakBean.setCan(false);
                             cheakBean.setTip("图片不能为空");
@@ -214,8 +210,9 @@ public class FormSubmitActivity extends BaseActivity implements View.OnClickList
                 .subscribe(new RxSubscribe<String>() {
                     @Override
                     protected void _onNext(String s) {
-                        ToastUtil.showToast(FormSubmitActivity.this, "成功");
                         dismissProgress();
+                        ToastUtil.showToast(FormSubmitActivity.this, "申报成功");
+                        finishWithAnim();
                     }
 
                     @Override

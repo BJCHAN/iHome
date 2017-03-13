@@ -123,11 +123,7 @@
             android:name=".activity.FormSubmitActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-        <!--表单提交-->
-        <activity
-            android:name=".activity.VisitorListActivity2"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>
