@@ -44,11 +44,13 @@ public interface ShowApi {
      * mobile:138********  （手机号11位）
      * passwd:****         （密码6-16位）
      * smsCode:****        （4位数字)
+     *  name:****           （真实姓名0-4）
      */
     @POST(BizInterface.REGISTER_URL)
     Observable<HttpModle<String>> registerAccount(@Query("mobile") String phone,
                                                   @Query("passwd") String passwd,
-                                                  @Query("smsCode") String smsCode);
+                                                  @Query("smsCode") String smsCode,
+                                                  @Query("name") String name);
 
     /***
      * 登录

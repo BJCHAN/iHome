@@ -3,7 +3,6 @@ package com.tianchuang.ihome_b;
 import android.app.Activity;
 import android.app.Application;
 
-import com.facebook.stetho.Stetho;
 import com.tianchuang.ihome_b.database.UserInfo;
 import com.tianchuang.ihome_b.utils.Utils;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
@@ -29,7 +28,6 @@ public class TianChuangApplication extends Application {
         super.onCreate();
         if (application == null)
             application = this;
-        Stetho.initializeWithDefaults(this);//FaceBook的调试工具初始化
         Utils.init(this);//初始化工具类
         LitePal.initialize(this);
         ZXingLibrary.initDisplayOpinion(this);//初始化zxing扫码

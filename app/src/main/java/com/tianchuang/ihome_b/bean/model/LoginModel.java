@@ -22,8 +22,8 @@ public class LoginModel {
 	/**
 	 * 注册账号
 	 */
-	public static Observable<HttpModle<String>> requestRegisterAccount(String phone, String pwd, String authCode) {
-		return RetrofitService.createShowApi().registerAccount(phone, pwd, authCode);
+	public static Observable<HttpModle<String>> requestRegisterAccount(String phone, String pwd, String authCode,String name) {
+		return RetrofitService.createShowApi().registerAccount(phone, pwd, authCode,name);
 	}
 
 	/**

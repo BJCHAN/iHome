@@ -51,4 +51,5 @@
     <!--表单-->
     <string name="form_type_string">表单类型：</string>
     <string name="myform_no_form_string">您还没有表单</string>
+    <string name="register_name_error">姓名不能为空</string>
 </resources>

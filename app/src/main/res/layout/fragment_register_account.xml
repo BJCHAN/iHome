@@ -15,14 +15,32 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-
+            <EditText
+                android:id="@+id/et_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="47dp"
+                android:layout_marginRight="47dp"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/bg_edittext_normal_shape"
+                android:drawablePadding="10dp"
+                android:maxLength="4"
+                android:hint="姓名"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp"
+                android:paddingTop="10dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textColorHint="@color/BC_1"
+                android:textSize="15sp"/>
             <EditText
                 android:id="@+id/et_phone_num"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="47dp"
                 android:layout_marginRight="47dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="15dp"
                 android:background="@drawable/bg_edittext_normal_shape"
                 android:drawableLeft="@mipmap/phone_icon"
                 android:drawablePadding="10dp"
