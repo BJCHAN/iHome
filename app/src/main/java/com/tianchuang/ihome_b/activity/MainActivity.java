@@ -38,6 +38,7 @@ import com.tianchuang.ihome_b.permission.MPermission;
 import com.tianchuang.ihome_b.permission.OnMPermissionDenied;
 import com.tianchuang.ihome_b.permission.OnMPermissionGranted;
 import com.tianchuang.ihome_b.utils.DensityUtil;
+import com.tianchuang.ihome_b.utils.FileUtils;
 import com.tianchuang.ihome_b.utils.FragmentUtils;
 import com.tianchuang.ihome_b.utils.UserUtil;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
@@ -343,5 +344,6 @@ public class MainActivity extends BaseActivity {
     protected void onDestroy() {
         EventBus.getDefault().unregister(this);
         super.onDestroy();
+        FileUtils.deleteImageFile();//删除上传图片缓存
     }
 }

@@ -64,4 +64,6 @@ public class TianChuangApplication extends Application {
     public void setUserInfo(UserInfo userInfo) {
         this.userInfo = userInfo;
     }
+
+
 }

@@ -8,7 +8,7 @@ import com.tianchuang.ihome_b.fragment.FormTypeListFragment;
 
 /**
  * Created by Abyss on 2017/3/10.
- * description:
+ * description:表单申报
  */
 
 public class DeclareFormActivity extends ToolBarActivity {
