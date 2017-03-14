@@ -60,6 +60,10 @@ repositories {
 }
 
 dependencies {
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    //检查内存泄露
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile('com.github.afollestad.material-dialogs:commons:0.8.5.7@aar') {
         transitive = true

@@ -3,6 +3,7 @@ package com.tianchuang.ihome_b;
 import android.app.Activity;
 import android.app.Application;
 
+import com.squareup.leakcanary.LeakCanary;
 import com.tianchuang.ihome_b.database.UserInfo;
 import com.tianchuang.ihome_b.utils.Utils;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
@@ -26,6 +27,10 @@ public class TianChuangApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            return;
+        }
+        LeakCanary.install(this);//检测内存泄露的工具
         if (application == null)
             application = this;
         Utils.init(this);//初始化工具类

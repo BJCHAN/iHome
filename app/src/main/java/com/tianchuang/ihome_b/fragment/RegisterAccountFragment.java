@@ -3,9 +3,7 @@ package com.tianchuang.ihome_b.fragment;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -27,7 +25,6 @@ import com.tianchuang.ihome_b.view.RegisterDialogFragment;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
 import rx.Subscriber;
@@ -144,7 +141,7 @@ public class RegisterAccountFragment extends BaseFragment {
                 .subscribe(new Action1<Boolean>() {
                     @Override
                     public void call(Boolean aBoolean) {
-                        showDialog(phone, password,name);
+                        showDialog(phone, password, name);
                     }
                 });
 
@@ -172,7 +169,7 @@ public class RegisterAccountFragment extends BaseFragment {
                         //跳转添加验证码页面
                         holdingActivity.openFragment(AuthCodeFragment
                                 .newInstance(phone
-                                        , password,name)
+                                        , password, name)
                         );
                     }
 
