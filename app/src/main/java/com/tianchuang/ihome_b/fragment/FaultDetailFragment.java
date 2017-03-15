@@ -42,7 +42,6 @@ public class FaultDetailFragment extends BaseFragment {
     TextView tvRobOrder;
     private DetailMultiAdapter mAdapter;
     private int repairsId;
-    private FaultDetailActivity holdingActivity;
 
 
     @Override
@@ -63,13 +62,6 @@ public class FaultDetailFragment extends BaseFragment {
         rvList.setLayoutManager(new LinearLayoutManager(getContext()));
         initMyData();
     }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        holdingActivity = ((FaultDetailActivity) getHoldingActivity());
-    }
-
     private void initMyData() {
         RobHallListItem item = (RobHallListItem) getArguments().getSerializable("item");
         if (item != null) {
@@ -121,7 +113,7 @@ public class FaultDetailFragment extends BaseFragment {
                         public void onNext(HttpModle<String> modle) {
                             if (modle.success()) {
                                 ToastUtil.showToast(getContext(), "抢单成功");
-                                holdingActivity.finishWithAnim();
+                               getHoldingActivity().finishWithAnim();
                             } else {
                                 showDialog(modle.msg);
                             }

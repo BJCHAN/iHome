@@ -38,7 +38,6 @@ public class ComplainDetailFragment extends BaseFragment {
 	RecyclerView rvList;
 	@BindView(R.id.fl_complain)
 	FrameLayout flComplain;
-	private ComplainSuggestActivity holdingActivity;
 	private TextView tv_sure;
 	private EditText tv_content;
 
@@ -58,13 +57,12 @@ public class ComplainDetailFragment extends BaseFragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-		holdingActivity.setToolbarTitle("投诉详情");
+		setToolbarTitle("投诉详情");
 	}
 
 	@Override
 	protected void initView(View view, Bundle savedInstanceState) {
 		int id = getArguments().getInt("id");
-		holdingActivity = ((ComplainSuggestActivity) getHoldingActivity());
 		rvList.addItemDecoration(new CommonItemDecoration(20));
 		rvList.setLayoutManager(new LinearLayoutManager(getContext()));
 		requestNet(id);

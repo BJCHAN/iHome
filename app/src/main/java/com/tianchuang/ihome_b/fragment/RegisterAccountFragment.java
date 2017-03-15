@@ -82,7 +82,7 @@ public class RegisterAccountFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-        holdingActivity.setToolbarTitle("注册账号");
+        setToolbarTitle("注册账号");
     }
 
     @Override

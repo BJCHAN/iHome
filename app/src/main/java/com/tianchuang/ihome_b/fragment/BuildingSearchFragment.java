@@ -28,7 +28,7 @@ import butterknife.BindView;
 public class BuildingSearchFragment extends BaseFragment {
 	@BindView(R.id.rv_list)
 	RecyclerView rvList;
-	private DataSearchActivity holdingActivity;
+
 	@Override
 	protected int getLayoutId() {
 		return R.layout.fragment_building_search;
@@ -40,12 +40,11 @@ public class BuildingSearchFragment extends BaseFragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-		holdingActivity.setToolbarTitle("楼宇查询");
+		setToolbarTitle("楼宇查询");
 	}
 
 	@Override
 	protected void initView(View view, Bundle savedInstanceState) {
-		holdingActivity = ((DataSearchActivity) getHoldingActivity());
 		rvList.addItemDecoration(new CommonItemDecoration(20));
 		rvList.setLayoutManager(new LinearLayoutManager(getContext()));
 		requestNet();

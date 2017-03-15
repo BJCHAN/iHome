@@ -32,14 +32,15 @@ import rx.functions.Action0;
  */
 
 abstract class BaseRefreshAndLoadMoreFragment<T extends BaseItemLoadBean, E extends BaseListLoadBean> extends BaseFragment implements PullToLoadMoreListener.OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
-    protected int pageSize;
-    protected ArrayList<T> mData;
-    protected BaseQuickAdapter adapter;
-    private boolean isLoadMoreLoading = false;//是否正在加载更多
     @BindView(R.id.rv_list)
     RecyclerView rvList;
     @BindView(R.id.swipeLayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
+
+    protected int pageSize;
+    protected ArrayList<T> mData;
+    protected BaseQuickAdapter adapter;
+    private boolean isLoadMoreLoading = false;//是否正在加载更多
     private boolean isOpenListAnim = true;//是否开启列表动画,默认开启
 
     public void setOpenListAnim(boolean openListAnim) {

@@ -60,7 +60,7 @@ public class MyOrderDetailFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-        holdingActivity.setToolbarTitle("订单详情");
+       setToolbarTitle("订单详情");
     }
 
     @Override

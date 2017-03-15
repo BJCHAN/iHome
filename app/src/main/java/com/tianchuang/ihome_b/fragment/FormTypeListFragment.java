@@ -19,7 +19,7 @@ import rx.Observable;
 
 /**
  * Created by Abyss on 2017/3/10.
- * description:
+ * description:表单类型列表fragment
  */
 
 public class FormTypeListFragment extends BaseRefreshAndLoadMoreFragment<FormTypeItemBean, FormTypeListBean> {

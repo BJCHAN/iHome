@@ -27,6 +27,7 @@ public abstract class BaseActivity extends RxFragmentActivity {
     }
 
     private MaterialDialogsUtil materialDialogsUtil;
+    private MaterialDialog progressDialog;
 
     //布局文件ID
     protected abstract int getLayoutId();
@@ -122,8 +123,7 @@ public abstract class BaseActivity extends RxFragmentActivity {
                     localIntent.setClassName("com.android.settings", "com.android.settings.InstalledAppDetails");
                     localIntent.putExtra("com.android.settings.ApplicationPkgName", getPackageName());
                 }
-                startActivity(localIntent);
-                overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
+                startActivityWithAnim(localIntent);
                 if (isCloese) {
                     finish();
                 }
@@ -143,7 +143,6 @@ public abstract class BaseActivity extends RxFragmentActivity {
         overridePendingTransition(R.anim.in_from_left, R.anim.out_to_right);
     }
 
-    private MaterialDialog progressDialog;
 
     public void showProgress() {
         if (progressDialog == null) {

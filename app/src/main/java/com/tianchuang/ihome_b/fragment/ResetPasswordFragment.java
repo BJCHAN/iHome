@@ -70,7 +70,7 @@ public class ResetPasswordFragment extends BaseFragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-		activity.setToolbarTitle("重置密码");
+		setToolbarTitle("重置密码");
 	}
 
 	@Override

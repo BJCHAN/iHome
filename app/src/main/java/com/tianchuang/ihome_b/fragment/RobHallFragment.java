@@ -25,7 +25,6 @@ import rx.Observable;
 
 public class RobHallFragment extends BaseRefreshAndLoadMoreFragment<RobHallListItem, RobHallListBean> {
 
-    private RobHallActivity holdingActivity;
 
     public static RobHallFragment newInstance() {
         return new RobHallFragment();
@@ -34,14 +33,8 @@ public class RobHallFragment extends BaseRefreshAndLoadMoreFragment<RobHallListI
     @Override
     public void onStart() {
         super.onStart();
-        holdingActivity.setToolbarTitle("抢单大厅");
+       setToolbarTitle("抢单大厅");
     }
-
-    @Override
-    protected void handleBundle() {
-        holdingActivity = ((RobHallActivity) getHoldingActivity());
-    }
-
     @Override
     protected BaseQuickAdapter initAdapter(ArrayList<RobHallListItem> mData, RobHallListBean listBean) {
         return new RobHallAdapter(R.layout.rob_hall_item_holder, mData);

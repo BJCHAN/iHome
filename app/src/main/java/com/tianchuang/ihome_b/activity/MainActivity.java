@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -25,7 +24,6 @@ import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.TianChuangApplication;
 import com.tianchuang.ihome_b.adapter.DrawMenuAdapter;
 import com.tianchuang.ihome_b.base.BaseActivity;
-import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.DrawMenuItem;
 import com.tianchuang.ihome_b.bean.LoginBean;
 import com.tianchuang.ihome_b.bean.event.LogoutEvent;
@@ -263,20 +261,8 @@ public class MainActivity extends BaseActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(SwitchSuccess event) {//切换用户的事件
 
-//            setSpinnerText(loginBean.getPropertyCompanyName());
-
-
     }
 
-    /**
-     * 清楚主页所有fragment，再添加
-     */
-    private void clearAndAddFragment(BaseFragment f) {
-        for (Fragment fragment : FragmentUtils.getFragments(getSupportFragmentManager())) {//清空所有fragment
-            FragmentUtils.removeFragment(fragment);
-        }
-        addFragment(f);//添加主页
-    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)//接收打开扫一扫的事件
     public void onMessageEvent(OpenScanEvent event) {//打开扫一扫的事件

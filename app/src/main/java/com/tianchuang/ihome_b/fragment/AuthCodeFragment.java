@@ -65,7 +65,7 @@ public class AuthCodeFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-        holdingActivity.setToolbarTitle("验证码");
+       setToolbarTitle("验证码");
 
     }
 

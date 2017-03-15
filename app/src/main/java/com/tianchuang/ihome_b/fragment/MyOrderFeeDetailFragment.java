@@ -56,7 +56,6 @@ public class MyOrderFeeDetailFragment extends BaseFragment implements ChargeType
 	CheckBox cbIsunderLine;
 	@BindView(R.id.bt_sure)
 	Button btSure;
-	private MyOrderActivity holdingActivity;
 	private ArrayList<MaterialListItemBean> materialList;
 	private ArrayList<ChargeTypeListItemBean> chargeTypeList;
 	private Observable<ArrayList<MaterialListItemBean>> materialListObservable;
@@ -87,12 +86,11 @@ public class MyOrderFeeDetailFragment extends BaseFragment implements ChargeType
 	@Override
 	public void onStart() {
 		super.onStart();
-		holdingActivity.setToolbarTitle("费用明细");
+		setToolbarTitle("费用明细");
 	}
 
 	@Override
 	protected void initView(View view, Bundle savedInstanceState) {
-		holdingActivity = ((MyOrderActivity) getHoldingActivity());
 		repairId = getArguments().getInt("id");
 		commonFeeBeenList = new ArrayList<>();
 		rvItemRemoveRecyclerview.setLayoutManager(new LinearLayoutManager(getContext()));

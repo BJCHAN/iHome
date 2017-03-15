@@ -21,7 +21,6 @@ public class EquipmentTypeFormFragment extends BaseFragment {
 
 	@BindView(R.id.tv_equipment_name)
 	TextView tvEquipmentName;
-	private DataSearchActivity holdingActivity;
 
 	@Override
 	protected int getLayoutId() {
@@ -39,12 +38,10 @@ public class EquipmentTypeFormFragment extends BaseFragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-//		holdingActivity.setToolbarTitle("设备查询");
 	}
 
 	@Override
 	protected void initView(View view, Bundle savedInstanceState) {
-		holdingActivity = ((DataSearchActivity) getHoldingActivity());
 		EquipmentTypeSearchBean item = ((EquipmentTypeSearchBean) getArguments().getSerializable("item"));
 		if (item != null) {
 			tvEquipmentName.setText(item.getName());

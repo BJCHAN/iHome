@@ -15,7 +15,6 @@ import com.tianchuang.ihome_b.base.ToolBarActivity;
 
 public class ProtocolNoteFragment extends BaseFragment {
 
-	private LoginActivity holdingActivity;
 
 	public static ProtocolNoteFragment newInstance() {
 		return new ProtocolNoteFragment();
@@ -23,13 +22,12 @@ public class ProtocolNoteFragment extends BaseFragment {
 
 	@Override
 	protected void initView(View view, Bundle savedInstanceState) {
-		holdingActivity = ((LoginActivity) getHoldingActivity());
 	}
 
 	@Override
 	public void onStart() {
 		super.onStart();
-		holdingActivity.setToolbarTitle("用户注册协议");
+		setToolbarTitle("用户注册协议");
 	}
 
 	@Override

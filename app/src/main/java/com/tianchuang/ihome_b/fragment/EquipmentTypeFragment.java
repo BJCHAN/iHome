@@ -31,7 +31,6 @@ public class EquipmentTypeFragment extends BaseFragment {
 
 	@BindView(R.id.rv_list)
 	RecyclerView rvList;
-	private DataSearchActivity holdingActivity;
 	private EquipmentTypeAdapter typeAdapter;
 	private ArrayList<EquipmentTypeSearchBean> mData;
 
@@ -47,12 +46,11 @@ public class EquipmentTypeFragment extends BaseFragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-		holdingActivity.setToolbarTitle("设备查询");
+	setToolbarTitle("设备查询");
 	}
 
 	@Override
 	protected void initView(View view, Bundle savedInstanceState) {
-		holdingActivity = ((DataSearchActivity) getHoldingActivity());
 		rvList.setLayoutManager(new GridLayoutManager(getContext(), 3));
 		rvList.addItemDecoration(new EquipmentTypeItemDecoration(DensityUtil.dip2px(getContext(), 10)));
 

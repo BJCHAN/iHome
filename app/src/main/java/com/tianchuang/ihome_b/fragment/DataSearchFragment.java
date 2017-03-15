@@ -26,7 +26,6 @@ import butterknife.BindView;
 public class DataSearchFragment extends BaseFragment {
 	@BindView(R.id.rv_list)
 	RecyclerView rvList;
-	private DataSearchActivity holdingActivity;
 
 	public static DataSearchFragment newInstance() {
 		return new DataSearchFragment();
@@ -35,7 +34,7 @@ public class DataSearchFragment extends BaseFragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-		holdingActivity.setToolbarTitle("资料查询");
+		setToolbarTitle("资料查询");
 	}
 
 
@@ -46,7 +45,6 @@ public class DataSearchFragment extends BaseFragment {
 
 	@Override
 	protected void initView(View view, Bundle savedInstanceState) {
-		holdingActivity = ((DataSearchActivity) getHoldingActivity());
 		rvList.addItemDecoration(new CommonItemDecoration(20));
 		rvList.setLayoutManager(new LinearLayoutManager(getContext()));
 		final ArrayList<SimpleItemBean> mData = new ArrayList<>();

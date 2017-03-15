@@ -20,8 +20,8 @@
 #【优化方式】
 -optimizations !code/simplification/arithmetic,!field/*,!class/merging/*
 
-#【混淆时不产生混合的类名】
--dontusemixedcaseclassnames
+##【混淆时不产生混合的类名】
+#-dontusemixedcaseclassnames
 
 #【不忽略非公共的库类】
 -dontskipnonpubliclibraryclasses
@@ -34,6 +34,17 @@
 
 #【保护使用反射机制的类】
 -keepattributes *Annotation*
+
+#把混淆类中的方法名也混淆了
+-useuniqueclassmembernames
+
+#优化时允许访问并修改有修饰符的类和类的成员
+-allowaccessmodification
+
+##将文件来源重命名为“SourceFile”字符串
+#-renamesourcefileattribute SourceFile
+##保留行号
+#-keepattributes SourceFile,LineNumberTable
 
 #【保护使用泛型的类】
 -keepattributes Signature
@@ -79,19 +90,23 @@
 
 #=========================Android API相关====start==================================
 #【保护Android相关组件类】
+#-keep public class * extends android.app.Fragment
+#-keep public class * extends android.app.Activity
+#-keep public class * extends android.app.Application
+#-keep public class * extends android.app.Service
+#-keep public class * extends android.content.BroadcastReceiver
+#-keep public class * extends android.content.ContentProvider
+#-keep public class * extends android.app.backup.BackupAgentHelper
+#-keep public class * extends android.preference.Preference
+#-keep public class * extends android.view.View
+#-keep public class com.android.vending.licensing.ILicensingService
+#-keep public class * extends android.support.v4.**
+#-keep public class * extends android.support.v7.**
+#-keep public class * extends android.support.v8.**
+
+#Fragment不需要在AndroidManifest.xml中注册，需要额外保护下
+-keep public class * extends android.support.v4.app.Fragment
 -keep public class * extends android.app.Fragment
--keep public class * extends android.app.Activity
--keep public class * extends android.app.Application
--keep public class * extends android.app.Service
--keep public class * extends android.content.BroadcastReceiver
--keep public class * extends android.content.ContentProvider
--keep public class * extends android.app.backup.BackupAgentHelper
--keep public class * extends android.preference.Preference
--keep public class * extends android.view.View
--keep public class com.android.vending.licensing.ILicensingService
--keep public class * extends android.support.v4.**
--keep public class * extends android.support.v7.**
--keep public class * extends android.support.v8.**
 
 # 保留Activity中的方法参数是view的方法，
 # 从而我们在layout里面编写onClick就不会影响
@@ -109,7 +124,6 @@
 
 ################gson##################
 -keep class com.google.gson.** {*;}
-#-keep class com.google.**{*;}
 -keep class com.google.gson.stream.** { *; }
 -keep class com.google.** {
     <fields>;

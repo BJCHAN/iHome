@@ -15,8 +15,6 @@ import com.yuyh.library.imgsel.ImgSelConfig;
  */
 
 public class ImagesSelectorUtils {
-
-
 	public static ImgSelConfig getImgSelConfig() {
 		Context context = Utils.getContext();
 		return new ImgSelConfig.Builder(context, new com.yuyh.library.imgsel.ImageLoader() {

@@ -6,7 +6,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'com.android.tools.build:gradle:2.3.0'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
     }
 }
@@ -21,10 +21,10 @@ ext {
     buildToolsVersion = "25.0.2"
     compileSdkVersion = 25
     targetSdkVersion = compileSdkVersion
-    minSdkVersion = 15
+    minSdkVersion = 18      //4.3
     versionCode = 1
     versionName = "1.0.1"
-    supportLibVersion = '25.1.0'
+    supportLibVersion = '25.3.0'
 }
 task clean(type: Delete) {
     delete rootProject.buildDir

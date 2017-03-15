@@ -277,7 +277,7 @@ public class ConfirmFixedFragment extends BaseFragment implements MyOrderActivit
 	@Override
 	public void onStart() {
 		super.onStart();
-		holdingActivity.setToolbarTitle("确认修复");
+		setToolbarTitle("确认修复");
 	}
 
 	/**
