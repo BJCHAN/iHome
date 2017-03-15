@@ -14,6 +14,9 @@ import com.tianchuang.ihome_b.bean.MenuInnerListBean;
 import com.tianchuang.ihome_b.bean.MyFormListBean;
 import com.tianchuang.ihome_b.bean.MyOrderDetailBean;
 import com.tianchuang.ihome_b.bean.MyOrderListBean;
+import com.tianchuang.ihome_b.bean.MyTaskUnderWayListBean;
+import com.tianchuang.ihome_b.bean.NotificationItemBean;
+import com.tianchuang.ihome_b.bean.NotificationListBean;
 import com.tianchuang.ihome_b.bean.PropertyListItemBean;
 import com.tianchuang.ihome_b.bean.RobHallListBean;
 import com.tianchuang.ihome_b.bean.RobHallRepairDetailListBean;
@@ -329,4 +332,31 @@ public interface ShowApi {
     Observable<HttpModle<MyFormListBean>> myFormList(@Query("propertyCompanyId") int propertyCompanyId,
                                                      @Query("maxId") int maxId);
 
+    /**
+     * 我的任务列表(进行中)
+     * params
+     * propertyCompanyId:xxxxxx                //物业ID
+     * maxId
+     */
+    @POST(BizInterface.MY_TASK_LIST_URL)
+    Observable<HttpModle<MyTaskUnderWayListBean>> myTaskUnderWayList(@Query("propertyCompanyId") int propertyCompanyId,
+                                                                     @Query("maxId") int maxId);
+
+    /**
+     * 通知列表
+     * params
+     * propertyCompanyId:xxxxxx                //物业ID
+     * maxId
+     */
+    @POST(BizInterface.NOTIFICATION_LIST_URL)
+    Observable<HttpModle<NotificationListBean>> notificationList(@Query("propertyCompanyId") int propertyCompanyId,
+                                                                 @Query("maxId") int maxId);
+
+    /**
+     * 通知详情
+     * params
+     * noticeId:xx                 （通知ID）
+     */
+    @POST(BizInterface.NOTIFICATION_DETAIL_URL)
+    Observable<HttpModle<NotificationItemBean>> notificationDetail(@Query("noticeId") int noticeId);
 }

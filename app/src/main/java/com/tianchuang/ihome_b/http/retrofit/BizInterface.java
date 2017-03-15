@@ -75,5 +75,11 @@ public interface BizInterface {
 	String FORM_SUBMIT_URL = "form/add.html";
 	//我的表单
 	String MY_FORM_LIST_URL = "form/list/my.html";
+	//我的任务
+	String MY_TASK_LIST_URL = "task/list/new.html";
+	//管理通知列表
+	String NOTIFICATION_LIST_URL = "notification/list.html";
+	//公告详情
+	String NOTIFICATION_DETAIL_URL = "notification/detail.html";
 
 }

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:background="@color/background_gray"
+    android:orientation="vertical">
+    <!--横向的-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="horizontal"
+        android:paddingBottom="25dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="20dp">
+
+        <TextView
+            android:id="@+id/tv_notification_type"
+            style="@style/normal_content_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="停水公告" />
+
+        <TextView
+            android:id="@+id/tv_notification_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_notification_type"
+            android:text="2016年12月11日  12:08"
+            android:textColor="@color/TC_2"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_content"
+            style="@style/normal_content_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_notification_date"
+            android:layout_marginTop="15dp"
+            tool:text="因XX需要，水务局将于12月18日 8:00-12:00对本小区进行停水操作。水务局将于12月18日 8:00-12:00对本小区进行停水操作水务局将于12月18日 8:00-12:00对本小区进行停水操作。" />
+    </RelativeLayout>
+</LinearLayout>

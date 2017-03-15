@@ -26,9 +26,9 @@ public class MyTaskFragment extends BaseTogglePagerFragment {
 
     @Override
     protected void addToggleFragment(List<Fragment> mFragmentList, List<String> titleList) {
-        mFragmentList.add(MyOrderStatusFragment.newInstance(MyOrderStatusFragment.UNDER_WAY));
+        mFragmentList.add(MyTaskUnderWayFragment.newInstance());
         titleList.add(getString(R.string.underway));//进行中
-        mFragmentList.add(MyOrderStatusFragment.newInstance(MyOrderStatusFragment.FINISHED));
+        mFragmentList.add(MyTaskUnderWayFragment.newInstance());
         titleList.add(getString(R.string.finished));//已完成
     }
 }

@@ -123,7 +123,8 @@
             android:name=".activity.FormSubmitActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.MyFormActivity"></activity>
+        <activity android:name=".activity.MyFormActivity" />
+        <activity android:name=".activity.ManageNotificationActivity"></activity>
     </application>
 
 </manifest>

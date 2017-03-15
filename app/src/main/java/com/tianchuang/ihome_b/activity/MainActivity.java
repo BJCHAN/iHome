@@ -165,14 +165,20 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
                 switch (position) {
-                    case 1:
+                    case 0://我的任务
+                        startActivityWithAnim(new Intent(MainActivity.this, MyTaskActivity.class));
+                        break;
+                    case 1://我的表单
                         startActivityWithAnim(new Intent(MainActivity.this, MyFormActivity.class));
                         break;
-                    case 3:
+                    case 3://我的订单
                         startActivityWithAnim(new Intent(MainActivity.this, MyOrderActivity.class));
                         break;
-                    case 4:
+                    case 4://访客列表
                         startActivityWithAnim(new Intent(MainActivity.this, VisitorListActivity.class));
+                        break;
+                    case 5: //管理通知
+                        startActivityWithAnim(new Intent(MainActivity.this,ManageNotificationActivity.class));
                         break;
                     case 6://投诉建议
                         startActivityWithAnim(new Intent(MainActivity.this, ComplainSuggestActivity.class));

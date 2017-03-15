@@ -52,4 +52,6 @@
     <string name="form_type_string">表单类型：</string>
     <string name="myform_no_form_string">您还没有表单</string>
     <string name="register_name_error">姓名不能为空</string>
+    <string name="mytask_under_way_empty_string">你还没有进行中的任务</string>
+    <string name="notification_list_empty_string">还没有管理通知</string>
 </resources>
