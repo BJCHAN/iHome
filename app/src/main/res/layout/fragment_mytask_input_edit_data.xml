@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_gray"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingBottom="20dp"
+        android:paddingLeft="15dp"
+        android:paddingTop="20dp">
+
+        <TextView
+            android:id="@+id/tv_dot_name"
+            style="@style/normal_content_gray_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="数据类型：" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            style="@style/normal_content_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_dot_name"
+            tools:text="2016年12月份电表数据 " />
+
+        <TextView
+            android:id="@+id/tv_dot_address"
+            style="@style/normal_content_gray_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_dot_name"
+            android:layout_marginBottom="10dp"
+            android:text="住户：" />
+
+        <TextView
+            android:id="@+id/tv_address"
+            style="@style/normal_content_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_dot_name"
+            android:layout_toRightOf="@id/tv_dot_address"
+            tools:text="某某苑3幢1单元902 " />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:clickable="true"
+        android:padding="15dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="上期读数"
+                    android:textColor="@color/TC_2" />
+
+                <TextView
+                    android:id="@+id/tv_lastData"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:textColor="@color/TC_1"
+                    android:textSize="15sp"
+                    tools:text="1986.63" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/background_gray" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="本期读数"
+                    android:textColor="@color/TC_2" />
+
+                <EditText
+                    android:id="@+id/tv_currentData"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:background="@drawable/bg_edittext_gray_shape"
+                    android:inputType="numberDecimal"
+                    android:minWidth="120dp"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="10dp"
+                    android:textColor="@color/app_primary_color"
+                    android:textSize="15sp"
+                    tools:text="2098.35" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+
+    <Button
+        android:id="@+id/tv_sure"
+        style="@style/common_sure_button"
+        android:layout_marginTop="30dp"
+        android:text="确认" />
+</LinearLayout>

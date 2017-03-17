@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tianchuang.ihome_b.R;
+import com.tianchuang.ihome_b.utils.StringUtils;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -104,7 +105,9 @@ public abstract class BaseFragment extends RxFragment implements DialogProgress 
         startActivity(intent);
         mActivity.overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
     }
-
+    protected  String getNotNull(String text) {
+        return StringUtils.getNotNull(text);
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();

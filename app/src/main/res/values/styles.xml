@@ -60,10 +60,22 @@
         <item name="android:textColor">@color/TC_1</item>
         <item name="android:textSize">@dimen/text_normal_size</item>
     </style>
+
+    <!--13dp黑-->
+    <style name="small_content_text">
+
+        <item name="android:textColor">@color/TC_1</item>
+        <item name="android:textSize">@dimen/text_small_size</item>
+    </style>
+    <!--13dp灰-->
+    <style name="small_content_gray_text">
+        <item name="android:textColor">@color/TC_2</item>
+        <item name="android:textSize">@dimen/text_small_size</item>
+    </style>
     <!--15dp灰-->
     <style name="normal_content_gray_text">
-    <item name="android:textColor">@color/TC_2</item>
-    <item name="android:textSize">@dimen/text_normal_size</item>
+        <item name="android:textColor">@color/TC_2</item>
+        <item name="android:textSize">@dimen/text_normal_size</item>
     </style>
     <!--卡片布局的样式-->
     <style name="common_normal_cardview">
@@ -72,5 +84,19 @@
         <item name="android:layout_marginTop">10dp</item>
         <item name="android:layout_marginLeft">10dp</item>
         <item name="android:layout_marginRight">10dp</item>
+    </style>
+    <!--通用的确认样式-->
+    <style name="common_sure_button">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:background">@drawable/login_login_button_selector</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">15sp</item>
     </style>
 </resources>

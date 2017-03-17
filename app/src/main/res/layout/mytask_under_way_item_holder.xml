@@ -36,7 +36,7 @@
             android:textSize="13sp"
             tools:text="2016/12/13安治巡视。" />
 
-        <view
+        <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/background_gray" />
@@ -45,14 +45,11 @@
             android:id="@+id/tv_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="11dp"
-            android:paddingBottom="15dp"
             android:gravity="center_horizontal"
+            android:paddingBottom="15dp"
+            android:paddingTop="11dp"
             android:text="执行任务"
-            android:textSize="15sp"
-            android:textColor="@color/TC_3" />
-
+            android:textColor="@color/TC_3"
+            android:textSize="15sp" />
     </LinearLayout>
-
-
 </android.support.v7.widget.CardView>

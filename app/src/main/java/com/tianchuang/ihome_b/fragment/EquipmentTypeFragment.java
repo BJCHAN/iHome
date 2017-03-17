@@ -70,7 +70,7 @@ public class EquipmentTypeFragment extends BaseFragment {
 					@Override
 					protected void _onNext(ArrayList<EquipmentTypeSearchBean> list) {
 						mData = list;
-						typeAdapter = new EquipmentTypeAdapter(R.layout.equipment_type_item_holder, mData);
+						typeAdapter = new EquipmentTypeAdapter( mData);
 						rvList.setAdapter(typeAdapter);
 						rvList.addOnItemTouchListener(new OnItemClickListener() {
 							@Override

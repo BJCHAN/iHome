@@ -21,23 +21,26 @@ import butterknife.BindView;
  */
 
 abstract class BaseTogglePagerFragment extends BaseFragment {
-    protected List<Fragment> mFragmentList = new ArrayList<>();
-    protected List<String> titleList = new ArrayList<>();
     @BindView(R.id.tablayout)
     TabLayout mTablayout;
     @BindView(R.id.tab_viewpager)
     ViewPager mTabViewpager;
+    protected List<Fragment> mFragmentList = new ArrayList<>();
+    protected List<String> titleList = new ArrayList<>();
+
     @Override
     protected int getLayoutId() {
         return R.layout.base_toggle_pager;
     }
+
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
     }
+
     @Override
     protected void initData() {
         super.initData();
-        addToggleFragment(mFragmentList,titleList);
+        addToggleFragment(mFragmentList, titleList);
         mTabViewpager.setAdapter(new ViewPagerAdapter(getHoldingActivity().getSupportFragmentManager(), mFragmentList, titleList));
         mTablayout.setupWithViewPager(mTabViewpager);
     }

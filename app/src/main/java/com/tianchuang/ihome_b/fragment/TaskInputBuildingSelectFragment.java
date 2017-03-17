@@ -1,0 +1,287 @@
+package com.tianchuang.ihome_b.fragment;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bigkoo.pickerview.OptionsPickerView;
+import com.bigkoo.pickerview.listener.CustomListener;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.tianchuang.ihome_b.R;
+import com.tianchuang.ihome_b.activity.MyTaskActivity;
+import com.tianchuang.ihome_b.adapter.TaskBuildingAdapter;
+import com.tianchuang.ihome_b.base.BaseFragment;
+import com.tianchuang.ihome_b.bean.TaskBuildingListBean;
+import com.tianchuang.ihome_b.bean.TaskInputDetailBean;
+import com.tianchuang.ihome_b.bean.TaskInputResponseBean;
+import com.tianchuang.ihome_b.bean.model.MyTaskModel;
+import com.tianchuang.ihome_b.bean.recyclerview.TaskInputSelectDecoration;
+import com.tianchuang.ihome_b.http.retrofit.RxHelper;
+import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
+import com.tianchuang.ihome_b.utils.DensityUtil;
+import com.tianchuang.ihome_b.utils.FragmentUtils;
+import com.tianchuang.ihome_b.utils.StringUtils;
+import com.tianchuang.ihome_b.utils.ToastUtil;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.OnClick;
+import rx.Observable;
+import rx.functions.Action0;
+
+/**
+ * Created by Abyss on 2017/3/16.
+ * description:录入住户位置信息
+ */
+
+public class TaskInputBuildingSelectFragment extends BaseFragment {
+    @BindView(R.id.tv_type)
+    TextView tvType;
+    @BindView(R.id.tv_name)
+    TextView tvName;
+    @BindView(R.id.rv_list)
+    RecyclerView rvList;
+    @BindView(R.id.tv_building)
+    TextView tvBuilding;
+    @BindView(R.id.tv_unit)
+    TextView tvUnit;
+    @BindView(R.id.tv_room)
+    EditText tvRoom;
+    @BindView(R.id.bt_sure)
+    Button btSure;
+    private List<TaskBuildingListBean> mData = new ArrayList<>();
+    private TaskBuildingListBean selestedBean;
+    private TaskBuildingListBean.CellListBean selectedBuildingBean;//被选中的楼宇
+    private TaskBuildingListBean.CellListBean.UnitListBean selectedUnitBean;//被选中的单元
+    private OptionsPickerView pvBuildingOptions;
+    private OptionsPickerView pvUnitOptions;
+    private ArrayList<TaskBuildingListBean.CellListBean> cellItems = new ArrayList<>();
+    private ArrayList<TaskBuildingListBean.CellListBean.UnitListBean> unitItems = new ArrayList<>();
+    private TaskBuildingAdapter adapter;
+    private TaskInputDetailBean taskBean;
+    private MyTaskActivity holdingActivity;
+
+    public static TaskInputBuildingSelectFragment newInstance(TaskInputDetailBean taskBean) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("taskBean", taskBean);
+        TaskInputBuildingSelectFragment taskInputSelectFragment = new TaskInputBuildingSelectFragment();
+        taskInputSelectFragment.setArguments(bundle);
+        return taskInputSelectFragment;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        setToolbarTitle("数据录入");
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        holdingActivity = (MyTaskActivity) getHoldingActivity();
+    }
+
+    @Override
+    protected void initView(View view, Bundle savedInstanceState) {
+        taskBean = (TaskInputDetailBean) getArguments().getSerializable("taskBean");
+        tvName.setText(StringUtils.getNotNull(taskBean.getTaskName()));
+        rvList.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        rvList.addItemDecoration(new TaskInputSelectDecoration(DensityUtil.dip2px(getContext(), 5)));
+        mData.clear();
+        mData.addAll(taskBean.getBuildingList());
+        selestedBean = null;
+        adapter = new TaskBuildingAdapter(mData);
+        rvList.setAdapter(adapter);
+        initBuildingOptionPicker();//初始化楼宇选择器
+        rvList.addOnItemTouchListener(new OnItemClickListener() {
+            @Override
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                for (TaskBuildingListBean data : mData) {
+                    data.setSelected(false);
+                }
+                selestedBean = mData.get(position);
+                selestedBean.setSelected(true);
+                selectedBuildingBean = null;
+                selectedUnitBean = null;
+                cellItems.clear();
+                unitItems.clear();
+                tvUnit.setText("");
+                tvBuilding.setText("");
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_task_input_select;
+    }
+
+
+    @OnClick({R.id.tv_building, R.id.tv_unit, R.id.bt_sure})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_building:
+                if (selestedBean != null) {
+                    cellItems.clear();
+                    cellItems.addAll(selestedBean.getCellList());
+                    pvBuildingOptions.setPicker(cellItems);
+                    pvBuildingOptions.show();
+                } else {
+                    ToastUtil.showToast(getContext(), "请先选择小区");
+                }
+
+                break;
+            case R.id.tv_unit:
+                if (unitItems.size() > 0) {
+                    pvUnitOptions.show();
+                } else {
+                    ToastUtil.showToast(getContext(), "请先选择楼宇");
+                }
+                break;
+            case R.id.bt_sure:
+                String roomText = tvRoom.getText().toString().trim();
+                if (selectedUnitBean != null && taskBean != null && !TextUtils.isEmpty(roomText)) {
+                    Integer roomId = Integer.valueOf(roomText);
+                    getTaskInputResponseBeanObservable(roomId)
+                            .subscribe(new RxSubscribe<TaskInputResponseBean>() {
+                                @Override
+                                protected void _onNext(TaskInputResponseBean taskInputResponseBean) {
+                                    if (taskInputResponseBean != null) {
+                                        FragmentUtils.popAddFragment(getFragmentManager(),
+                                                holdingActivity.getFragmentContainerId(),
+                                                TaskInputEditDataFragment.newInstance(taskInputResponseBean),true);
+                                    } else {
+                                        ToastUtil.showToast(getContext(),"该房间不存在");
+                                    }
+                                }
+
+                                @Override
+                                protected void _onError(String message) {
+                                    ToastUtil.showToast(getContext(), message);
+                                    dismissProgress();
+                                }
+
+                                @Override
+                                public void onCompleted() {
+                                    dismissProgress();
+                                }
+                            });
+                } else {
+                    ToastUtil.showToast(getContext(), "请完善数据");
+                }
+
+                break;
+        }
+    }
+
+    @NonNull
+    private Observable<TaskInputResponseBean> getTaskInputResponseBeanObservable(Integer roomId) {
+        return MyTaskModel.taskInputSubmit(taskBean.getTaskRecordId(), selectedUnitBean.getBuildingId(), selectedUnitBean.getBuildingCellId(), selectedUnitBean.getId(), roomId)
+                .compose(RxHelper.<TaskInputResponseBean>handleResult())
+                .compose(this.<TaskInputResponseBean>bindToLifecycle())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        showProgress();
+                    }
+                });
+    }
+
+
+    private void initBuildingOptionPicker() {//条件选择器初始化，自定义布局
+
+        // 注意，自定义布局中，optionspicker 或者 timepicker 的布局必须要有（即WheelView内容部分），否则会报空指针
+        // 具体可参考demo 里面的两个自定义布局
+        pvBuildingOptions = new OptionsPickerView.Builder(getContext(), new OptionsPickerView.OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int option2, int options3, View v) {
+                //返回的分别是三个级别的选中位置
+                selectedBuildingBean = cellItems.get(options1);
+                String tx = selectedBuildingBean.getPickerViewText();
+                tvBuilding.setText(tx);
+                initUnitOptionPicker(selectedBuildingBean);
+            }
+        })
+                .setLayoutRes(R.layout.pickerview_custom_options, new CustomListener() {
+                    @Override
+                    public void customLayout(View v) {
+                        final TextView tvSubmit = (TextView) v.findViewById(R.id.tv_finish);
+                        ImageView ivCancel = (ImageView) v.findViewById(R.id.iv_cancel);
+                        tvSubmit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                pvBuildingOptions.returnData(tvSubmit);
+                            }
+                        });
+                        ivCancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                pvBuildingOptions.dismiss();
+                            }
+                        });
+                    }
+                })
+                .build();
+        pvBuildingOptions.setPicker(cellItems);//添加数据
+    }
+
+
+    private void initUnitOptionPicker(TaskBuildingListBean.CellListBean cellListBean) {
+        //还原初始状态
+        selectedUnitBean = null;
+        tvUnit.setText("");
+        unitItems.clear();
+        unitItems.addAll(cellListBean.getUnitList());
+        pvUnitOptions = new OptionsPickerView.Builder(getContext(), new OptionsPickerView.OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int option2, int options3, View v) {
+                //返回的分别是三个级别的选中位置
+                selectedUnitBean = unitItems.get(options1);
+                String tx = selectedUnitBean.getPickerViewText();
+                tvUnit.setText(tx);
+            }
+        })
+                .setLayoutRes(R.layout.pickerview_custom_options, new CustomListener() {
+                    @Override
+                    public void customLayout(View v) {
+                        final TextView tvSubmit = (TextView) v.findViewById(R.id.tv_finish);
+                        ImageView ivCancel = (ImageView) v.findViewById(R.id.iv_cancel);
+                        tvSubmit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                pvUnitOptions.returnData(tvSubmit);
+                            }
+                        });
+                        ivCancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                pvUnitOptions.dismiss();
+                            }
+                        });
+                    }
+                })
+                .build();
+        pvUnitOptions.setPicker(unitItems);//添加数据
+    }
+
+    @Override
+    public void onDestroy() {
+        for (TaskBuildingListBean data : mData) {//还原ui状态
+            data.setSelected(false);
+        }
+        adapter.notifyDataSetChanged();
+        super.onDestroy();
+    }
+}

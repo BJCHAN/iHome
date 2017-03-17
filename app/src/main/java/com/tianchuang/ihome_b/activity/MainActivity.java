@@ -178,7 +178,7 @@ public class MainActivity extends BaseActivity {
                         startActivityWithAnim(new Intent(MainActivity.this, VisitorListActivity.class));
                         break;
                     case 5: //管理通知
-                        startActivityWithAnim(new Intent(MainActivity.this,ManageNotificationActivity.class));
+                        startActivityWithAnim(new Intent(MainActivity.this, ManageNotificationActivity.class));
                         break;
                     case 6://投诉建议
                         startActivityWithAnim(new Intent(MainActivity.this, ComplainSuggestActivity.class));
@@ -330,12 +330,12 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        FileUtils.deleteImageFile();//删除上传图片缓存
     }
 
     @Override
     protected void onDestroy() {
         EventBus.getDefault().unregister(this);
         super.onDestroy();
-        FileUtils.deleteImageFile();//删除上传图片缓存
     }
 }

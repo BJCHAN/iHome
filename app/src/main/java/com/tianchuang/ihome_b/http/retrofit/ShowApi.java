@@ -20,6 +20,8 @@ import com.tianchuang.ihome_b.bean.NotificationListBean;
 import com.tianchuang.ihome_b.bean.PropertyListItemBean;
 import com.tianchuang.ihome_b.bean.RobHallListBean;
 import com.tianchuang.ihome_b.bean.RobHallRepairDetailListBean;
+import com.tianchuang.ihome_b.bean.TaskInputDetailBean;
+import com.tianchuang.ihome_b.bean.TaskInputResponseBean;
 import com.tianchuang.ihome_b.bean.VisitorBean;
 
 import java.util.ArrayList;
@@ -333,16 +335,6 @@ public interface ShowApi {
                                                      @Query("maxId") int maxId);
 
     /**
-     * 我的任务列表(进行中)
-     * params
-     * propertyCompanyId:xxxxxx                //物业ID
-     * maxId
-     */
-    @POST(BizInterface.MY_TASK_LIST_URL)
-    Observable<HttpModle<MyTaskUnderWayListBean>> myTaskUnderWayList(@Query("propertyCompanyId") int propertyCompanyId,
-                                                                     @Query("maxId") int maxId);
-
-    /**
      * 通知列表
      * params
      * propertyCompanyId:xxxxxx                //物业ID
@@ -359,4 +351,49 @@ public interface ShowApi {
      */
     @POST(BizInterface.NOTIFICATION_DETAIL_URL)
     Observable<HttpModle<NotificationItemBean>> notificationDetail(@Query("noticeId") int noticeId);
+
+    /**
+     * 我的任务列表(进行中)
+     * params
+     * propertyCompanyId:xxxxxx                //物业ID
+     * maxId
+     */
+    @POST(BizInterface.MY_TASK_LIST_URL)
+    Observable<HttpModle<MyTaskUnderWayListBean>> myTaskUnderWayList(@Query("propertyCompanyId") int propertyCompanyId,
+                                                                     @Query("maxId") int maxId);
+
+    /**
+     * 任务录入详情
+     * params
+     * taskRecordId:xxxxxx                //任务记录ID
+     */
+    @POST(BizInterface.TASK_INPUT_DETAIL_URL)
+    Observable<HttpModle<TaskInputDetailBean>> taskInputDetail(@Query("taskRecordId") int taskRecordId);
+
+    /**
+     * 任务录入提交
+     * params
+     * taskRecordId:xxxxxx                         //任务记录ID
+     * propertyCompanyId:xxxxxx                    //物业公司ID
+     * buildingId:xxxxxx                           //分区ID
+     * buildingCellId:xxxxxx                       //幢ID
+     * buildingUnitId:xxxxxx                       //单元ID
+     * roomNum:xxxxxx                              //房间号
+     */
+    @POST(BizInterface.TASK_INPUT_BUILDING_SUBMIT_URL)
+    Observable<HttpModle<TaskInputResponseBean>> taskInputBuildingSubmit(@Query("taskRecordId") int taskRecordId,
+                                                                         @Query("propertyCompanyId") int propertyCompanyId,
+                                                                         @Query("buildingId") int buildingId,
+                                                                         @Query("buildingCellId") int buildingCellId,
+                                                                         @Query("buildingUnitId") int buildingUnitId,
+                                                                         @Query("roomNum") int roomNum);
+
+    /**
+     * 任务录入读数提交
+     * dataId:xxxxxx                               //  记录ID
+     * currentData:xxxxxx                          //  当前读数122.2322
+     */
+    @POST(BizInterface.TASK_INPUT_CURRENT_DATA_SUBMIT_URL)
+    Observable<HttpModle<String>> taskCurrentDataSubmit(@Query("dataId") int dataId,
+                                                               @Query("currentData") String currentData);
 }

@@ -38,7 +38,7 @@ abstract class BaseRefreshAndLoadMoreFragment<T extends BaseItemLoadBean, E exte
     SwipeRefreshLayout mSwipeRefreshLayout;
 
     protected int pageSize;
-    protected ArrayList<T> mData;
+    protected ArrayList<T> mData = new ArrayList<>();
     protected BaseQuickAdapter adapter;
     private boolean isLoadMoreLoading = false;//是否正在加载更多
     private boolean isOpenListAnim = true;//是否开启列表动画,默认开启
@@ -73,7 +73,9 @@ abstract class BaseRefreshAndLoadMoreFragment<T extends BaseItemLoadBean, E exte
                     @Override
                     protected void _onNext(E bean) {
                         pageSize = bean.getPageSize();
-                        mData = bean.getListVo();
+                        ArrayList listVo = bean.getListVo();
+                        if (listVo.size() > 0)
+                            mData.addAll(listVo);
                         adapter = initAdapter(mData, bean);
                         setAdapter();
                         rvList.setAdapter(adapter);

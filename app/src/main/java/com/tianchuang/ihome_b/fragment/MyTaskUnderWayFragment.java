@@ -30,7 +30,10 @@ public class MyTaskUnderWayFragment extends BaseRefreshAndLoadMoreFragment<MyTas
 
     @Override
     protected void onListitemClick(MyTaskUnderWayItemBean itemBean) {
-
+        int type = itemBean.getType();
+        if (type == 2) {//查看录入任务详情
+            addFragment(MyTaskInputDetailFragment.newInstance(itemBean));
+        }
     }
 
     @Override

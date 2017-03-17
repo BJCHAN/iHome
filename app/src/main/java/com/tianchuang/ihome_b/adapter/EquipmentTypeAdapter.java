@@ -16,8 +16,8 @@ import java.util.List;
 public class EquipmentTypeAdapter extends BaseQuickAdapter<EquipmentTypeSearchBean, BaseViewHolder> {
 
 
-	public EquipmentTypeAdapter(int layoutResId, List<EquipmentTypeSearchBean> data) {
-		super(layoutResId, data);
+	public EquipmentTypeAdapter(List<EquipmentTypeSearchBean> data) {
+		super(R.layout.equipment_type_item_holder, data);
 	}
 
 	@Override

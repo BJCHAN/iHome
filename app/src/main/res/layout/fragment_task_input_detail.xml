@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_gray">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingBottom="20dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="20dp">
+
+                <TextView
+                    android:id="@+id/tv_title"
+                    style="@style/normal_content_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="常规巡视任务" />
+
+                <TextView
+                    android:id="@+id/tv_date"
+                    style="@style/small_content_gray_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    tools:text="2016/12/13  08:30  巡视任务" />
+
+                <TextView
+                    android:id="@+id/tv_content"
+                    style="@style/small_content_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    tools:text="2016/12/20治安巡视任务，请对小区的1、2、3、4幢进行常规治安巡视。" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/background_gray" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingBottom="20dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="20dp">
+
+                <TextView
+                    android:id="@+id/tv_dot_type"
+                    style="@style/small_content_gray_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="数据类型：" />
+
+                <TextView
+                    android:id="@+id/tv_type"
+                    style="@style/small_content_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/tv_dot_type"
+                    tools:text="电表" />
+
+                <TextView
+                    android:id="@+id/tv_dot_address"
+                    style="@style/small_content_gray_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_dot_type"
+                    android:text="楼宇/分区：" />
+
+                <TextView
+                    android:id="@+id/tv_address"
+                    style="@style/small_content_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_dot_type"
+                    android:layout_marginBottom="10dp"
+                    android:layout_toRightOf="@id/tv_dot_address"
+                    tools:text="某某苑（1幢、2幢、3幢），某某苑（1幢、2幢），某某苑（3幢）" />
+
+                <TextView
+                    android:id="@+id/tv_dot_date"
+                    style="@style/small_content_gray_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_address"
+                    android:text="完成时间：" />
+
+                <TextView
+                    android:id="@+id/tv_finish_date"
+                    style="@style/small_content_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_address"
+                    android:layout_toRightOf="@id/tv_dot_date"
+                    tools:text="2016/12/13  08:30" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <TextView
+            style="@style/small_content_gray_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="14dp"
+            android:text="录入明细" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:background="@color/white"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                style="@style/small_content_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="房间" />
+
+            <TextView
+                style="@style/small_content_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:gravity="right"
+                android:text="本期读数" />
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:overScrollMode="never"
+            android:scrollbars="none" />
+
+        <Button
+            android:id="@+id/bt_sure"
+            style="@style/common_sure_button"
+            android:layout_marginTop="30dp"
+            android:text="执行" />
+    </LinearLayout>
+</ScrollView>

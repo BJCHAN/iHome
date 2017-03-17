@@ -6,6 +6,7 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.tianchuang.ihome_b.R;
+import com.tianchuang.ihome_b.utils.ImageLoader;
 
 import java.util.List;
 
@@ -24,11 +25,7 @@ public class FaultDetailAdapter extends BaseQuickAdapter<String, BaseViewHolder>
     @Override
     protected void convert(BaseViewHolder helper, String url) {
         ImageView view = (ImageView) helper.getView(R.id.iv_fault);
-        Glide.with(view.getContext())
-                .load(url)
-                .centerCrop()
-                .placeholder(R.mipmap.default_logo)
-                .into(view);
+        ImageLoader.load(url,view);
     }
 
 }

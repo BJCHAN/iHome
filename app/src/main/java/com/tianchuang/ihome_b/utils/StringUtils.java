@@ -86,7 +86,12 @@ public class StringUtils {
 		}
 		return new DecimalFormat("#.00").format(num);
 	}
-
+	/**
+	 * 保留四位的小数
+	 */
+	public static String formatNumWithFour(String num) {
+		return new DecimalFormat("#.0000").format(Double.valueOf(num));
+	}
 	/**
 	 * 将实体类转换成json字符串对象            注意此方法需要第三方gson  jar包
 	 *

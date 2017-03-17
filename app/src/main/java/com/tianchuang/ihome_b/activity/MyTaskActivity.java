@@ -21,4 +21,13 @@ public class MyTaskActivity extends ToolBarActivity {
     protected void initToolBar(Toolbar toolbar) {
         initNormalToolbar(toolbar, true);
     }
+
+    /**
+     * 关闭所有fragment
+     */
+    public void closeAllFragment() {
+        while (getSupportFragmentManager().getBackStackEntryCount() != 1) {
+            removeFragment();
+        }
+    }
 }
