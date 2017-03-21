@@ -1,6 +1,7 @@
 package com.tianchuang.ihome_b.bean;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
+import com.tianchuang.ihome_b.adapter.ExpandableItemAdapter;
 
 import java.io.Serializable;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  * description:表单类型的itemBean
  */
 
-public class FormTypeItemBean extends BaseItemLoadBean {
+public class FormTypeItemBean extends BaseItemLoadBean implements MultiItemEntity {
     /**
      * id : 6
      * propertyCompanyId : 1
@@ -20,6 +21,7 @@ public class FormTypeItemBean extends BaseItemLoadBean {
      * used : false
      * fields : [{"id":30,"formTypeId":6,"fieldKey":"fieldKey30","name":"状态","sizeLimit":0,"type":2,"mustInput":true,"fieldExtras":[{"id":19,"formTypeFieldId":30,"value":"A选项"},{"id":20,"formTypeFieldId":30,"value":"B选项"},{"id":21,"formTypeFieldId":30,"value":"C选项"}]},{"id":31,"formTypeId":6,"fieldKey":"fieldKey31","name":"图片","sizeLimit":0,"type":3,"mustInput":true},{"id":32,"formTypeId":6,"fieldKey":"fieldKey32","name":"描述","sizeLimit":100,"type":1,"mustInput":true}]
      */
+
     private int propertyCompanyId;
     private String name;
     private String description;
@@ -74,6 +76,11 @@ public class FormTypeItemBean extends BaseItemLoadBean {
 
     public void setFields(List<FieldsBean> fields) {
         this.fields = fields;
+    }
+
+    @Override
+    public int getItemType() {
+        return ExpandableItemAdapter.TYPE_LEVEL_1;
     }
 
 

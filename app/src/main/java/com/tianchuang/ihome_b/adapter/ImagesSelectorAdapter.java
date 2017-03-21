@@ -36,6 +36,16 @@ public class ImagesSelectorAdapter extends BaseMultiItemQuickAdapter<ImagesMulti
         this.config = config;
     }
 
+    public String keyField;
+
+    public String getKeyField() {
+        return keyField;
+    }
+
+    public void setKeyField(String keyField) {
+        this.keyField = keyField;
+    }
+
     public ImagesSelectorAdapter(List<ImagesMultipleItem> data) {
         super(data);
 

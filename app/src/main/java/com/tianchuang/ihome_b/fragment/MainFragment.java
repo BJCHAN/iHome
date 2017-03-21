@@ -12,9 +12,14 @@ import com.tianchuang.ihome_b.activity.DeclareFormActivity;
 import com.tianchuang.ihome_b.activity.InnerReportsActivity;
 import com.tianchuang.ihome_b.activity.MainActivity;
 import com.tianchuang.ihome_b.base.BaseFragment;
+import com.tianchuang.ihome_b.bean.HomePageBean;
 import com.tianchuang.ihome_b.bean.LoginBean;
 import com.tianchuang.ihome_b.bean.event.OpenScanEvent;
+import com.tianchuang.ihome_b.bean.model.HomePageModel;
+import com.tianchuang.ihome_b.http.retrofit.RxHelper;
+import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
 import com.tianchuang.ihome_b.utils.FragmentUtils;
+import com.tianchuang.ihome_b.utils.ToastUtil;
 import com.tianchuang.ihome_b.utils.UserUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -43,6 +48,33 @@ public class MainFragment extends BaseFragment {
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
         FragmentUtils.addFragment(getFragmentManager(), EmptyFragment.newInstance(getString(R.string.main_empty_text)), R.id.empty_container);
+    }
+
+    @Override
+    protected void initData() {
+        LoginBean loginBean = UserUtil.getLoginBean();
+        if (loginBean == null || !loginBean.getPropertyEnable()) {
+            return;
+        }
+        HomePageModel.homePageList()
+                .compose(RxHelper.<HomePageBean>handleResult())
+                .compose(this.<HomePageBean>bindToLifecycle())
+                .subscribe(new RxSubscribe<HomePageBean>() {
+                    @Override
+                    protected void _onNext(HomePageBean homePageBean) {
+                        ToastUtil.showToast(getContext(), "成功主页");
+                    }
+
+                    @Override
+                    protected void _onError(String message) {
+                        ToastUtil.showToast(getContext(), message);
+                    }
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+                });
     }
 
     @Override

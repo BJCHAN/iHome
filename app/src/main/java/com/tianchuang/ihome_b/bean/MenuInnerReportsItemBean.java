@@ -10,12 +10,14 @@ import java.io.Serializable;
 public class MenuInnerReportsItemBean extends BaseItemLoadBean implements Serializable {
     /**
      * id : 1
+     * propertyCompanyId : 1
      * propertyEmployeeRoleVo : {"id":1,"employeeId":2,"employeeName":"李斯","propertyCompanyId":1,"propertyCompanyName":"海创园","departmentId":1,"departmentName":"工程维修部","positionId":1,"positionName":"水电维修工","oftenUse":true}
      * content : 测试未处理
      * photo1Url : http://api-staff-test.hecaifu.com/internalreport/88f7af0d-1cb8-4a6c-8f94-8f9492138fc2.png
      * photo2Url : http://api-staff-test.hecaifu.com/internalreport/88f7af0d-1cb8-4a6c-8f94-8f9492138fc2.png
      * photo3Url : http://api-staff-test.hecaifu.com/internalreport/88f7af0d-1cb8-4a6c-8f94-8f9492138fc2.png
      * statusMsg : 未处理
+     *  status : 0
      * createdDate : 1487746560
      * lastUpdatedDae : 1487746560
      */
@@ -25,8 +27,26 @@ public class MenuInnerReportsItemBean extends BaseItemLoadBean implements Serial
     private String photo2Url;
     private String photo3Url;
     private String statusMsg;
+    private int status;
+    private int propertyCompanyId;
     private int createdDate;
     private int lastUpdatedDae;
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int getPropertyCompanyId() {
+        return propertyCompanyId;
+    }
+
+    public void setPropertyCompanyId(int propertyCompanyId) {
+        this.propertyCompanyId = propertyCompanyId;
+    }
 
     public PropertyListItemBean getPropertyEmployeeRoleVo() {
         return propertyEmployeeRoleVo;

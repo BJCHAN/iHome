@@ -31,7 +31,7 @@
         android:paddingTop="10dp"
         tools:text="继续录入2016年12月份电表数据"
         android:textColor="@color/white"
-        android:textSize="15sp"/>
+        android:textSize="12sp"/>
 
     <Button
         android:id="@+id/tv_finish"
@@ -41,7 +41,7 @@
         android:layout_marginLeft="58dp"
         android:layout_marginRight="58dp"
         android:layout_marginTop="34dp"
-        android:background="@color/white"
+        android:background="@drawable/button_white_shape"
         android:gravity="center"
         android:paddingBottom="10dp"
         android:paddingTop="10dp"

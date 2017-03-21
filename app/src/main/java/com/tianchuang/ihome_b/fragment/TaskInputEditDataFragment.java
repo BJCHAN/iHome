@@ -78,9 +78,14 @@ public class TaskInputEditDataFragment extends BaseFragment {
     public void onClick() {
         String currentData = tvCurrentData.getText().toString().trim();
         if (StringUtils.isNumber(currentData)) {//有效数字
+            TaskInputResponseBean.DataInfoBean dataInfo = taskBean.getDataInfo();
+            if (dataInfo == null) {
+                ToastUtil.showToast(getContext(), "数据为空");
+                return;
+            }
             String formatNum = StringUtils.formatNumWithFour(currentData);
             tvCurrentData.setText(formatNum);
-            MyTaskModel.taskCurrentDataSubmit(taskBean.getDataInfo().getId(), formatNum)
+            MyTaskModel.taskCurrentDataSubmit(dataInfo.getId(), formatNum)
                     .compose(RxHelper.<String>handleResult())
                     .doOnSubscribe(new Action0() {
                         @Override
@@ -94,7 +99,7 @@ public class TaskInputEditDataFragment extends BaseFragment {
                         protected void _onNext(String s) {
                             FragmentUtils.popAddFragment(getFragmentManager(),
                                     holdingActivity.getFragmentContainerId(),
-                                    TaskInputSuccessFragment.newInstance(taskBean.getTaskName()),true);
+                                    TaskInputSuccessFragment.newInstance(taskBean), true);
                         }
 
                         @Override

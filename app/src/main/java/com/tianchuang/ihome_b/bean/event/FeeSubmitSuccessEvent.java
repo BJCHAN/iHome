@@ -5,5 +5,5 @@ package com.tianchuang.ihome_b.bean.event;
  * description:退出登录的事件
  */
 
-public class FeeSubmitSuccess {
+public class FeeSubmitSuccessEvent {
 }

@@ -8,14 +8,13 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.tianchuang.ihome_b.R;
-import com.tianchuang.ihome_b.activity.MyOrderActivity;
 import com.tianchuang.ihome_b.adapter.ItemRemoveAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.ChargeTypeListItemBean;
 import com.tianchuang.ihome_b.bean.CommonFeeBean;
 import com.tianchuang.ihome_b.bean.ListBean;
 import com.tianchuang.ihome_b.bean.MaterialListItemBean;
-import com.tianchuang.ihome_b.bean.event.FeeSubmitSuccess;
+import com.tianchuang.ihome_b.bean.event.FeeSubmitSuccessEvent;
 import com.tianchuang.ihome_b.bean.event.MaterialFeeEvent;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
@@ -142,7 +141,7 @@ public class MyOrderFeeDetailFragment extends BaseFragment implements ChargeType
 					protected void _onNext(String s) {
 						ToastUtil.showToast(getContext(), "提交成功");
 						removeFragment();
-						EventBus.getDefault().post(new FeeSubmitSuccess());
+						EventBus.getDefault().post(new FeeSubmitSuccessEvent());
 					}
 
 					@Override

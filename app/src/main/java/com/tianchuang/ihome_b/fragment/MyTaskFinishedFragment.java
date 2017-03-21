@@ -7,6 +7,7 @@ import com.tianchuang.ihome_b.bean.MyTaskUnderWayItemBean;
 import com.tianchuang.ihome_b.bean.MyTaskUnderWayListBean;
 import com.tianchuang.ihome_b.bean.model.MyTaskModel;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
+import com.tianchuang.ihome_b.utils.ToastUtil;
 
 import java.util.ArrayList;
 
@@ -14,13 +15,13 @@ import rx.Observable;
 
 /**
  * Created by Abyss on 2017/3/15.
- * description:我的任务（进行中）
+ * description:我的任务（已完成）
  */
 
-public class MyTaskUnderWayFragment extends BaseRefreshAndLoadMoreFragment<MyTaskUnderWayItemBean, MyTaskUnderWayListBean> {
+public class MyTaskFinishedFragment extends BaseRefreshAndLoadMoreFragment<MyTaskUnderWayItemBean, MyTaskUnderWayListBean> {
 
-    public static MyTaskUnderWayFragment newInstance() {
-        return new MyTaskUnderWayFragment();
+    public static MyTaskFinishedFragment newInstance() {
+        return new MyTaskFinishedFragment();
     }
 
     @Override
@@ -34,7 +35,7 @@ public class MyTaskUnderWayFragment extends BaseRefreshAndLoadMoreFragment<MyTas
         if (type == 5) {//查看录入任务详情
             addFragment(MyTaskInputDetailFragment.newInstance(itemBean));
         } else {//控制点
-            addFragment(MyTaskControlPointDetailFragment.newInstance(itemBean));
+            ToastUtil.showToast(getContext(), "其他任务");
         }
     }
 

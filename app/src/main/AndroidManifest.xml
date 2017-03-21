@@ -111,6 +111,7 @@
         <activity
             android:name=".activity.MyTaskActivity"
             android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait" />
         <!-- 表单申报 -->
         <activity

@@ -8,6 +8,7 @@ import com.tianchuang.ihome_b.bean.ComplainSuggestUntratedBean;
 import com.tianchuang.ihome_b.bean.DataBuildingSearchBean;
 import com.tianchuang.ihome_b.bean.EquipmentTypeSearchBean;
 import com.tianchuang.ihome_b.bean.FormTypeListBean;
+import com.tianchuang.ihome_b.bean.HomePageBean;
 import com.tianchuang.ihome_b.bean.LoginBean;
 import com.tianchuang.ihome_b.bean.MaterialListItemBean;
 import com.tianchuang.ihome_b.bean.MenuInnerListBean;
@@ -20,6 +21,7 @@ import com.tianchuang.ihome_b.bean.NotificationListBean;
 import com.tianchuang.ihome_b.bean.PropertyListItemBean;
 import com.tianchuang.ihome_b.bean.RobHallListBean;
 import com.tianchuang.ihome_b.bean.RobHallRepairDetailListBean;
+import com.tianchuang.ihome_b.bean.TaskControlPointDetailBean;
 import com.tianchuang.ihome_b.bean.TaskInputDetailBean;
 import com.tianchuang.ihome_b.bean.TaskInputResponseBean;
 import com.tianchuang.ihome_b.bean.VisitorBean;
@@ -395,5 +397,30 @@ public interface ShowApi {
      */
     @POST(BizInterface.TASK_INPUT_CURRENT_DATA_SUBMIT_URL)
     Observable<HttpModle<String>> taskCurrentDataSubmit(@Query("dataId") int dataId,
-                                                               @Query("currentData") String currentData);
+                                                        @Query("currentData") String currentData);
+
+    /**
+     * 任务录入提交成功后点完成
+     * taskRecordId //  记录ID
+     * --------------
+     * response
+     * code:1000                                  //  还剩数据未完成录入
+     */
+    @POST(BizInterface.TASK_INPUT_SUCCESS_FINISH_URL)
+    Observable<HttpModle<String>> taskFinishedConfirm(@Query("taskRecordId") int taskRecordId);
+
+    /**
+     * 任务控制点详情
+     * taskRecordId //  记录ID
+     */
+    @POST(BizInterface.TASK_CONTROL_POINT_URL)
+    Observable<HttpModle<TaskControlPointDetailBean>> taskControlPointDetail(@Query("taskRecordId") int taskRecordId);
+
+    /**
+     * 首页列表
+     * params
+     * propertyCompanyId:xxx                   //  物业公司ID（对应在物业列表接口中propertyCompanyId）
+     */
+    @POST(BizInterface.HOME_PAGE_LIST_URL)
+    Observable<HttpModle<HomePageBean>> homePageList(@Query("propertyCompanyId") int propertyCompanyId);
 }

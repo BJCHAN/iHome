@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="15dp"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:paddingRight="15dp">
+
+    <TextView
+        android:id="@+id/tv_title"
+        style="@style/normal_content_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="桌面的模样：" />
+
+    <EditText
+        android:id="@+id/et_content"
+        android:gravity="top"
+        android:paddingTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_edittext_submit_shape"
+        android:hint="请尽量清晰地描述出您的问题，以方便物业工作人员安排解决您的投诉,30字以内。"
+        android:minEms="30"
+        android:minHeight="98dp"
+        android:paddingLeft="5dp"
+        android:textColor="@color/TC_1"
+        android:textColorHint="@color/BC_2"
+        android:textSize="13sp" />
+
+</LinearLayout>

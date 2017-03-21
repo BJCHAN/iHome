@@ -14,7 +14,7 @@ import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.EvaluateBean;
 import com.tianchuang.ihome_b.bean.MyOrderDetailBean;
 import com.tianchuang.ihome_b.bean.RepairsFeeBean;
-import com.tianchuang.ihome_b.bean.event.FeeSubmitSuccess;
+import com.tianchuang.ihome_b.bean.event.FeeSubmitSuccessEvent;
 import com.tianchuang.ihome_b.bean.recyclerview.CommonItemDecoration;
 import com.tianchuang.ihome_b.http.retrofit.HttpModle;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
@@ -170,7 +170,7 @@ public class MyOrderDetailFragment extends BaseFragment {
      * 费用明细提交成功刷新页面
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(FeeSubmitSuccess feeSubmitSuccess) {
+    public void onMessageEvent(FeeSubmitSuccessEvent feeSubmitSuccess) {
         FragmentUtils.popAddFragment(getFragmentManager(), holdingActivity.getFragmentContainerId(), MyOrderDetailFragment.newInstance(id), true);
     }
 

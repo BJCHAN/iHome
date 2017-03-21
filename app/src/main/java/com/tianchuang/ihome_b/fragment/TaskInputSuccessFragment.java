@@ -8,6 +8,14 @@ import android.widget.Button;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.activity.MyTaskActivity;
 import com.tianchuang.ihome_b.base.BaseFragment;
+import com.tianchuang.ihome_b.bean.TaskInputResponseBean;
+import com.tianchuang.ihome_b.bean.event.NotifyTaskDetailRefreshEvent;
+import com.tianchuang.ihome_b.bean.model.MyTaskModel;
+import com.tianchuang.ihome_b.http.retrofit.RxHelper;
+import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
+import com.tianchuang.ihome_b.utils.ToastUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -24,10 +32,11 @@ public class TaskInputSuccessFragment extends BaseFragment {
     @BindView(R.id.tv_finish)
     Button tvFinish;
     private MyTaskActivity holdingActivity;
+    private TaskInputResponseBean bean;
 
-    public static TaskInputSuccessFragment newInstance(String taskName) {
+    public static TaskInputSuccessFragment newInstance(TaskInputResponseBean bean) {
         Bundle bundle = new Bundle();
-        bundle.putString("taskName", taskName);
+        bundle.putSerializable("bean", bean);
         TaskInputSuccessFragment taskInputSuccessFragment = new TaskInputSuccessFragment();
         taskInputSuccessFragment.setArguments(bundle);
         return taskInputSuccessFragment;
@@ -41,8 +50,8 @@ public class TaskInputSuccessFragment extends BaseFragment {
 
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
-        String taskName = getArguments().getString("taskName");
-        btContinue.setText(String.format("继续录入%s数据", taskName));
+        bean = (TaskInputResponseBean) getArguments().getSerializable("bean");
+        btContinue.setText(String.format("继续录入%s数据", bean.getTaskName()));
     }
 
     @Override
@@ -56,9 +65,28 @@ public class TaskInputSuccessFragment extends BaseFragment {
         switch (view.getId()) {
             case R.id.bt_continue:
                 removeFragment();
+                EventBus.getDefault().post(new NotifyTaskDetailRefreshEvent());
                 break;
             case R.id.tv_finish:
-                holdingActivity.closeAllFragment();
+                MyTaskModel.taskFinishedConfirm(bean.getTaskRecordId())
+                        .compose(RxHelper.<String>handleResult())
+                        .compose(this.<String>bindToLifecycle())
+                        .subscribe(new RxSubscribe<String>() {
+                            @Override
+                            protected void _onNext(String s) {
+                                holdingActivity.closeAllFragment();
+                            }
+
+                            @Override
+                            protected void _onError(String message) {
+                                ToastUtil.showToast(getContext(), "数据未完成录入");
+                            }
+
+                            @Override
+                            public void onCompleted() {
+
+                            }
+                        });
                 break;
         }
     }

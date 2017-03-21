@@ -6,6 +6,4 @@ package com.tianchuang.ihome_b.bean.event;
  */
 
 public class OpenScanEvent {
-
-
 }

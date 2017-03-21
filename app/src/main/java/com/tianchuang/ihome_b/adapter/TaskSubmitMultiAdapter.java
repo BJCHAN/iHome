@@ -14,11 +14,11 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.tianchuang.ihome_b.R;
-import com.tianchuang.ihome_b.activity.FormSubmitActivity;
-import com.tianchuang.ihome_b.activity.FormSubmitActivity.GetImageByCodeListener;
+import com.tianchuang.ihome_b.activity.MyTaskActivity;
 import com.tianchuang.ihome_b.bean.FormTypeItemBean;
 import com.tianchuang.ihome_b.bean.ImagesMultipleItem;
 import com.tianchuang.ihome_b.bean.recyclerview.ImagesSelectorItemDecoration;
+import com.tianchuang.ihome_b.bean.recyclerview.MyGridLayoutManager;
 import com.tianchuang.ihome_b.bean.recyclerview.SubmitRadioDecoration;
 import com.tianchuang.ihome_b.utils.DensityUtil;
 import com.tianchuang.ihome_b.utils.ImagesSelectorUtils;
@@ -34,25 +34,25 @@ import java.util.List;
  * Created by Abyss on 2017/2/9.
  * description:表单申报的adapter
  */
-public class SubmitMultiAdapter extends BaseMultiItemQuickAdapter<FormTypeItemBean.FieldsBean, BaseViewHolder> {
+public class TaskSubmitMultiAdapter extends BaseMultiItemQuickAdapter<FormTypeItemBean.FieldsBean, BaseViewHolder> {
     public static final int TYPE_TEXT = 1;//文本
     public static final int TYPE_RADIO = 2;//单选
     public static final int TYPE_IMG = 3;//图片
-    private final FormSubmitActivity formSubmitActivity;
+    private final MyTaskActivity formSubmitActivity;
     private ArrayList<ImagesSelectorAdapter> imagesSelectorAdapters;//图片选择的adapter
 
     public ArrayList<ImagesSelectorAdapter> getImagesSelectorAdapters() {
         return imagesSelectorAdapters;
     }
 
-    public SubmitMultiAdapter(FormSubmitActivity formSubmitActivity, List<FormTypeItemBean.FieldsBean> data) {
+    public TaskSubmitMultiAdapter(MyTaskActivity formSubmitActivity, List<FormTypeItemBean.FieldsBean> data) {
         super(data);
         this.formSubmitActivity = formSubmitActivity;
-        addItemType(TYPE_TEXT, R.layout.item_submit_form_multi_text_holder);
+        addItemType(TYPE_TEXT, R.layout.item_submit_task_multi_text_holder);
         addItemType(TYPE_RADIO, R.layout.list_multi_radio_holder);
         addItemType(TYPE_IMG, R.layout.list_multi_image_holder);
         imagesSelectorAdapters = new ArrayList<>();
-        formSubmitActivity.setGetImageByCodeListener(new GetImageByCodeListener() {
+        formSubmitActivity.setGetImageByCodeListener(new MyTaskActivity.GetImageByCodeListener() {
             @Override
             public void onImages(List<String> paths, int type) {
                 receiveImages(paths, getImageSelectorAdapterById(type));
@@ -76,7 +76,7 @@ public class SubmitMultiAdapter extends BaseMultiItemQuickAdapter<FormTypeItemBe
             case TYPE_RADIO://单选列表
                 helper.setText(R.id.tv_radio_name, getNotNull(item.getName()));
                 RecyclerView radioList = (RecyclerView) helper.getView(R.id.rv_radio_list);
-                radioList.setLayoutManager(new GridLayoutManager(radioList.getContext(), 5));
+                radioList.setLayoutManager(new MyGridLayoutManager(radioList.getContext(), 5,radioList.getMeasuredWidth()));
                 List<FormTypeItemBean.FieldsBean.FieldExtrasBean> fieldExtras = item.getFieldExtras();
                 if (fieldExtras.size() > 0) {
                     RadioTypeAdapter radioTypeAdapter = new RadioTypeAdapter(R.layout.form_type_radio_item_holder, fieldExtras);
@@ -108,7 +108,6 @@ public class SubmitMultiAdapter extends BaseMultiItemQuickAdapter<FormTypeItemBe
                 ImagesSelectorAdapter selectorAdapter = new ImagesSelectorAdapter(getListData());
                 selectorAdapter.setConfig(config);
                 selectorAdapter.setId(item.getId());
-                selectorAdapter.setKeyField(item.getFieldKey());
                 imagesSelectorAdapters.add(selectorAdapter);//存储数据
                 imageRecyclerView.setAdapter(selectorAdapter);
                 imageRecyclerView.addOnItemTouchListener(new OnItemClickListener() {

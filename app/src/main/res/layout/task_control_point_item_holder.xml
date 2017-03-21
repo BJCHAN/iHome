@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+<View
+    android:layout_width="match_parent"
+    android:background="@color/background_gray"
+    android:layout_height="10dp"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingBottom="20dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="20dp">
+
+        <ImageView
+            android:id="@+id/iv_little_point"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/little_red" />
+
+        <TextView
+            android:id="@+id/tv_point_name"
+            style="@style/normal_content_gray_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@id/iv_little_point"
+            android:text="控制点一" />
+
+        <TextView
+            android:id="@+id/tv_point_address"
+            style="@style/normal_content_gray_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_point_name"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="3dp"
+            android:layout_toRightOf="@id/iv_little_point"
+            android:text="XX位置的XXXXX地点" />
+
+        <TextView
+            android:id="@+id/tv_point_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="3dp"
+            android:layout_toRightOf="@id/tv_point_name"
+            android:gravity="right"
+            android:text="08:12完成"
+            android:textColor="@color/app_primary_color"
+            android:textSize="15sp" />
+    </RelativeLayout>
+    <FrameLayout
+        android:id="@+id/fl_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/background_gray" />
+    <TextView
+        android:id="@+id/tv_expand_button"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/white"
+        android:drawableRight="@drawable/to_down"
+        android:gravity="right|center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:text="任务结果"
+        android:textColor="@color/TC_1"
+        android:textSize="13sp" />
+</LinearLayout>
+

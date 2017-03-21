@@ -152,13 +152,13 @@ public class FormSubmitActivity extends BaseActivity implements View.OnClickList
         final HashMap<String, String> submitTextMap = initSubmitTexts();
         addRadioTexts(submitTextMap);
         addEditTexts(submitTextMap);
-        final ArrayList<File> submitImagesFiles = getSubmitImagesFiles();
+        final HashMap<String, ArrayList<File>> submitImagesFiles = getSubmitImagesFiles();
         Observable.zip(Observable.just(submitTextMap), Observable.just(submitImagesFiles),
-                new Func2<HashMap<String, String>, ArrayList<File>, CheakBean>() {//检查是否可以提价
+                new Func2<HashMap<String, String>, HashMap<String, ArrayList<File>> , CheakBean>() {//检查是否可以提价
                     @Override
-                    public CheakBean call(HashMap<String, String> submitTextMap, ArrayList<File> files) {//判断可否提交
+                    public CheakBean call(HashMap<String, String> submitTextMap, HashMap<String, ArrayList<File>>  map) {//判断可否提交
                         boolean textIsPut = cheackTextIsPut(submitTextMap);
-                        boolean imagesIsPut = cheackImagesIsPut(files);
+                        boolean imagesIsPut = cheackImagesIsPut(map);
                         CheakBean cheakBean = new CheakBean();
                         if (textIsPut && imagesIsPut) {
                             cheakBean.setCan(true);
@@ -190,7 +190,13 @@ public class FormSubmitActivity extends BaseActivity implements View.OnClickList
                 .map(new Func1<CheakBean, List<MultipartBody.Part>>() {
                     @Override
                     public List<MultipartBody.Part> call(CheakBean bean) {
-                        List<MultipartBody.Part> parts = MultipartBuilder.filesToMultipartBodyParts(submitImagesFiles, "photos");
+                        List<MultipartBody.Part> parts =MultipartBuilder.filesToMultipartBodyParts(new ArrayList<File>(),"");
+                        for (Map.Entry<String, ArrayList<File>> stringArrayListEntry : submitImagesFiles.entrySet()) {
+                            ArrayList<File> values = stringArrayListEntry.getValue();
+                            if (values.size() > 0) {
+                                parts.addAll(MultipartBuilder.filesToMultipartBodyParts(values, stringArrayListEntry.getKey()));
+                            }
+                        }
                         return parts;
                     }
                 })//请求网络
@@ -241,11 +247,14 @@ public class FormSubmitActivity extends BaseActivity implements View.OnClickList
 
     /**
      * 检查图片是否可以提交
+     * @param map
      */
-    private boolean cheackImagesIsPut(ArrayList<File> files) {
+    private boolean cheackImagesIsPut(HashMap<String, ArrayList<File>> map) {
         boolean canSubmit = true;
-        if (files.size() == 0) {
-            canSubmit = false;
+        for (ArrayList<File> files : map.values()) {
+            if (files.size() == 0) {
+                canSubmit = false;
+            }
         }
         return canSubmit;
     }
@@ -269,12 +278,12 @@ public class FormSubmitActivity extends BaseActivity implements View.OnClickList
     /**
      * 获取提交的图片资源文件
      */
-    private ArrayList<File> getSubmitImagesFiles() {
-        ArrayList<File> imageFiles = new ArrayList<>();
+    private HashMap<String, ArrayList<File>> getSubmitImagesFiles() {
+        HashMap<String, ArrayList<File>> fileHashMap = new HashMap<>();
         for (ImagesSelectorAdapter imagesSelectorAdapter : submitMultiAdapter.getImagesSelectorAdapters()) {
-            imageFiles.addAll(submitMultiAdapter.getImageFiles(imagesSelectorAdapter));
+            fileHashMap.put(imagesSelectorAdapter.getKeyField(),submitMultiAdapter.getImageFiles(imagesSelectorAdapter));
         }
-        return imageFiles;
+        return fileHashMap;
     }
 
 

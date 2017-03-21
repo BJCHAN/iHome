@@ -10,22 +10,41 @@ public class MyTaskUnderWayItemBean extends BaseItemLoadBean {
     /**
      * id : 2
      * taskId : 10
+     * taskKind: 5 任务种类taskKind=5时显示录入数据相关
      * taskName : 卫生检查
      * taskExplains : 卫生检查
      * finishTime : 0
      * type : 1
      * status : 0
      * createdDate : 1489393471
+     * enterType : 1
      */
 
     private int taskId;
     private String taskName;
     private String taskExplains;
     private int finishTime;
+    private int taskKind;
     private int type;
     private int status;
     private int createdDate;
+    private int enterType;
 
+    public int getEnterType() {
+        return enterType;
+    }
+
+    public void setEnterType(int enterType) {
+        this.enterType = enterType;
+    }
+
+    public int getTaskKind() {
+        return taskKind;
+    }
+
+    public void setTaskKind(int taskKind) {
+        this.taskKind = taskKind;
+    }
 
     public int getTaskId() {
         return taskId;

@@ -38,7 +38,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import rx.Observable;
+import rx.Subscriber;
 import rx.functions.Action0;
+import rx.functions.Func1;
 
 /**
  * Created by Abyss on 2017/3/16.
@@ -99,28 +101,51 @@ public class TaskInputBuildingSelectFragment extends BaseFragment {
         rvList.setLayoutManager(new GridLayoutManager(getContext(), 3));
         rvList.addItemDecoration(new TaskInputSelectDecoration(DensityUtil.dip2px(getContext(), 5)));
         mData.clear();
-        mData.addAll(taskBean.getBuildingList());
-        selestedBean = null;
-        adapter = new TaskBuildingAdapter(mData);
-        rvList.setAdapter(adapter);
-        initBuildingOptionPicker();//初始化楼宇选择器
-        rvList.addOnItemTouchListener(new OnItemClickListener() {
-            @Override
-            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                for (TaskBuildingListBean data : mData) {
-                    data.setSelected(false);
-                }
-                selestedBean = mData.get(position);
-                selestedBean.setSelected(true);
-                selectedBuildingBean = null;
-                selectedUnitBean = null;
-                cellItems.clear();
-                unitItems.clear();
-                tvUnit.setText("");
-                tvBuilding.setText("");
-                adapter.notifyDataSetChanged();
-            }
-        });
+        Observable.from(taskBean.getBuildingList())
+                .filter(new Func1<TaskBuildingListBean, Boolean>() {
+                    @Override
+                    public Boolean call(TaskBuildingListBean taskBuildingListBean) {
+                        return taskBuildingListBean.isUsed();
+                    }
+                })
+                .compose(this.<TaskBuildingListBean>bindToLifecycle())
+                .subscribe(new Subscriber<TaskBuildingListBean>() {
+                    @Override
+                    public void onCompleted() {
+                        selestedBean = null;
+                        adapter = new TaskBuildingAdapter(mData);
+                        rvList.setAdapter(adapter);
+                        initBuildingOptionPicker();//初始化楼宇选择器
+                        rvList.addOnItemTouchListener(new OnItemClickListener() {
+                            @Override
+                            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                for (TaskBuildingListBean data : mData) {
+                                    data.setSelected(false);
+                                }
+                                selestedBean = mData.get(position);
+                                selestedBean.setSelected(true);
+                                selectedBuildingBean = null;
+                                selectedUnitBean = null;
+                                cellItems.clear();
+                                unitItems.clear();
+                                tvUnit.setText("");
+                                tvBuilding.setText("");
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(TaskBuildingListBean taskBuildingListBean) {
+                        mData.add(taskBuildingListBean);
+                    }
+                });
+
     }
 
     @Override
@@ -135,9 +160,39 @@ public class TaskInputBuildingSelectFragment extends BaseFragment {
             case R.id.tv_building:
                 if (selestedBean != null) {
                     cellItems.clear();
-                    cellItems.addAll(selestedBean.getCellList());
-                    pvBuildingOptions.setPicker(cellItems);
-                    pvBuildingOptions.show();
+                    List<TaskBuildingListBean.CellListBean> cellList = selestedBean.getCellList();
+                    if (cellList.size() <= 0) {
+                        ToastUtil.showToast(getContext(), "数据为空");
+                        return;
+                    }
+                    Observable.from(cellList)
+                            .filter(new Func1<TaskBuildingListBean.CellListBean, Boolean>() {
+                                @Override
+                                public Boolean call(TaskBuildingListBean.CellListBean cellListBean) {
+                                    return cellListBean.isUsed();
+                                }
+                            })
+                            .compose(this.<TaskBuildingListBean.CellListBean>bindToLifecycle())
+                            .subscribe(new Subscriber<TaskBuildingListBean.CellListBean>() {
+                                @Override
+                                public void onCompleted() {
+                                    pvBuildingOptions.setPicker(cellItems);
+                                    pvBuildingOptions.show();
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+
+                                }
+
+                                @Override
+                                public void onNext(TaskBuildingListBean.CellListBean cellListBean) {
+                                    cellItems.add(cellListBean);
+
+                                }
+                            });
+
+
                 } else {
                     ToastUtil.showToast(getContext(), "请先选择小区");
                 }
@@ -150,7 +205,7 @@ public class TaskInputBuildingSelectFragment extends BaseFragment {
                     ToastUtil.showToast(getContext(), "请先选择楼宇");
                 }
                 break;
-            case R.id.bt_sure:
+            case R.id.bt_sure://确认
                 String roomText = tvRoom.getText().toString().trim();
                 if (selectedUnitBean != null && taskBean != null && !TextUtils.isEmpty(roomText)) {
                     Integer roomId = Integer.valueOf(roomText);
@@ -161,9 +216,9 @@ public class TaskInputBuildingSelectFragment extends BaseFragment {
                                     if (taskInputResponseBean != null) {
                                         FragmentUtils.popAddFragment(getFragmentManager(),
                                                 holdingActivity.getFragmentContainerId(),
-                                                TaskInputEditDataFragment.newInstance(taskInputResponseBean),true);
+                                                TaskInputEditDataFragment.newInstance(taskInputResponseBean), true);
                                     } else {
-                                        ToastUtil.showToast(getContext(),"该房间不存在");
+                                        ToastUtil.showToast(getContext(), "该房间不存在");
                                     }
                                 }
 
@@ -243,7 +298,12 @@ public class TaskInputBuildingSelectFragment extends BaseFragment {
         selectedUnitBean = null;
         tvUnit.setText("");
         unitItems.clear();
-        unitItems.addAll(cellListBean.getUnitList());
+        List<TaskBuildingListBean.CellListBean.UnitListBean> unitList = cellListBean.getUnitList();
+        if (unitList.size() <= 0) {
+            ToastUtil.showToast(getContext(),"数据为空");
+            return;
+        }
+        unitItems.addAll(unitList);
         pvUnitOptions = new OptionsPickerView.Builder(getContext(), new OptionsPickerView.OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int option2, int options3, View v) {

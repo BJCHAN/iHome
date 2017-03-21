@@ -5,5 +5,5 @@ package com.tianchuang.ihome_b.bean.event;
  * description:切换角色成功
  */
 
-public class SwitchSuccess {
+public class SwitchSuccessEvent {
 }

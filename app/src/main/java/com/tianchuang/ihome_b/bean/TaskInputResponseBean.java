@@ -7,13 +7,14 @@ import java.io.Serializable;
  * description:我的任务录入提交返回的结果
  */
 
-public class TaskInputResponseBean implements Serializable{
+public class TaskInputResponseBean implements Serializable {
 
     /**
+     * taskRecordId 任务id
      * taskName : 电费录入
      * dataInfo : {"id":1,"lastData":0,"currentData":0,"roomInfo":"海创苑1幢1单元101"}
      */
-
+    private int taskRecordId;
     private String taskName;
     private DataInfoBean dataInfo;
 
@@ -31,6 +32,14 @@ public class TaskInputResponseBean implements Serializable{
 
     public void setDataInfo(DataInfoBean dataInfo) {
         this.dataInfo = dataInfo;
+    }
+
+    public int getTaskRecordId() {
+        return taskRecordId;
+    }
+
+    public void setTaskRecordId(int taskRecordId) {
+        this.taskRecordId = taskRecordId;
     }
 
     public static class DataInfoBean {

@@ -1,8 +1,6 @@
 package com.tianchuang.ihome_b.bean;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
-import com.tianchuang.ihome_b.bean.ComplainSuggestProcessedBean;
-import com.tianchuang.ihome_b.bean.ComplainSuggestUntratedBean;
 
 import java.io.Serializable;
 

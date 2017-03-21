@@ -14,7 +14,7 @@ import com.tianchuang.ihome_b.adapter.PropertyListAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.LoginBean;
 import com.tianchuang.ihome_b.bean.PropertyListItemBean;
-import com.tianchuang.ihome_b.bean.event.SwitchSuccess;
+import com.tianchuang.ihome_b.bean.event.SwitchSuccessEvent;
 import com.tianchuang.ihome_b.bean.model.PropertyModel;
 import com.tianchuang.ihome_b.bean.recyclerview.CommonItemDecoration;
 import com.tianchuang.ihome_b.database.UserInfoDbHelper;
@@ -132,7 +132,7 @@ public class PropertyListFragment extends BaseFragment {
                 UserUtil.setLoginBean(loginBean);//更新内存中的loginbean
                 PropertyListFragment.this.removeFragment();
                 ToastUtil.showToast(holdingActivity, "切换成功");
-                EventBus.getDefault().post(new SwitchSuccess());
+                EventBus.getDefault().post(new SwitchSuccessEvent());
             }
         });
     }

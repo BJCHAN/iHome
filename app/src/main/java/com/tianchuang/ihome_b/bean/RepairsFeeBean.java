@@ -8,14 +8,14 @@ import java.util.List;
  */
 
 public class RepairsFeeBean {
-	private int totalFee;
+	private float totalFee;
 	private List<MyOrderDetailBean.RepairsFeeVosBean> repairsFeeVos;
 
-	public int getTotalFee() {
+	public float getTotalFee() {
 		return totalFee;
 	}
 
-	public RepairsFeeBean setTotalFee(int toalFee) {
+	public RepairsFeeBean setTotalFee(float toalFee) {
 		this.totalFee = toalFee;
 		return this;
 	}

@@ -30,7 +30,7 @@ public class MyOrderDetailBean implements Serializable {
 	private int status;
 	private int createdDate;
 	private OwnersInfoVoBean ownersInfoVo;
-	private int totalFee;
+	private float totalFee;
 	private int evaluateStar;
 	private String evaluate;
 	private List<DetailMultiItem> repairsDataVos;
@@ -77,11 +77,11 @@ public class MyOrderDetailBean implements Serializable {
 		this.ownersInfoVo = ownersInfoVo;
 	}
 
-	public int getTotalFee() {
+	public float getTotalFee() {
 		return totalFee;
 	}
 
-	public void setTotalFee(int totalFee) {
+	public void setTotalFee(float totalFee) {
 		this.totalFee = totalFee;
 	}
 
@@ -362,7 +362,7 @@ public class MyOrderDetailBean implements Serializable {
 		private int repairsId;
 		private String title;
 		private int counts;
-		private int fee;
+		private float fee;
 
 		public int getId() {
 			return id;
@@ -396,11 +396,11 @@ public class MyOrderDetailBean implements Serializable {
 			this.counts = counts;
 		}
 
-		public int getFee() {
+		public float getFee() {
 			return fee;
 		}
 
-		public void setFee(int fee) {
+		public void setFee(float fee) {
 			this.fee = fee;
 		}
 	}

@@ -28,7 +28,7 @@ import com.tianchuang.ihome_b.bean.DrawMenuItem;
 import com.tianchuang.ihome_b.bean.LoginBean;
 import com.tianchuang.ihome_b.bean.event.LogoutEvent;
 import com.tianchuang.ihome_b.bean.event.OpenScanEvent;
-import com.tianchuang.ihome_b.bean.event.SwitchSuccess;
+import com.tianchuang.ihome_b.bean.event.SwitchSuccessEvent;
 import com.tianchuang.ihome_b.bean.recyclerview.DrawMenuItemDecoration;
 import com.tianchuang.ihome_b.fragment.MainFragment;
 import com.tianchuang.ihome_b.fragment.PropertyListFragment;
@@ -171,6 +171,9 @@ public class MainActivity extends BaseActivity {
                     case 1://我的表单
                         startActivityWithAnim(new Intent(MainActivity.this, MyFormActivity.class));
                         break;
+                    case 2://抢单大厅
+                        startActivityWithAnim(new Intent(MainActivity.this, RobHallActivity.class));
+                        break;
                     case 3://我的订单
                         startActivityWithAnim(new Intent(MainActivity.this, MyOrderActivity.class));
                         break;
@@ -265,7 +268,7 @@ public class MainActivity extends BaseActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(SwitchSuccess event) {//切换用户的事件
+    public void onMessageEvent(SwitchSuccessEvent event) {//切换用户的事件
 
     }
 

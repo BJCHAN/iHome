@@ -81,11 +81,17 @@ public interface BizInterface {
     String NOTIFICATION_LIST_URL = "notification/list.html";
     //公告详情
     String NOTIFICATION_DETAIL_URL = "notification/detail.html";
-    //我的任务录入详情
+    //我的任务录入型详情
     String TASK_INPUT_DETAIL_URL = "task/detail.html";
     //我的任务住户录入提交
     String TASK_INPUT_BUILDING_SUBMIT_URL = "task/room/data/info.html";
     //读数提交
     String TASK_INPUT_CURRENT_DATA_SUBMIT_URL = "task/room/data/enter.html";
+    //读数提交
+    String TASK_INPUT_SUCCESS_FINISH_URL = "task/room/data/enter/done.html";
+    //执行任务-设备点控制点型任务
+    String TASK_CONTROL_POINT_URL = "task/detail.html";
+    //首页列表
+    String HOME_PAGE_LIST_URL = "index.html";
 
 }
