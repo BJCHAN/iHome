@@ -423,4 +423,17 @@ public interface ShowApi {
      */
     @POST(BizInterface.HOME_PAGE_LIST_URL)
     Observable<HttpModle<HomePageBean>> homePageList(@Query("propertyCompanyId") int propertyCompanyId);
+
+    /**
+     * 我的任务-执行任务-设备点控制点型任务-提交表单
+     * taskRecordId:xxxxxx                     //  任务记录ID
+     * propertyCompanyId:xxx                   //  物业公司ID（对应在物业列表接口中propertyCompanyId）
+     * formTypeId:xxx                          //  表单类型ID（对应在投诉类型列表接口中id）
+     * fieldKey1:xxx                           //  对应字段属性列表中的fields
+     * fieldKey2:xxx
+     */
+    @Multipart
+    @POST(BizInterface.TASK_CONTROL_POINT_SUBMIT_URL)
+    Observable<HttpModle<String>> taskControlPointSubmit(@QueryMap Map<String, String> map,
+                                                         @Part() List<MultipartBody.Part> parts);
 }

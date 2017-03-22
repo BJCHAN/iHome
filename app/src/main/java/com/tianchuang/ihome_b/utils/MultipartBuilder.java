@@ -59,7 +59,7 @@ public class MultipartBuilder {
 				} else {
 					requestBody = RequestBody.create(MediaType.parse("image/jpg"), file);
 				}
-				MultipartBody.Part part = MultipartBody.Part.createFormData(formName, file.getName(), requestBody);
+				MultipartBody.Part part = MultipartBody.Part.createFormData(formName, file.getName()+"", requestBody);
 				parts.add(part);
 			}
 		}

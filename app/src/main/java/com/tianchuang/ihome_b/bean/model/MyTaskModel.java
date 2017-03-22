@@ -8,6 +8,10 @@ import com.tianchuang.ihome_b.http.retrofit.HttpModle;
 import com.tianchuang.ihome_b.http.retrofit.RetrofitService;
 import com.tianchuang.ihome_b.utils.UserUtil;
 
+import java.util.HashMap;
+import java.util.List;
+
+import okhttp3.MultipartBody;
 import rx.Observable;
 
 /**
@@ -60,5 +64,15 @@ public class MyTaskModel {
      */
     public static Observable<HttpModle<TaskControlPointDetailBean>> taskControlPointDetail(int taskRecordId) {
         return RetrofitService.createShowApi().taskControlPointDetail(taskRecordId);
+    }
+
+    /**
+     * 表单提交
+     */
+    public static Observable<HttpModle<String>> taskFormSubmit(int recordId, int formId, HashMap<String, String> map, List<MultipartBody.Part> parts) {
+        map.put("propertyCompanyId", String.valueOf(UserUtil.getLoginBean().getPropertyCompanyId()));
+        map.put("taskRecordId", String.valueOf(recordId));
+        map.put("formTypeId", String.valueOf(formId));
+        return RetrofitService.createShowApi().taskControlPointSubmit(map, parts);
     }
 }

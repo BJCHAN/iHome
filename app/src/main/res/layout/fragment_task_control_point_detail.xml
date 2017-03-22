@@ -1,85 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/white"
-    android:layout_height="match_parent">
-    <ScrollView
+    android:layout_height="match_parent"
+    android:background="@color/background_gray"
+    android:overScrollMode="never"
+    android:scrollbars="none">
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/background_gray"
-        android:overScrollMode="never"
-        android:scrollbars="none">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="20dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="20dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tv_title"
+                    style="@style/normal_content_text"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:orientation="vertical"
-                    android:paddingBottom="20dp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="20dp">
+                    tools:text="常规巡视任务" />
 
-                    <TextView
-                        android:id="@+id/tv_title"
-                        style="@style/normal_content_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="常规巡视任务" />
+                <TextView
+                    android:id="@+id/tv_date"
+                    style="@style/small_content_gray_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    tools:text="2016/12/13  08:30  巡视任务" />
 
-                    <TextView
-                        android:id="@+id/tv_date"
-                        style="@style/small_content_gray_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        tools:text="2016/12/13  08:30  巡视任务" />
-
-                    <TextView
-                        android:id="@+id/tv_content"
-                        style="@style/small_content_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        tools:text="2016/12/20治安巡视任务，请对小区的1、2、3、4幢进行常规治安巡视。" />
-                </LinearLayout>
-
-                <!--<View-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="1dp"-->
-                    <!--android:layout_marginLeft="15dp"-->
-                    <!--android:layout_marginRight="15dp"-->
-                    <!--android:background="@color/background_gray" />-->
-
+                <TextView
+                    android:id="@+id/tv_content"
+                    style="@style/small_content_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    tools:text="2016/12/20治安巡视任务，请对小区的1、2、3、4幢进行常规治安巡视。" />
             </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:overScrollMode="never"
-                android:scrollbars="none" />
-        </LinearLayout>
-    </ScrollView>
+            <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:layout_marginLeft="15dp"-->
+            <!--android:layout_marginRight="15dp"-->
+            <!--android:background="@color/background_gray" />-->
 
-    <FrameLayout
-        android:id="@+id/fl_empty_view"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white" />
-</FrameLayout>
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:overScrollMode="never"
+            android:scrollbars="none" />
+    </LinearLayout>
+</ScrollView>
+
 

@@ -141,7 +141,9 @@ public class FormSubmitActivity extends BaseActivity implements View.OnClickList
     public void setGetImageByCodeListener(GetImageByCodeListener getImageByCodeListener) {
         this.getImageByCodeListener = getImageByCodeListener;
     }
-
+    public interface GetImageByCodeListener {
+        void onImages(List<String> paths, int type);
+    }
     private GetImageByCodeListener getImageByCodeListener;
 
     /**
@@ -324,9 +326,7 @@ public class FormSubmitActivity extends BaseActivity implements View.OnClickList
         return null;
     }
 
-    public interface GetImageByCodeListener {
-        void onImages(List<String> paths, int type);
-    }
+
 
     @Override
     protected void onDestroy() {

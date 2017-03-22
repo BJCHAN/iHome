@@ -1,8 +1,6 @@
 package com.tianchuang.ihome_b.bean;
 
-import com.chad.library.adapter.base.entity.AbstractExpandableItem;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
-import com.tianchuang.ihome_b.adapter.ExpandableItemAdapter;
 
 import java.io.Serializable;
 
@@ -11,7 +9,7 @@ import java.io.Serializable;
  * description:
  */
 
-public class ControlPointItemBean extends AbstractExpandableItem<FormTypeItemBean> implements MultiItemEntity, Serializable {
+public class ControlPointItemBean implements  Serializable {
     /**
      * id : 4
      * name : 控制点二
@@ -31,32 +29,13 @@ public class ControlPointItemBean extends AbstractExpandableItem<FormTypeItemBea
     private int day;
     private String time;
     private FormTypeItemBean formTypeVo;
-    private boolean isExpand = false;//是否展开,默认未展开
-    private int viewHeight;//展开的高度
-    private boolean isAddFragment=false;//是否添加过fragment,默认未添加
 
-    public boolean isAddFragment() {
-        return isAddFragment;
+    public int getFinishTime() {
+        return finishTime;
     }
 
-    public void setAddFragment(boolean addFragment) {
-        isAddFragment = addFragment;
-    }
-
-    public boolean isExpand() {
-        return isExpand;
-    }
-
-    public void setExpand(boolean expand) {
-        isExpand = expand;
-    }
-
-    public int getViewHeight() {
-        return viewHeight;
-    }
-
-    public void setViewHeight(int viewHeight) {
-        this.viewHeight = viewHeight;
+    public void setFinishTime(int finishTime) {
+        this.finishTime = finishTime;
     }
 
     public int getId() {
@@ -81,14 +60,6 @@ public class ControlPointItemBean extends AbstractExpandableItem<FormTypeItemBea
 
     public void setPlace(String place) {
         this.place = place;
-    }
-
-    public int getFinishTime() {
-        return finishTime;
-    }
-
-    public void setFinishTime(int finishTime) {
-        this.finishTime = finishTime;
     }
 
     public int getType() {
@@ -123,12 +94,5 @@ public class ControlPointItemBean extends AbstractExpandableItem<FormTypeItemBea
         this.formTypeVo = formTypeVo;
     }
 
-    @Override
-    public int getItemType() {
-        return ExpandableItemAdapter.TYPE_LEVEL_0;
-    }
-    @Override
-    public int getLevel() {
-        return 0;
-    }
+
 }

@@ -1,7 +1,6 @@
 package com.tianchuang.ihome_b.bean;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
-import com.tianchuang.ihome_b.adapter.ExpandableItemAdapter;
 
 import java.io.Serializable;
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.List;
  * description:表单类型的itemBean
  */
 
-public class FormTypeItemBean extends BaseItemLoadBean implements MultiItemEntity {
+public class FormTypeItemBean extends BaseItemLoadBean  {
     /**
      * id : 6
      * propertyCompanyId : 1
@@ -78,10 +77,7 @@ public class FormTypeItemBean extends BaseItemLoadBean implements MultiItemEntit
         this.fields = fields;
     }
 
-    @Override
-    public int getItemType() {
-        return ExpandableItemAdapter.TYPE_LEVEL_1;
-    }
+
 
 
     public static class FieldsBean implements MultiItemEntity, Serializable {

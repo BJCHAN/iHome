@@ -3,24 +3,47 @@ package com.tianchuang.ihome_b.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.SparseArray;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.activity.MyTaskActivity;
+import com.tianchuang.ihome_b.adapter.ImagesSelectorAdapter;
 import com.tianchuang.ihome_b.adapter.TaskSubmitMultiAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
+import com.tianchuang.ihome_b.bean.CheakBean;
+import com.tianchuang.ihome_b.bean.ControlPointItemBean;
 import com.tianchuang.ihome_b.bean.FormTypeItemBean;
+import com.tianchuang.ihome_b.bean.event.TaskFormSubmitSuccessEvent;
+import com.tianchuang.ihome_b.bean.model.MyTaskModel;
 import com.tianchuang.ihome_b.bean.recyclerview.CommonItemDecoration;
 import com.tianchuang.ihome_b.bean.recyclerview.CustomLinearLayoutManager;
+import com.tianchuang.ihome_b.http.retrofit.RxHelper;
+import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
 import com.tianchuang.ihome_b.utils.DensityUtil;
 import com.tianchuang.ihome_b.utils.LayoutUtil;
+import com.tianchuang.ihome_b.utils.MultipartBuilder;
+import com.tianchuang.ihome_b.utils.StringUtils;
+import com.tianchuang.ihome_b.utils.ToastUtil;
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.RunnableFuture;
+import java.util.Map;
 
 import butterknife.BindView;
+import okhttp3.MultipartBody;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
+import rx.functions.Func1;
+import rx.functions.Func2;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Abyss on 2017/3/20.
@@ -30,17 +53,32 @@ import butterknife.BindView;
 public class TaskControlPointEditFragment extends BaseFragment implements TaskSubmitMultiAdapter.SaveEditListener, View.OnClickListener {
     @BindView(R.id.rv_list)
     RecyclerView mRecyclerView;
+    @BindView(R.id.tv_point_name)
+    TextView tvPointName;
+    @BindView(R.id.tv_point_address)
+    TextView tvPointAddress;
+    @BindView(R.id.tv_point_date)
+    TextView tvPointDate;
     private TaskSubmitMultiAdapter submitMultiAdapter;
     private List<FormTypeItemBean.FieldsBean> fields;
-    private SparseArray<Object> editTexts;
+    private SparseArray<String> editTexts;
     private MyTaskActivity holdingActivity;
+    private FormTypeItemBean formTypeItemBean;
+    private int taskRecordId;
 
-    public static TaskControlPointEditFragment newInstance(FormTypeItemBean bean) {
+    public static TaskControlPointEditFragment newInstance(int taskRecordId, ControlPointItemBean bean) {
         Bundle bundle = new Bundle();
         bundle.putSerializable("bean", bean);
+        bundle.putInt("taskRecordId", taskRecordId);
         TaskControlPointEditFragment fragment = new TaskControlPointEditFragment();
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        setToolbarTitle("任务结果");
     }
 
     @Override
@@ -56,8 +94,13 @@ public class TaskControlPointEditFragment extends BaseFragment implements TaskSu
 
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
-        FormTypeItemBean formTypeItemBean = (FormTypeItemBean) getArguments().getSerializable("bean");
-        if (formTypeItemBean != null) {
+        ControlPointItemBean controlPointItemBean = (ControlPointItemBean) getArguments().getSerializable("bean");
+        taskRecordId = getArguments().getInt("taskRecordId");
+        if (controlPointItemBean != null) {
+            tvPointName.setText(StringUtils.getNotNull(controlPointItemBean.getName()));
+            tvPointAddress.setText(StringUtils.getNotNull(controlPointItemBean.getPlace()));
+            tvPointDate.setText(StringUtils.getNotNull(controlPointItemBean.getTime()));
+            formTypeItemBean = controlPointItemBean.getFormTypeVo();
             initView(formTypeItemBean);
         }
 
@@ -72,7 +115,9 @@ public class TaskControlPointEditFragment extends BaseFragment implements TaskSu
             submitMultiAdapter.setSaveEditListener(this);
             //添加腿部
             View view = LayoutUtil.inflate(R.layout.form_submit_footer_holder);
-            view.findViewById(R.id.tv_submit).setOnClickListener(this);
+            TextView submitBtn = (TextView) view.findViewById(R.id.tv_submit);
+            submitBtn.setText("完成");
+            submitBtn.setOnClickListener(this);
             submitMultiAdapter.addFooterView(view);
             mRecyclerView.setAdapter(submitMultiAdapter);
             CustomLinearLayoutManager customLinearLayoutManager = new CustomLinearLayoutManager(getContext());
@@ -81,17 +126,185 @@ public class TaskControlPointEditFragment extends BaseFragment implements TaskSu
         }
     }
 
-
-    @Override
-    public void SaveEdit(int position, String string) {
-
-    }
-
     /**
-     * 提交的按钮
+     * 提交按钮
      */
     @Override
     public void onClick(View v) {
+        final HashMap<String, String> submitTextMap = initSubmitTexts();
+        addRadioTexts(submitTextMap);
+        addEditTexts(submitTextMap);
+        final HashMap<String, ArrayList<File>> submitImagesFiles = getSubmitImagesFiles();
+        Observable.zip(Observable.just(submitTextMap), Observable.just(submitImagesFiles),
+                new Func2<HashMap<String, String>, HashMap<String, ArrayList<File>>, CheakBean>() {//检查是否可以提价
+                    @Override
+                    public CheakBean call(HashMap<String, String> submitTextMap, HashMap<String, ArrayList<File>> map) {//判断可否提交
+                        boolean textIsPut = cheackTextIsPut(submitTextMap);
+                        boolean imagesIsPut = cheackImagesIsPut(map);
+                        CheakBean cheakBean = new CheakBean();
+                        if (textIsPut && imagesIsPut) {
+                            cheakBean.setCan(true);
+                        } else if (!textIsPut) {
+                            cheakBean.setCan(false);
+                            cheakBean.setTip("文本或选项不能为空");
+                        } else if (!imagesIsPut) {
+                            cheakBean.setCan(false);
+                            cheakBean.setTip("图片不能为空");
+                        }
+                        return cheakBean;
+                    }
+                })
+                .compose(this.<CheakBean>bindToLifecycle())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .filter(new Func1<CheakBean, Boolean>() {
+                    @Override
+                    public Boolean call(CheakBean bean) {//弹出错误提示
+                        boolean can = bean.isCan();
+                        if (!can) {
+                            dismissProgress();
+                            ToastUtil.showToast(getContext(), bean.getTip());
+                        }
+                        return can;
+                    }
+                })
+                .observeOn(Schedulers.io())//图片压缩转换
+                .map(new Func1<CheakBean, List<MultipartBody.Part>>() {
+                    @Override
+                    public List<MultipartBody.Part> call(CheakBean bean) {
+                        List<MultipartBody.Part> parts = MultipartBuilder.filesToMultipartBodyParts(new ArrayList<File>(), "");
+                        for (Map.Entry<String, ArrayList<File>> stringArrayListEntry : submitImagesFiles.entrySet()) {
+                            ArrayList<File> values = stringArrayListEntry.getValue();
+                            if (values.size() > 0) {
+                                parts.addAll(MultipartBuilder.filesToMultipartBodyParts(values, stringArrayListEntry.getKey()));
+                            }
+                        }
+                        return parts;
+                    }
+                })//请求网络
+                .flatMap(new Func1<List<MultipartBody.Part>, Observable<String>>() {
+                    @Override
+                    public Observable<String> call(List<MultipartBody.Part> parts) {
+                        return MyTaskModel.taskFormSubmit(taskRecordId, formTypeItemBean.getId(), submitTextMap, parts).compose(RxHelper.<String>handleResult());
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        showProgress();
+                    }
+                })
+                .subscribe(new RxSubscribe<String>() {
+                    @Override
+                    protected void _onNext(String s) {
+                        dismissProgress();
+                        ToastUtil.showToast(getContext(), "任务提交成功");
+                        removeFragment();
+                        EventBus.getDefault().post(new TaskFormSubmitSuccessEvent());
+                    }
 
+                    @Override
+                    protected void _onError(String message) {
+                        ToastUtil.showToast(getContext(), message);
+                        dismissProgress();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+                });
+
+    }
+
+    private HashMap<String, String> initSubmitTexts() {
+        HashMap<String, String> map = new HashMap<>();
+        for (FormTypeItemBean.FieldsBean field : fields) {
+            if (field.getType() == 1 || field.getType() == 2) {
+                map.put(field.getFieldKey(), "");
+            }
+        }
+        return map;
+    }
+
+    /**
+     * 检查图片是否可以提交
+     *
+     * @param map
+     */
+    private boolean cheackImagesIsPut(HashMap<String, ArrayList<File>> map) {
+        boolean canSubmit = true;
+        for (ArrayList<File> files : map.values()) {
+            if (files.size() == 0) {
+                canSubmit = false;
+            }
+        }
+        return canSubmit;
+    }
+
+    /**
+     * 检查文本是否可以提交
+     */
+    private boolean cheackTextIsPut(HashMap<String, String> submitTextMap) {
+        boolean canSubmit = true;
+        for (Map.Entry<String, String> stringStringEntry : submitTextMap.entrySet()) {
+            FormTypeItemBean.FieldsBean field = getItemBeanByKeyField(stringStringEntry.getKey());
+            if (field != null && field.isMustInput()) {
+                if (TextUtils.isEmpty(stringStringEntry.getValue())) {
+                    canSubmit = false;
+                }
+            }
+        }
+        return canSubmit;
+    }
+
+    /**
+     * 获取提交的图片资源文件
+     */
+    private HashMap<String, ArrayList<File>> getSubmitImagesFiles() {
+        HashMap<String, ArrayList<File>> fileHashMap = new HashMap<>();
+        for (ImagesSelectorAdapter imagesSelectorAdapter : submitMultiAdapter.getImagesSelectorAdapters()) {
+            fileHashMap.put(imagesSelectorAdapter.getKeyField(), submitMultiAdapter.getImageFiles(imagesSelectorAdapter));
+        }
+        return fileHashMap;
+    }
+
+
+    //    获取单选的提交文本
+    public void addRadioTexts(HashMap<String, String> map) {
+        for (FormTypeItemBean.FieldsBean field : fields) {
+            if (field.getType() == 2) {//单选
+                map.put(field.getFieldKey(), field.getRadioText());
+            }
+        }
+    }
+
+    //获取edittext的提交文本
+    public void addEditTexts(HashMap<String, String> map) {
+        for (int i = 0; i < editTexts.size(); i++) {
+            int key = editTexts.keyAt(i);
+            FormTypeItemBean.FieldsBean fieldsBean = fields.get(key);
+            String s = editTexts.get(key);
+            map.put(fieldsBean.getFieldKey(), s);
+        }
+    }
+
+    //动态保存列表中edittext的文本
+    @Override
+    public void SaveEdit(int position, String string) {
+        editTexts.put(position, string);
+    }
+
+    /**
+     * 根据keyfield找到对应的itembean
+     */
+    public FormTypeItemBean.FieldsBean getItemBeanByKeyField(String key) {
+        for (FormTypeItemBean.FieldsBean field : fields) {
+            if (key.equals(field.getFieldKey())) {
+                return field;
+            }
+        }
+        return null;
     }
 }

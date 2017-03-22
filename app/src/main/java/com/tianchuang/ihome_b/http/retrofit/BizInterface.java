@@ -93,5 +93,7 @@ public interface BizInterface {
     String TASK_CONTROL_POINT_URL = "task/detail.html";
     //首页列表
     String HOME_PAGE_LIST_URL = "index.html";
+    //我的任务-执行任务-设备点控制点型任务-提交表单
+    String TASK_CONTROL_POINT_SUBMIT_URL = "task/form/data/enter.html";
 
 }

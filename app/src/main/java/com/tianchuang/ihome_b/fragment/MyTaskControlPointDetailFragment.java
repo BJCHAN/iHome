@@ -3,20 +3,17 @@ package com.tianchuang.ihome_b.fragment;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.entity.MultiItemEntity;
-import com.chad.library.adapter.base.listener.OnItemChildClickListener;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.tianchuang.ihome_b.R;
-import com.tianchuang.ihome_b.activity.MyTaskActivity;
-import com.tianchuang.ihome_b.adapter.ExpandableItemAdapter;
 import com.tianchuang.ihome_b.adapter.TaskControlPointDetailListAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.ControlPointItemBean;
 import com.tianchuang.ihome_b.bean.MyTaskUnderWayItemBean;
 import com.tianchuang.ihome_b.bean.TaskControlPointDetailBean;
+import com.tianchuang.ihome_b.bean.event.TaskFormSubmitSuccessEvent;
 import com.tianchuang.ihome_b.bean.model.MyTaskModel;
 import com.tianchuang.ihome_b.bean.recyclerview.CustomLinearLayoutManager;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
@@ -24,16 +21,15 @@ import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
 import com.tianchuang.ihome_b.utils.DateUtils;
 import com.tianchuang.ihome_b.utils.ToastUtil;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
-import rx.functions.Action1;
 
 /**
  * Created by Abyss on 2017/3/20.
@@ -50,11 +46,8 @@ public class MyTaskControlPointDetailFragment extends BaseFragment {
     TextView tvContent;
     @BindView(R.id.rv_list)
     RecyclerView rvList;
-    @BindView(R.id.fl_empty_view)
-    FrameLayout flEmptyView;
     private MyTaskUnderWayItemBean item;
     private int taskRecordId;
-    private TaskControlPointDetailBean taskControlPointDetailBean;
     private List<ControlPointItemBean> mListData;
     private TaskControlPointDetailListAdapter adapter;
 
@@ -83,9 +76,22 @@ public class MyTaskControlPointDetailFragment extends BaseFragment {
         taskRecordId = item.getId();
         CustomLinearLayoutManager layoutManager = new CustomLinearLayoutManager(getContext());
         layoutManager.setScrollEnabled(false);
+        mListData = new ArrayList<>();
         rvList.setLayoutManager(layoutManager);
-//        flEmptyView.setVisibility(View.VISIBLE);
+        EventBus.getDefault().register(this);
+    }
 
+    @Override
+    protected void initListener() {
+
+        //去往提交编辑任务
+        rvList.addOnItemTouchListener(new OnItemClickListener() {
+            @Override
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                ControlPointItemBean controlPointItemBean = (ControlPointItemBean) adapter.getData().get(position);
+                addFragment(TaskControlPointEditFragment.newInstance(taskRecordId, controlPointItemBean));
+            }
+        });
     }
 
     @Override
@@ -103,25 +109,15 @@ public class MyTaskControlPointDetailFragment extends BaseFragment {
                     @Override
                     protected void _onNext(TaskControlPointDetailBean taskControlPointDetailBean) {
                         if (taskControlPointDetailBean != null) {
-                            mListData = new ArrayList<>();
-                            MyTaskControlPointDetailFragment.this.taskControlPointDetailBean = taskControlPointDetailBean;
                             tvTitle.setText(getNotNull(item.getTaskName()));
                             tvDate.setText(getNotNull(DateUtils.formatDate(item.getCreatedDate(), DateUtils.TYPE_01)));
                             tvContent.setText(getNotNull(item.getTaskExplains()));
                             if (taskControlPointDetailBean.getEquipmentControlVoList().size() > 0) {
+                                mListData.clear();
                                 mListData.addAll(taskControlPointDetailBean.getEquipmentControlVoList());
                             }
-//                            ArrayList<MultiItemEntity> multiItemEntities = generateData(mListData);
-//                            ExpandableItemAdapter adapter2 = new ExpandableItemAdapter(((MyTaskActivity) getHoldingActivity()),multiItemEntities);
-                            adapter = new TaskControlPointDetailListAdapter(getHoldingActivity(), mListData);
+                            adapter = new TaskControlPointDetailListAdapter(mListData);
                             rvList.setAdapter(adapter);//设置控制点列表
-//                            adapter.setLayoutFinishListener(new TaskControlPointDetailListAdapter.LayoutFinishListener() {
-//                                @Override
-//                                public void layoutFinished() {//在布局完毕后移除空页面
-//                                    removeEmptyView();
-//                                }
-//                            });
-
                         }
                     }
 
@@ -138,27 +134,16 @@ public class MyTaskControlPointDetailFragment extends BaseFragment {
                     }
                 });
     }
-    private ArrayList<MultiItemEntity> generateData(List<ControlPointItemBean> mListData) {
-        ArrayList<MultiItemEntity> res = new ArrayList<>();
-        for (ControlPointItemBean controlPointItemBean : mListData) {
-            controlPointItemBean.addSubItem(controlPointItemBean.getFormTypeVo());
-            res.add(controlPointItemBean);
-        }
 
-        return res;
-    }
-    private void removeEmptyView() {
-        Observable.timer(200, TimeUnit.MILLISECONDS)
-                .compose(this.<Long>bindToLifecycle())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Long>() {//延时,避免界面布局时闪屏
-                    @Override
-                    public void call(Long aLong) {
-                        flEmptyView.setVisibility(View.GONE);
-                        dismissProgress();
-                    }
-                });
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(TaskFormSubmitSuccessEvent event) {//任务提交成功的事件
+        //进行数据的刷新
+        initData();
     }
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }
