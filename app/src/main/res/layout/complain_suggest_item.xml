@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/H0"
     android:layout_marginRight="@dimen/H0"
     android:layout_marginTop="@dimen/H0"
-    app:cardCornerRadius="10dp"
     app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="10dp"
     app:cardElevation="1.5dp">
 
     <RelativeLayout
@@ -21,9 +21,9 @@
             android:id="@+id/tv_complain_suggest_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="张三三/4-2-902"
             android:textColor="@color/TC_2"
-            android:textSize="13sp"/>
+            android:textSize="13sp"
+            tools:text="张三三/4-2-902" />
 
         <!--投诉建议时间-->
         <TextView
@@ -31,9 +31,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="2016/12/13  08:30"
             android:textColor="@color/TC_2"
-            android:textSize="13sp"/>
+            android:textSize="13sp"
+            tools:text="2016/12/13  08:30" />
 
         <!--投诉建议内容-->
         <TextView
@@ -42,9 +42,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_complain_suggest_name"
             android:layout_marginTop="@dimen/H0"
-            android:text="为什么老是停水啊！为什么老是停水啊！为什么老是停水啊！为什么老是停水啊！为什么老是停水啊！为什么老是！"
             android:textColor="@color/TC_1"
-            android:textSize="13sp"/>
+            android:textSize="13sp"
+            tools:text="为什么老是停水啊！为什么老是停水啊！为什么老是停水啊！为什么老是停水啊！为什么老是停水啊！为什么老是！" />
 
         <!--投诉建议回复-->
         <com.daasuu.bl.BubbleLayout
@@ -73,7 +73,7 @@
                 android:layout_gravity="center_vertical"
                 android:text="你好，这个问题是因为XXXXXXXXXXX造成的，我们已经为XXXXXXXXXX，给你带来的不便请您谅解。"
                 android:textColor="@color/TC_1"
-                android:textSize="13sp"/>
+                android:textSize="13sp" />
 
         </com.daasuu.bl.BubbleLayout>
 

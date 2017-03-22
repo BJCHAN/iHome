@@ -6,12 +6,19 @@ import android.view.KeyEvent;
 import com.hitomi.tilibrary.TransferImage;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.base.ToolBarActivity;
+import com.tianchuang.ihome_b.bean.ComplainDetailBean;
+import com.tianchuang.ihome_b.bean.HomePageMultiItem;
+import com.tianchuang.ihome_b.bean.MenuInnerReportsItemBean;
 import com.tianchuang.ihome_b.bean.event.TransferLayoutEvent;
+import com.tianchuang.ihome_b.fragment.ComplainDetailFragment;
+import com.tianchuang.ihome_b.fragment.MenuInnerReportsDetailFragment;
 import com.tianchuang.ihome_b.fragment.MenuInnerReportsFragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.io.Serializable;
 
 public class MenuInnerReportsActivity extends ToolBarActivity {
 
@@ -20,6 +27,13 @@ public class MenuInnerReportsActivity extends ToolBarActivity {
 
     @Override
     protected BaseFragment getFirstFragment() {
+        if (getIntent() != null) {//从主页过来
+            Serializable item = getIntent().getSerializableExtra("item");
+            if (item != null && item instanceof HomePageMultiItem) {
+                MenuInnerReportsItemBean menuInnerReportsItemBean = ((HomePageMultiItem) item).getMenuInnerReportsItemBean();
+                return MenuInnerReportsDetailFragment.newInstance(menuInnerReportsItemBean);
+            }
+        }
         return MenuInnerReportsFragment.newInstance();
     }
 

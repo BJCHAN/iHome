@@ -9,7 +9,7 @@ import java.util.List;
 
 public class HomePageBean {
     private List<NotificationItemBean> notices;//  通知
-    private List<ComplainItemBean> complaintsVos; //  投诉
+    private List<ComplainDetailBean> complaintsVos; //  投诉
     private List<MenuInnerReportsItemBean> internalReportVos;//  内部报事
     private List<MyTaskUnderWayItemBean> taskRecordVos; //  任务
 
@@ -21,11 +21,11 @@ public class HomePageBean {
         this.notices = notices;
     }
 
-    public List<ComplainItemBean> getComplaintsVos() {
+    public List<ComplainDetailBean> getComplaintsVos() {
         return complaintsVos;
     }
 
-    public void setComplaintsVos(List<ComplainItemBean> complaintsVos) {
+    public void setComplaintsVos(List<ComplainDetailBean> complaintsVos) {
         this.complaintsVos = complaintsVos;
     }
 

@@ -125,7 +125,7 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.MyFormActivity" />
-        <activity android:name=".activity.ManageNotificationActivity"></activity>
+        <activity android:name=".activity.ManageNotificationActivity"/>
     </application>
 
 </manifest>

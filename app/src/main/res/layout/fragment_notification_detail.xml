@@ -22,14 +22,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:text="停水公告" />
+            tool:text="停水公告" />
 
         <TextView
             android:id="@+id/tv_notification_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_notification_type"
-            android:text="2016年12月11日  12:08"
+            tool:text="2016年12月11日  12:08"
             android:textColor="@color/TC_2"
             android:textSize="12sp" />
 

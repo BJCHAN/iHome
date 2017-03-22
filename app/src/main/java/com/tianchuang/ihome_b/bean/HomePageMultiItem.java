@@ -39,7 +39,7 @@ public class HomePageMultiItem implements MultiItemEntity, Serializable {
     //通知item
     private NotificationItemBean notificationItemBean;
     //投诉item
-    private ComplainItemBean complainItemBean;
+    private ComplainDetailBean complainItemBean;
     //内部报事item
     private MenuInnerReportsItemBean menuInnerReportsItemBean;
     //任务item
@@ -53,11 +53,11 @@ public class HomePageMultiItem implements MultiItemEntity, Serializable {
         this.notificationItemBean = notificationItemBean;
     }
 
-    public ComplainItemBean getComplainItemBean() {
+    public ComplainDetailBean getComplainItemBean() {
         return complainItemBean;
     }
 
-    public void setComplainItemBean(ComplainItemBean complainItemBean) {
+    public void setComplainItemBean(ComplainDetailBean complainItemBean) {
         this.complainItemBean = complainItemBean;
     }
 

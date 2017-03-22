@@ -13,6 +13,7 @@ public class ComplainDetailBean implements Serializable {
 	/**
 	 * id : 18
 	 * typeName : 进水
+	 * content:dkd
 	 * complaintsDataVos : [{"id":36,"complaintsId":18,"typeId":1,"fieldId":1,"fieldType":1,"fieldKey":"fieldKey1","fieldValue":"一起来看流星雨呢"},{"id":37,"complaintsId":18,"typeId":1,"fieldId":2,"fieldType":2,"fieldKey":"fieldKey2","fieldValue":"正常"},{"id":38,"complaintsId":18,"typeId":1,"fieldId":3,"fieldType":3,"fieldKey":"fieldKey3","fieldValue":"","fieldValues":["http://api-staff-test.hecaifu.com/filesupload/complaints/a8325026-646f-437f-b489-bdc551d3cb9a.png","http://api-staff-test.hecaifu.com/filesupload/complaints/80d8b2c6-a66f-44ef-8aed-23f7bcd29a1b.png"]}]
 	 * status : 1
 	 * createdDate : 1488191882
@@ -29,6 +30,15 @@ public class ComplainDetailBean implements Serializable {
 	private int replayEmployeeId;
 	private String replayContent;
 	private List<DetailMultiItem> complaintsDataVos;
+	private String content;
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
 
 	public List<DetailMultiItem> getComplaintsDataVos() {
 		return complaintsDataVos;
@@ -94,7 +104,7 @@ public class ComplainDetailBean implements Serializable {
 		this.replayContent = replayContent;
 	}
 
-	public static class OwnersInfoVoBean {
+	public static class OwnersInfoVoBean implements Serializable{
 		/**
 		 * ownersId : 1
 		 * ownersName :

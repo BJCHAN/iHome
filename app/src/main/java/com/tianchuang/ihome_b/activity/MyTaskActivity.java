@@ -5,10 +5,15 @@ import android.support.v7.widget.Toolbar;
 
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.base.ToolBarActivity;
+import com.tianchuang.ihome_b.bean.HomePageMultiItem;
+import com.tianchuang.ihome_b.bean.MyTaskUnderWayItemBean;
+import com.tianchuang.ihome_b.fragment.MyTaskControlPointDetailFragment;
 import com.tianchuang.ihome_b.fragment.MyTaskFragment;
+import com.tianchuang.ihome_b.fragment.MyTaskInputDetailFragment;
 import com.yuyh.library.imgsel.ImgSelActivity;
 import com.yuyh.library.imgsel.ImgSelConfig;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -19,6 +24,18 @@ public class MyTaskActivity extends ToolBarActivity {
 
     @Override
     protected BaseFragment getFirstFragment() {
+        if (getIntent() != null) {//从主页过来
+            Serializable item = getIntent().getSerializableExtra("item");
+            if (item != null && item instanceof HomePageMultiItem) {
+                MyTaskUnderWayItemBean itemBean = ((HomePageMultiItem) item).getMyTaskUnderWayItemBean();
+                int type = itemBean.getTaskKind();
+                if (type == 5) {//查看录入任务详情
+                    return MyTaskInputDetailFragment.newInstance(itemBean);
+                } else {//控制点
+                    return MyTaskControlPointDetailFragment.newInstance(itemBean);
+                }
+            }
+        }
         return MyTaskFragment.newInstance();
     }
 
