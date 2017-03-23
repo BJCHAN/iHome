@@ -39,7 +39,7 @@ public class MyFormListFragment extends BaseRefreshAndLoadMoreFragment<MyFormIte
 
     @Override
     protected void onListitemClick(MyFormItemBean itemBean) {
-
+//            addFragment();
     }
 
     @Override

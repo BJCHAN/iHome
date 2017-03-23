@@ -25,7 +25,7 @@ public class MenuInnerReportsAdapter extends BaseQuickAdapter<MenuInnerReportsIt
 				.setText(R.id.tv_info, propertyEmployeeRoleVo.getEmployeeName()
 						+ "/" + propertyEmployeeRoleVo.getDepartmentName()
 						+ "-" + propertyEmployeeRoleVo.getPositionName())
-				.setText(R.id.tv_date, DateUtils.formatDate(item.getLastUpdatedDae(), DateUtils.TYPE_01))
+				.setText(R.id.tv_date, DateUtils.formatDate(item.getCreatedDate(), DateUtils.TYPE_01))
 				.setText(R.id.tv_status, item.getStatusMsg());
 	}
 

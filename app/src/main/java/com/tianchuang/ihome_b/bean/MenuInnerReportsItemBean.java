@@ -19,7 +19,7 @@ public class MenuInnerReportsItemBean extends BaseItemLoadBean implements Serial
      * statusMsg : 未处理
      *  status : 0
      * createdDate : 1487746560
-     * lastUpdatedDae : 1487746560
+     * lastUpdatedDate : 1487746560
      */
     private PropertyListItemBean propertyEmployeeRoleVo;
     private String content;
@@ -30,7 +30,7 @@ public class MenuInnerReportsItemBean extends BaseItemLoadBean implements Serial
     private int status;
     private int propertyCompanyId;
     private int createdDate;
-    private int lastUpdatedDae;
+    private int lastUpdatedDate;
 
     public int getStatus() {
         return status;
@@ -104,12 +104,12 @@ public class MenuInnerReportsItemBean extends BaseItemLoadBean implements Serial
         this.createdDate = createdDate;
     }
 
-    public int getLastUpdatedDae() {
-        return lastUpdatedDae;
+    public int getLastUpdatedDate() {
+        return lastUpdatedDate;
     }
 
-    public void setLastUpdatedDae(int lastUpdatedDae) {
-        this.lastUpdatedDae = lastUpdatedDae;
+    public void setLastUpdatedDate(int lastUpdatedDate) {
+        this.lastUpdatedDate = lastUpdatedDate;
     }
 
 }

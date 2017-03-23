@@ -28,9 +28,9 @@ public class HomeMultiAdapter extends BaseMultiItemQuickAdapter<HomePageMultiIte
     public HomeMultiAdapter(List<HomePageMultiItem> data) {
         super(data);
         addItemType(HomePageMultiItem.TYPE_TASK, R.layout.mytask_under_way_item_holder);
-        addItemType(HomePageMultiItem.TYPE_NOTICE, R.layout.notification_list_item_holder);
-        addItemType(HomePageMultiItem.TYPE_INNER_REPORT, R.layout.inner_reports_item_holder);
-        addItemType(HomePageMultiItem.TYPE_COMPLAIN, R.layout.complain_suggest_item);
+        addItemType(HomePageMultiItem.TYPE_NOTICE, R.layout.home_notice_multi_item_holder);
+        addItemType(HomePageMultiItem.TYPE_INNER_REPORT, R.layout.home_inner_reports_multi_item_holder);
+        addItemType(HomePageMultiItem.TYPE_COMPLAIN, R.layout.home_complain_multi_item_holder);
     }
 
     @Override
@@ -44,44 +44,21 @@ public class HomeMultiAdapter extends BaseMultiItemQuickAdapter<HomePageMultiIte
                 break;
             case HomePageMultiItem.TYPE_COMPLAIN://投诉
                 ComplainDetailBean complainItemBean = item.getComplainItemBean();
-                String time = DateUtils.formatDate(complainItemBean.getCreatedDate(), DateUtils.TYPE_01);
                 String content = complainItemBean.getContent();
-                String reply = complainItemBean.getReplayContent();
-                ComplainDetailBean.OwnersInfoVoBean ownersInfoVo = complainItemBean.getOwnersInfoVo();
-                if (null != ownersInfoVo) {
-                    String name = ownersInfoVo.getOwnersName() + "/" + ownersInfoVo.getBuildingName() + "-" + ownersInfoVo.getBuildingCellName()
-                            + "-" + ownersInfoVo.getBuildingUnitName();
-                    helper.setText(R.id.tv_complain_suggest_name, name);
-                }
-                helper.getView(R.id.bl_complain_suggest_content_apply).setVisibility(TextUtils.isEmpty(reply) ? View.GONE : View.VISIBLE);
-                helper.setText(R.id.tv_complain_suggest_time, StringUtils.getNotNull(time))
-                        .setText(R.id.tv_complain_suggest_content, StringUtils.getNotNull(content))
-                        .setText(R.id.tv_complain_suggest_content_apply, StringUtils.getNotNull(reply));
+                helper.setText(R.id.tv_content, StringUtils.getNotNull(content));
                 break;
 
             case HomePageMultiItem.TYPE_INNER_REPORT://内部报事
                 MenuInnerReportsItemBean menuInnerReportsItemBean = item.getMenuInnerReportsItemBean();
                 PropertyListItemBean propertyEmployeeRoleVo = menuInnerReportsItemBean.getPropertyEmployeeRoleVo();
                 helper.setText(R.id.tv_content, menuInnerReportsItemBean.getContent())
-                        .setText(R.id.tv_info, propertyEmployeeRoleVo.getEmployeeName()
-                                + "/" + propertyEmployeeRoleVo.getDepartmentName()
-                                + "-" + propertyEmployeeRoleVo.getPositionName())
-                        .setText(R.id.tv_date, DateUtils.formatDate(menuInnerReportsItemBean.getLastUpdatedDae(), DateUtils.TYPE_01))
-                        .setText(R.id.tv_status, menuInnerReportsItemBean.getStatusMsg());
+                        .setText(R.id.tv_info, propertyEmployeeRoleVo.getDepartmentName()
+                                + "/" + propertyEmployeeRoleVo.getEmployeeName());
                 break;
             case HomePageMultiItem.TYPE_NOTICE://通知
                 NotificationItemBean notificationItemBean = item.getNotificationItemBean();
-                helper.setText(R.id.tv_notification_type, StringUtils.getNotNull(notificationItemBean.getTitle()))
-                        .setText(R.id.tv_content, StringUtils.getNotNull(notificationItemBean.getContent()))
-                        .setText(R.id.tv_notification_date, StringUtils.getNotNull(
-                                DateUtils.formatDate(notificationItemBean.getCreatedDate(), DateUtils.TYPE_02)));
-                TextView yearView = helper.getView(R.id.tv_year);
-                if ("".equals(notificationItemBean.getYear())) {
-                    yearView.setVisibility(View.GONE);
-                } else {
-                    yearView.setVisibility(View.VISIBLE);
-                    yearView.setText(notificationItemBean.getYear());
-                }
+                helper.setText(R.id.tv_type, StringUtils.getNotNull(notificationItemBean.getTitle()))
+                        .setText(R.id.tv_content, StringUtils.getNotNull(notificationItemBean.getContent()));
                 break;
         }
     }

@@ -28,7 +28,8 @@ public class ComplainDetailBean implements Serializable {
 	private int createdDate;
 	private OwnersInfoVoBean ownersInfoVo;
 	private int replayEmployeeId;
-	private String replayContent;
+	private String replyContent;
+
 	private List<DetailMultiItem> complaintsDataVos;
 	private String content;
 
@@ -97,11 +98,11 @@ public class ComplainDetailBean implements Serializable {
 	}
 
 	public String getReplayContent() {
-		return replayContent;
+		return replyContent;
 	}
 
 	public void setReplayContent(String replayContent) {
-		this.replayContent = replayContent;
+		this.replyContent = replayContent;
 	}
 
 	public static class OwnersInfoVoBean implements Serializable{

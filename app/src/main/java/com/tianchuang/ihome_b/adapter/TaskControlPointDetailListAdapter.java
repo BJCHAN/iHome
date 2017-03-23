@@ -30,7 +30,6 @@ public class TaskControlPointDetailListAdapter extends BaseQuickAdapter<ControlP
         helper.setText(R.id.tv_point_name, StringUtils.getNotNull(item.getName()))
                 .setText(R.id.tv_point_address, StringUtils.getNotNull(item.getPlace()))
                 .setText(R.id.tv_point_date, StringUtils.getNotNull(item.getTime()));
-        helper.addOnClickListener(R.id.tv_expand_button);
     }
 
 
