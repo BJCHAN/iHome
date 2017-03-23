@@ -97,8 +97,14 @@ public class MainFragment extends BaseFragment {
                             startActivityWithAnim(intent);
                             break;
                         case HomePageMultiItem.TYPE_TASK://任务
-                            intent.setClass(getContext(), MyTaskActivity.class);
-                            startActivityWithAnim(intent);
+                            if (homePageMultiItem.getMyTaskUnderWayItemBean().getTaskKind() == 5) {//录入数据型
+                                intent.setClass(getContext(), MyTaskActivity.class);
+                                startActivityWithAnim(intent);
+                            } else {//控制点型
+
+
+                            }
+
                             break;
                         case HomePageMultiItem.TYPE_INNER_REPORT://内部报事
                             intent.setClass(getContext(), MenuInnerReportsActivity.class);

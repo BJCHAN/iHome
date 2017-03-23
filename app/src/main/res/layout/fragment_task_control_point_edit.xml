@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:descendantFocusability="afterDescendants"
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -9,55 +10,12 @@
         android:background="@color/background_gray"
         android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:gravity="center_vertical"
-            android:paddingBottom="20dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="20dp">
-
-            <TextView
-                android:id="@+id/tv_point_name"
-                style="@style/normal_content_gray_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:text="控制点一" />
-
-            <TextView
-                android:id="@+id/tv_point_address"
-                style="@style/normal_content_gray_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_point_name"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="3dp"
-                android:text="XX位置的XXXXX地点" />
-
-            <TextView
-                android:id="@+id/tv_point_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="3dp"
-                android:layout_toRightOf="@id/tv_point_name"
-                android:gravity="right"
-                android:text="08:12完成"
-                android:textColor="@color/app_primary_color"
-                android:textSize="15sp" />
-        </RelativeLayout>
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:background="@color/white"
             android:overScrollMode="never"
-            android:paddingTop="15dp"
             android:scrollbars="none" />
     </LinearLayout>
 </ScrollView>

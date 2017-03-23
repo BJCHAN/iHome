@@ -1,6 +1,7 @@
 package com.tianchuang.ihome_b.bean.model;
 
 import com.tianchuang.ihome_b.bean.FormTypeListBean;
+import com.tianchuang.ihome_b.bean.MyFormDetailBean;
 import com.tianchuang.ihome_b.bean.MyFormListBean;
 import com.tianchuang.ihome_b.http.retrofit.HttpModle;
 import com.tianchuang.ihome_b.http.retrofit.RetrofitService;
@@ -40,5 +41,12 @@ public class FormModel {
      */
     public static Observable<HttpModle<MyFormListBean>> myFormList(int maxId) {
         return RetrofitService.createShowApi().myFormList(UserUtil.getLoginBean().getPropertyCompanyId(), maxId);
+    }
+
+    /**
+     * 我的表单详情
+     */
+    public static Observable<HttpModle<MyFormDetailBean>> myFormDetail(int formId) {
+        return RetrofitService.createShowApi().myFormDetail(formId);
     }
 }

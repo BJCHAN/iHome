@@ -9,6 +9,7 @@ import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.adapter.DetailMultiAdapter;
@@ -145,7 +146,8 @@ public class ComplainDetailFragment extends BaseFragment {
                     @Override
                     public void onNext(HttpModle<String> modle) {
                         if (modle.success()) {
-                            showDialog("回复成功");
+//                            showDialog("回复成功");
+                            ToastUtil.showToast(getContext(),"回复成功");
                             removeFragment();
                         } else {
                             if (modle.msg != null)

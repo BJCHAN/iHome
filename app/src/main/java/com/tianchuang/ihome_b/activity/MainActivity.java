@@ -26,18 +26,23 @@ import com.tianchuang.ihome_b.adapter.DrawMenuAdapter;
 import com.tianchuang.ihome_b.base.BaseActivity;
 import com.tianchuang.ihome_b.bean.DrawMenuItem;
 import com.tianchuang.ihome_b.bean.LoginBean;
+import com.tianchuang.ihome_b.bean.QrCodeBean;
 import com.tianchuang.ihome_b.bean.event.LogoutEvent;
 import com.tianchuang.ihome_b.bean.event.OpenScanEvent;
 import com.tianchuang.ihome_b.bean.event.SwitchSuccessEvent;
+import com.tianchuang.ihome_b.bean.model.HomePageModel;
 import com.tianchuang.ihome_b.bean.recyclerview.DrawMenuItemDecoration;
 import com.tianchuang.ihome_b.fragment.MainFragment;
 import com.tianchuang.ihome_b.fragment.PropertyListFragment;
+import com.tianchuang.ihome_b.http.retrofit.RxHelper;
+import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
 import com.tianchuang.ihome_b.permission.MPermission;
 import com.tianchuang.ihome_b.permission.OnMPermissionDenied;
 import com.tianchuang.ihome_b.permission.OnMPermissionGranted;
 import com.tianchuang.ihome_b.utils.DensityUtil;
 import com.tianchuang.ihome_b.utils.FileUtils;
 import com.tianchuang.ihome_b.utils.FragmentUtils;
+import com.tianchuang.ihome_b.utils.ToastUtil;
 import com.tianchuang.ihome_b.utils.UserUtil;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 
@@ -46,6 +51,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.BindArray;
 import butterknife.BindView;
@@ -283,7 +289,7 @@ public class MainActivity extends BaseActivity {
         /**
          * 处理二维码扫描结果
          */
-        if (requestCode == REQUEST_CODE) {
+        if (requestCode == REQUEST_CODE) {//主页进行扫码
             //处理扫描结果（在界面上显示）
             if (null != data) {
                 Bundle bundle = data.getExtras();
@@ -292,11 +298,35 @@ public class MainActivity extends BaseActivity {
                 }
                 if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
                     String result = bundle.getString(CodeUtils.RESULT_STRING);
-                    Toast.makeText(this, "解析结果:" + result, Toast.LENGTH_LONG).show();
+                    HashMap<String, String> map = new HashMap<>();
+                    map.put("propertyCompanyId", String.valueOf(UserUtil.getLoginBean().getPropertyCompanyId()));
+                    map.put("code", result);
+                    HomePageModel.requestQrCode(map)
+                            .compose(RxHelper.<ArrayList<QrCodeBean>>handleResult())
+                            .compose(this.<ArrayList<QrCodeBean>>bindToLifecycle())
+                            .subscribe(new RxSubscribe<ArrayList<QrCodeBean>>() {
+                                @Override
+                                protected void _onNext(ArrayList<QrCodeBean> qrCodeBeanlist) {
+                                    ToastUtil.showToast(MainActivity.this, "请求成功！");
+                                }
+
+                                @Override
+                                protected void _onError(String message) {
+                                    ToastUtil.showToast(MainActivity.this, message);
+                                }
+
+                                @Override
+                                public void onCompleted() {
+
+                                }
+                            });
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
                     Toast.makeText(MainActivity.this, "解析二维码失败", Toast.LENGTH_LONG).show();
                 }
             }
+        } else {//任务请求扫码
+
+
         }
     }
 

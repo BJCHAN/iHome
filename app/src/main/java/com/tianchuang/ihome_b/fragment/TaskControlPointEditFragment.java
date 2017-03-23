@@ -2,6 +2,7 @@ package com.tianchuang.ihome_b.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.SparseArray;
@@ -53,12 +54,7 @@ import rx.schedulers.Schedulers;
 public class TaskControlPointEditFragment extends BaseFragment implements TaskSubmitMultiAdapter.SaveEditListener, View.OnClickListener {
     @BindView(R.id.rv_list)
     RecyclerView mRecyclerView;
-    @BindView(R.id.tv_point_name)
-    TextView tvPointName;
-    @BindView(R.id.tv_point_address)
-    TextView tvPointAddress;
-    @BindView(R.id.tv_point_date)
-    TextView tvPointDate;
+    //
     private TaskSubmitMultiAdapter submitMultiAdapter;
     private List<FormTypeItemBean.FieldsBean> fields;
     private SparseArray<String> editTexts;
@@ -94,6 +90,11 @@ public class TaskControlPointEditFragment extends BaseFragment implements TaskSu
 
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
+        //添加头部
+        View header = LayoutUtil.inflate(R.layout.control_point_header);
+        TextView tvPointAddress = (TextView) header.findViewById(R.id.tv_point_address);
+        TextView tvPointDate = (TextView) header.findViewById(R.id.tv_point_date);
+        TextView tvPointName = (TextView) header.findViewById(R.id.tv_point_name);
         ControlPointItemBean controlPointItemBean = (ControlPointItemBean) getArguments().getSerializable("bean");
         taskRecordId = getArguments().getInt("taskRecordId");
         if (controlPointItemBean != null) {
@@ -101,30 +102,31 @@ public class TaskControlPointEditFragment extends BaseFragment implements TaskSu
             tvPointAddress.setText(StringUtils.getNotNull(controlPointItemBean.getPlace()));
             tvPointDate.setText(StringUtils.getNotNull(controlPointItemBean.getTime()));
             formTypeItemBean = controlPointItemBean.getFormTypeVo();
-            initView(formTypeItemBean);
         }
 
-    }
-
-    private void initView(FormTypeItemBean formTypeItemBean) {
         mRecyclerView.addItemDecoration(new CommonItemDecoration(DensityUtil.dip2px(getContext(), 20)));
         fields = formTypeItemBean.getFields();
         if (fields.size() > 0) {
             editTexts = new SparseArray<>();
             submitMultiAdapter = new TaskSubmitMultiAdapter(holdingActivity, fields);
             submitMultiAdapter.setSaveEditListener(this);
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+
             //添加腿部
-            View view = LayoutUtil.inflate(R.layout.form_submit_footer_holder);
-            TextView submitBtn = (TextView) view.findViewById(R.id.tv_submit);
+            View footer = LayoutUtil.inflate(R.layout.form_submit_footer_holder);
+            TextView submitBtn = (TextView) footer.findViewById(R.id.tv_submit);
             submitBtn.setText("完成");
             submitBtn.setOnClickListener(this);
-            submitMultiAdapter.addFooterView(view);
+            submitMultiAdapter.addFooterView(footer);
+            submitMultiAdapter.addHeaderView(header);
             mRecyclerView.setAdapter(submitMultiAdapter);
-            CustomLinearLayoutManager customLinearLayoutManager = new CustomLinearLayoutManager(getContext());
-            customLinearLayoutManager.setScrollEnabled(false);
-            mRecyclerView.setLayoutManager(customLinearLayoutManager);
+
         }
+
+
     }
+
 
     /**
      * 提交按钮

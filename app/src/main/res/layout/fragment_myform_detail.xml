@@ -35,7 +35,7 @@
                 android:layout_marginTop="3dp"
                 android:text="2016年12月11日  12:08"
                 android:textColor="@color/TC_2"
-                android:textSize="13sp" />
+                android:textSize="12sp" />
         </LinearLayout>
         <!--body-->
         <android.support.v7.widget.RecyclerView

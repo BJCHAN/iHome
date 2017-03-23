@@ -12,6 +12,7 @@ import com.tianchuang.ihome_b.bean.HomePageBean;
 import com.tianchuang.ihome_b.bean.LoginBean;
 import com.tianchuang.ihome_b.bean.MaterialListItemBean;
 import com.tianchuang.ihome_b.bean.MenuInnerListBean;
+import com.tianchuang.ihome_b.bean.MyFormDetailBean;
 import com.tianchuang.ihome_b.bean.MyFormListBean;
 import com.tianchuang.ihome_b.bean.MyOrderDetailBean;
 import com.tianchuang.ihome_b.bean.MyOrderListBean;
@@ -19,6 +20,7 @@ import com.tianchuang.ihome_b.bean.MyTaskUnderWayListBean;
 import com.tianchuang.ihome_b.bean.NotificationItemBean;
 import com.tianchuang.ihome_b.bean.NotificationListBean;
 import com.tianchuang.ihome_b.bean.PropertyListItemBean;
+import com.tianchuang.ihome_b.bean.QrCodeBean;
 import com.tianchuang.ihome_b.bean.RobHallListBean;
 import com.tianchuang.ihome_b.bean.RobHallRepairDetailListBean;
 import com.tianchuang.ihome_b.bean.TaskControlPointDetailBean;
@@ -337,6 +339,13 @@ public interface ShowApi {
                                                      @Query("maxId") int maxId);
 
     /**
+     * 我的表单详情
+     * formId:                                  // 表单ID
+     */
+    @POST(BizInterface.MY_FORM_DETAIL_URL)
+    Observable<HttpModle<MyFormDetailBean>> myFormDetail(@Query("formId") int formId);
+
+    /**
      * 通知列表
      * params
      * propertyCompanyId:xxxxxx                //物业ID
@@ -436,4 +445,15 @@ public interface ShowApi {
     @POST(BizInterface.TASK_CONTROL_POINT_SUBMIT_URL)
     Observable<HttpModle<String>> taskControlPointSubmit(@QueryMap Map<String, String> map,
                                                          @Part() List<MultipartBody.Part> parts);
+
+    /**
+     * 我的任务-执行任务-设备点控制点型任务-提交表单
+     * taskRecordId:xxxxxx                     //  任务记录ID
+     * propertyCompanyId:xxx                   //  物业公司ID（对应在物业列表接口中propertyCompanyId）
+     * formTypeId:xxx                          //  表单类型ID（对应在投诉类型列表接口中id）
+     * fieldKey1:xxx                           //  对应字段属性列表中的fields
+     * fieldKey2:xxx
+     */
+    @POST(BizInterface.QR_CODE_URL)
+    Observable<HttpModle<ArrayList<QrCodeBean>>> requestQrCode(@QueryMap Map<String, String> map);
 }

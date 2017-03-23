@@ -12,6 +12,7 @@ import com.tianchuang.ihome_b.adapter.TaskControlPointDetailListAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.ControlPointItemBean;
 import com.tianchuang.ihome_b.bean.MyTaskUnderWayItemBean;
+import com.tianchuang.ihome_b.bean.QrCodeBean;
 import com.tianchuang.ihome_b.bean.TaskControlPointDetailBean;
 import com.tianchuang.ihome_b.bean.event.TaskFormSubmitSuccessEvent;
 import com.tianchuang.ihome_b.bean.model.MyTaskModel;
@@ -46,7 +47,7 @@ public class MyTaskControlPointDetailFragment extends BaseFragment {
     TextView tvContent;
     @BindView(R.id.rv_list)
     RecyclerView rvList;
-    private MyTaskUnderWayItemBean item;
+    private QrCodeBean item;
     private int taskRecordId;
     private List<ControlPointItemBean> mListData;
     private TaskControlPointDetailListAdapter adapter;
@@ -56,7 +57,7 @@ public class MyTaskControlPointDetailFragment extends BaseFragment {
         return R.layout.fragment_task_control_point_detail;
     }
 
-    public static MyTaskControlPointDetailFragment newInstance(MyTaskUnderWayItemBean item) {
+    public static MyTaskControlPointDetailFragment newInstance(QrCodeBean item) {
         Bundle bundle = new Bundle();
         bundle.putSerializable("item", item);
         MyTaskControlPointDetailFragment fragment = new MyTaskControlPointDetailFragment();
@@ -72,8 +73,8 @@ public class MyTaskControlPointDetailFragment extends BaseFragment {
 
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
-        this.item = (MyTaskUnderWayItemBean) getArguments().getSerializable("item");
-        taskRecordId = item.getId();
+        this.item = (QrCodeBean) getArguments().getSerializable("item");
+        taskRecordId = item.getTaskRecordId();
         CustomLinearLayoutManager layoutManager = new CustomLinearLayoutManager(getContext());
         layoutManager.setScrollEnabled(false);
         mListData = new ArrayList<>();
@@ -109,9 +110,9 @@ public class MyTaskControlPointDetailFragment extends BaseFragment {
                     @Override
                     protected void _onNext(TaskControlPointDetailBean taskControlPointDetailBean) {
                         if (taskControlPointDetailBean != null) {
-                            tvTitle.setText(getNotNull(item.getTaskName()));
-                            tvDate.setText(getNotNull(DateUtils.formatDate(item.getCreatedDate(), DateUtils.TYPE_01)));
-                            tvContent.setText(getNotNull(item.getTaskExplains()));
+//                            tvTitle.setText(getNotNull(item.getTaskName()));
+//                            tvDate.setText(getNotNull(DateUtils.formatDate(item.getCreatedDate(), DateUtils.TYPE_01)));
+//                            tvContent.setText(getNotNull(item.getTaskExplains()));
                             if (taskControlPointDetailBean.getEquipmentControlVoList().size() > 0) {
                                 mListData.clear();
                                 mListData.addAll(taskControlPointDetailBean.getEquipmentControlVoList());
