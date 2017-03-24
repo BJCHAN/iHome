@@ -9,24 +9,34 @@ import java.util.ArrayList;
  */
 
 public class ListBean implements Serializable {
-	private ArrayList<MaterialListItemBean> materialTypeList;
-	private ArrayList<ChargeTypeListItemBean> chargeTypeList;
+    private ArrayList<MaterialListItemBean> materialTypeList;
+    private ArrayList<ChargeTypeListItemBean> chargeTypeList;
+    private ArrayList<QrCodeBean> qrCodeBeanArrayList;
 
-	public ArrayList<ChargeTypeListItemBean> getChargeTypeList() {
-		return chargeTypeList;
-	}
+    public ArrayList<QrCodeBean> getQrCodeBeanArrayList() {
+        return qrCodeBeanArrayList;
+    }
 
-	public ListBean setChargeTypeList(ArrayList<ChargeTypeListItemBean> chargeTypeList) {
-		this.chargeTypeList = chargeTypeList;
-		return this;
-	}
+    public void setQrCodeBeanArrayList(ArrayList<QrCodeBean> qrCodeBeanArrayList) {
 
-	public ListBean setMaterialTypeList(ArrayList<MaterialListItemBean> materialTypeList) {
-		this.materialTypeList = materialTypeList;
-		return this;
-	}
+        this.qrCodeBeanArrayList = qrCodeBeanArrayList;
+    }
 
-	public ArrayList<MaterialListItemBean> getMaterialTypeList() {
-		return materialTypeList;
-	}
+    public ArrayList<ChargeTypeListItemBean> getChargeTypeList() {
+        return chargeTypeList;
+    }
+
+    public ListBean setChargeTypeList(ArrayList<ChargeTypeListItemBean> chargeTypeList) {
+        this.chargeTypeList = chargeTypeList;
+        return this;
+    }
+
+    public ListBean setMaterialTypeList(ArrayList<MaterialListItemBean> materialTypeList) {
+        this.materialTypeList = materialTypeList;
+        return this;
+    }
+
+    public ArrayList<MaterialListItemBean> getMaterialTypeList() {
+        return materialTypeList;
+    }
 }

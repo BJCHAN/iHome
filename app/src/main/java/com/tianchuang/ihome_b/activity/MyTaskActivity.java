@@ -47,7 +47,6 @@ import java.util.List;
  * description:我的任务模块
  */
 public class MyTaskActivity extends ToolBarActivity {
-    public static final int TASK_OPEN_CODE = 55;//任务请求扫码
 
     @Override
     protected void handleIntent(Intent intent) {
@@ -117,16 +116,18 @@ public class MyTaskActivity extends ToolBarActivity {
                     Toast.makeText(MyTaskActivity.this, "解析二维码失败", Toast.LENGTH_LONG).show();
                 }
             }
-        } else {
-            // 图片选择结果回调,三张图片
-            if (resultCode == RESULT_OK && data != null) {
-                List<String> pathList = data.getStringArrayListExtra(ImgSelActivity.INTENT_RESULT);
-                if (getImageByCodeListener != null) {
-                    getImageByCodeListener.onImages(pathList, requestCode);
-                }
-            }
-
         }
+
+//        else {
+//            // 图片选择结果回调,三张图片
+//            if (resultCode == RESULT_OK && data != null) {
+//                List<String> pathList = data.getStringArrayListExtra(ImgSelActivity.INTENT_RESULT);
+//                if (getImageByCodeListener != null) {
+//                    getImageByCodeListener.onImages(pathList, requestCode);
+//                }
+//            }
+//
+//        }
     }
 
     /**
@@ -173,22 +174,22 @@ public class MyTaskActivity extends ToolBarActivity {
     }
 
 
-    /**
-     * 获取图片的回调接口
-     */
-    public interface GetImageByCodeListener {
-        void onImages(List<String> paths, int type);
-    }
-
-    public void setGetImageByCodeListener(GetImageByCodeListener getImageByCodeListener) {
-        this.getImageByCodeListener = getImageByCodeListener;
-    }
-
-    private GetImageByCodeListener getImageByCodeListener;
-
-    public void startImageSelector(ImgSelConfig config, int type) {
-        // 跳转到图片选择器
-        ImgSelActivity.startActivity(this, config, type);
-    }
+//    /**
+//     * 获取图片的回调接口
+//     */
+//    public interface GetImageByCodeListener {
+//        void onImages(List<String> paths, int type);
+//    }
+//
+//    public void setGetImageByCodeListener(GetImageByCodeListener getImageByCodeListener) {
+//        this.getImageByCodeListener = getImageByCodeListener;
+//    }
+//
+//    private GetImageByCodeListener getImageByCodeListener;
+//
+//    public void startImageSelector(ImgSelConfig config, int type) {
+//        // 跳转到图片选择器
+//        ImgSelActivity.startActivity(this, config, type);
+//    }
 
 }

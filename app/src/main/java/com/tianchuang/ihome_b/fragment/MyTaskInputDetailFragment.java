@@ -114,7 +114,7 @@ public class MyTaskInputDetailFragment extends BaseFragment {
                             tvType.setText(getNotNull(taskInputDetailBean.getEnterTypeMsg()));
                             tvAddress.setText(getNotNull(taskInputDetailBean.getBuildingDetail()));
                             tvFinishDate.setText(getNotNull(DateUtils.formatDate(taskInputDetailBean.getFinishTime(), DateUtils.TYPE_01)));
-                            btSure.setVisibility(item.getStatus()==2? View.INVISIBLE:View.VISIBLE);
+                            btSure.setVisibility(taskInputDetailBean.getStatus()==2? View.INVISIBLE:View.VISIBLE);
                             if (taskInputDetailBean.getTaskRoomDataList().size() > 0) {
                                 mListData.addAll(taskInputDetailBean.getTaskRoomDataList());
                             }

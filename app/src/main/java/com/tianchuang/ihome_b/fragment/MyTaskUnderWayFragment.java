@@ -9,7 +9,9 @@ import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.activity.MainActivity;
 import com.tianchuang.ihome_b.activity.MyTaskActivity;
 import com.tianchuang.ihome_b.activity.ScanCodeActivity;
+import com.tianchuang.ihome_b.activity.TaskSelectActivity;
 import com.tianchuang.ihome_b.adapter.MyTaskUnderWayAdapter;
+import com.tianchuang.ihome_b.bean.ListBean;
 import com.tianchuang.ihome_b.bean.MyTaskUnderWayItemBean;
 import com.tianchuang.ihome_b.bean.MyTaskUnderWayListBean;
 import com.tianchuang.ihome_b.bean.QrCodeBean;
@@ -46,7 +48,9 @@ public class MyTaskUnderWayFragment extends BaseRefreshAndLoadMoreFragment<MyTas
         return new MyTaskUnderWayAdapter(mData);
     }
 
-    private int currentTaskId = -1;//当前的任务ID
+    private static int currentTaskId = -1;//当前的任务ID
+
+
 
     @Override
     public void onAttach(Context context) {
@@ -66,7 +70,7 @@ public class MyTaskUnderWayFragment extends BaseRefreshAndLoadMoreFragment<MyTas
         if (type == 5) {//查看录入任务详情
             addFragment(MyTaskInputDetailFragment.newInstance(itemBean));
         } else {//控制点
-            currentTaskId = itemBean.getTaskId();
+            currentTaskId=itemBean.getTaskId();
             EventBus.getDefault().post(new TaskOpenScanEvent());
         }
     }
@@ -81,6 +85,9 @@ public class MyTaskUnderWayFragment extends BaseRefreshAndLoadMoreFragment<MyTas
         return getString(R.string.mytask_under_way_empty_string);
     }
 
+    /**
+     * 接受到的二维码信息
+     */
     @Override
     public void qrResult(String code) {
         HashMap<String, String> map = new HashMap<>();
@@ -93,10 +100,15 @@ public class MyTaskUnderWayFragment extends BaseRefreshAndLoadMoreFragment<MyTas
                 .subscribe(new RxSubscribe<ArrayList<QrCodeBean>>() {
                     @Override
                     protected void _onNext(ArrayList<QrCodeBean> qrCodeBeanlist) {
-//                        if (qrCodeBeanlist != null && qrCodeBeanlist.size() == 1) {
-                            QrCodeBean qrCodeBean = qrCodeBeanlist.get(0);
-                            addFragment(MyTaskControlPointDetailFragment.newInstance(qrCodeBean));
-//                        }
+                        if (qrCodeBeanlist != null && qrCodeBeanlist.size() > 0) {
+                            Intent intent = new Intent(getContext(), TaskSelectActivity.class);
+                            ListBean listBean = new ListBean();
+                            listBean.setQrCodeBeanArrayList(qrCodeBeanlist);
+                            intent.putExtra("listBean", listBean);
+                            startActivityWithAnim(intent);
+                        } else {
+                            ToastUtil.showToast(getContext(),"任务为空");
+                        }
 
                         ToastUtil.showToast(getContext(), "请求成功！");
                     }

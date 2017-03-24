@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.activity.MyTaskActivity;
+import com.tianchuang.ihome_b.activity.TaskSelectActivity;
 import com.tianchuang.ihome_b.adapter.ImagesSelectorAdapter;
 import com.tianchuang.ihome_b.adapter.TaskSubmitMultiAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
@@ -58,7 +59,7 @@ public class TaskControlPointEditFragment extends BaseFragment implements TaskSu
     private TaskSubmitMultiAdapter submitMultiAdapter;
     private List<FormTypeItemBean.FieldsBean> fields;
     private SparseArray<String> editTexts;
-    private MyTaskActivity holdingActivity;
+    private TaskSelectActivity holdingActivity;
     private FormTypeItemBean formTypeItemBean;
     private int taskRecordId;
 
@@ -85,7 +86,7 @@ public class TaskControlPointEditFragment extends BaseFragment implements TaskSu
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        holdingActivity = ((MyTaskActivity) getHoldingActivity());
+        holdingActivity = ((TaskSelectActivity) getHoldingActivity());
     }
 
     @Override
@@ -111,8 +112,6 @@ public class TaskControlPointEditFragment extends BaseFragment implements TaskSu
             submitMultiAdapter = new TaskSubmitMultiAdapter(holdingActivity, fields);
             submitMultiAdapter.setSaveEditListener(this);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-
             //添加腿部
             View footer = LayoutUtil.inflate(R.layout.form_submit_footer_holder);
             TextView submitBtn = (TextView) footer.findViewById(R.id.tv_submit);

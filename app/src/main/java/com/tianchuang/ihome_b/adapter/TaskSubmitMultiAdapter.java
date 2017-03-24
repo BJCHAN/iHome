@@ -15,6 +15,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.activity.MyTaskActivity;
+import com.tianchuang.ihome_b.activity.TaskSelectActivity;
 import com.tianchuang.ihome_b.bean.FormTypeItemBean;
 import com.tianchuang.ihome_b.bean.ImagesMultipleItem;
 import com.tianchuang.ihome_b.bean.recyclerview.ImagesSelectorItemDecoration;
@@ -32,27 +33,27 @@ import java.util.List;
 
 /**
  * Created by Abyss on 2017/2/9.
- * description:表单申报的adapter
+ * description:任务提交的adapter
  */
 public class TaskSubmitMultiAdapter extends BaseMultiItemQuickAdapter<FormTypeItemBean.FieldsBean, BaseViewHolder> {
     public static final int TYPE_TEXT = 1;//文本
     public static final int TYPE_RADIO = 2;//单选
     public static final int TYPE_IMG = 3;//图片
-    private final MyTaskActivity formSubmitActivity;
+    private final TaskSelectActivity formSubmitActivity;
     private ArrayList<ImagesSelectorAdapter> imagesSelectorAdapters;//图片选择的adapter
 
     public ArrayList<ImagesSelectorAdapter> getImagesSelectorAdapters() {
         return imagesSelectorAdapters;
     }
 
-    public TaskSubmitMultiAdapter(MyTaskActivity formSubmitActivity, List<FormTypeItemBean.FieldsBean> data) {
+    public TaskSubmitMultiAdapter(TaskSelectActivity formSubmitActivity, List<FormTypeItemBean.FieldsBean> data) {
         super(data);
         this.formSubmitActivity = formSubmitActivity;
         addItemType(TYPE_TEXT, R.layout.item_submit_task_multi_text_holder);
         addItemType(TYPE_RADIO, R.layout.list_multi_radio_holder);
         addItemType(TYPE_IMG, R.layout.list_multi_image_holder);
         imagesSelectorAdapters = new ArrayList<>();
-        formSubmitActivity.setGetImageByCodeListener(new MyTaskActivity.GetImageByCodeListener() {
+        formSubmitActivity.setGetImageByCodeListener(new TaskSelectActivity.GetImageByCodeListener() {
             @Override
             public void onImages(List<String> paths, int type) {
                 receiveImages(paths, getImageSelectorAdapterById(type));

@@ -25,6 +25,7 @@ import com.tianchuang.ihome_b.TianChuangApplication;
 import com.tianchuang.ihome_b.adapter.DrawMenuAdapter;
 import com.tianchuang.ihome_b.base.BaseActivity;
 import com.tianchuang.ihome_b.bean.DrawMenuItem;
+import com.tianchuang.ihome_b.bean.ListBean;
 import com.tianchuang.ihome_b.bean.LoginBean;
 import com.tianchuang.ihome_b.bean.QrCodeBean;
 import com.tianchuang.ihome_b.bean.event.LogoutEvent;
@@ -80,10 +81,10 @@ public class MainActivity extends BaseActivity {
     TextView tvDrawPhone;
 
     private DrawMenuAdapter menuAdapter;
+
     /**
      * 扫描跳转Activity RequestCode
      */
-    public static final int REQUEST_CODE = 111;
 
     @Override
     protected int getLayoutId() {
@@ -289,45 +290,66 @@ public class MainActivity extends BaseActivity {
         /**
          * 处理二维码扫描结果
          */
-        if (requestCode == REQUEST_CODE) {//主页进行扫码
-            //处理扫描结果（在界面上显示）
-            if (null != data) {
-                Bundle bundle = data.getExtras();
-                if (bundle == null) {
-                    return;
-                }
-                if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
-                    String result = bundle.getString(CodeUtils.RESULT_STRING);
-                    HashMap<String, String> map = new HashMap<>();
-                    map.put("propertyCompanyId", String.valueOf(UserUtil.getLoginBean().getPropertyCompanyId()));
-                    map.put("code", result);
-                    HomePageModel.requestQrCode(map)
-                            .compose(RxHelper.<ArrayList<QrCodeBean>>handleResult())
-                            .compose(this.<ArrayList<QrCodeBean>>bindToLifecycle())
-                            .subscribe(new RxSubscribe<ArrayList<QrCodeBean>>() {
-                                @Override
-                                protected void _onNext(ArrayList<QrCodeBean> qrCodeBeanlist) {
-                                    ToastUtil.showToast(MainActivity.this, "请求成功！");
-                                }
-
-                                @Override
-                                protected void _onError(String message) {
-                                    ToastUtil.showToast(MainActivity.this, message);
-                                }
-
-                                @Override
-                                public void onCompleted() {
-
-                                }
-                            });
-                } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
-                    Toast.makeText(MainActivity.this, "解析二维码失败", Toast.LENGTH_LONG).show();
-                }
+        //处理扫描结果（在界面上显示）
+        if (null != data) {
+            Bundle bundle = data.getExtras();
+            if (bundle == null) {
+                return;
             }
-        } else {//任务请求扫码
-
+            if (requestCode == Constants.QrCode.HOME_OPEN_CODE) {//主页进行扫码
+                requestQrCode(bundle, currentTaskId);
+            }
 
         }
+
+
+    }
+
+    private int currentTaskId = -1;//设置当前任务的id
+    public void setCurrentTaskId(int currentTaskId) {
+        this.currentTaskId = currentTaskId;
+    }
+
+    private void requestQrCode(Bundle bundle, int taskId) {
+        if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
+            String result = bundle.getString(CodeUtils.RESULT_STRING);
+            HashMap<String, String> map = new HashMap<>();
+            if (taskId != -1) map.put("taskId", String.valueOf(taskId));
+            map.put("propertyCompanyId", String.valueOf(UserUtil.getLoginBean().getPropertyCompanyId()));
+            map.put("code", result);
+            HomePageModel.requestQrCode(map)
+                    .compose(RxHelper.<ArrayList<QrCodeBean>>handleResult())
+                    .compose(this.<ArrayList<QrCodeBean>>bindToLifecycle())
+                    .subscribe(new RxSubscribe<ArrayList<QrCodeBean>>() {
+                        @Override
+                        protected void _onNext(ArrayList<QrCodeBean> qrCodeBeanlist) {
+                            ToastUtil.showToast(MainActivity.this, "请求成功！");
+                            if (qrCodeBeanlist != null && qrCodeBeanlist.size() > 0) {
+                                Intent intent = new Intent(getApplicationContext(), TaskSelectActivity.class);
+                                ListBean listBean = new ListBean();
+                                listBean.setQrCodeBeanArrayList(qrCodeBeanlist);
+                                intent.putExtra("listBean", listBean);
+                                startActivityWithAnim(intent);
+                            } else {
+                                ToastUtil.showToast(getApplicationContext(),"任务为空");
+                            }
+
+                        }
+
+                        @Override
+                        protected void _onError(String message) {
+                            ToastUtil.showToast(MainActivity.this, message);
+                        }
+
+                        @Override
+                        public void onCompleted() {
+
+                        }
+                    });
+        } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
+            Toast.makeText(MainActivity.this, "解析二维码失败", Toast.LENGTH_LONG).show();
+        }
+        setCurrentTaskId(-1);//初始化当前任务id
     }
 
     //基本权限 相机权限请求
@@ -351,7 +373,7 @@ public class MainActivity extends BaseActivity {
     @OnMPermissionGranted(Constants.PERMISSION_REQUEST_CODE.BASIC_PERMISSION_CAMERA_REQUEST_CODE)
     public void onBasicPermissionSucces() {
         Intent intent = new Intent(MainActivity.this, ScanCodeActivity.class);
-        startActivityForResult(intent, REQUEST_CODE);
+        startActivityForResult(intent, Constants.QrCode.HOME_OPEN_CODE);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)

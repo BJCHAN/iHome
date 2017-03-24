@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.tianchuang.ihome_b.Constants;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.activity.ComplainSuggestActivity;
 import com.tianchuang.ihome_b.activity.DataSearchActivity;
@@ -19,6 +20,7 @@ import com.tianchuang.ihome_b.activity.MainActivity;
 import com.tianchuang.ihome_b.activity.ManageNotificationActivity;
 import com.tianchuang.ihome_b.activity.MenuInnerReportsActivity;
 import com.tianchuang.ihome_b.activity.MyTaskActivity;
+import com.tianchuang.ihome_b.activity.ScanCodeActivity;
 import com.tianchuang.ihome_b.adapter.HomeMultiAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.ComplainDetailBean;
@@ -101,10 +103,9 @@ public class MainFragment extends BaseFragment {
                                 intent.setClass(getContext(), MyTaskActivity.class);
                                 startActivityWithAnim(intent);
                             } else {//控制点型
-
-
+                                holdingActivity.setCurrentTaskId(homePageMultiItem.getMyTaskUnderWayItemBean().getTaskId());
+                                EventBus.getDefault().post(new OpenScanEvent());
                             }
-
                             break;
                         case HomePageMultiItem.TYPE_INNER_REPORT://内部报事
                             intent.setClass(getContext(), MenuInnerReportsActivity.class);
