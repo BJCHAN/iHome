@@ -15,8 +15,9 @@ import java.util.List;
  */
 
 public class MyTaskUnderWayAdapter extends BaseQuickAdapter<MyTaskUnderWayItemBean,BaseViewHolder> {
-    public MyTaskUnderWayAdapter(List<MyTaskUnderWayItemBean> data) {
-        super(R.layout.mytask_under_way_item_holder,data);
+
+    public MyTaskUnderWayAdapter(int layoutResId, List<MyTaskUnderWayItemBean> data) {
+        super(layoutResId, data);
     }
 
     @Override

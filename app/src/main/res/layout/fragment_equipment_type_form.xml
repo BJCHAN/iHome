@@ -1,17 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/white"
-              android:orientation="vertical"
-              android:paddingLeft="10dp"
-              android:paddingRight="10dp">
-    <TextView
-        android:id="@+id/tv_equipment_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="设备类型"
-        android:textColor="@color/TC_2"/>
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_gray"
+    android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="设备类型："
+            android:textColor="@color/TC_2" />
+
+        <TextView
+            android:id="@+id/tv_equipment_name"
+            style="@style/small_content_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="消防栓" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingBottom="20dp"
+        android:paddingTop="7dp">
+
+        <TextView
+            style="@style/small_content_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="输入地点" />
+
+        <EditText
+            android:id="@+id/et_address_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="9dp"
+            android:background="@drawable/bg_edittext_gray_shape"
+            android:hint="例：XX苑"
+            android:padding="9dp"
+            android:textColor="@color/TC_1"
+            android:textColorHint="@color/TC_2"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_sure_button"
+        style="@style/common_sure_button"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="25dp"
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp"
+        android:text="确定" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+    </android.support.v7.widget.RecyclerView>
 </LinearLayout>

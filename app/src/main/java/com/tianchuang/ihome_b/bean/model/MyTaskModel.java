@@ -28,6 +28,12 @@ public class MyTaskModel {
     }
 
     /**
+     * 我的任务已完成列表
+     */
+    public static Observable<HttpModle<MyTaskUnderWayListBean>> myTaskFinishList(int maxId) {
+        return RetrofitService.createShowApi().myTaskFinishList(UserUtil.getLoginBean().getPropertyCompanyId(), maxId);
+    }
+    /**
      * 任务录入详情
      */
     public static Observable<HttpModle<TaskInputDetailBean>> taskInputDetail(int taskRecordId) {

@@ -2,12 +2,11 @@ package com.tianchuang.ihome_b.fragment;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tianchuang.ihome_b.R;
-import com.tianchuang.ihome_b.adapter.MyTaskUnderWayAdapter;
+import com.tianchuang.ihome_b.adapter.MyTaskFinishedAdapter;
 import com.tianchuang.ihome_b.bean.MyTaskUnderWayItemBean;
 import com.tianchuang.ihome_b.bean.MyTaskUnderWayListBean;
 import com.tianchuang.ihome_b.bean.model.MyTaskModel;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
-import com.tianchuang.ihome_b.utils.ToastUtil;
 
 import java.util.ArrayList;
 
@@ -26,26 +25,25 @@ public class MyTaskFinishedFragment extends BaseRefreshAndLoadMoreFragment<MyTas
 
     @Override
     protected BaseQuickAdapter initAdapter(ArrayList<MyTaskUnderWayItemBean> mData, MyTaskUnderWayListBean listBean) {
-        return new MyTaskUnderWayAdapter(mData);
+        return new MyTaskFinishedAdapter(mData);
     }
 
     @Override
     protected void onListitemClick(MyTaskUnderWayItemBean itemBean) {
-        int type = itemBean.getTaskKind();
-        if (type == 5) {//查看录入任务详情
+        if (itemBean.getTaskKind() == 5) {
             addFragment(MyTaskInputDetailFragment.newInstance(itemBean));
-        } else {//控制点
-            ToastUtil.showToast(getContext(), "其他任务");
+        } else {
+            addFragment(MyTaskControlPointDetailFragment.newInstance(itemBean.getId()));
         }
     }
 
     @Override
     protected Observable<MyTaskUnderWayListBean> getNetObservable(int maxId) {
-        return MyTaskModel.myTaskUnderWayList(maxId).compose(RxHelper.<MyTaskUnderWayListBean>handleResult());
+        return MyTaskModel.myTaskFinishList(maxId).compose(RxHelper.<MyTaskUnderWayListBean>handleResult());
     }
 
     @Override
     protected String getEmptyString() {
-        return getString(R.string.mytask_under_way_empty_string);
+        return getString(R.string.mytask_finished_empty);
     }
 }

@@ -6,6 +6,7 @@ import com.tianchuang.ihome_b.bean.ComplainDetailBean;
 import com.tianchuang.ihome_b.bean.ComplainSuggestProcessedBean;
 import com.tianchuang.ihome_b.bean.ComplainSuggestUntratedBean;
 import com.tianchuang.ihome_b.bean.DataBuildingSearchBean;
+import com.tianchuang.ihome_b.bean.EquipmentSearchListItemBean;
 import com.tianchuang.ihome_b.bean.EquipmentTypeSearchBean;
 import com.tianchuang.ihome_b.bean.FormTypeListBean;
 import com.tianchuang.ihome_b.bean.HomePageBean;
@@ -186,6 +187,18 @@ public interface ShowApi {
      */
     @POST(BizInterface.DATA_EQUIPMENT_TYPE_SEARCH_URL)
     Observable<HttpModle<ArrayList<EquipmentTypeSearchBean>>> equipmentTypeSearch(@Query("propertyCompanyId") int propertyCompanyId);
+
+
+    /***
+     * 设备列表查询
+     propertyCompanyId:xxx   对应物业公司ID-对应物业列表物业公司ID
+     type:xxx        对应设备类型ID
+     place：xxx             设备地点
+     */
+    @POST(BizInterface.DATA_EQUIPMENT_LIST_SEARCH_URL)
+    Observable<HttpModle<ArrayList<EquipmentSearchListItemBean>>> equipmentListSearch(@Query("propertyCompanyId") int propertyCompanyId,
+                                                                                      @Query("type") int type,
+                                                                                      @Query("place") String place);
 
 
     /**
@@ -371,6 +384,16 @@ public interface ShowApi {
      */
     @POST(BizInterface.MY_TASK_LIST_URL)
     Observable<HttpModle<MyTaskUnderWayListBean>> myTaskUnderWayList(@Query("propertyCompanyId") int propertyCompanyId,
+                                                                     @Query("maxId") int maxId);
+
+    /**
+     * 我的任务列表(已完成)
+     * params
+     * propertyCompanyId:xxxxxx                //物业ID
+     * maxId
+     */
+    @POST(BizInterface.MY_TASK_LIST_FINISH_URL)
+    Observable<HttpModle<MyTaskUnderWayListBean>> myTaskFinishList(@Query("propertyCompanyId") int propertyCompanyId,
                                                                      @Query("maxId") int maxId);
 
     /**

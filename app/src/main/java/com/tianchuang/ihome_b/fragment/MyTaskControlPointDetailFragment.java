@@ -47,7 +47,6 @@ public class MyTaskControlPointDetailFragment extends BaseFragment {
     TextView tvContent;
     @BindView(R.id.rv_list)
     RecyclerView rvList;
-    private QrCodeBean item;
     private int taskRecordId;
     private List<ControlPointItemBean> mListData;
     private TaskControlPointDetailListAdapter adapter;
@@ -57,9 +56,9 @@ public class MyTaskControlPointDetailFragment extends BaseFragment {
         return R.layout.fragment_task_control_point_detail;
     }
 
-    public static MyTaskControlPointDetailFragment newInstance(QrCodeBean item) {
+    public static MyTaskControlPointDetailFragment newInstance(int taskRecordId) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable("item", item);
+        bundle.putInt("taskRecordId", taskRecordId);
         MyTaskControlPointDetailFragment fragment = new MyTaskControlPointDetailFragment();
         fragment.setArguments(bundle);
         return fragment;
@@ -73,8 +72,7 @@ public class MyTaskControlPointDetailFragment extends BaseFragment {
 
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
-        this.item = (QrCodeBean) getArguments().getSerializable("item");
-        taskRecordId = item.getTaskRecordId();
+        this.taskRecordId =  getArguments().getInt("taskRecordId");
         CustomLinearLayoutManager layoutManager = new CustomLinearLayoutManager(getContext());
         layoutManager.setScrollEnabled(false);
         mListData = new ArrayList<>();
@@ -84,13 +82,16 @@ public class MyTaskControlPointDetailFragment extends BaseFragment {
 
     @Override
     protected void initListener() {
-
         //去往提交编辑任务
         rvList.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
                 ControlPointItemBean controlPointItemBean = (ControlPointItemBean) adapter.getData().get(position);
-                addFragment(TaskControlPointEditFragment.newInstance(taskRecordId, controlPointItemBean));
+                if (!controlPointItemBean.isDone()) {
+                    addFragment(TaskControlPointEditFragment.newInstance(taskRecordId, controlPointItemBean));
+                } else {
+                    addFragment(TaskControlPointDetailFragment.newInstance(controlPointItemBean));
+                }
             }
         });
     }
@@ -110,9 +111,9 @@ public class MyTaskControlPointDetailFragment extends BaseFragment {
                     @Override
                     protected void _onNext(TaskControlPointDetailBean taskControlPointDetailBean) {
                         if (taskControlPointDetailBean != null) {
-//                            tvTitle.setText(getNotNull(item.getTaskName()));
-//                            tvDate.setText(getNotNull(DateUtils.formatDate(item.getCreatedDate(), DateUtils.TYPE_01)));
-//                            tvContent.setText(getNotNull(item.getTaskExplains()));
+                            tvTitle.setText(getNotNull(taskControlPointDetailBean.getTaskName()));
+                            tvDate.setText(getNotNull(DateUtils.formatDate(taskControlPointDetailBean.getCreatedDate(), DateUtils.TYPE_01)));
+                            tvContent.setText(getNotNull(taskControlPointDetailBean.getTaskExplains()));
                             if (taskControlPointDetailBean.getEquipmentControlVoList().size() > 0) {
                                 mListData.clear();
                                 mListData.addAll(taskControlPointDetailBean.getEquipmentControlVoList());

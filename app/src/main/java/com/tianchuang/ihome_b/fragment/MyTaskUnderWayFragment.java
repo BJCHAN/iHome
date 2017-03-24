@@ -45,7 +45,7 @@ public class MyTaskUnderWayFragment extends BaseRefreshAndLoadMoreFragment<MyTas
 
     @Override
     protected BaseQuickAdapter initAdapter(ArrayList<MyTaskUnderWayItemBean> mData, MyTaskUnderWayListBean listBean) {
-        return new MyTaskUnderWayAdapter(mData);
+        return new MyTaskUnderWayAdapter(R.layout.mytask_under_way_item_holder,mData);
     }
 
     private static int currentTaskId = -1;//当前的任务ID

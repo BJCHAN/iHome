@@ -43,8 +43,10 @@ public interface BizInterface {
     String ROB_REPAIR_URL = "repairs/accept.html";
     //楼宇查询
     String DATA_BUILDING_SEARCH_URL = "dataSearch/building.html";
-    //设备查询
+    //设备类型查询
     String DATA_EQUIPMENT_TYPE_SEARCH_URL = "dataSearch/equipmentType.html";
+    //设备列表查询
+    String DATA_EQUIPMENT_LIST_SEARCH_URL = "dataSearch/equipmentList.html";
     //投诉建议，未处理投诉列表
     String COMPLAIN_SUGGEST_UNTRATED_URL = "complaints/list/new.html";
     //投诉建议，已处理投诉列表
@@ -77,8 +79,10 @@ public interface BizInterface {
     String MY_FORM_LIST_URL = "form/list/my.html";
     //我的表单详情
     String MY_FORM_DETAIL_URL = "form/detail.html";
-    //我的任务
+    //我的任务未完成
     String MY_TASK_LIST_URL = "task/list/new.html";
+    //我的任务完成
+    String MY_TASK_LIST_FINISH_URL = "task/list/done.html";
     //管理通知列表
     String NOTIFICATION_LIST_URL = "notification/list.html";
     //公告详情

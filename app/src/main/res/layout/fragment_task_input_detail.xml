@@ -166,6 +166,7 @@
             android:id="@+id/bt_sure"
             style="@style/common_sure_button"
             android:layout_marginTop="30dp"
+            android:visibility="invisible"
             android:text="执行" />
     </LinearLayout>
 </ScrollView>

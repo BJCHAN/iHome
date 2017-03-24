@@ -1,6 +1,7 @@
 package com.tianchuang.ihome_b.bean.model;
 
 import com.tianchuang.ihome_b.bean.DataBuildingSearchBean;
+import com.tianchuang.ihome_b.bean.EquipmentSearchListItemBean;
 import com.tianchuang.ihome_b.bean.EquipmentTypeSearchBean;
 import com.tianchuang.ihome_b.http.retrofit.HttpModle;
 import com.tianchuang.ihome_b.http.retrofit.RetrofitService;
@@ -16,17 +17,24 @@ import rx.Observable;
  */
 
 public class DataSearchModel {
-	/**
-	 * 楼宇查询
-	 */
-	public static Observable<HttpModle<ArrayList<DataBuildingSearchBean>>> requestBuildingSearch() {
-		return RetrofitService.createShowApi().getBuildingSearch(UserUtil.getLoginBean().getPropertyCompanyId());
-	}
-	/**
-	 * 设备类型查询
-	 */
-	public static Observable<HttpModle<ArrayList<EquipmentTypeSearchBean>>> requestEquipmentTypeSearch() {
-		return RetrofitService.createShowApi().equipmentTypeSearch(UserUtil.getLoginBean().getPropertyCompanyId());
-	}
+    /**
+     * 楼宇查询
+     */
+    public static Observable<HttpModle<ArrayList<DataBuildingSearchBean>>> requestBuildingSearch() {
+        return RetrofitService.createShowApi().getBuildingSearch(UserUtil.getLoginBean().getPropertyCompanyId());
+    }
 
+    /**
+     * 设备类型查询
+     */
+    public static Observable<HttpModle<ArrayList<EquipmentTypeSearchBean>>> requestEquipmentTypeSearch() {
+        return RetrofitService.createShowApi().equipmentTypeSearch(UserUtil.getLoginBean().getPropertyCompanyId());
+    }
+
+    /**
+     * 设备列表查询
+     */
+    public static Observable<HttpModle<ArrayList<EquipmentSearchListItemBean>>> requestEquipmentListSearch(int type, String place) {
+        return RetrofitService.createShowApi().equipmentListSearch(UserUtil.getLoginBean().getPropertyCompanyId(), type, place);
+    }
 }

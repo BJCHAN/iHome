@@ -1,13 +1,9 @@
 package com.tianchuang.ihome_b.fragment;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -16,13 +12,10 @@ import com.tianchuang.ihome_b.adapter.TaskSelectAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.ListBean;
 import com.tianchuang.ihome_b.bean.QrCodeBean;
-import com.tianchuang.ihome_b.utils.ToastUtil;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * Created by abyss on 2017/3/23.
@@ -35,10 +28,16 @@ public class TaskSelectFragment extends BaseFragment {
 
     public static TaskSelectFragment newInstance(ListBean list) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable("listBean",list);
+        bundle.putSerializable("listBean", list);
         TaskSelectFragment taskSelectFragment = new TaskSelectFragment();
         taskSelectFragment.setArguments(bundle);
         return taskSelectFragment;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        setToolbarTitle("选择任务");
     }
 
     @Override
@@ -53,7 +52,7 @@ public class TaskSelectFragment extends BaseFragment {
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
                 //跳转到控制点的任务详情
                 QrCodeBean qrCodeBean = (QrCodeBean) adapter.getData().get(position);
-                addFragment(MyTaskControlPointDetailFragment.newInstance(qrCodeBean));
+                addFragment(MyTaskControlPointDetailFragment.newInstance(qrCodeBean.getTaskRecordId()));
             }
         });
 

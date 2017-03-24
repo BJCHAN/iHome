@@ -14,13 +14,15 @@ import java.util.List;
  * description:我的任务完成的的adapter
  */
 
-public class MyTaskFinishedAdapter extends BaseQuickAdapter<MyTaskUnderWayItemBean,BaseViewHolder> {
+public class MyTaskFinishedAdapter extends BaseQuickAdapter<MyTaskUnderWayItemBean, BaseViewHolder> {
     public MyTaskFinishedAdapter(List<MyTaskUnderWayItemBean> data) {
-        super(R.layout.mytask_finnished_item_holder,data);
+        super(R.layout.mytask_finnished_item_holder, data);
     }
 
     @Override
     protected void convert(BaseViewHolder helper, MyTaskUnderWayItemBean item) {
-
+        helper.setText(R.id.tv_type, StringUtils.getNotNull(item.getTaskName()))
+                .setText(R.id.tv_date, StringUtils.getNotNull(DateUtils.formatDate(item.getCreatedDate(), DateUtils.TYPE_02)))
+                .setText(R.id.tv_content, item.getTaskExplains());
     }
 }

@@ -14,6 +14,8 @@ public class TaskControlPointDetailBean implements Serializable {
      * id : 5
      * taskId : 9
      * taskKind : 4
+     * taskName
+     * taskExplains
      * finishTime : 0
      * type : 2
      * status : 0
@@ -30,6 +32,23 @@ public class TaskControlPointDetailBean implements Serializable {
     private int status;
     private int createdDate;
     private int enterType;
+    private String taskName;
+    private String taskExplains;
+    public String getTaskExplains() {
+        return taskExplains;
+    }
+
+    public void setTaskExplains(String taskExplains) {
+        this.taskExplains = taskExplains;
+    }
+
+    public String getTaskName() {
+        return taskName;
+    }
+
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
+    }
     private List<ControlPointItemBean> equipmentControlVoList;
 
     public int getId() {
