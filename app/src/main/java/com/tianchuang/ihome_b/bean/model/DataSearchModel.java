@@ -1,6 +1,7 @@
 package com.tianchuang.ihome_b.bean.model;
 
 import com.tianchuang.ihome_b.bean.DataBuildingSearchBean;
+import com.tianchuang.ihome_b.bean.EquipmentDetailBean;
 import com.tianchuang.ihome_b.bean.EquipmentSearchListItemBean;
 import com.tianchuang.ihome_b.bean.EquipmentTypeSearchBean;
 import com.tianchuang.ihome_b.http.retrofit.HttpModle;
@@ -36,5 +37,13 @@ public class DataSearchModel {
      */
     public static Observable<HttpModle<ArrayList<EquipmentSearchListItemBean>>> requestEquipmentListSearch(int type, String place) {
         return RetrofitService.createShowApi().equipmentListSearch(UserUtil.getLoginBean().getPropertyCompanyId(), type, place);
+    }
+
+
+    /**
+     * 设备详情
+     */
+    public static Observable<HttpModle<EquipmentDetailBean>> equipmentDetail(int equipmentId) {
+        return RetrofitService.createShowApi().equipmentDetail(equipmentId);
     }
 }

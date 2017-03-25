@@ -6,6 +6,7 @@ import com.tianchuang.ihome_b.bean.ComplainDetailBean;
 import com.tianchuang.ihome_b.bean.ComplainSuggestProcessedBean;
 import com.tianchuang.ihome_b.bean.ComplainSuggestUntratedBean;
 import com.tianchuang.ihome_b.bean.DataBuildingSearchBean;
+import com.tianchuang.ihome_b.bean.EquipmentDetailBean;
 import com.tianchuang.ihome_b.bean.EquipmentSearchListItemBean;
 import com.tianchuang.ihome_b.bean.EquipmentTypeSearchBean;
 import com.tianchuang.ihome_b.bean.FormTypeListBean;
@@ -199,6 +200,14 @@ public interface ShowApi {
     Observable<HttpModle<ArrayList<EquipmentSearchListItemBean>>> equipmentListSearch(@Query("propertyCompanyId") int propertyCompanyId,
                                                                                       @Query("type") int type,
                                                                                       @Query("place") String place);
+
+    /***
+     * 设备详情
+     params
+     equipmentId:xxx     对应设备ID
+     */
+    @POST(BizInterface.DATA_EQUIPMENT_DETAIL_URL)
+    Observable<HttpModle<EquipmentDetailBean>>equipmentDetail(@Query("equipmentId") int equipmentId);
 
 
     /**
@@ -394,7 +403,7 @@ public interface ShowApi {
      */
     @POST(BizInterface.MY_TASK_LIST_FINISH_URL)
     Observable<HttpModle<MyTaskUnderWayListBean>> myTaskFinishList(@Query("propertyCompanyId") int propertyCompanyId,
-                                                                     @Query("maxId") int maxId);
+                                                                   @Query("maxId") int maxId);
 
     /**
      * 任务录入详情

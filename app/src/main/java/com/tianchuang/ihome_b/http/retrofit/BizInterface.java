@@ -47,6 +47,8 @@ public interface BizInterface {
     String DATA_EQUIPMENT_TYPE_SEARCH_URL = "dataSearch/equipmentType.html";
     //设备列表查询
     String DATA_EQUIPMENT_LIST_SEARCH_URL = "dataSearch/equipmentList.html";
+    //设备详情
+    String DATA_EQUIPMENT_DETAIL_URL = "dataSearch/equipmentDetail.html";
     //投诉建议，未处理投诉列表
     String COMPLAIN_SUGGEST_UNTRATED_URL = "complaints/list/new.html";
     //投诉建议，已处理投诉列表

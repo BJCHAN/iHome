@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.adapter.EqupmentSearchListAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
@@ -53,7 +55,9 @@ public class EquipmentTypeFormFragment extends BaseFragment {
         EquipmentTypeFormFragment formFragment = new EquipmentTypeFormFragment();
         formFragment.setArguments(bundle);
         return formFragment;
+
     }
+
 
     @Override
     public void onStart() {
@@ -70,6 +74,13 @@ public class EquipmentTypeFormFragment extends BaseFragment {
         mData = new ArrayList<>();
         adapter = new EqupmentSearchListAdapter(mData);
         rvList.setAdapter(adapter);
+        rvList.addOnItemTouchListener(new OnItemClickListener() {
+            @Override
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                EquipmentSearchListItemBean equipmentSearchListItemBean = mData.get(position);
+                addFragment(EquipmentDetailFragment.newInstance(equipmentSearchListItemBean.getId()));
+            }
+        });
     }
 
     /**
