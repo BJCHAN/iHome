@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_gray"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
+        android:gravity="center_vertical"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:paddingBottom="20dp"
+        android:paddingTop="7dp">
+
+        <TextView
+            style="@style/normal_content_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="车牌号" />
+        <TextView
+            android:layout_marginLeft="5dp"
+            android:id="@+id/tv_select_car"
+            style="@style/normal_content_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_edittext_normal_shape"
+            android:drawablePadding="5dp"
+            android:drawableRight="@drawable/double_arrow"
+            android:lines="1"
+            android:padding="9dp"
+            android:hint="请选"
+            android:textColorHint="@color/TC_2"
+            />
+        <EditText
+            android:id="@+id/et_plate_num"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/bg_edittext_gray_shape"
+            android:hint="车牌号后6位"
+            android:padding="9dp"
+            android:textColor="@color/TC_1"
+            android:textColorHint="@color/BC_1"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_sure_button"
+        style="@style/common_sure_button"
+        android:layout_marginBottom="45dp"
+        android:layout_marginTop="25dp"
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp"
+        android:text="确定" />
+    <TextView
+        android:layout_width="match_parent"
+        style="@style/small_content_text"
+        android:text="车辆信息"
+        android:background="@color/white"
+        android:paddingTop="8dp"
+        android:paddingLeft="15dp"
+        android:paddingBottom="8dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_height="wrap_content" />
+    <android.support.v7.widget.RecyclerView
+        android:layout_marginTop="1dp"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:id="@+id/rv_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+    </android.support.v7.widget.RecyclerView>
+</LinearLayout>

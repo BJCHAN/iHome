@@ -57,17 +57,17 @@ public class DataSearchFragment extends BaseFragment {
 			@Override
 			public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
 				switch (mData.get(position).getId()) {
-					case 1:
+					case 1://楼宇查询
 						addFragment(BuildingSearchFragment.newInstance());
 						break;
-					case 2:
+					case 2://设备查询
 						addFragment(EquipmentTypeFragment.newInstance());
 						break;
-					case 3:
-
+					case 3://业主查询
+						addFragment(OwnerSearchFragment.newInstance());
 						break;
-					case 4:
-
+					case 4://车辆查询
+						addFragment(CarDetailFragment.newInstance());
 						break;
 				}
 			}

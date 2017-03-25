@@ -1,6 +1,8 @@
 package com.tianchuang.ihome_b.http.retrofit;
 
 
+import com.tianchuang.ihome_b.bean.BuildingRoomListBean;
+import com.tianchuang.ihome_b.bean.CarDetailBean;
 import com.tianchuang.ihome_b.bean.ChargeTypeListItemBean;
 import com.tianchuang.ihome_b.bean.ComplainDetailBean;
 import com.tianchuang.ihome_b.bean.ComplainSuggestProcessedBean;
@@ -21,10 +23,12 @@ import com.tianchuang.ihome_b.bean.MyOrderListBean;
 import com.tianchuang.ihome_b.bean.MyTaskUnderWayListBean;
 import com.tianchuang.ihome_b.bean.NotificationItemBean;
 import com.tianchuang.ihome_b.bean.NotificationListBean;
+import com.tianchuang.ihome_b.bean.OwnerDetailBean;
 import com.tianchuang.ihome_b.bean.PropertyListItemBean;
 import com.tianchuang.ihome_b.bean.QrCodeBean;
 import com.tianchuang.ihome_b.bean.RobHallListBean;
 import com.tianchuang.ihome_b.bean.RobHallRepairDetailListBean;
+import com.tianchuang.ihome_b.bean.TaskAreaListBean;
 import com.tianchuang.ihome_b.bean.TaskControlPointDetailBean;
 import com.tianchuang.ihome_b.bean.TaskInputDetailBean;
 import com.tianchuang.ihome_b.bean.TaskInputResponseBean;
@@ -207,8 +211,60 @@ public interface ShowApi {
      equipmentId:xxx     对应设备ID
      */
     @POST(BizInterface.DATA_EQUIPMENT_DETAIL_URL)
-    Observable<HttpModle<EquipmentDetailBean>>equipmentDetail(@Query("equipmentId") int equipmentId);
+    Observable<HttpModle<EquipmentDetailBean>> equipmentDetail(@Query("equipmentId") int equipmentId);
 
+    /***
+     * 车辆查询
+     params
+     propertyCompanyId:xxx           对应物业公司ID-对应物业列表物业公司ID
+     carNum:浙A00005                    车牌号
+     */
+    @POST(BizInterface.DATA_CAR_SEARCH_URL)
+    Observable<HttpModle<CarDetailBean>> carDetail(@Query("propertyCompanyId") int propertyCompanyId,
+                                                   @Query("carNum") String carNum);
+
+    /***
+     * 小区列表
+     params
+     propertyCompanyId:xxx           对应物业公司ID-对应物业列表物业公司ID
+     */
+    @POST(BizInterface.DATA_AREA_LIST_URL)
+    Observable<HttpModle<ArrayList<TaskAreaListBean>>> requestAreaList(@Query("propertyCompanyId") int propertyCompanyId);
+
+
+    /***
+     * 楼宇列表
+     params
+     buildingId:xxx          对应小区ID
+     */
+    @POST(BizInterface.DATA_BUILDING_LIST_URL)
+    Observable<HttpModle<ArrayList<TaskAreaListBean.CellListBean>>> requestBuildingList(@Query("buildingId") int buildingId);
+
+    /***
+     * 单元列表
+     params
+     buildingId:xxx          对应小区ID
+     */
+    @POST(BizInterface.DATA_UNIT_LIST_URL)
+    Observable<HttpModle<ArrayList<TaskAreaListBean.CellListBean.UnitListBean>>> requestUnitList(@Query("buildingCellId") int buildingCellId);
+
+
+    /***
+     * 房间列表
+     params
+     buildingUnitId:xxx          对应单元ID
+     */
+    @POST(BizInterface.DATA_ROOM_LIST_URL)
+    Observable<HttpModle<ArrayList<BuildingRoomListBean>>> requestRoomList(@Query("buildingUnitId") int buildingUnitId);
+
+
+    /***
+     * 业主详情
+     params
+     buildingRoomId:xxx      门牌ID
+     */
+    @POST(BizInterface.DATA_OWNER_DETAIL_URL)
+    Observable<HttpModle<OwnerDetailBean>> requestOwnerDetail(@Query("buildingRoomId") int buildingRoomId);
 
     /**
      * 未处理投诉列表

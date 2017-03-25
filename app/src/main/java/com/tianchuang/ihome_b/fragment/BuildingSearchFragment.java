@@ -19,6 +19,7 @@ import com.tianchuang.ihome_b.utils.ToastUtil;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import rx.functions.Action0;
 
 /**
  * Created by Abyss on 2017/3/1.
@@ -26,57 +27,65 @@ import butterknife.BindView;
  */
 
 public class BuildingSearchFragment extends BaseFragment {
-	@BindView(R.id.rv_list)
-	RecyclerView rvList;
+    @BindView(R.id.rv_list)
+    RecyclerView rvList;
 
-	@Override
-	protected int getLayoutId() {
-		return R.layout.fragment_building_search;
-	}
-	public static BuildingSearchFragment newInstance() {
-		return new BuildingSearchFragment();
-	}
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_building_search;
+    }
 
-	@Override
-	public void onStart() {
-		super.onStart();
-		setToolbarTitle("楼宇查询");
-	}
+    public static BuildingSearchFragment newInstance() {
+        return new BuildingSearchFragment();
+    }
 
-	@Override
-	protected void initView(View view, Bundle savedInstanceState) {
-		rvList.addItemDecoration(new CommonItemDecoration(20));
-		rvList.setLayoutManager(new LinearLayoutManager(getContext()));
-		requestNet();
-	}
+    @Override
+    public void onStart() {
+        super.onStart();
+        setToolbarTitle("楼宇查询");
+    }
 
-	/**
-	 * 请求网络
-	 */
-	private void requestNet() {
-		DataSearchModel.requestBuildingSearch()
-				.compose(RxHelper.<ArrayList<DataBuildingSearchBean>>handleResult())
-				.subscribe(new RxSubscribe<ArrayList<DataBuildingSearchBean>>() {
-					@Override
-					protected void _onNext(ArrayList<DataBuildingSearchBean> arrayList) {
-						BuildingSearchAdapter searchAdapter = new BuildingSearchAdapter(R.layout.building_search_item_holder, arrayList);
-						rvList.setAdapter(searchAdapter);
-					}
+    @Override
+    protected void initView(View view, Bundle savedInstanceState) {
+        rvList.addItemDecoration(new CommonItemDecoration(20));
+        rvList.setLayoutManager(new LinearLayoutManager(getContext()));
+        requestNet();
+    }
 
-					@Override
-					protected void _onError(String message) {
-						ToastUtil.showToast(getContext(), message);
-					}
+    /**
+     * 请求网络
+     */
+    private void requestNet() {
+        DataSearchModel.requestBuildingSearch()
+                .compose(RxHelper.<ArrayList<DataBuildingSearchBean>>handleResult())
+                .compose(this.<ArrayList<DataBuildingSearchBean>>bindToLifecycle())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        showProgress();
+                    }
+                })
+                .subscribe(new RxSubscribe<ArrayList<DataBuildingSearchBean>>() {
+                    @Override
+                    protected void _onNext(ArrayList<DataBuildingSearchBean> arrayList) {
+                        BuildingSearchAdapter searchAdapter = new BuildingSearchAdapter(R.layout.building_search_item_holder, arrayList);
+                        rvList.setAdapter(searchAdapter);
+                        dismissProgress();
+                    }
 
-					@Override
-					public void onCompleted() {
+                    @Override
+                    protected void _onError(String message) {
+                        ToastUtil.showToast(getContext(), message);
+                        dismissProgress();
+                    }
 
-					}
-				});
+                    @Override
+                    public void onCompleted() {
 
-	}
+                    }
+                });
 
-
+    }
 
 
 }

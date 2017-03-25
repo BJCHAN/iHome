@@ -20,7 +20,7 @@ import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.activity.MyTaskActivity;
 import com.tianchuang.ihome_b.adapter.TaskBuildingAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
-import com.tianchuang.ihome_b.bean.TaskBuildingListBean;
+import com.tianchuang.ihome_b.bean.TaskAreaListBean;
 import com.tianchuang.ihome_b.bean.TaskInputDetailBean;
 import com.tianchuang.ihome_b.bean.TaskInputResponseBean;
 import com.tianchuang.ihome_b.bean.model.MyTaskModel;
@@ -62,14 +62,14 @@ public class TaskInputBuildingSelectFragment extends BaseFragment {
     EditText tvRoom;
     @BindView(R.id.bt_sure)
     Button btSure;
-    private List<TaskBuildingListBean> mData = new ArrayList<>();
-    private TaskBuildingListBean selestedBean;
-    private TaskBuildingListBean.CellListBean selectedBuildingBean;//被选中的楼宇
-    private TaskBuildingListBean.CellListBean.UnitListBean selectedUnitBean;//被选中的单元
+    private List<TaskAreaListBean> mData = new ArrayList<>();
+    private TaskAreaListBean selestedBean;
+    private TaskAreaListBean.CellListBean selectedBuildingBean;//被选中的楼宇
+    private TaskAreaListBean.CellListBean.UnitListBean selectedUnitBean;//被选中的单元
     private OptionsPickerView pvBuildingOptions;
     private OptionsPickerView pvUnitOptions;
-    private ArrayList<TaskBuildingListBean.CellListBean> cellItems = new ArrayList<>();
-    private ArrayList<TaskBuildingListBean.CellListBean.UnitListBean> unitItems = new ArrayList<>();
+    private ArrayList<TaskAreaListBean.CellListBean> cellItems = new ArrayList<>();
+    private ArrayList<TaskAreaListBean.CellListBean.UnitListBean> unitItems = new ArrayList<>();
     private TaskBuildingAdapter adapter;
     private TaskInputDetailBean taskBean;
     private MyTaskActivity holdingActivity;
@@ -102,14 +102,14 @@ public class TaskInputBuildingSelectFragment extends BaseFragment {
         rvList.addItemDecoration(new TaskInputSelectDecoration(DensityUtil.dip2px(getContext(), 5)));
         mData.clear();
         Observable.from(taskBean.getBuildingList())
-                .filter(new Func1<TaskBuildingListBean, Boolean>() {
+                .filter(new Func1<TaskAreaListBean, Boolean>() {
                     @Override
-                    public Boolean call(TaskBuildingListBean taskBuildingListBean) {
+                    public Boolean call(TaskAreaListBean taskBuildingListBean) {
                         return taskBuildingListBean.isUsed();
                     }
                 })
-                .compose(this.<TaskBuildingListBean>bindToLifecycle())
-                .subscribe(new Subscriber<TaskBuildingListBean>() {
+                .compose(this.<TaskAreaListBean>bindToLifecycle())
+                .subscribe(new Subscriber<TaskAreaListBean>() {
                     @Override
                     public void onCompleted() {
                         selestedBean = null;
@@ -119,7 +119,7 @@ public class TaskInputBuildingSelectFragment extends BaseFragment {
                         rvList.addOnItemTouchListener(new OnItemClickListener() {
                             @Override
                             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                                for (TaskBuildingListBean data : mData) {
+                                for (TaskAreaListBean data : mData) {
                                     data.setSelected(false);
                                 }
                                 selestedBean = mData.get(position);
@@ -141,7 +141,7 @@ public class TaskInputBuildingSelectFragment extends BaseFragment {
                     }
 
                     @Override
-                    public void onNext(TaskBuildingListBean taskBuildingListBean) {
+                    public void onNext(TaskAreaListBean taskBuildingListBean) {
                         mData.add(taskBuildingListBean);
                     }
                 });
@@ -160,20 +160,20 @@ public class TaskInputBuildingSelectFragment extends BaseFragment {
             case R.id.tv_building:
                 if (selestedBean != null) {
                     cellItems.clear();
-                    List<TaskBuildingListBean.CellListBean> cellList = selestedBean.getCellList();
+                    List<TaskAreaListBean.CellListBean> cellList = selestedBean.getCellList();
                     if (cellList.size() <= 0) {
                         ToastUtil.showToast(getContext(), "数据为空");
                         return;
                     }
                     Observable.from(cellList)
-                            .filter(new Func1<TaskBuildingListBean.CellListBean, Boolean>() {
+                            .filter(new Func1<TaskAreaListBean.CellListBean, Boolean>() {
                                 @Override
-                                public Boolean call(TaskBuildingListBean.CellListBean cellListBean) {
+                                public Boolean call(TaskAreaListBean.CellListBean cellListBean) {
                                     return cellListBean.isUsed();
                                 }
                             })
-                            .compose(this.<TaskBuildingListBean.CellListBean>bindToLifecycle())
-                            .subscribe(new Subscriber<TaskBuildingListBean.CellListBean>() {
+                            .compose(this.<TaskAreaListBean.CellListBean>bindToLifecycle())
+                            .subscribe(new Subscriber<TaskAreaListBean.CellListBean>() {
                                 @Override
                                 public void onCompleted() {
                                     pvBuildingOptions.setPicker(cellItems);
@@ -186,7 +186,7 @@ public class TaskInputBuildingSelectFragment extends BaseFragment {
                                 }
 
                                 @Override
-                                public void onNext(TaskBuildingListBean.CellListBean cellListBean) {
+                                public void onNext(TaskAreaListBean.CellListBean cellListBean) {
                                     cellItems.add(cellListBean);
 
                                 }
@@ -293,12 +293,12 @@ public class TaskInputBuildingSelectFragment extends BaseFragment {
     }
 
 
-    private void initUnitOptionPicker(TaskBuildingListBean.CellListBean cellListBean) {
+    private void initUnitOptionPicker(TaskAreaListBean.CellListBean cellListBean) {
         //还原初始状态
         selectedUnitBean = null;
         tvUnit.setText("");
         unitItems.clear();
-        List<TaskBuildingListBean.CellListBean.UnitListBean> unitList = cellListBean.getUnitList();
+        List<TaskAreaListBean.CellListBean.UnitListBean> unitList = cellListBean.getUnitList();
         if (unitList.size() <= 0) {
             ToastUtil.showToast(getContext(),"数据为空");
             return;
@@ -338,7 +338,7 @@ public class TaskInputBuildingSelectFragment extends BaseFragment {
 
     @Override
     public void onDestroy() {
-        for (TaskBuildingListBean data : mData) {//还原ui状态
+        for (TaskAreaListBean data : mData) {//还原ui状态
             data.setSelected(false);
         }
         adapter.notifyDataSetChanged();

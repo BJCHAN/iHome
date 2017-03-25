@@ -91,6 +91,7 @@
         <activity
             android:name=".activity.DataSearchActivity"
             android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait" />
         <!-- 投诉建议 -->
         <activity

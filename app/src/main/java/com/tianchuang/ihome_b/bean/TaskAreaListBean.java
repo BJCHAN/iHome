@@ -1,5 +1,7 @@
 package com.tianchuang.ihome_b.bean;
 
+import android.text.TextUtils;
+
 import com.bigkoo.pickerview.model.IPickerViewData;
 
 import java.io.Serializable;
@@ -10,7 +12,7 @@ import java.util.List;
  * description:
  */
 
-public class TaskBuildingListBean extends SelectedBean implements Serializable{
+public class TaskAreaListBean extends SelectedBean implements Serializable{
     /**
      * id : 1
      * name : 海创苑
@@ -61,17 +63,34 @@ public class TaskBuildingListBean extends SelectedBean implements Serializable{
          * buildingId : 1
          * number : 1幢
          * used : true
+         * name
          * unitList : [{"id":1,"propertyCompanyId":1,"buildingId":1,"buildingCellId":1,"name":"1单元"},{"id":2,"propertyCompanyId":1,"buildingId":1,"buildingCellId":1,"name":"2单元"}]
+         * value //同ID
          */
-
+        private int value;
         private int id;
         private int buildingId;
         private String number;
+        private String name;
         private boolean used;
         private List<UnitListBean> unitList;
 
-        public int getId() {
+        public int getValue() {
+            return value;
+        }
+
+        public void setValue(int value) {
+            this.value = value;
+        }        public int getId() {
             return id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
         }
 
         public void setId(int id) {
@@ -112,6 +131,8 @@ public class TaskBuildingListBean extends SelectedBean implements Serializable{
 
         @Override
         public String getPickerViewText() {
+            if (TextUtils.isEmpty(number))
+                return name;
             return number;
         }
 
@@ -122,13 +143,16 @@ public class TaskBuildingListBean extends SelectedBean implements Serializable{
              * buildingId : 1
              * buildingCellId : 1
              * name : 1单元
+             * value 同id
              */
 
             private int id;
             private int propertyCompanyId;
             private int buildingId;
             private int buildingCellId;
+            private int value;
             private String name;
+            private List<BuildingRoomListBean> roomList;
 
             public int getId() {
                 return id;
@@ -144,6 +168,22 @@ public class TaskBuildingListBean extends SelectedBean implements Serializable{
 
             public void setPropertyCompanyId(int propertyCompanyId) {
                 this.propertyCompanyId = propertyCompanyId;
+            }
+
+            public int getValue() {
+                return value;
+            }
+
+            public void setValue(int value) {
+                this.value = value;
+            }
+
+            public List<BuildingRoomListBean> getRoomList() {
+                return roomList;
+            }
+
+            public void setRoomList(List<BuildingRoomListBean> roomList) {
+                this.roomList = roomList;
             }
 
             public int getBuildingId() {

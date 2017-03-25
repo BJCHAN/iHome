@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background_gray"
+    android:gravity="center_vertical"
+    android:paddingBottom="10dp"
+    android:orientation="horizontal">
+
+
+    <TextView
+        style="@style/small_content_gray_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:background="@color/white"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
+        android:text="房间：" />
+
+    <TextView
+        android:gravity="center_vertical"
+        android:id="@+id/tv_address"
+        style="@style/small_content_text"
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_height="match_parent"
+        android:paddingLeft="5dp"
+        android:drawablePadding="5dp"
+        android:lines="1"
+        android:text="sdfasdf"
+        android:textColorHint="@color/TC_2" />
+</LinearLayout>

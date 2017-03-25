@@ -37,7 +37,7 @@ public class TaskInputDetailBean implements Serializable{
     private String enterTypeMsg;
     private String buildingDetail;
     private List<TaskRoomDataListBean> taskRoomDataList;
-    private List<TaskBuildingListBean> buildingList;
+    private List<TaskAreaListBean> buildingList;
     private int taskRecordId;
 
     public int getTaskRecordId() {
@@ -56,11 +56,11 @@ public class TaskInputDetailBean implements Serializable{
         this.taskName = taskName;
     }
 
-    public List<TaskBuildingListBean> getBuildingList() {
+    public List<TaskAreaListBean> getBuildingList() {
         return buildingList;
     }
 
-    public void setBuildingList(List<TaskBuildingListBean> buildingList) {
+    public void setBuildingList(List<TaskAreaListBean> buildingList) {
         this.buildingList = buildingList;
     }
 

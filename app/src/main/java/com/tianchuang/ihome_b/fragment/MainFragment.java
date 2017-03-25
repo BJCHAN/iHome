@@ -130,6 +130,7 @@ public class MainFragment extends BaseFragment {
         HomePageModel.homePageList()
                 .compose(RxHelper.<HomePageBean>handleResult())
                 .compose(this.<HomePageBean>bindToLifecycle())
+                .retry(2)
                 .doOnSubscribe(new Action0() {
                     @Override
                     public void call() {
