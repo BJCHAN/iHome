@@ -74,6 +74,7 @@ public class TaskInputSuccessFragment extends BaseFragment {
                         .subscribe(new RxSubscribe<String>() {
                             @Override
                             protected void _onNext(String s) {
+                                EventBus.getDefault().post(new NotifyTaskDetailRefreshEvent());
                                 holdingActivity.closeAllFragment();
                             }
 
