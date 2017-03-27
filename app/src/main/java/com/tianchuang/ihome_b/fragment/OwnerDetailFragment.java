@@ -25,7 +25,7 @@ import butterknife.Unbinder;
 
 /**
  * Created by Abyss on 2017/3/25.
- * description:
+ * description:业主详情
  */
 
 public class OwnerDetailFragment extends BaseFragment {

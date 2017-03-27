@@ -10,9 +10,14 @@ import com.tianchuang.ihome_b.activity.RobHallActivity;
 import com.tianchuang.ihome_b.adapter.RobHallAdapter;
 import com.tianchuang.ihome_b.bean.RobHallListBean;
 import com.tianchuang.ihome_b.bean.RobHallListItem;
+import com.tianchuang.ihome_b.bean.event.RobOrderSuccessEvent;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.bean.model.RobHallModel;
 import com.tianchuang.ihome_b.utils.UserUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
@@ -33,10 +38,12 @@ public class RobHallFragment extends BaseRefreshAndLoadMoreFragment<RobHallListI
     @Override
     public void onStart() {
         super.onStart();
-       setToolbarTitle("抢单大厅");
+        setToolbarTitle("抢单大厅");
     }
+
     @Override
     protected BaseQuickAdapter initAdapter(ArrayList<RobHallListItem> mData, RobHallListBean listBean) {
+        EventBus.getDefault().register(this);
         return new RobHallAdapter(R.layout.rob_hall_item_holder, mData);
     }
 
@@ -53,6 +60,18 @@ public class RobHallFragment extends BaseRefreshAndLoadMoreFragment<RobHallListI
     protected Observable<RobHallListBean> getNetObservable(int maxId) {
         return RobHallModel.requestRobHallList(UserUtil.getLoginBean().getPropertyCompanyId(), maxId)
                 .compose(RxHelper.<RobHallListBean>handleResult());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(RobOrderSuccessEvent event) {
+        onRefresh();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+
     }
 
     @Override

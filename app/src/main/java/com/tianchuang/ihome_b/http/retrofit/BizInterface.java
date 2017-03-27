@@ -35,6 +35,10 @@ public interface BizInterface {
     String INNER_REPORTS_LIST_URL = "internalreport/list.html";
     //内部报事提交(主页)
     String INNER_REPORTS_SUBMIT_URL = "internalreport/add.html";
+    //内部报事(处理中)
+    String INNER_REPORTS_PROCESSING_URL = "internalreport/processing.html";
+    //内部报事(已完成)
+    String INNER_REPORTS_FINISHED_URL = "internalreport/done.html";
     //抢单大厅
     String ROB_HALL_LIST_URL = "repairs/hall.html";
     //报修故障详情

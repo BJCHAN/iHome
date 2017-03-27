@@ -83,6 +83,10 @@ public class TaskInputEditDataFragment extends BaseFragment {
                 ToastUtil.showToast(getContext(), "数据为空");
                 return;
             }
+            if (Float.valueOf(currentData) <= Float.valueOf(dataInfo.getLastData())) {
+                ToastUtil.showToast(getContext(),"本期读数不得小于上期读数");
+                return;
+            }
             String formatNum = StringUtils.formatNumWithFour(currentData);
             tvCurrentData.setText(formatNum);
             MyTaskModel.taskCurrentDataSubmit(dataInfo.getId(), formatNum)

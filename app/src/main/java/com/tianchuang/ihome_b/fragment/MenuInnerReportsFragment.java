@@ -18,7 +18,7 @@ import rx.Observable;
  * description:内部报事（菜单）
  */
 
-public class MenuInnerReportsFragment extends BaseRefreshAndLoadMoreFragment<MenuInnerReportsItemBean, MenuInnerListBean> {
+public class MenuInnerReportsFragment extends BaseRefreshAndLoadMoreFragment<MenuInnerReportsItemBean, MenuInnerListBean> implements MenuInnerReportsDetailFragment.StatusChangeListener {
 
     public static MenuInnerReportsFragment newInstance() {
         return new MenuInnerReportsFragment();
@@ -38,7 +38,9 @@ public class MenuInnerReportsFragment extends BaseRefreshAndLoadMoreFragment<Men
      */
     @Override
     protected void onListitemClick(MenuInnerReportsItemBean menuInnerReportsItemBean) {
-        addFragment(MenuInnerReportsDetailFragment.newInstance(menuInnerReportsItemBean));
+        MenuInnerReportsDetailFragment fragment = MenuInnerReportsDetailFragment.newInstance(menuInnerReportsItemBean);
+        fragment.setStatusChangeListener(this);
+        addFragment(fragment);
     }
 
     /**
@@ -56,5 +58,10 @@ public class MenuInnerReportsFragment extends BaseRefreshAndLoadMoreFragment<Men
     @Override
     protected String getEmptyString() {
         return getString(R.string.menu_inner_list_empty);
+    }
+
+    @Override
+    public void onStatushanged() {
+        onRefresh();
     }
 }

@@ -4,6 +4,7 @@ import com.tianchuang.ihome_b.bean.MenuInnerListBean;
 import com.tianchuang.ihome_b.http.retrofit.HttpModle;
 import com.tianchuang.ihome_b.http.retrofit.RetrofitService;
 import com.tianchuang.ihome_b.utils.MultipartBuilder;
+import com.tianchuang.ihome_b.utils.UserUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -18,19 +19,33 @@ import rx.Observable;
  */
 
 public class InnerReportsModel {
-	/**
-	 * 内部报事列表
-	 */
-	public static Observable<HttpModle<MenuInnerListBean>> requestReportsList(int propertyCompanyId, int maxId) {
-		return RetrofitService.createShowApi().reportsList(propertyCompanyId,maxId);
-	}
+    /**
+     * 内部报事列表
+     */
+    public static Observable<HttpModle<MenuInnerListBean>> requestReportsList(int propertyCompanyId, int maxId) {
+        return RetrofitService.createShowApi().reportsList(propertyCompanyId, maxId);
+    }
 
-	/**
-	 * 内部报事提交
-	 */
-	public static Observable<HttpModle<String>> requestReportsSubmit(int propertyCompanyId, String content, ArrayList<File> files) {
-		List<MultipartBody.Part> parts = MultipartBuilder.filesToMultipartBodyParts(files);
-		return RetrofitService.createShowApi().reportsSubmit(propertyCompanyId, content,parts);
-	}
+    /**
+     * 内部报事提交
+     */
+    public static Observable<HttpModle<String>> requestReportsSubmit(int propertyCompanyId, String content, ArrayList<File> files) {
+        List<MultipartBody.Part> parts = MultipartBuilder.filesToMultipartBodyParts(files);
+        return RetrofitService.createShowApi().reportsSubmit(propertyCompanyId, content, parts);
+    }
+
+    /**
+     * 内部报事列表
+     */
+    public static Observable<HttpModle<String>> reportsProcessing(int reportId) {
+        return RetrofitService.createShowApi().reportsProcessing(UserUtil.getLoginBean().getPropertyCompanyId(), reportId);
+    }
+
+    /**
+     * 内部报事列表
+     */
+    public static Observable<HttpModle<String>> reportsFinished(int reportId) {
+        return RetrofitService.createShowApi().reportsFinished(UserUtil.getLoginBean().getPropertyCompanyId(), reportId);
+    }
 
 }

@@ -31,6 +31,15 @@ public class MenuInnerReportsItemBean extends BaseItemLoadBean implements Serial
     private int propertyCompanyId;
     private int createdDate;
     private int lastUpdatedDate;
+    private int processEmployeeId;
+
+    public int getProcessEmployeeId() {
+        return processEmployeeId;
+    }
+
+    public void setProcessEmployeeId(int processEmployeeId) {
+        this.processEmployeeId = processEmployeeId;
+    }
 
     public int getStatus() {
         return status;

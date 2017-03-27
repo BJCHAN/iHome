@@ -1,5 +1,7 @@
 package com.tianchuang.ihome_b.bean;
 
+import java.util.List;
+
 /**
  * Created by Abyss on 2017/2/15.
  * description:
@@ -7,127 +9,137 @@ package com.tianchuang.ihome_b.bean;
 
 public class LoginBean {
 
-	/**
-	 * id : 2
-	 * name : 李斯
-	 * mobile : 18158171066
-	 * token : c9816495-798e-4d2b-bd51-440100709724
-	 * roleId : 0
-	 * propertyCompanyId : 1
-	 * propertyCompanyName : 海创园
-	 * departmentId : 1
-	 * departmentName : 工程维修部
-	 * positionId : 1
-	 * positionName : 水电维修工
-	 * "propertyEnable": true   //物业是否可用
-	 */
+    /**
+     * id : 2
+     * name : 李斯
+     * mobile : 18158171066
+     * token : c9816495-798e-4d2b-bd51-440100709724
+     * roleId : 0
+     * propertyCompanyId : 1
+     * propertyCompanyName : 海创园
+     * departmentId : 1
+     * departmentName : 工程维修部
+     * positionId : 1
+     * positionName : 水电维修工
+     * "propertyEnable": true   //物业是否可用
+     * menuList //权限菜单
+     */
 
-	private int id;
-	private String name;
-	private String mobile;
-	public String token;
-	private int roleId;
-	private int propertyCompanyId;
-	private String propertyCompanyName;
-	private int departmentId;
-	private String departmentName;
-	private int positionId;
-	private String positionName;
-	private boolean propertyEnable;
+    private int id;
+    private String name;
+    private String mobile;
+    public String token;
+    private int roleId;
+    private int propertyCompanyId;
+    private String propertyCompanyName;
+    private int departmentId;
+    private String departmentName;
+    private int positionId;
+    private String positionName;
+    private boolean propertyEnable;
+    private List<Integer> menuList;
 
-	public boolean getPropertyEnable() {
-		return propertyEnable;
-	}
+    public List<Integer> getMenuList() {
+        return menuList;
+    }
 
-	public void setPropertyEnable(boolean propertyEnable) {
-		this.propertyEnable = propertyEnable;
-	}
+    public void setMenuList(List<Integer> menuList) {
+        this.menuList = menuList;
+    }
 
-	public int getId() {
-		return id;
-	}
+    public boolean getPropertyEnable() {
+        return propertyEnable;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public void setPropertyEnable(boolean propertyEnable) {
+        this.propertyEnable = propertyEnable;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public String getMobile() {
-		return mobile;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getToken() {
-		return token;
-	}
+    public String getMobile() {
+        return mobile;
+    }
 
-	public void setToken(String token) {
-		this.token = token;
-	}
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
 
-	public int getRoleId() {
-		return roleId;
-	}
+    public String getToken() {
+        return token;
+    }
 
-	public void setRoleId(int roleId) {
-		this.roleId = roleId;
-	}
+    public void setToken(String token) {
+        this.token = token;
+    }
 
-	public int getPropertyCompanyId() {
-		return propertyCompanyId;
-	}
+    public int getRoleId() {
+        return roleId;
+    }
 
-	public void setPropertyCompanyId(int propertyCompanyId) {
-		this.propertyCompanyId = propertyCompanyId;
-	}
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
+    }
 
-	public String getPropertyCompanyName() {
-		return propertyCompanyName;
-	}
+    public int getPropertyCompanyId() {
+        return propertyCompanyId;
+    }
 
-	public void setPropertyCompanyName(String propertyCompanyName) {
-		this.propertyCompanyName = propertyCompanyName;
-	}
+    public void setPropertyCompanyId(int propertyCompanyId) {
+        this.propertyCompanyId = propertyCompanyId;
+    }
 
-	public int getDepartmentId() {
-		return departmentId;
-	}
+    public String getPropertyCompanyName() {
+        return propertyCompanyName;
+    }
 
-	public void setDepartmentId(int departmentId) {
-		this.departmentId = departmentId;
-	}
+    public void setPropertyCompanyName(String propertyCompanyName) {
+        this.propertyCompanyName = propertyCompanyName;
+    }
 
-	public String getDepartmentName() {
-		return departmentName;
-	}
+    public int getDepartmentId() {
+        return departmentId;
+    }
 
-	public void setDepartmentName(String departmentName) {
-		this.departmentName = departmentName;
-	}
+    public void setDepartmentId(int departmentId) {
+        this.departmentId = departmentId;
+    }
 
-	public int getPositionId() {
-		return positionId;
-	}
+    public String getDepartmentName() {
+        return departmentName;
+    }
 
-	public void setPositionId(int positionId) {
-		this.positionId = positionId;
-	}
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
+    }
 
-	public String getPositionName() {
-		return positionName;
-	}
+    public int getPositionId() {
+        return positionId;
+    }
 
-	public void setPositionName(String positionName) {
-		this.positionName = positionName;
-	}
+    public void setPositionId(int positionId) {
+        this.positionId = positionId;
+    }
+
+    public String getPositionName() {
+        return positionName;
+    }
+
+    public void setPositionName(String positionName) {
+        this.positionName = positionName;
+    }
 }

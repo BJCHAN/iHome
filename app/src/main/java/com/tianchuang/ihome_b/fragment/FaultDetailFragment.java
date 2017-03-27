@@ -14,6 +14,7 @@ import com.tianchuang.ihome_b.adapter.DetailMultiAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.RobHallListItem;
 import com.tianchuang.ihome_b.bean.RobHallRepairDetailListBean;
+import com.tianchuang.ihome_b.bean.event.RobOrderSuccessEvent;
 import com.tianchuang.ihome_b.http.retrofit.HttpModle;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
@@ -22,11 +23,14 @@ import com.tianchuang.ihome_b.utils.ToastUtil;
 import com.tianchuang.ihome_b.utils.ViewHelper;
 import com.tianchuang.ihome_b.view.OneButtonDialogFragment;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import rx.Observable;
 import rx.Subscriber;
+import rx.functions.Action0;
 import rx.functions.Func1;
 
 /**
@@ -62,6 +66,7 @@ public class FaultDetailFragment extends BaseFragment {
         rvList.setLayoutManager(new LinearLayoutManager(getContext()));
         initMyData();
     }
+
     private void initMyData() {
         RobHallListItem item = (RobHallListItem) getArguments().getSerializable("item");
         if (item != null) {
@@ -98,22 +103,29 @@ public class FaultDetailFragment extends BaseFragment {
                         }
                     })
                     .compose(this.<HttpModle<String>>bindToLifecycle())
+                    .doOnSubscribe(new Action0() {
+                        @Override
+                        public void call() {
+                            showProgress();
+                        }
+                    })
                     .subscribe(new Subscriber<HttpModle<String>>() {
                         @Override
                         public void onCompleted() {
-
+                            dismissProgress();
                         }
 
                         @Override
                         public void onError(Throwable e) {
-
+                            dismissProgress();
                         }
 
                         @Override
                         public void onNext(HttpModle<String> modle) {
                             if (modle.success()) {
+                                EventBus.getDefault().post(new RobOrderSuccessEvent());
                                 ToastUtil.showToast(getContext(), "抢单成功");
-                               getHoldingActivity().finishWithAnim();
+                                getHoldingActivity().finishWithAnim();
                             } else {
                                 showDialog(modle.msg);
                             }

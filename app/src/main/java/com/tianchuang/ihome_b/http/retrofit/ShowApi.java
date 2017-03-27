@@ -152,6 +152,24 @@ public interface ShowApi {
                                                 @Part() List<MultipartBody.Part> parts);
 
     /***
+     * 内部报事列表(进行中)
+     * propertyCompanyId:xxx                   //  应物业公司ID-对应物业列表物业公司ID
+     * reportId:xxx                            //  报事ID
+     */
+    @POST(BizInterface.INNER_REPORTS_PROCESSING_URL)
+    Observable<HttpModle<String>> reportsProcessing(@Query("propertyCompanyId") int propertyCompanyId,
+                                                         @Query("reportId") int reportId);
+
+    /***
+     * 内部报事列表(已完成)
+     * propertyCompanyId:xxx                   //  应物业公司ID-对应物业列表物业公司ID
+     * reportId:xxx                            //  报事ID
+     */
+    @POST(BizInterface.INNER_REPORTS_FINISHED_URL)
+    Observable<HttpModle<String>> reportsFinished(@Query("propertyCompanyId") int propertyCompanyId,
+                                                         @Query("reportId") int reportId);
+
+    /***
      * 抢单大厅列表
      * params
      * propertyCompanyId:xxx       应物业公司ID-对应物业列表物业公司ID

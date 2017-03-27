@@ -53,6 +53,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindArray;
 import butterknife.BindView;
@@ -70,7 +71,7 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.id_drawer_layout)
     DrawerLayout mDrawerLayout;
     @BindArray(R.array.draw_menu_items)
-    String[] items;
+    String[] itemsNameArray;
     @BindView(R.id.spinner)
     TextView spinner;
     @BindView(R.id.iv_right)
@@ -79,7 +80,7 @@ public class MainActivity extends BaseActivity {
     TextView tvDrawName;
     @BindView(R.id.tv_draw_phone)
     TextView tvDrawPhone;
-
+    private ArrayList<DrawMenuItem> drawMenuItems = new ArrayList<>();
     private DrawMenuAdapter menuAdapter;
 
     /**
@@ -104,66 +105,66 @@ public class MainActivity extends BaseActivity {
         EventBus.getDefault().register(this);
         //添加主页fragment
         addFragment(MainFragment.newInstance());
+        initData();
         initView();
         //设置监听
         initListener();
     }
 
-    /**
-     * 设置头部的title
-     */
-    public void setSpinnerText(String text) {
-        if (FragmentUtils.findFragment(getSupportFragmentManager(), PropertyListFragment.class) == null) {//非二级fragment，为主页
-            Drawable drawable = ContextCompat.getDrawable(this, R.drawable.triangle_icon);
-            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-            spinner.setCompoundDrawables(null, null, drawable, null);
-            spinner.setCompoundDrawablePadding(DensityUtil.dip2px(this, 5));
-            spinner.setText(text);
-            ivRight.setVisibility(View.VISIBLE);
-        } else {
-            spinner.setCompoundDrawables(null, null, null, null);
-            spinner.setText(text);
-            ivRight.setVisibility(View.INVISIBLE);
-        }
+    private void initData() {
+
     }
 
-    public void setIvRightEnable(boolean enable) {
-        ivRight.setVisibility(enable ? View.VISIBLE : View.GONE);
-    }
 
     private void initView() {
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.addItemDecoration(new DrawMenuItemDecoration(20));
+        menuAdapter = new DrawMenuAdapter(R.layout.draw_menu_item_holder, drawMenuItems);
+        mRecyclerView.setAdapter(menuAdapter);
         LoginBean loginBean = UserUtil.getLoginBean();
         if (loginBean != null) {//初始化菜单布局
             tvDrawName.setText(loginBean.getName());
             tvDrawPhone.setText(loginBean.getMobile());
         }
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.addItemDecoration(new DrawMenuItemDecoration(20));
-        ArrayList<DrawMenuItem> drawMenuItems = new ArrayList<>();
-        for (String item : items) {
-            DrawMenuItem drawMenuItem = new DrawMenuItem();
-            drawMenuItem.setName(item);
-            drawMenuItems.add(drawMenuItem);
-        }
-        menuAdapter = new DrawMenuAdapter(R.layout.draw_menu_item_holder, drawMenuItems);
-        mRecyclerView.setAdapter(menuAdapter);
+
+        initDrawMenu(loginBean);
+
     }
 
-    @OnClick({R.id.iv_navigation_icon, R.id.iv_right, R.id.spinner})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.iv_navigation_icon://侧滑菜单的入口
-                toggle();
-                break;
-            case R.id.iv_right://抢单大厅的入口
-                startActivityWithAnim(new Intent(this, RobHallActivity.class));
-                break;
-            case R.id.spinner://物业列表入口
-                if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
-                    addFragment(PropertyListFragment.newInstance());//避免重复添加
+    private void initDrawMenu(LoginBean loginBean) {
+        drawMenuItems.clear();
+        setIvRightEnable(false);
+        List<Integer> menuList = loginBean.getMenuList();
+        if (menuList != null && menuList.size() > 0) {
+            for (Integer value : menuList) {
+                switch (value) {
+                    case 1://我的任务
+                        drawMenuItems.add(new DrawMenuItem().setId(0).setName(itemsNameArray[0]));
+                        break;
+                    case 2://我的表单
+                        drawMenuItems.add(new DrawMenuItem().setId(1).setName(itemsNameArray[1]));
+                        break;
+                    case 8://报修抢单
+                        drawMenuItems.add(new DrawMenuItem().setId(2).setName(itemsNameArray[2]));
+                        drawMenuItems.add(new DrawMenuItem().setId(3).setName(itemsNameArray[3]));
+                        setIvRightEnable(true);//抢单大厅显示
+                        break;
+                    case 7://访客列表
+                        drawMenuItems.add(new DrawMenuItem().setId(4).setName(itemsNameArray[4]));
+                        break;
+                    case 3://管理通知
+                        drawMenuItems.add(new DrawMenuItem().setId(5).setName(itemsNameArray[5]));
+                        break;
+                    case 5://内部报事接收
+                        drawMenuItems.add(new DrawMenuItem().setId(6).setName(itemsNameArray[6]));
+                        drawMenuItems.add(new DrawMenuItem().setId(7).setName(itemsNameArray[7]));
+                        break;
+
                 }
-                break;
+            }
         }
+        drawMenuItems.add(new DrawMenuItem().setId(8).setName(itemsNameArray[8]));//默认有设置
+        menuAdapter.notifyDataSetChanged();
     }
 
 
@@ -171,7 +172,8 @@ public class MainActivity extends BaseActivity {
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (position) {
+                DrawMenuItem drawMenuItem = drawMenuItems.get(position);
+                switch (drawMenuItem.getId()) {
                     case 0://我的任务
                         startActivityWithAnim(new Intent(MainActivity.this, MyTaskActivity.class));
                         break;
@@ -236,6 +238,44 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+    @OnClick({R.id.iv_navigation_icon, R.id.iv_right, R.id.spinner})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.iv_navigation_icon://侧滑菜单的入口
+                toggle();
+                break;
+            case R.id.iv_right://抢单大厅的入口
+                startActivityWithAnim(new Intent(this, RobHallActivity.class));
+                break;
+            case R.id.spinner://物业列表入口
+                if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+                    addFragment(PropertyListFragment.newInstance());//避免重复添加
+                }
+                break;
+        }
+    }
+
+    /**
+     * 设置头部的title
+     */
+    public void setSpinnerText(String text) {
+        if (FragmentUtils.findFragment(getSupportFragmentManager(), PropertyListFragment.class) == null) {//非二级fragment，为主页
+            Drawable drawable = ContextCompat.getDrawable(this, R.drawable.triangle_icon);
+            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+            spinner.setCompoundDrawables(null, null, drawable, null);
+            spinner.setCompoundDrawablePadding(DensityUtil.dip2px(this, 5));
+            spinner.setText(text);
+            ivRight.setVisibility(View.VISIBLE);
+        } else {
+            spinner.setCompoundDrawables(null, null, null, null);
+            spinner.setText(text);
+            ivRight.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public void setIvRightEnable(boolean enable) {
+        ivRight.setVisibility(enable ? View.VISIBLE : View.GONE);
+    }
 
     /**
      * 自定义NavigationIcon设置关联DrawerLayout
@@ -276,7 +316,7 @@ public class MainActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(SwitchSuccessEvent event) {//切换用户的事件
-
+        initDrawMenu(UserUtil.getLoginBean());
     }
 
 
@@ -306,6 +346,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private int currentTaskId = -1;//设置当前任务的id
+
     public void setCurrentTaskId(int currentTaskId) {
         this.currentTaskId = currentTaskId;
     }
@@ -331,7 +372,7 @@ public class MainActivity extends BaseActivity {
                                 intent.putExtra("listBean", listBean);
                                 startActivityWithAnim(intent);
                             } else {
-                                ToastUtil.showToast(getApplicationContext(),"任务为空");
+                                ToastUtil.showToast(getApplicationContext(), "任务为空");
                             }
 
                         }

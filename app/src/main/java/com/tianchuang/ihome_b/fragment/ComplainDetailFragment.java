@@ -9,7 +9,6 @@ import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.adapter.DetailMultiAdapter;
@@ -89,7 +88,7 @@ public class ComplainDetailFragment extends BaseFragment {
 //						当status == 1时显示回复内容
 //						当status == 0时才可以进行回复
                         if (status == 1) {
-                            detailMultiAdapter.addFooterView(ViewHelper.getDetailFooterView(bean.getReplayContent()));
+                            detailMultiAdapter.addFooterView(ViewHelper.getDetailFooterView(bean.getReplyContent()));
                         } else {
                             View view = LayoutUtil.inflate(R.layout.multi_detail_footer_holder2);
                             detailMultiAdapter.addFooterView(view);

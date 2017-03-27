@@ -11,8 +11,6 @@ import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.adapter.TaskControlPointDetailListAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.ControlPointItemBean;
-import com.tianchuang.ihome_b.bean.MyTaskUnderWayItemBean;
-import com.tianchuang.ihome_b.bean.QrCodeBean;
 import com.tianchuang.ihome_b.bean.TaskControlPointDetailBean;
 import com.tianchuang.ihome_b.bean.event.TaskFormSubmitSuccessEvent;
 import com.tianchuang.ihome_b.bean.model.MyTaskModel;
@@ -90,7 +88,7 @@ public class MyTaskControlPointDetailFragment extends BaseFragment {
                 if (!controlPointItemBean.isDone()) {
                     addFragment(TaskControlPointEditFragment.newInstance(taskRecordId, controlPointItemBean));
                 } else {
-                    addFragment(TaskControlPointDetailFragment.newInstance(controlPointItemBean));
+                    addFragment(TaskControlPointResultFragment.newInstance(controlPointItemBean));
                 }
             }
         });

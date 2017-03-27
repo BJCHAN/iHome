@@ -1,6 +1,7 @@
 package com.tianchuang.ihome_b.fragment;
 
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -55,9 +56,10 @@ public class CarDetailFragment extends BaseFragment {
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
         carSelectItems = new ArrayList<>();
-        carSelectItems.add(new CarSelectItem().setName("浙A"));
-        carSelectItems.add(new CarSelectItem().setName("浙B"));
-        carSelectItems.add(new CarSelectItem().setName("浙C"));
+        String[] stringArray = getResources().getStringArray(R.array.province_name);
+        for (int i = 0; i < stringArray.length; i++) {
+            carSelectItems.add(new CarSelectItem().setName(stringArray[i]));
+        }
         rvList.setLayoutManager(new LinearLayoutManager(getContext()));
         mData = new ArrayList<>();
         adapter = new EquipmentDetailAdapter(mData);

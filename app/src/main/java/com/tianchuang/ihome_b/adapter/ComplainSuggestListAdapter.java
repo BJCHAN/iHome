@@ -40,7 +40,7 @@ public class ComplainSuggestListAdapter extends BaseMultiItemQuickAdapter<Compla
                             + "-" + ownersInfoVo.getBuildingUnitName();
                     String time = DateUtils.formatDate(processedListVoBean.getCreatedDate(), DateUtils.TYPE_01);
                     String content = processedListVoBean.getContent();
-                    String reply = processedListVoBean.getReplayContent();
+                    String reply = processedListVoBean.getReplyContent();
                     helper.setText(R.id.tv_complain_suggest_name, name)
                             .setText(R.id.tv_complain_suggest_time, time)
                             .setText(R.id.tv_complain_suggest_content, content)

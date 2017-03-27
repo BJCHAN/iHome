@@ -18,17 +18,17 @@ import butterknife.BindView;
 
 /**
  * Created by Abyss on 2017/3/24.
- * description:
+ * description:控制点执行结果
  */
 
-public class TaskControlPointDetailFragment extends BaseFragment {
+public class TaskControlPointResultFragment extends BaseFragment {
     @BindView(R.id.rv_list)
     RecyclerView rvList;
 
-    public static TaskControlPointDetailFragment newInstance(ControlPointItemBean bean) {
+    public static TaskControlPointResultFragment newInstance(ControlPointItemBean bean) {
         Bundle bundle = new Bundle();
         bundle.putSerializable("bean", bean);
-        TaskControlPointDetailFragment fragment = new TaskControlPointDetailFragment();
+        TaskControlPointResultFragment fragment = new TaskControlPointResultFragment();
         fragment.setArguments(bundle);
         return fragment;
     }

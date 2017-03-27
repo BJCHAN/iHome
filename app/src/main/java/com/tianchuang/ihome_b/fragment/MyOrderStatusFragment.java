@@ -7,9 +7,14 @@ import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.adapter.MyOrderUnderWayAdapter;
 import com.tianchuang.ihome_b.bean.MyOrderCommonBean;
 import com.tianchuang.ihome_b.bean.MyOrderListBean;
+import com.tianchuang.ihome_b.bean.event.FeeSubmitSuccessEvent;
 import com.tianchuang.ihome_b.bean.model.MyOrderModel;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.utils.UserUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
@@ -39,7 +44,14 @@ public class MyOrderStatusFragment extends BaseRefreshAndLoadMoreFragment<MyOrde
     @Override
     protected void handleBundle() {
         currentType = getArguments().getInt("type");
+        EventBus.getDefault().register(this);
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -67,6 +79,14 @@ public class MyOrderStatusFragment extends BaseRefreshAndLoadMoreFragment<MyOrde
             return MyOrderModel.myOrderfinished(UserUtil.getLoginBean().getPropertyCompanyId(), maxId)
                     .compose(RxHelper.<MyOrderListBean>handleResult());
         }
+    }
+
+    /**
+     * 费用明细提交成功刷新页面
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(FeeSubmitSuccessEvent feeSubmitSuccess) {
+        onRefresh();
     }
 
     /**

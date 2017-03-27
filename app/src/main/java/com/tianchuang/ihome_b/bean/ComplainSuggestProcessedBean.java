@@ -13,7 +13,7 @@ public class ComplainSuggestProcessedBean implements Serializable {
 
     /**
      * pageSize : 2
-     * listVo : [{"id":18,"typeName":"进水","content":"一起来看流星雨呢","createdDate":1488191882,"ownersInfoVo":{"ownersId":1,"ownersName":"","roomId":1,"num":"101","propertyCompanyId":1,"propertyCompanyName":"海创园","buildingId":1,"buildingName":"海创苑","buildingCellId":1,"buildingCellName":"1幢","buildingUnitId":1,"buildingUnitName":"1单元","oftenUse":true},"replayEmployeeId":2,"replayContent":"尊敬的业主，您提交的问题已经修复"},{"id":3,"typeName":"进水","content":"test","createdDate":1487826683,"ownersInfoVo":{"ownersId":2,"ownersName":"李斯","roomId":1,"num":"101","propertyCompanyId":1,"propertyCompanyName":"海创园","buildingId":1,"buildingName":"海创苑","buildingCellId":1,"buildingCellName":"1幢","buildingUnitId":1,"buildingUnitName":"1单元","oftenUse":false},"replayEmployeeId":2,"replayContent":"尊敬的业主，您提交的问题已经修复"}]
+     * listVo : [{"id":18,"typeName":"进水","content":"一起来看流星雨呢","createdDate":1488191882,"ownersInfoVo":{"ownersId":1,"ownersName":"","roomId":1,"num":"101","propertyCompanyId":1,"propertyCompanyName":"海创园","buildingId":1,"buildingName":"海创苑","buildingCellId":1,"buildingCellName":"1幢","buildingUnitId":1,"buildingUnitName":"1单元","oftenUse":true},"replayEmployeeId":2,"replyContent":"尊敬的业主，您提交的问题已经修复"},{"id":3,"typeName":"进水","content":"test","createdDate":1487826683,"ownersInfoVo":{"ownersId":2,"ownersName":"李斯","roomId":1,"num":"101","propertyCompanyId":1,"propertyCompanyName":"海创园","buildingId":1,"buildingName":"海创苑","buildingCellId":1,"buildingCellName":"1幢","buildingUnitId":1,"buildingUnitName":"1单元","oftenUse":false},"replayEmployeeId":2,"replyContent":"尊敬的业主，您提交的问题已经修复"}]
      */
 
     private int pageSize;
@@ -43,7 +43,7 @@ public class ComplainSuggestProcessedBean implements Serializable {
          * createdDate : 1488191882
          * ownersInfoVo : {"ownersId":1,"ownersName":"","roomId":1,"num":"101","propertyCompanyId":1,"propertyCompanyName":"海创园","buildingId":1,"buildingName":"海创苑","buildingCellId":1,"buildingCellName":"1幢","buildingUnitId":1,"buildingUnitName":"1单元","oftenUse":true}
          * replayEmployeeId : 2
-         * replayContent : 尊敬的业主，您提交的问题已经修复
+         * replyContent : 尊敬的业主，您提交的问题已经修复
          */
 
         private int id;
@@ -52,7 +52,7 @@ public class ComplainSuggestProcessedBean implements Serializable {
         private int createdDate;
         private OwnersInfoVoBean ownersInfoVo;
         private int replayEmployeeId;
-        private String replayContent;
+        private String replyContent;
 
         public int getId() {
             return id;
@@ -102,12 +102,12 @@ public class ComplainSuggestProcessedBean implements Serializable {
             this.replayEmployeeId = replayEmployeeId;
         }
 
-        public String getReplayContent() {
-            return replayContent;
+        public String getReplyContent() {
+            return replyContent;
         }
 
-        public void setReplayContent(String replayContent) {
-            this.replayContent = replayContent;
+        public void setReplyContent(String replyContent) {
+            this.replyContent = replyContent;
         }
 
         public static class OwnersInfoVoBean {

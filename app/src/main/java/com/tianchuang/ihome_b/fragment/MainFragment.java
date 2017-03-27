@@ -4,13 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.accessibility.CaptioningManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
-import com.tianchuang.ihome_b.Constants;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.activity.ComplainSuggestActivity;
 import com.tianchuang.ihome_b.activity.DataSearchActivity;
@@ -20,7 +22,6 @@ import com.tianchuang.ihome_b.activity.MainActivity;
 import com.tianchuang.ihome_b.activity.ManageNotificationActivity;
 import com.tianchuang.ihome_b.activity.MenuInnerReportsActivity;
 import com.tianchuang.ihome_b.activity.MyTaskActivity;
-import com.tianchuang.ihome_b.activity.ScanCodeActivity;
 import com.tianchuang.ihome_b.adapter.HomeMultiAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.ComplainDetailBean;
@@ -31,6 +32,7 @@ import com.tianchuang.ihome_b.bean.MenuInnerReportsItemBean;
 import com.tianchuang.ihome_b.bean.MyTaskUnderWayItemBean;
 import com.tianchuang.ihome_b.bean.NotificationItemBean;
 import com.tianchuang.ihome_b.bean.event.OpenScanEvent;
+import com.tianchuang.ihome_b.bean.event.SwitchSuccessEvent;
 import com.tianchuang.ihome_b.bean.model.HomePageModel;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
@@ -40,12 +42,16 @@ import com.tianchuang.ihome_b.utils.UserUtil;
 import com.tianchuang.ihome_b.utils.ViewHelper;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -67,6 +73,12 @@ public class MainFragment extends BaseFragment {
     LinearLayout mainContent;
     @BindView(R.id.rv_list)
     RecyclerView rvList;
+    @BindView(R.id.ll_write_form)
+    LinearLayout llWriteForm;
+    @BindView(R.id.ll_internal_reports)
+    LinearLayout llInternalReports;
+    @BindView(R.id.ll_main_query)
+    LinearLayout llMainQuery;
     private MainActivity holdingActivity;
     private HomeMultiAdapter homeMultiAdapter;
     private List<HomePageMultiItem> mData;
@@ -84,6 +96,7 @@ public class MainFragment extends BaseFragment {
     protected void initView(View view, Bundle savedInstanceState) {
         FragmentUtils.addFragment(getFragmentManager(), EmptyFragment.newInstance(getString(R.string.main_empty_text)), R.id.empty_container);
         rvList.setLayoutManager(new LinearLayoutManager(getContext()));
+        initTab();
         mData = new ArrayList<>();
         //根据item的类型判断去那个详情页
         rvList.addOnItemTouchListener(new OnItemClickListener() {
@@ -224,10 +237,46 @@ public class MainFragment extends BaseFragment {
         return list;
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(SwitchSuccessEvent event) {//切换用户的事件
+        initTab();
+    }
+
+    private void initTab() {
+        LoginBean loginBean = UserUtil.getLoginBean();
+        if (loginBean == null) {
+            return;
+        }
+        List<Integer> menuList = loginBean.getMenuList();
+        llWriteForm.setVisibility(View.GONE);
+        llInternalReports.setVisibility(View.GONE);
+        llMainQuery.setVisibility(View.GONE);
+        if (menuList != null && menuList.size() > 0) {
+            for (Integer value : menuList) {
+                switch (value) {
+                    case 2://提交表单
+                        llWriteForm.setVisibility(View.VISIBLE);
+                        break;
+                    case 4://内部报事提交
+                        llInternalReports.setVisibility(View.VISIBLE);
+                        break;
+                    case 6://数据查询
+                        llMainQuery.setVisibility(View.VISIBLE);
+                        break;
+                }
+            }
+        }
+    }
 
     @Override
     protected void initListener() {
+        EventBus.getDefault().register(this);
+    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -263,6 +312,5 @@ public class MainFragment extends BaseFragment {
                 break;
         }
     }
-
 
 }

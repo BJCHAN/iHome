@@ -17,10 +17,15 @@ import com.hitomi.tilibrary.TransferImage;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.adapter.FaultDetailAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
-import com.tianchuang.ihome_b.bean.event.TransferLayoutEvent;
-import com.tianchuang.ihome_b.bean.recyclerview.ImagesSelectorItemDecoration;
 import com.tianchuang.ihome_b.bean.MenuInnerReportsItemBean;
+import com.tianchuang.ihome_b.bean.event.TransferLayoutEvent;
+import com.tianchuang.ihome_b.bean.model.InnerReportsModel;
+import com.tianchuang.ihome_b.bean.recyclerview.ImagesSelectorItemDecoration;
+import com.tianchuang.ihome_b.http.retrofit.RxHelper;
+import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
 import com.tianchuang.ihome_b.utils.StringUtils;
+import com.tianchuang.ihome_b.utils.ToastUtil;
+import com.tianchuang.ihome_b.utils.UserUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -28,6 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
+import rx.functions.Action0;
 
 /**
  * Created by Abyss on 2017/2/22.
@@ -48,6 +55,7 @@ public class MenuInnerReportsDetailFragment extends BaseFragment {
     RecyclerView rvList;
     private ArrayList<String> urls;
     protected TransferImage transferLayout;
+    private MenuInnerReportsItemBean info;
 
     @Override
     protected int getLayoutId() {
@@ -64,7 +72,7 @@ public class MenuInnerReportsDetailFragment extends BaseFragment {
 
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
-        MenuInnerReportsItemBean info = ((MenuInnerReportsItemBean) getArguments().getSerializable("info"));
+        info = ((MenuInnerReportsItemBean) getArguments().getSerializable("info"));
         tvName.setText(StringUtils.getNotNull(info.getPropertyEmployeeRoleVo().getEmployeeName()));
         tvDepartmentName.setText(StringUtils.getNotNull(info.getPropertyEmployeeRoleVo().getDepartmentName()));
         tvContent.setText(StringUtils.getNotNull(info.getContent()));
@@ -116,5 +124,94 @@ public class MenuInnerReportsDetailFragment extends BaseFragment {
             originImgList.add(thumImg);
         }
         return originImgList;
+    }
+
+    @OnClick(R.id.statusBt)
+    public void onViewClicked() {
+        int status = info.getStatus();
+        if (status == 0) {
+            requestProcessing();//请求处理中
+        } else if (status == 1 && info.getProcessEmployeeId() == UserUtil.getUserid()) {
+            requestFinished();//请求已完成
+        }
+    }
+
+    private void requestFinished() {
+        InnerReportsModel.reportsFinished(info.getId())
+                .compose(RxHelper.<String>handleResult())
+                .compose(this.<String>bindToLifecycle())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        showProgress();
+                    }
+                })
+                .subscribe(new RxSubscribe<String>() {
+                    @Override
+                    protected void _onNext(String s) {
+                        dismissProgress();
+                        statusBt.setText("已完成");
+                        if (statusChangeListener != null) {
+                            statusChangeListener.onStatushanged();
+                        }
+                    }
+
+                    @Override
+                    protected void _onError(String message) {
+                        ToastUtil.showToast(getContext(), message);
+                        dismissProgress();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+                });
+    }
+
+    private void requestProcessing() {
+        InnerReportsModel.reportsProcessing(info.getId())
+                .compose(RxHelper.<String>handleResult())
+                .compose(this.<String>bindToLifecycle())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        showProgress();
+                    }
+                })
+                .subscribe(new RxSubscribe<String>() {
+                    @Override
+                    protected void _onNext(String s) {
+                        if (statusChangeListener != null) {
+                            statusChangeListener.onStatushanged();
+                        }
+                        statusBt.setText("处理中");
+                        dismissProgress();
+
+                    }
+
+                    @Override
+                    protected void _onError(String message) {
+                        dismissProgress();
+                        ToastUtil.showToast(getContext(), message);
+
+                    }
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+                });
+    }
+
+    //状态发生改变的接口
+    private StatusChangeListener statusChangeListener;
+
+    public void setStatusChangeListener(StatusChangeListener statusChangeListener) {
+        this.statusChangeListener = statusChangeListener;
+    }
+
+    public interface StatusChangeListener {
+        void onStatushanged();
     }
 }

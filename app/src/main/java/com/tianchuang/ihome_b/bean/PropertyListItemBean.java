@@ -1,6 +1,7 @@
 package com.tianchuang.ihome_b.bean;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by Abyss on 2017/2/9.
@@ -20,6 +21,7 @@ public class PropertyListItemBean implements Serializable {
 	 * "positionName": "水电维修工",
 	 * "oftenUse": true
 	 * propertyEnable
+	 * menuList
 	 */
 	private int id;
 	private int employeeId;
@@ -31,6 +33,15 @@ public class PropertyListItemBean implements Serializable {
 	private int positionId;
 	private String positionName;
 	private Boolean oftenUse;
+	private List<Integer> menuList;
+
+	public List<Integer> getMenuList() {
+		return menuList;
+	}
+
+	public void setMenuList(List<Integer> menuList) {
+		this.menuList = menuList;
+	}
 
 	public boolean getPropertyEnable() {
 		return propertyEnable;

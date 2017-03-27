@@ -8,8 +8,13 @@ import com.tianchuang.ihome_b.activity.DeclareFormActivity;
 import com.tianchuang.ihome_b.adapter.MyFormListAdapter;
 import com.tianchuang.ihome_b.bean.MyFormItemBean;
 import com.tianchuang.ihome_b.bean.MyFormListBean;
+import com.tianchuang.ihome_b.bean.event.MyFormSubmitSuccessEvent;
 import com.tianchuang.ihome_b.bean.model.FormModel;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
@@ -28,6 +33,12 @@ public class MyFormListFragment extends BaseRefreshAndLoadMoreFragment<MyFormIte
     }
 
     @Override
+    protected void handleBundle() {
+        super.handleBundle();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
     protected int getLayoutId() {
         return R.layout.myform_fragment_refrsh_load;
     }
@@ -39,7 +50,7 @@ public class MyFormListFragment extends BaseRefreshAndLoadMoreFragment<MyFormIte
 
     @Override
     protected void onListitemClick(MyFormItemBean itemBean) {
-            addFragment(MyFormDetailFragment.newInstance(itemBean));
+        addFragment(MyFormDetailFragment.newInstance(itemBean));
     }
 
     @Override
@@ -55,5 +66,16 @@ public class MyFormListFragment extends BaseRefreshAndLoadMoreFragment<MyFormIte
     @OnClick(R.id.ll_add_form)
     public void onClick() {
         startActivity(new Intent(getContext(), DeclareFormActivity.class));
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(MyFormSubmitSuccessEvent event) {
+        onRefresh();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

@@ -11,6 +11,7 @@ import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.activity.MyOrderActivity;
 import com.tianchuang.ihome_b.adapter.DetailMultiAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
+import com.tianchuang.ihome_b.bean.DetailMultiItem;
 import com.tianchuang.ihome_b.bean.EvaluateBean;
 import com.tianchuang.ihome_b.bean.MyOrderDetailBean;
 import com.tianchuang.ihome_b.bean.RepairsFeeBean;
@@ -21,15 +22,18 @@ import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
 import com.tianchuang.ihome_b.bean.model.MyOrderModel;
 import com.tianchuang.ihome_b.utils.FragmentUtils;
+import com.tianchuang.ihome_b.utils.ToastUtil;
 import com.tianchuang.ihome_b.utils.ViewHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import rx.functions.Action0;
 
 /**
  * Created by Abyss on 2017/3/1.
@@ -43,6 +47,7 @@ public class MyOrderDetailFragment extends BaseFragment {
     TextView tvStatus;
     private MyOrderActivity holdingActivity;
     private int id;
+    private DetailMultiAdapter adapter;
 
     @Override
     protected int getLayoutId() {
@@ -60,7 +65,7 @@ public class MyOrderDetailFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-       setToolbarTitle("订单详情");
+        setToolbarTitle("订单详情");
     }
 
     @Override
@@ -75,6 +80,8 @@ public class MyOrderDetailFragment extends BaseFragment {
         holdingActivity = ((MyOrderActivity) getHoldingActivity());
         rvList.addItemDecoration(new CommonItemDecoration(20));
         rvList.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new DetailMultiAdapter(new ArrayList<DetailMultiItem>());
+        rvList.setAdapter(adapter);
         requestNet(id);
     }
 
@@ -87,14 +94,22 @@ public class MyOrderDetailFragment extends BaseFragment {
         MyOrderModel.myOrderDetail(id)
                 .compose(this.<HttpModle<MyOrderDetailBean>>bindToLifecycle())
                 .compose(RxHelper.<MyOrderDetailBean>handleResult())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        showProgress();
+                    }
+                })
                 .subscribe(new RxSubscribe<MyOrderDetailBean>() {
                     @Override
                     protected void _onNext(MyOrderDetailBean bean) {
-                        DetailMultiAdapter detailMultiAdapter = new DetailMultiAdapter(bean.getRepairsDataVos());
-                        rvList.setAdapter(detailMultiAdapter);
+                        adapter.getData().clear();
+                        adapter.removeAllHeaderView();
+                        adapter.removeAllFooterView();
+                        adapter.getData().addAll(bean.getRepairsDataVos());
                         int status = bean.getStatus();
                         //添加头部
-                        detailMultiAdapter.addHeaderView(ViewHelper.getDetailHeaderView(bean.getTypeName(), bean.getCreatedDate()));
+                        adapter.addHeaderView(ViewHelper.getDetailHeaderView(bean.getTypeName(), bean.getCreatedDate()));
                         //添加底部
                         MyOrderDetailBean.OwnersInfoVoBean ownersInfoVo = bean.getOwnersInfoVo();
                         List<MyOrderDetailBean.RepairsFeeVosBean> repairsFeeVos = bean.getRepairsFeeVos();
@@ -103,25 +118,26 @@ public class MyOrderDetailFragment extends BaseFragment {
                         List<MyOrderDetailBean.RepairsOrderLogVo> repairsOrderLogVos = bean.getRepairsOrderLogVos();
                         if (status >= 1) {
                             //添加报修人员信息的底部
-                            detailMultiAdapter.addFooterView(ViewHelper.getMyOrderOwnerInfoFooterView(ownersInfoVo));
+                            adapter.addFooterView(ViewHelper.getMyOrderOwnerInfoFooterView(ownersInfoVo));
                         }
                         if (status > 3) {
                             //添加费用列表信息
-                            detailMultiAdapter.addFooterView(ViewHelper.getMyOrderFeeInfoFooterView(repairsFeeBean));
+                            adapter.addFooterView(ViewHelper.getMyOrderFeeInfoFooterView(repairsFeeBean));
                         }
                         if (status > 4) {
                             //评价信息
-                            detailMultiAdapter.addFooterView(ViewHelper.getMyOrderEvaluateInfoFooterView(evaluateBean));
+                            adapter.addFooterView(ViewHelper.getMyOrderEvaluateInfoFooterView(evaluateBean));
                         }
 
                         //添加事件轴信息
-                        detailMultiAdapter.addFooterView(ViewHelper.getTimeLineFooterView(repairsOrderLogVos));
+                        adapter.addFooterView(ViewHelper.getTimeLineFooterView(repairsOrderLogVos));
                         switch (status) {
                             case 0://待接单
                                 break;
                             case 1://待服务,去添加详情照片
                                 tvStatus.setText(R.string.myorder_fee_confirm);
                                 tvStatus.setTextColor(ContextCompat.getColor(getContext(), R.color.TC_3));
+                                tvStatus.setClickable(true);
                                 tvStatus.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -132,6 +148,7 @@ public class MyOrderDetailFragment extends BaseFragment {
                             case 2://费用确认，去添加费用明细
                                 tvStatus.setText(R.string.myorder_fee_confirm);
                                 tvStatus.setTextColor(ContextCompat.getColor(getContext(), R.color.TC_3));
+                                tvStatus.setClickable(true);
                                 tvStatus.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -141,27 +158,30 @@ public class MyOrderDetailFragment extends BaseFragment {
                                 break;
                             case 3://待付款
                                 tvStatus.setText(R.string.myorder_wait_pay);
+                                tvStatus.setClickable(false);
                                 tvStatus.setTextColor(ContextCompat.getColor(getContext(), R.color.TC_2));
                                 break;
                             case 4://待评价
                                 tvStatus.setText(R.string.myorder_wait_evaluate);
+                                tvStatus.setClickable(false);
                                 tvStatus.setTextColor(ContextCompat.getColor(getContext(), R.color.TC_2));
                                 break;
                             case 5://已完成
                                 tvStatus.setVisibility(View.GONE);
                                 break;
                         }
-
+                        adapter.notifyDataSetChanged();
                     }
 
                     @Override
                     protected void _onError(String message) {
-
+                        ToastUtil.showToast(getContext(), message);
+                        dismissProgress();
                     }
 
                     @Override
                     public void onCompleted() {
-
+                        dismissProgress();
                     }
                 });
     }
@@ -171,7 +191,7 @@ public class MyOrderDetailFragment extends BaseFragment {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(FeeSubmitSuccessEvent feeSubmitSuccess) {
-        FragmentUtils.popAddFragment(getFragmentManager(), holdingActivity.getFragmentContainerId(), MyOrderDetailFragment.newInstance(id), true);
+        requestNet(id);
     }
 
     @Override

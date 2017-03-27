@@ -16,7 +16,9 @@ import com.tianchuang.ihome_b.adapter.ImagesSelectorAdapter;
 import com.tianchuang.ihome_b.adapter.SubmitMultiAdapter;
 import com.tianchuang.ihome_b.base.BaseActivity;
 import com.tianchuang.ihome_b.bean.CheakBean;
+import com.tianchuang.ihome_b.bean.EvaluateBean;
 import com.tianchuang.ihome_b.bean.FormTypeItemBean;
+import com.tianchuang.ihome_b.bean.event.MyFormSubmitSuccessEvent;
 import com.tianchuang.ihome_b.bean.model.FormModel;
 import com.tianchuang.ihome_b.bean.recyclerview.CommonItemDecoration;
 import com.tianchuang.ihome_b.bean.recyclerview.CustomLinearLayoutManager;
@@ -29,6 +31,8 @@ import com.tianchuang.ihome_b.utils.ToastUtil;
 import com.tianchuang.ihome_b.utils.ViewHelper;
 import com.yuyh.library.imgsel.ImgSelActivity;
 import com.yuyh.library.imgsel.ImgSelConfig;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.io.Serializable;
@@ -219,6 +223,7 @@ public class FormSubmitActivity extends BaseActivity implements View.OnClickList
                     @Override
                     protected void _onNext(String s) {
                         dismissProgress();
+                        EventBus.getDefault().post(new MyFormSubmitSuccessEvent());//通知列表刷新
                         ToastUtil.showToast(FormSubmitActivity.this, "申报成功");
                         finishWithAnim();
                     }

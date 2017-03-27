@@ -37,6 +37,7 @@ public class UserUtil {
                 loginBean.setDepartmentId(userInfo.getDepartmentId());
                 loginBean.setPositionName(userInfo.getPositionName());
                 loginBean.setPropertyEnable(userInfo.getPropertyEnable());
+                loginBean.setMenuList(userInfo.getMenuList());
             }
         }
         return loginBean;
@@ -113,6 +114,7 @@ public class UserUtil {
         loginBean.setDepartmentId(bean.getDepartmentId());
         loginBean.setPositionName(bean.getPositionName());
         loginBean.setPropertyEnable(bean.getPropertyEnable());
+        loginBean.setMenuList(bean.getMenuList());
         return loginBean;
     }
 }

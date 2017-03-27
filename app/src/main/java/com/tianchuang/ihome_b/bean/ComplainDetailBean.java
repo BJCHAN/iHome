@@ -19,7 +19,7 @@ public class ComplainDetailBean implements Serializable {
 	 * createdDate : 1488191882
 	 * ownersInfoVo : {"ownersId":1,"ownersName":"","ownersMobile":"18303052208","roomId":1,"num":"101","propertyCompanyId":1,"propertyCompanyName":"海创园","buildingId":1,"buildingName":"海创苑","buildingCellId":1,"buildingCellName":"1幢","buildingUnitId":1,"buildingUnitName":"1单元","oftenUse":true}
 	 * replayEmployeeId : 2
-	 * replayContent : 尊敬的业主，您提交的问题已经修复
+	 * replyContent : 尊敬的业主，您提交的问题已经修复
 	 */
 
 	private int id;
@@ -97,12 +97,12 @@ public class ComplainDetailBean implements Serializable {
 		this.replayEmployeeId = replayEmployeeId;
 	}
 
-	public String getReplayContent() {
+	public String getReplyContent() {
 		return replyContent;
 	}
 
-	public void setReplayContent(String replayContent) {
-		this.replyContent = replayContent;
+	public void setReplyContent(String replyContent) {
+		this.replyContent = replyContent;
 	}
 
 	public static class OwnersInfoVoBean implements Serializable{
