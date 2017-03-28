@@ -8,6 +8,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.BaseAdapter;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -136,7 +137,13 @@ public class ComplainSuggestListFragment extends BaseFragment implements SwipeRe
             }
         });
     }
-
+    private void setLoadMoreEnd(BaseQuickAdapter adapter,int listSize) {
+        if (listSize >= 6) {
+            adapter.loadMoreEnd(false);
+        } else {
+            adapter.loadMoreEnd(true);
+        }
+    }
     private void getComplainSuggestUntratedBean() {
         getComplainSuggestUntratedBean(untratedMaxid)
                 .doOnSubscribe(new Action0() {
@@ -168,7 +175,8 @@ public class ComplainSuggestListFragment extends BaseFragment implements SwipeRe
                             }
                             if (listVoSize < untratedSize) {
                                 untratedCanLoadMore = false;
-                                mComplainSuggestListAdapter.loadMoreEnd(false);
+//                                mComplainSuggestListAdapter.loadMoreEnd(false);
+                                setLoadMoreEnd(mComplainSuggestListAdapter,mComplainSuggestListItemList.size());
                             }
                             if (mComplainSuggestListItemList.size() <= 0) {
                                 mComplainSuggestListAdapter.getEmptyView().setVisibility(View.VISIBLE);
@@ -230,7 +238,8 @@ public class ComplainSuggestListFragment extends BaseFragment implements SwipeRe
                             }
                             if (listVoSize < processedSize) {
                                 processedCanLoadMore = false;
-                                mComplainSuggestListAdapter.loadMoreEnd(false);
+//                                mComplainSuggestListAdapter.loadMoreEnd(false);
+                                setLoadMoreEnd(mComplainSuggestListAdapter,mComplainSuggestListItemList.size());
                             }
                             if (mComplainSuggestListItemList.size() <= 0) {
                                 mComplainSuggestListAdapter.getEmptyView().setVisibility(View.VISIBLE);

@@ -36,6 +36,7 @@
             android:layout_marginTop="14dp"
             android:background="#f8f8f8"
             android:gravity="start"
+            android:maxLength="100"
             android:hint="请输入投诉回复。"
             android:minHeight="98dp"
             android:paddingBottom="5dp"

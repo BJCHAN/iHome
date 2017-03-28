@@ -71,7 +71,7 @@
             android:layout_gravity="right"
             android:layout_marginBottom="15dp"
             android:text="待服务"
-            android:textColor="@color/TC_3"/>
+            android:textColor="@color/app_primary_color"/>
 
     </LinearLayout>
 
