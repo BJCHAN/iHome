@@ -19,6 +19,7 @@ import com.tianchuang.ihome_b.adapter.ImagesSelectorAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.LoginBean;
 import com.tianchuang.ihome_b.bean.ImagesMultipleItem;
+import com.tianchuang.ihome_b.bean.event.NotifyHomePageRefreshEvent;
 import com.tianchuang.ihome_b.bean.recyclerview.ImagesSelectorItemDecoration;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
@@ -29,6 +30,8 @@ import com.tianchuang.ihome_b.utils.StringUtils;
 import com.tianchuang.ihome_b.utils.ToastUtil;
 import com.tianchuang.ihome_b.utils.UserUtil;
 import com.yuyh.library.imgsel.ImgSelConfig;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -179,6 +182,7 @@ public class InnerReportsFragment extends BaseFragment implements InnerReportsAc
 					@Override
 					protected void _onNext(String s) {
 						FragmentUtils.popAddFragment(getFragmentManager(), holdingActivity.getFragmentContainerId(), InnerReportsSuccessFragment.newInstance(), true);
+						EventBus.getDefault().post(new NotifyHomePageRefreshEvent());
 						dismissProgress();
 //						FileUtils.deleteImageFile();
 					}

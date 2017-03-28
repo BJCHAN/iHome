@@ -22,6 +22,7 @@ public class PropertyListItemBean implements Serializable {
 	 * "oftenUse": true
 	 * propertyEnable
 	 * menuList
+	 * noticeCount 小红点
 	 */
 	private int id;
 	private int employeeId;
@@ -34,6 +35,15 @@ public class PropertyListItemBean implements Serializable {
 	private String positionName;
 	private Boolean oftenUse;
 	private List<Integer> menuList;
+	private int noticeCount;
+
+	public int getNoticeCount() {
+		return noticeCount;
+	}
+
+	public void setNoticeCount(int noticeCount) {
+		this.noticeCount = noticeCount;
+	}
 
 	public List<Integer> getMenuList() {
 		return menuList;

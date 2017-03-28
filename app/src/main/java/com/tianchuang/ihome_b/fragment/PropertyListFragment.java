@@ -87,7 +87,7 @@ public class PropertyListFragment extends BaseFragment {
                     @Override
                     protected void _onNext(ArrayList<PropertyListItemBean> propertyList) {
                         data = propertyList;
-                        listAdapter = new PropertyListAdapter(R.layout.property_list_item_holder, data);
+                        listAdapter = new PropertyListAdapter( data);
                         EmptyViewHolder emptyViewHolder = new EmptyViewHolder();
                         emptyViewHolder.bindData(getString(R.string.property_no_join));
                         listAdapter.setEmptyView(emptyViewHolder.getholderView());

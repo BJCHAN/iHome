@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -45,6 +46,7 @@ import com.tianchuang.ihome_b.utils.FileUtils;
 import com.tianchuang.ihome_b.utils.FragmentUtils;
 import com.tianchuang.ihome_b.utils.ToastUtil;
 import com.tianchuang.ihome_b.utils.UserUtil;
+import com.tianchuang.ihome_b.view.OneButtonDialogFragment;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -54,6 +56,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Observable;
 
 import butterknife.BindArray;
 import butterknife.BindView;
@@ -64,7 +67,7 @@ import butterknife.OnClick;
  * Created by Abyss on 2017/2/9.
  * description:主页
  */
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements MainFragment.LittleRedListener {
 
     @BindView(R.id.id_draw_menu_item_list_select)
     RecyclerView mRecyclerView;
@@ -80,8 +83,11 @@ public class MainActivity extends BaseActivity {
     TextView tvDrawName;
     @BindView(R.id.tv_draw_phone)
     TextView tvDrawPhone;
+    @BindView(R.id.iv_little_red)
+    ImageView ivLittleRed;
     private ArrayList<DrawMenuItem> drawMenuItems = new ArrayList<>();
     private DrawMenuAdapter menuAdapter;
+    private int noticeCount=0;
 
     /**
      * 扫描跳转Activity RequestCode
@@ -104,7 +110,7 @@ public class MainActivity extends BaseActivity {
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         //添加主页fragment
-        addFragment(MainFragment.newInstance());
+        addFragment(MainFragment.newInstance().setLittleRedListener(this));
         initData();
         initView();
         //设置监听
@@ -266,10 +272,12 @@ public class MainActivity extends BaseActivity {
             spinner.setCompoundDrawablePadding(DensityUtil.dip2px(this, 5));
             spinner.setText(text);
             ivRight.setVisibility(View.VISIBLE);
+            ivLittleRed.setVisibility(this.noticeCount>0?View.VISIBLE:View.INVISIBLE);
         } else {
             spinner.setCompoundDrawables(null, null, null, null);
             spinner.setText(text);
             ivRight.setVisibility(View.INVISIBLE);
+            ivLittleRed.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -288,7 +296,7 @@ public class MainActivity extends BaseActivity {
             mDrawerLayout.openDrawer(GravityCompat.START);
         }
     }
-
+private boolean twoBack;
     //返回键返回事件
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -299,7 +307,18 @@ public class MainActivity extends BaseActivity {
                         && (drawerLockMode != DrawerLayout.LOCK_MODE_LOCKED_OPEN)) {//菜单未关闭，先关闭菜单
                     mDrawerLayout.closeDrawer(GravityCompat.START);
                 } else {//关闭页面
-                    finish();
+                    if (twoBack) {
+                        finish();
+                    } else {
+                       ToastUtil.showToast(this,"再按一次退出");
+                        twoBack = true;
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                twoBack =false;
+                            }
+                        }, 2000);
+                    }
                 }
                 return true;
             }
@@ -379,7 +398,12 @@ public class MainActivity extends BaseActivity {
 
                         @Override
                         protected void _onError(String message) {
-                            ToastUtil.showToast(MainActivity.this, message);
+                            if ("考勤成功".equals(message)) {
+                                OneButtonDialogFragment.newInstance(message)
+                                        .show(getFragmentManager(), "");
+                            } else {
+                                ToastUtil.showToast(MainActivity.this, message);
+                            }
                         }
 
                         @Override
@@ -433,5 +457,14 @@ public class MainActivity extends BaseActivity {
     protected void onDestroy() {
         EventBus.getDefault().unregister(this);
         super.onDestroy();
+    }
+
+    /**
+     * 小红点发生变化
+     */
+    @Override
+    public void onRedPointChanged(int noticeCount) {
+        this.noticeCount = noticeCount;
+        ivLittleRed.setVisibility(this.noticeCount>0?View.VISIBLE:View.INVISIBLE);
     }
 }

@@ -114,7 +114,7 @@ public interface BizInterface {
     //读数提交
     String TASK_INPUT_SUCCESS_FINISH_URL = "task/room/data/enter/done.html";
     //执行任务-设备点控制点型任务
-    String TASK_CONTROL_POINT_URL = "task/detail.html";
+    String TASK_CONTROL_POINT_URL = "task/form/detail.html";
     //首页列表
     String HOME_PAGE_LIST_URL = "index.html";
     //我的任务-执行任务-设备点控制点型任务-提交表单

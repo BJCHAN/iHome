@@ -124,10 +124,6 @@ public class MyOrderFeeDetailFragment extends BaseFragment implements ChargeType
 						.show(getFragmentManager(), "");
 				break;
 			case R.id.bt_sure:
-				if (commonFeeBeenList.size() == 0) {
-					ToastUtil.showToast(getContext(),"费用不能为空");
-					break;
-				}
 				requestSubmit();//请求网络提交费用信息
 				break;
 		}

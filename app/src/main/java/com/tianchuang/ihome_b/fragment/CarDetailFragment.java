@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.bigkoo.pickerview.listener.CustomListener;
 import com.tianchuang.ihome_b.R;
+import com.tianchuang.ihome_b.adapter.CarDetailAdapter;
 import com.tianchuang.ihome_b.adapter.EquipmentDetailAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.CarDetailBean;
@@ -47,7 +48,7 @@ public class CarDetailFragment extends BaseFragment {
     private ArrayList<CarSelectItem> carSelectItems;
     private CarSelectItem carSelectedItem;
     private ArrayList<EquipmentDetailBean.FieldDataListBean> mData;
-    private EquipmentDetailAdapter adapter;
+    private CarDetailAdapter adapter;
 
     public static CarDetailFragment newInstance() {
         return new CarDetailFragment();
@@ -62,7 +63,7 @@ public class CarDetailFragment extends BaseFragment {
         }
         rvList.setLayoutManager(new LinearLayoutManager(getContext()));
         mData = new ArrayList<>();
-        adapter = new EquipmentDetailAdapter(mData);
+        adapter = new CarDetailAdapter(mData);
         adapter.setEmptyView(LayoutUtil.inflate(R.layout.car_empty_view));
         rvList.setAdapter(adapter);
         initBuildingOptionPicker();

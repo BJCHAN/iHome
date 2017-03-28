@@ -18,6 +18,7 @@ import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.adapter.FaultDetailAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.MenuInnerReportsItemBean;
+import com.tianchuang.ihome_b.bean.event.NotifyHomePageRefreshEvent;
 import com.tianchuang.ihome_b.bean.event.TransferLayoutEvent;
 import com.tianchuang.ihome_b.bean.model.InnerReportsModel;
 import com.tianchuang.ihome_b.bean.recyclerview.ImagesSelectorItemDecoration;
@@ -151,9 +152,12 @@ public class MenuInnerReportsDetailFragment extends BaseFragment {
                     protected void _onNext(String s) {
                         dismissProgress();
                         statusBt.setText("已完成");
+                        info.setStatus(info.getStatus() + 1);
                         if (statusChangeListener != null) {
                             statusChangeListener.onStatushanged();
                         }
+                        EventBus.getDefault().post(new NotifyHomePageRefreshEvent());
+
                     }
 
                     @Override
@@ -186,6 +190,9 @@ public class MenuInnerReportsDetailFragment extends BaseFragment {
                             statusChangeListener.onStatushanged();
                         }
                         statusBt.setText("处理中");
+                        info.setStatus(info.getStatus() + 1);
+                        info.setProcessEmployeeId(UserUtil.getUserid());
+                        EventBus.getDefault().post(new NotifyHomePageRefreshEvent());
                         dismissProgress();
 
                     }

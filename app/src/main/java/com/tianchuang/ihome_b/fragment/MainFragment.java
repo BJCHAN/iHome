@@ -2,12 +2,13 @@ package com.tianchuang.ihome_b.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.accessibility.CaptioningManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -31,6 +32,7 @@ import com.tianchuang.ihome_b.bean.LoginBean;
 import com.tianchuang.ihome_b.bean.MenuInnerReportsItemBean;
 import com.tianchuang.ihome_b.bean.MyTaskUnderWayItemBean;
 import com.tianchuang.ihome_b.bean.NotificationItemBean;
+import com.tianchuang.ihome_b.bean.event.NotifyHomePageRefreshEvent;
 import com.tianchuang.ihome_b.bean.event.OpenScanEvent;
 import com.tianchuang.ihome_b.bean.event.SwitchSuccessEvent;
 import com.tianchuang.ihome_b.bean.model.HomePageModel;
@@ -65,7 +67,7 @@ import rx.schedulers.Schedulers;
  * description:主页
  */
 
-public class MainFragment extends BaseFragment {
+public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.empty_container)
     FrameLayout emptyContainer;
@@ -79,6 +81,8 @@ public class MainFragment extends BaseFragment {
     LinearLayout llInternalReports;
     @BindView(R.id.ll_main_query)
     LinearLayout llMainQuery;
+    @BindView(R.id.swipeLayout)
+    SwipeRefreshLayout swipeLayout;
     private MainActivity holdingActivity;
     private HomeMultiAdapter homeMultiAdapter;
     private List<HomePageMultiItem> mData;
@@ -92,12 +96,29 @@ public class MainFragment extends BaseFragment {
         return R.layout.fragment_main;
     }
 
+    private LittleRedListener littleRedListener;
+
+    public MainFragment setLittleRedListener(LittleRedListener littleRedListener) {
+        this.littleRedListener = littleRedListener;
+        return this;
+    }
+
+    public interface LittleRedListener {
+        void onRedPointChanged(int noticeCount);
+    }
+
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
         FragmentUtils.addFragment(getFragmentManager(), EmptyFragment.newInstance(getString(R.string.main_empty_text)), R.id.empty_container);
         rvList.setLayoutManager(new LinearLayoutManager(getContext()));
         initTab();
         mData = new ArrayList<>();
+        homeMultiAdapter = new HomeMultiAdapter(mData);
+        homeMultiAdapter.setEmptyView(ViewHelper.getEmptyView("当前数据为空"));
+        rvList.setAdapter(homeMultiAdapter);
+        swipeLayout.setOnRefreshListener(this);
+        swipeLayout.setColorSchemeColors(ContextCompat.getColor(getContext(), R.color.refresh_scheme_color));
+
         //根据item的类型判断去那个详情页
         rvList.addOnItemTouchListener(new OnItemClickListener() {
             @Override
@@ -147,19 +168,24 @@ public class MainFragment extends BaseFragment {
                 .doOnSubscribe(new Action0() {
                     @Override
                     public void call() {
-                        showProgress();
+                        if (!swipeLayout.isRefreshing())
+                            showProgress();
                     }
                 })
                 .subscribe(new RxSubscribe<HomePageBean>() {
                     @Override
                     protected void _onNext(HomePageBean homePageBean) {
                         parseResult(homePageBean);
+                        if (littleRedListener != null) {
+                            littleRedListener.onRedPointChanged(homePageBean.getNoticeCount());
+                        }
                     }
 
                     @Override
                     protected void _onError(String message) {
                         dismissProgress();
                         ToastUtil.showToast(getContext(), message);
+                        swipeLayout.setRefreshing(false);
                     }
 
                     @Override
@@ -188,21 +214,20 @@ public class MainFragment extends BaseFragment {
 
                     @Override
                     public void onCompleted() {
-
+                        swipeLayout.setRefreshing(false);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         dismissProgress();
+                        swipeLayout.setRefreshing(false);
                     }
 
                     @Override
                     public void onNext(List<HomePageMultiItem> homePageMultiItems) {
                         mData.clear();
                         mData.addAll(homePageMultiItems);
-                        homeMultiAdapter = new HomeMultiAdapter(mData);
-                        homeMultiAdapter.setEmptyView(ViewHelper.getEmptyView("当前数据为空"));
-                        rvList.setAdapter(homeMultiAdapter);
+                        homeMultiAdapter.notifyDataSetChanged();
                         dismissProgress();
                     }
                 });
@@ -237,9 +262,15 @@ public class MainFragment extends BaseFragment {
         return list;
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.MAIN)//用户切换成功
     public void onMessageEvent(SwitchSuccessEvent event) {//切换用户的事件
         initTab();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(NotifyHomePageRefreshEvent event) {//通知主页刷新
+        swipeLayout.setRefreshing(true);
+        initData();
     }
 
     private void initTab() {
@@ -313,4 +344,8 @@ public class MainFragment extends BaseFragment {
         }
     }
 
+    @Override
+    public void onRefresh() {
+        initData();
+    }
 }

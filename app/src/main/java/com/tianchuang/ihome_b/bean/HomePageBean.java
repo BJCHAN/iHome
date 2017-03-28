@@ -8,6 +8,7 @@ import java.util.List;
  */
 
 public class HomePageBean {
+    private int noticeCount;
     private List<NotificationItemBean> notices;//  通知
     private List<ComplainDetailBean> complaintsVos; //  投诉
     private List<MenuInnerReportsItemBean> internalReportVos;//  内部报事
@@ -45,5 +46,11 @@ public class HomePageBean {
         this.taskRecordVos = taskRecordVos;
     }
 
+    public int getNoticeCount() {
+        return noticeCount;
+    }
 
+    public void setNoticeCount(int noticeCount) {
+        this.noticeCount = noticeCount;
+    }
 }
