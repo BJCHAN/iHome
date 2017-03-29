@@ -15,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,7 +57,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Observable;
 
 import butterknife.BindArray;
 import butterknife.BindView;
@@ -85,9 +85,11 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
     TextView tvDrawPhone;
     @BindView(R.id.iv_little_red)
     ImageView ivLittleRed;
+    @BindView(R.id.rl_user_info)
+    RelativeLayout rlUserInfo;
     private ArrayList<DrawMenuItem> drawMenuItems = new ArrayList<>();
     private DrawMenuAdapter menuAdapter;
-    private int noticeCount=0;
+    private int noticeCount = 0;
 
     /**
      * 扫描跳转Activity RequestCode
@@ -244,7 +246,7 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
         });
     }
 
-    @OnClick({R.id.iv_navigation_icon, R.id.iv_right, R.id.spinner})
+    @OnClick({R.id.iv_navigation_icon, R.id.iv_right, R.id.spinner,R.id.rl_user_info})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_navigation_icon://侧滑菜单的入口
@@ -258,9 +260,11 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
                     addFragment(PropertyListFragment.newInstance());//避免重复添加
                 }
                 break;
+            case R.id.rl_user_info://菜单上访问个人信息
+                startActivityWithAnim(new Intent(this,PersonalInfoActivity.class));
+                break;
         }
     }
-
     /**
      * 设置头部的title
      */
@@ -272,7 +276,7 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
             spinner.setCompoundDrawablePadding(DensityUtil.dip2px(this, 5));
             spinner.setText(text);
             ivRight.setVisibility(View.VISIBLE);
-            ivLittleRed.setVisibility(this.noticeCount>0?View.VISIBLE:View.INVISIBLE);
+            ivLittleRed.setVisibility(this.noticeCount > 0 ? View.VISIBLE : View.INVISIBLE);
         } else {
             spinner.setCompoundDrawables(null, null, null, null);
             spinner.setText(text);
@@ -296,7 +300,9 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
             mDrawerLayout.openDrawer(GravityCompat.START);
         }
     }
-private boolean twoBack;
+
+    private boolean twoBack;
+
     //返回键返回事件
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -310,12 +316,12 @@ private boolean twoBack;
                     if (twoBack) {
                         finish();
                     } else {
-                       ToastUtil.showToast(this,"再按一次退出");
+                        ToastUtil.showToast(this, "再按一次退出");
                         twoBack = true;
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                twoBack =false;
+                                twoBack = false;
                             }
                         }, 2000);
                     }
@@ -465,6 +471,8 @@ private boolean twoBack;
     @Override
     public void onRedPointChanged(int noticeCount) {
         this.noticeCount = noticeCount;
-        ivLittleRed.setVisibility(this.noticeCount>0?View.VISIBLE:View.INVISIBLE);
+        ivLittleRed.setVisibility(this.noticeCount > 0 ? View.VISIBLE : View.INVISIBLE);
     }
+
+
 }

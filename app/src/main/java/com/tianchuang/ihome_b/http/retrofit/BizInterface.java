@@ -121,5 +121,6 @@ public interface BizInterface {
     String TASK_CONTROL_POINT_SUBMIT_URL = "task/form/data/enter.html";
     //我的任务-执行任务-设备点控制点型任务-提交表单
     String QR_CODE_URL = "task/scan/qrcode.html";
-
+    //个人信息列表
+    String USER_INFO_URL = "my/property.html";
 }

@@ -24,6 +24,7 @@ import com.tianchuang.ihome_b.bean.MyTaskUnderWayListBean;
 import com.tianchuang.ihome_b.bean.NotificationItemBean;
 import com.tianchuang.ihome_b.bean.NotificationListBean;
 import com.tianchuang.ihome_b.bean.OwnerDetailBean;
+import com.tianchuang.ihome_b.bean.PersonalInfoBean;
 import com.tianchuang.ihome_b.bean.PropertyListItemBean;
 import com.tianchuang.ihome_b.bean.QrCodeBean;
 import com.tianchuang.ihome_b.bean.RobHallListBean;
@@ -562,4 +563,6 @@ public interface ShowApi {
      */
     @POST(BizInterface.QR_CODE_URL)
     Observable<HttpModle<ArrayList<QrCodeBean>>> requestQrCode(@QueryMap Map<String, String> map);
+    @POST(BizInterface.USER_INFO_URL)
+    Observable<HttpModle<ArrayList<PersonalInfoBean>>> requestPersonInfo();
 }

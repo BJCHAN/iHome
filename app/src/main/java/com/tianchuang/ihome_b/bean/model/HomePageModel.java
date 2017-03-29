@@ -1,6 +1,7 @@
 package com.tianchuang.ihome_b.bean.model;
 
 import com.tianchuang.ihome_b.bean.HomePageBean;
+import com.tianchuang.ihome_b.bean.PersonalInfoBean;
 import com.tianchuang.ihome_b.bean.QrCodeBean;
 import com.tianchuang.ihome_b.http.retrofit.HttpModle;
 import com.tianchuang.ihome_b.http.retrofit.RetrofitService;
@@ -32,5 +33,12 @@ public class HomePageModel {
      */
     public static Observable<HttpModle<ArrayList<QrCodeBean>>> requestQrCode(Map<String, String> map) {
         return RetrofitService.createShowApi().requestQrCode(map);
+    }
+
+    /**
+     * 个人信息
+     */
+    public static Observable<HttpModle<ArrayList<PersonalInfoBean>>> requestPersonInfo() {
+        return RetrofitService.createShowApi().requestPersonInfo();
     }
 }
