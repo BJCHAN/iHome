@@ -25,3 +25,8 @@
 -keepattributes Signature
 -keepattributes Exceptions
 -keep class com.hitomi.tilibrary.** { *; }
+#【信鸽推送】
+-keep public class * extends android.app.Service
+-keep public class * extends android.content.BroadcastReceiver
+-keep class com.tencent.android.tpush.** {* ;}
+-keep class com.tencent.mid.** {* ;}

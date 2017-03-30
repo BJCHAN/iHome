@@ -1,6 +1,11 @@
 package com.tianchuang.ihome_b.bean.model;
 
+import com.tianchuang.ihome_b.bean.ComplainDetailBean;
 import com.tianchuang.ihome_b.bean.HomePageBean;
+import com.tianchuang.ihome_b.bean.HomePageMultiItem;
+import com.tianchuang.ihome_b.bean.MenuInnerReportsItemBean;
+import com.tianchuang.ihome_b.bean.MyTaskUnderWayItemBean;
+import com.tianchuang.ihome_b.bean.NotificationItemBean;
 import com.tianchuang.ihome_b.bean.PersonalInfoBean;
 import com.tianchuang.ihome_b.bean.QrCodeBean;
 import com.tianchuang.ihome_b.http.retrofit.HttpModle;
@@ -8,6 +13,7 @@ import com.tianchuang.ihome_b.http.retrofit.RetrofitService;
 import com.tianchuang.ihome_b.utils.UserUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import rx.Observable;
@@ -40,5 +46,35 @@ public class HomePageModel {
      */
     public static Observable<HttpModle<ArrayList<PersonalInfoBean>>> requestPersonInfo() {
         return RetrofitService.createShowApi().requestPersonInfo();
+    }
+
+
+    public static  List<HomePageMultiItem> getHomePageMultiItemList(HomePageBean homePageBean) {
+        List<HomePageMultiItem> list = new ArrayList<>();
+        for (ComplainDetailBean complainItemBean : homePageBean.getComplaintsVos()) {
+            HomePageMultiItem homePageMultiItem = new HomePageMultiItem();
+            homePageMultiItem.setType(HomePageMultiItem.TYPE_COMPLAIN);
+            homePageMultiItem.setComplainItemBean(complainItemBean);
+            list.add(homePageMultiItem);
+        }
+        for (MenuInnerReportsItemBean menuInnerReportsItemBean : homePageBean.getInternalReportVos()) {
+            HomePageMultiItem homePageMultiItem = new HomePageMultiItem();
+            homePageMultiItem.setType(HomePageMultiItem.TYPE_INNER_REPORT);
+            homePageMultiItem.setMenuInnerReportsItemBean(menuInnerReportsItemBean);
+            list.add(homePageMultiItem);
+        }
+        for (NotificationItemBean notificationItemBean : homePageBean.getNotices()) {
+            HomePageMultiItem homePageMultiItem = new HomePageMultiItem();
+            homePageMultiItem.setType(HomePageMultiItem.TYPE_NOTICE);
+            homePageMultiItem.setNotificationItemBean(notificationItemBean);
+            list.add(homePageMultiItem);
+        }
+        for (MyTaskUnderWayItemBean myTaskUnderWayItemBean : homePageBean.getTaskRecordVos()) {
+            HomePageMultiItem homePageMultiItem = new HomePageMultiItem();
+            homePageMultiItem.setType(HomePageMultiItem.TYPE_TASK);
+            homePageMultiItem.setMyTaskUnderWayItemBean(myTaskUnderWayItemBean);
+            list.add(homePageMultiItem);
+        }
+        return list;
     }
 }

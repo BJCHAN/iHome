@@ -95,19 +95,24 @@
 #-keep public class * extends android.app.Application
 #-keep public class * extends android.app.Service
 #-keep public class * extends android.content.BroadcastReceiver
-#-keep public class * extends android.content.ContentProvider
+-keep public class * extends android.content.ContentProvider
 #-keep public class * extends android.app.backup.BackupAgentHelper
-#-keep public class * extends android.preference.Preference
-#-keep public class * extends android.view.View
-#-keep public class com.android.vending.licensing.ILicensingService
-#-keep public class * extends android.support.v4.**
-#-keep public class * extends android.support.v7.**
+-keep public class * extends android.preference.Preference
+-keep public class * extends android.view.View
+##-keep public class com.android.vending.licensing.ILicensingService
+-keep public class * extends android.support.v4.**
+-keep public class * extends android.support.v7.**
 #-keep public class * extends android.support.v8.**
+-keep class android.app.Notification.** {* ;}
+#-keep class android.app.** {* ;}
 
 #Fragment不需要在AndroidManifest.xml中注册，需要额外保护下
 -keep public class * extends android.support.v4.app.Fragment
 -keep public class * extends android.app.Fragment
-
+#【保护使用本地方法的类，即使用NDK相关类】
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
 # 保留Activity中的方法参数是view的方法，
 # 从而我们在layout里面编写onClick就不会影响
 -keepclassmembers class * extends android.app.Activity {
@@ -202,3 +207,11 @@
 #【litepal】
 -keep class org.litepal.** { *; }
 -keep class * extends org.litepal.crud.DataSupport{*;}
+#【信鸽推送】
+-keep public class * extends android.app.Service
+-keep public class * extends android.content.BroadcastReceiver
+-keep class com.tencent.android.tpush.** {* ;}
+-keep class com.tencent.mid.** {* ;}
+-dontwarn android.app.Notification
+-dontwarn android.support.v4.**
+

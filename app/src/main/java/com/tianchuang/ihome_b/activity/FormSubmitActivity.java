@@ -53,7 +53,7 @@ import rx.schedulers.Schedulers;
 
 /**
  * Created by Abyss on 2017/3/10.
- * description:
+ * description:表单申报页面
  */
 
 public class FormSubmitActivity extends BaseActivity implements View.OnClickListener, SubmitMultiAdapter.SaveEditListener {
@@ -258,9 +258,12 @@ public class FormSubmitActivity extends BaseActivity implements View.OnClickList
      */
     private boolean cheackImagesIsPut(HashMap<String, ArrayList<File>> map) {
         boolean canSubmit = true;
-        for (ArrayList<File> files : map.values()) {
-            if (files.size() == 0) {
-                canSubmit = false;
+        for (Map.Entry<String, ArrayList<File>> entry : map.entrySet()) {
+            FormTypeItemBean.FieldsBean field = getItemBeanByKeyField(entry.getKey());
+            if (field != null && field.isMustInput()) {
+                if (entry.getValue().size()==0) {
+                    canSubmit = false;
+                }
             }
         }
         return canSubmit;

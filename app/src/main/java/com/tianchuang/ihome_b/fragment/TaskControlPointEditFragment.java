@@ -231,14 +231,16 @@ public class TaskControlPointEditFragment extends BaseFragment implements TaskSu
 
     /**
      * 检查图片是否可以提交
-     *
      * @param map
      */
     private boolean cheackImagesIsPut(HashMap<String, ArrayList<File>> map) {
         boolean canSubmit = true;
-        for (ArrayList<File> files : map.values()) {
-            if (files.size() == 0) {
-                canSubmit = false;
+        for (Map.Entry<String, ArrayList<File>> entry : map.entrySet()) {
+            FormTypeItemBean.FieldsBean field = getItemBeanByKeyField(entry.getKey());
+            if (field != null && field.isMustInput()) {
+                if (entry.getValue().size()==0) {
+                    canSubmit = false;
+                }
             }
         }
         return canSubmit;

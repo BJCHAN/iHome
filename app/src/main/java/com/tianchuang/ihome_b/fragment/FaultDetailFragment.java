@@ -31,6 +31,7 @@ import butterknife.BindView;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action0;
+import rx.functions.Action1;
 import rx.functions.Func1;
 
 /**
@@ -74,6 +75,12 @@ public class FaultDetailFragment extends BaseFragment {
             RobHallModel.requestRobHallRepairDetail(repairsId)
                     .compose(RxHelper.<RobHallRepairDetailListBean>handleResult())
                     .compose(this.<RobHallRepairDetailListBean>bindToLifecycle())
+                    .doOnSubscribe(new Action0() {
+                        @Override
+                        public void call() {
+                            showProgress();
+                        }
+                    })
                     .subscribe(new RxSubscribe<RobHallRepairDetailListBean>() {
                         @Override
                         protected void _onNext(RobHallRepairDetailListBean bean) {
@@ -81,10 +88,12 @@ public class FaultDetailFragment extends BaseFragment {
                             //recyclerView添加头部
                             mAdapter.addHeaderView(ViewHelper.getDetailHeaderView(bean.getTypeName(), bean.getCreatedDate()));
                             rvList.setAdapter(mAdapter);
+                            dismissProgress();
                         }
 
                         @Override
                         protected void _onError(String message) {
+                            dismissProgress();
 
                         }
 
@@ -99,16 +108,11 @@ public class FaultDetailFragment extends BaseFragment {
                     .flatMap(new Func1<Void, Observable<HttpModle<String>>>() {
                         @Override
                         public Observable<HttpModle<String>> call(Void aVoid) {
+                            showProgress();
                             return RobHallModel.requestRobRepair(repairsId);
                         }
                     })
                     .compose(this.<HttpModle<String>>bindToLifecycle())
-                    .doOnSubscribe(new Action0() {
-                        @Override
-                        public void call() {
-                            showProgress();
-                        }
-                    })
                     .subscribe(new Subscriber<HttpModle<String>>() {
                         @Override
                         public void onCompleted() {

@@ -110,6 +110,7 @@ public class TaskSubmitMultiAdapter extends BaseMultiItemQuickAdapter<FormTypeIt
                 selectorAdapter.setConfig(config);
                 selectorAdapter.setId(item.getId());
                 selectorAdapter.setKeyField(item.getFieldKey());
+                selectorAdapter.setMustPut(item.isMustInput());
                 imagesSelectorAdapters.add(selectorAdapter);//存储数据
                 imageRecyclerView.setAdapter(selectorAdapter);
                 imageRecyclerView.addOnItemTouchListener(new OnItemClickListener() {

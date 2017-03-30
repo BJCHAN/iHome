@@ -38,7 +38,7 @@ public class MultipartBuilder {
 			}
 		}
 		if (parts.isEmpty()) {
-			parts.add(MultipartBody.Part.createFormData("livePhoto", ""));
+			parts.add(MultipartBody.Part.createFormData("", ""));
 		}
 		return parts;
 	}
@@ -64,7 +64,7 @@ public class MultipartBuilder {
 			}
 		}
 		if (parts.isEmpty()) {
-			parts.add(MultipartBody.Part.createFormData(formName, ""));
+			parts.add(MultipartBody.Part.createFormData("",""));
 		}
 		return parts;
 	}

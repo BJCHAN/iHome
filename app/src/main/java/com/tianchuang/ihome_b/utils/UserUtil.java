@@ -8,6 +8,8 @@ import com.tianchuang.ihome_b.bean.PropertyListItemBean;
 import com.tianchuang.ihome_b.database.UserInfo;
 import com.tianchuang.ihome_b.database.UserInfoDbHelper;
 
+import static com.tencent.android.tpush.XGPushManager.registerPush;
+
 /**
  * Created by Abyss on 2017/2/15.
  * description:记载用户信息的工具类
@@ -54,6 +56,7 @@ public class UserUtil {
         setToken(null);
         setLoginBean(null);
         setUserId(0);
+        registerPush(TianChuangApplication.application,"*");//信鸽取消绑定账号
     }
 
     //登录

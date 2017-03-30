@@ -19,6 +19,15 @@ import java.util.List;
 public class ImagesSelectorAdapter extends BaseMultiItemQuickAdapter<ImagesMultipleItem, BaseViewHolder> {
     private ImgSelConfig config;//选择图片需要的属性
     private int id;
+    private boolean isMustPut;
+
+    public boolean isMustPut() {
+        return isMustPut;
+    }
+
+    public void setMustPut(boolean mustPut) {
+        isMustPut = mustPut;
+    }
 
     public int getId() {
         return id;

@@ -205,7 +205,7 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                 .map(new Func1<HomePageBean, List<HomePageMultiItem>>() {
                     @Override
                     public List<HomePageMultiItem> call(HomePageBean homePageBean) {//获取主页多类型数据集合
-                        return getHomePageMultiItemList(homePageBean);
+                        return HomePageModel.getHomePageMultiItemList(homePageBean);
                     }
                 })
                 .compose(this.<List<HomePageMultiItem>>bindToLifecycle())
@@ -233,38 +233,11 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                 });
     }
 
-    private List<HomePageMultiItem> getHomePageMultiItemList(HomePageBean homePageBean) {
-        List<HomePageMultiItem> list = new ArrayList<>();
-        for (ComplainDetailBean complainItemBean : homePageBean.getComplaintsVos()) {
-            HomePageMultiItem homePageMultiItem = new HomePageMultiItem();
-            homePageMultiItem.setType(HomePageMultiItem.TYPE_COMPLAIN);
-            homePageMultiItem.setComplainItemBean(complainItemBean);
-            list.add(homePageMultiItem);
-        }
-        for (MenuInnerReportsItemBean menuInnerReportsItemBean : homePageBean.getInternalReportVos()) {
-            HomePageMultiItem homePageMultiItem = new HomePageMultiItem();
-            homePageMultiItem.setType(HomePageMultiItem.TYPE_INNER_REPORT);
-            homePageMultiItem.setMenuInnerReportsItemBean(menuInnerReportsItemBean);
-            list.add(homePageMultiItem);
-        }
-        for (NotificationItemBean notificationItemBean : homePageBean.getNotices()) {
-            HomePageMultiItem homePageMultiItem = new HomePageMultiItem();
-            homePageMultiItem.setType(HomePageMultiItem.TYPE_NOTICE);
-            homePageMultiItem.setNotificationItemBean(notificationItemBean);
-            list.add(homePageMultiItem);
-        }
-        for (MyTaskUnderWayItemBean myTaskUnderWayItemBean : homePageBean.getTaskRecordVos()) {
-            HomePageMultiItem homePageMultiItem = new HomePageMultiItem();
-            homePageMultiItem.setType(HomePageMultiItem.TYPE_TASK);
-            homePageMultiItem.setMyTaskUnderWayItemBean(myTaskUnderWayItemBean);
-            list.add(homePageMultiItem);
-        }
-        return list;
-    }
-
     @Subscribe(threadMode = ThreadMode.MAIN)//用户切换成功
     public void onMessageEvent(SwitchSuccessEvent event) {//切换用户的事件
         initTab();
+        swipeLayout.setRefreshing(true);
+        initData();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

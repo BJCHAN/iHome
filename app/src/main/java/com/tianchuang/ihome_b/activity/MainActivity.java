@@ -1,6 +1,7 @@
 package com.tianchuang.ihome_b.activity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -21,6 +22,9 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.tencent.android.tpush.XGIOperateCallback;
+import com.tencent.android.tpush.XGPushConfig;
+import com.tencent.android.tpush.XGPushManager;
 import com.tianchuang.ihome_b.Constants;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.TianChuangApplication;
@@ -62,6 +66,8 @@ import butterknife.BindArray;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.tencent.android.tpush.XGPush4Msdk.registerPush;
 
 /**
  * Created by Abyss on 2017/2/9.
@@ -111,12 +117,33 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
         setContentView(getLayoutId());
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
+        initXGPush();
         //添加主页fragment
         addFragment(MainFragment.newInstance().setLittleRedListener(this));
         initData();
         initView();
         //设置监听
         initListener();
+    }
+
+    /**
+     * 初始化信鸽推送
+     */
+    private void initXGPush() {
+// 开启logcat输出，方便debug，发布时请关闭
+        XGPushConfig.enableDebug(this, Constants.DEBUG_MODE);
+        // 如果需要知道注册是否成功，请使用registerPush(getApplicationContext(), XGIOperateCallback)带callback版本
+// 如果需要绑定账号，请使用registerPush(getApplicationContext(),account)版本
+        registerPush(getApplicationContext(), "staff_" + UserUtil.getUserid(), new XGIOperateCallback() {
+            @Override
+            public void onSuccess(Object o, int i) {
+            }
+
+            @Override
+            public void onFail(Object o, int i, String s) {
+            }
+        });
+        XGPushManager.registerPush(getApplicationContext());
     }
 
     private void initData() {
@@ -215,7 +242,7 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
             }
         });
 
-        mDrawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
+        mDrawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
 
             /**
              * @param drawerView
@@ -246,7 +273,7 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
         });
     }
 
-    @OnClick({R.id.iv_navigation_icon, R.id.iv_right, R.id.spinner,R.id.rl_user_info})
+    @OnClick({R.id.iv_navigation_icon, R.id.iv_right, R.id.spinner, R.id.rl_user_info})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_navigation_icon://侧滑菜单的入口
@@ -261,10 +288,11 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
                 }
                 break;
             case R.id.rl_user_info://菜单上访问个人信息
-                startActivityWithAnim(new Intent(this,PersonalInfoActivity.class));
+                startActivityWithAnim(new Intent(this, PersonalInfoActivity.class));
                 break;
         }
     }
+
     /**
      * 设置头部的title
      */
