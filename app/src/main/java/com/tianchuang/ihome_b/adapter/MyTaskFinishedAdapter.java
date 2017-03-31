@@ -22,7 +22,7 @@ public class MyTaskFinishedAdapter extends BaseQuickAdapter<MyTaskUnderWayItemBe
     @Override
     protected void convert(BaseViewHolder helper, MyTaskUnderWayItemBean item) {
         helper.setText(R.id.tv_type, StringUtils.getNotNull(item.getTaskName()))
-                .setText(R.id.tv_date, StringUtils.getNotNull(DateUtils.formatDate(item.getCreatedDate(), DateUtils.TYPE_02)))
+//                .setText(R.id.tv_date, StringUtils.getNotNull(DateUtils.formatDate(item.getCreatedDate(), DateUtils.TYPE_02)))
                 .setText(R.id.tv_content, item.getTaskExplains());
     }
 }

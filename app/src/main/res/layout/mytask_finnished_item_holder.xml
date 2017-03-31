@@ -49,14 +49,14 @@
                     android:layout_height="wrap_content"
                     tools:text="日常巡视任务" />
 
-                <TextView
-                    android:id="@+id/tv_date"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:textColor="@color/TC_2"
-                    android:textSize="15sp"
-                    tools:text="12月9日" />
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_date"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:gravity="right"-->
+                    <!--android:textColor="@color/TC_2"-->
+                    <!--android:textSize="15sp"-->
+                    <!--tools:text="12月9日" />-->
             </LinearLayout>
 
             <TextView

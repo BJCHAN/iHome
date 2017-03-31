@@ -70,7 +70,6 @@ public class MyTaskInputDetailFragment extends BaseFragment {
     public void onStart() {
         super.onStart();
         setToolbarTitle("任务详情");
-
     }
 
     @Override

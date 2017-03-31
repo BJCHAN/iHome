@@ -1,7 +1,6 @@
 package com.tianchuang.ihome_b.activity;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -66,6 +65,8 @@ import butterknife.BindArray;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observable;
+import rx.functions.Action1;
 
 import static com.tencent.android.tpush.XGPush4Msdk.registerPush;
 
@@ -120,7 +121,6 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
         initXGPush();
         //添加主页fragment
         addFragment(MainFragment.newInstance().setLittleRedListener(this));
-        initData();
         initView();
         //设置监听
         initListener();
@@ -130,10 +130,10 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
      * 初始化信鸽推送
      */
     private void initXGPush() {
-// 开启logcat输出，方便debug，发布时请关闭
+        // 开启logcat输出，方便debug，发布时请关闭
         XGPushConfig.enableDebug(this, Constants.DEBUG_MODE);
         // 如果需要知道注册是否成功，请使用registerPush(getApplicationContext(), XGIOperateCallback)带callback版本
-// 如果需要绑定账号，请使用registerPush(getApplicationContext(),account)版本
+        // 如果需要绑定账号，请使用registerPush(getApplicationContext(),account)版本
         registerPush(getApplicationContext(), "staff_" + UserUtil.getUserid(), new XGIOperateCallback() {
             @Override
             public void onSuccess(Object o, int i) {
@@ -146,9 +146,6 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
         XGPushManager.registerPush(getApplicationContext());
     }
 
-    private void initData() {
-
-    }
 
 
     private void initView() {
@@ -170,33 +167,41 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
         drawMenuItems.clear();
         setIvRightEnable(false);
         List<Integer> menuList = loginBean.getMenuList();
-        if (menuList != null && menuList.size() > 0) {
-            for (Integer value : menuList) {
-                switch (value) {
-                    case 1://我的任务
-                        drawMenuItems.add(new DrawMenuItem().setId(0).setName(itemsNameArray[0]));
-                        break;
-                    case 2://我的表单
-                        drawMenuItems.add(new DrawMenuItem().setId(1).setName(itemsNameArray[1]));
-                        break;
-                    case 8://报修抢单
-                        drawMenuItems.add(new DrawMenuItem().setId(2).setName(itemsNameArray[2]));
-                        drawMenuItems.add(new DrawMenuItem().setId(3).setName(itemsNameArray[3]));
-                        setIvRightEnable(true);//抢单大厅显示
-                        break;
-                    case 7://访客列表
-                        drawMenuItems.add(new DrawMenuItem().setId(4).setName(itemsNameArray[4]));
-                        break;
-                    case 3://管理通知
-                        drawMenuItems.add(new DrawMenuItem().setId(5).setName(itemsNameArray[5]));
-                        break;
-                    case 5://内部报事接收
-                        drawMenuItems.add(new DrawMenuItem().setId(6).setName(itemsNameArray[6]));
-                        drawMenuItems.add(new DrawMenuItem().setId(7).setName(itemsNameArray[7]));
-                        break;
 
-                }
-            }
+        if (menuList != null && menuList.size() > 0) {
+            Observable.from(menuList)
+                    .distinct()//去重
+                    .compose(this.<Integer>bindToLifecycle())
+                    .subscribe(new Action1<Integer>() {
+                        @Override
+                        public void call(Integer integer) {
+                            switch (integer) {
+                                case 1://我的任务
+                                    drawMenuItems.add(new DrawMenuItem().setId(0).setName(itemsNameArray[0]));
+                                    break;
+                                case 2://我的表单
+                                    drawMenuItems.add(new DrawMenuItem().setId(1).setName(itemsNameArray[1]));
+                                    break;
+                                case 8://报修抢单
+                                    drawMenuItems.add(new DrawMenuItem().setId(2).setName(itemsNameArray[2]));
+                                    drawMenuItems.add(new DrawMenuItem().setId(3).setName(itemsNameArray[3]));
+                                    setIvRightEnable(true);//抢单大厅显示
+                                    break;
+                                case 7://访客列表
+                                    drawMenuItems.add(new DrawMenuItem().setId(4).setName(itemsNameArray[4]));
+                                    break;
+                                case 3://管理通知
+                                    drawMenuItems.add(new DrawMenuItem().setId(5).setName(itemsNameArray[5]));
+                                    break;
+                                case 5://内部报事接收
+                                    drawMenuItems.add(new DrawMenuItem().setId(6).setName(itemsNameArray[6]));
+                                    drawMenuItems.add(new DrawMenuItem().setId(7).setName(itemsNameArray[7]));
+                                    break;
+
+                            }
+                        }
+                    });
+
         }
         drawMenuItems.add(new DrawMenuItem().setId(8).setName(itemsNameArray[8]));//默认有设置
         menuAdapter.notifyDataSetChanged();
