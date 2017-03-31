@@ -9,6 +9,7 @@ import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.activity.DataSearchActivity;
 import com.tianchuang.ihome_b.adapter.BuildingSearchAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
+import com.tianchuang.ihome_b.base.BaseLoadingFragment;
 import com.tianchuang.ihome_b.bean.DataBuildingSearchBean;
 import com.tianchuang.ihome_b.bean.recyclerview.CommonItemDecoration;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
@@ -26,9 +27,11 @@ import rx.functions.Action0;
  * description:楼宇查询
  */
 
-public class BuildingSearchFragment extends BaseFragment {
+public class BuildingSearchFragment extends BaseLoadingFragment {
     @BindView(R.id.rv_list)
     RecyclerView rvList;
+    private ArrayList<DataBuildingSearchBean> mData =new ArrayList<>();
+    private BuildingSearchAdapter searchAdapter;
 
     @Override
     protected int getLayoutId() {
@@ -49,34 +52,32 @@ public class BuildingSearchFragment extends BaseFragment {
     protected void initView(View view, Bundle savedInstanceState) {
         rvList.addItemDecoration(new CommonItemDecoration(20));
         rvList.setLayoutManager(new LinearLayoutManager(getContext()));
-        requestNet();
+        searchAdapter = new BuildingSearchAdapter(R.layout.building_search_item_holder, mData);
+        rvList.setAdapter(searchAdapter);
     }
 
-    /**
-     * 请求网络
-     */
-    private void requestNet() {
+
+
+    @Override
+    protected void initData() {
         DataSearchModel.requestBuildingSearch()
                 .compose(RxHelper.<ArrayList<DataBuildingSearchBean>>handleResult())
                 .compose(this.<ArrayList<DataBuildingSearchBean>>bindToLifecycle())
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        showProgress();
-                    }
-                })
                 .subscribe(new RxSubscribe<ArrayList<DataBuildingSearchBean>>() {
+
+
                     @Override
                     protected void _onNext(ArrayList<DataBuildingSearchBean> arrayList) {
-                        BuildingSearchAdapter searchAdapter = new BuildingSearchAdapter(R.layout.building_search_item_holder, arrayList);
-                        rvList.setAdapter(searchAdapter);
-                        dismissProgress();
+                        mData.clear();
+                        mData.addAll(arrayList);
+                        checkData(arrayList);
+                        searchAdapter.notifyDataSetChanged();
                     }
 
                     @Override
                     protected void _onError(String message) {
                         ToastUtil.showToast(getContext(), message);
-                        dismissProgress();
+                        showErrorPage();
                     }
 
                     @Override
@@ -84,8 +85,5 @@ public class BuildingSearchFragment extends BaseFragment {
 
                     }
                 });
-
     }
-
-
 }

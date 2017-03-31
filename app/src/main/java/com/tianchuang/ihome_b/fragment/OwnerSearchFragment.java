@@ -17,6 +17,7 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.adapter.TaskBuildingAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
+import com.tianchuang.ihome_b.base.BaseLoadingFragment;
 import com.tianchuang.ihome_b.bean.BuildingRoomListBean;
 import com.tianchuang.ihome_b.bean.OwnerDetailBean;
 import com.tianchuang.ihome_b.bean.TaskAreaListBean;
@@ -45,7 +46,7 @@ import rx.functions.Func1;
  * description:业主查询
  */
 
-public class OwnerSearchFragment extends BaseFragment {
+public class OwnerSearchFragment extends BaseLoadingFragment {
     @BindView(R.id.rv_list)
     RecyclerView rvList;
     @BindView(R.id.tv_building)
@@ -77,22 +78,17 @@ public class OwnerSearchFragment extends BaseFragment {
     protected void initView(View view, Bundle savedInstanceState) {
         rvList.setLayoutManager(new GridLayoutManager(getContext(), 3));
         rvList.addItemDecoration(new TaskInputSelectDecoration(DensityUtil.dip2px(getContext(), 5)));
+        areaAdapter = new TaskBuildingAdapter(mData);
+        rvList.setAdapter(areaAdapter);
         DataSearchModel.requestAreaList()//请求小区列表
                 .compose(RxHelper.<ArrayList<TaskAreaListBean>>handleResult())
                 .compose(this.<ArrayList<TaskAreaListBean>>bindToLifecycle())
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        showProgress();
-                    }
-                })
                 .subscribe(new RxSubscribe<ArrayList<TaskAreaListBean>>() {
                     @Override
                     protected void _onNext(ArrayList<TaskAreaListBean> list) {
                         mData.clear();
                         mData.addAll(list);
-                        areaAdapter = new TaskBuildingAdapter(mData);
-                        rvList.setAdapter(areaAdapter);
+                        checkData(list);
                         rvList.addOnItemTouchListener(new OnItemClickListener() {
                             @Override
                             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -114,17 +110,18 @@ public class OwnerSearchFragment extends BaseFragment {
                     @Override
                     protected void _onError(String message) {
                         ToastUtil.showToast(getContext(), message);
-                        dismissProgress();
-
+                        showErrorPage();
                     }
 
                     @Override
                     public void onCompleted() {
-                        dismissProgress();
                     }
                 });
     }
+    @Override
+    protected void initData() {
 
+    }
     @Override
     public void onStart() {
         super.onStart();
@@ -465,4 +462,6 @@ public class OwnerSearchFragment extends BaseFragment {
                 .build();
         pvRoomOptions.setPicker(roomItems);//添加数据
     }
+
+
 }

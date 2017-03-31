@@ -22,8 +22,8 @@ import butterknife.Unbinder;
 
 public abstract class BaseFragment extends RxFragment implements DialogProgress {
     protected BaseActivity mActivity;
-    private Unbinder bind;
-    private View rootView;
+    protected Unbinder bind;
+    protected View rootView;
 
     protected abstract void initView(View view, Bundle savedInstanceState);
 
@@ -105,9 +105,11 @@ public abstract class BaseFragment extends RxFragment implements DialogProgress 
         startActivity(intent);
         mActivity.overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
     }
-    protected  String getNotNull(String text) {
+
+    protected String getNotNull(String text) {
         return StringUtils.getNotNull(text);
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
