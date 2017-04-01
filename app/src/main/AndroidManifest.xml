@@ -70,7 +70,7 @@
 
         <!-- 修改密码模块 -->
         <activity
-            android:name=".activity.ModifyPasswordActivity"
+            android:name=".mvp.modifypassword.ModifyPasswordActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 

@@ -20,15 +20,16 @@ import butterknife.Unbinder;
  * description:fragment的基类
  */
 
-public abstract class BaseFragment extends RxFragment implements DialogProgress {
+public abstract class BaseFragment extends RxFragment {
     protected BaseActivity mActivity;
     protected Unbinder bind;
     protected View rootView;
-
-    protected abstract void initView(View view, Bundle savedInstanceState);
-
     //获取布局文件ID
     protected abstract int getLayoutId();
+
+    //初始化控件
+    protected abstract void initView(View view, Bundle savedInstanceState);
+
 
     //获取宿主Activity
     protected BaseActivity getHoldingActivity() {
@@ -91,12 +92,10 @@ public abstract class BaseFragment extends RxFragment implements DialogProgress 
 
     }
 
-    @Override
     public void showProgress() {
         getHoldingActivity().showProgress();
     }
 
-    @Override
     public void dismissProgress() {
         getHoldingActivity().dismissProgress();
     }

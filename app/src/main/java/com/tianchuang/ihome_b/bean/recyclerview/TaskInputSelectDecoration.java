@@ -19,7 +19,7 @@ public class TaskInputSelectDecoration extends RecyclerView.ItemDecoration {
 
 	@Override
 	public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-//		if (parent.getChildLayoutPosition(view) % 3 == 2) {
+//		if (parent.getChildLayoutPosition(mView) % 3 == 2) {
 //			outRect.right = space * 2;
 //		}
 

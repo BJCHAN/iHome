@@ -29,7 +29,7 @@ public class EquipmentTypeAdapter extends BaseQuickAdapter<EquipmentTypeSearchBe
 		} else {
 			view.setSelected(false);
 		}
-//		view.setSelected(item.isSelected());
+//		mView.setSelected(item.isSelected());
 	}
 
 }

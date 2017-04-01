@@ -16,15 +16,15 @@ import java.lang.reflect.Field;
 
 public class LayoutUtil {
 //    static class ViewHolder {
-//        public static <T extends View> T get(View view, int id) {
-//            SparseArray<View> viewHolder = (SparseArray<View>) view.getTag();
+//        public static <T extends View> T get(View mView, int id) {
+//            SparseArray<View> viewHolder = (SparseArray<View>) mView.getTag();
 //            if (viewHolder == null) {
 //                viewHolder = new SparseArray<View>();
-//                view.setTag(viewHolder);
+//                mView.setTag(viewHolder);
 //            }
 //            View childView = viewHolder.get(id);
 //            if (childView == null) {
-//                childView = view.findViewById(id);
+//                childView = mView.findViewById(id);
 //                viewHolder.put(id, childView);
 //            }
 //            return (T) childView;

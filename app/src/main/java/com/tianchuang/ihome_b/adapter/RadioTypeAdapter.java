@@ -30,7 +30,7 @@ public class RadioTypeAdapter extends BaseQuickAdapter<FormTypeItemBean.FieldsBe
 		} else {
 			view.setSelected(false);
 		}
-//		view.setSelected(item.isSelected());
+//		mView.setSelected(item.isSelected());
 	}
 
 }

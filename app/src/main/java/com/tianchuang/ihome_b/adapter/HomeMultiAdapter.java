@@ -1,9 +1,5 @@
 package com.tianchuang.ihome_b.adapter;
 
-import android.text.TextUtils;
-import android.view.View;
-import android.widget.TextView;
-
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.tianchuang.ihome_b.R;
@@ -13,7 +9,6 @@ import com.tianchuang.ihome_b.bean.MenuInnerReportsItemBean;
 import com.tianchuang.ihome_b.bean.MyTaskUnderWayItemBean;
 import com.tianchuang.ihome_b.bean.NotificationItemBean;
 import com.tianchuang.ihome_b.bean.PropertyListItemBean;
-import com.tianchuang.ihome_b.utils.DateUtils;
 import com.tianchuang.ihome_b.utils.StringUtils;
 
 import java.util.List;
@@ -39,8 +34,7 @@ public class HomeMultiAdapter extends BaseMultiItemQuickAdapter<HomePageMultiIte
             case HomePageMultiItem.TYPE_TASK://任务
                 MyTaskUnderWayItemBean taskItemBean = item.getMyTaskUnderWayItemBean();
                 helper.setText(R.id.tv_type, StringUtils.getNotNull(taskItemBean.getTaskName()))
-                        .setText(R.id.tv_content, StringUtils.getNotNull(DateUtils
-                                .formatDate(taskItemBean.getCreatedDate(), DateUtils.TYPE_04) + taskItemBean.getTaskExplains()));
+                        .setText(R.id.tv_content, StringUtils.getNotNull(taskItemBean.getTaskExplains()));
                 break;
             case HomePageMultiItem.TYPE_COMPLAIN://投诉
                 ComplainDetailBean complainItemBean = item.getComplainItemBean();

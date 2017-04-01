@@ -48,6 +48,7 @@ import com.tianchuang.ihome_b.permission.OnMPermissionGranted;
 import com.tianchuang.ihome_b.utils.DensityUtil;
 import com.tianchuang.ihome_b.utils.FileUtils;
 import com.tianchuang.ihome_b.utils.FragmentUtils;
+import com.tianchuang.ihome_b.utils.SystemUtil;
 import com.tianchuang.ihome_b.utils.ToastUtil;
 import com.tianchuang.ihome_b.utils.UserUtil;
 import com.tianchuang.ihome_b.view.OneButtonDialogFragment;
@@ -167,7 +168,6 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
         drawMenuItems.clear();
         setIvRightEnable(false);
         List<Integer> menuList = loginBean.getMenuList();
-
         if (menuList != null && menuList.size() > 0) {
             Observable.from(menuList)
                     .distinct()//去重

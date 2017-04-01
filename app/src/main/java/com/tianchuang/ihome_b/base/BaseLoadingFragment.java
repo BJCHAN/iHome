@@ -41,7 +41,7 @@ public abstract class BaseLoadingFragment extends BaseFragment {
         } else {
             rootView = inflater.inflate(getLayoutId(), container, false);
             bind = ButterKnife.bind(this, rootView);
-            initView(rootView, savedInstanceState);
+            initView(rootView, savedInstanceState);//先初始化View,再去加载数据
             if (loadingPager == null) {
                 loadingPager = getLoadingPager();
             }

@@ -169,10 +169,6 @@ public class InnerReportsFragment extends BaseFragment implements InnerReportsAc
                 files.add(new File(imagesMultipleItem.getUrl()));
             }
         }
-//        if (files.size() == 0) {
-//            ToastUtil.showToast(getContext(), "图片不能为空");
-//            return;
-//        }
         InnerReportsModel.requestReportsSubmit(UserUtil.getLoginBean().getPropertyCompanyId(), content, files)
                 .compose(RxHelper.<String>handleResult())
                 .compose(this.<String>bindToLifecycle())
@@ -188,14 +184,12 @@ public class InnerReportsFragment extends BaseFragment implements InnerReportsAc
                         FragmentUtils.popAddFragment(getFragmentManager(), holdingActivity.getFragmentContainerId(), InnerReportsSuccessFragment.newInstance(), true);
                         EventBus.getDefault().post(new NotifyHomePageRefreshEvent());
                         dismissProgress();
-//						FileUtils.deleteImageFile();
                     }
 
                     @Override
                     protected void _onError(String message) {
                         ToastUtil.showToast(getContext(), message);
                         dismissProgress();
-//						FileUtils.deleteImageFile();//删除压缩的图片
                     }
 
                     @Override

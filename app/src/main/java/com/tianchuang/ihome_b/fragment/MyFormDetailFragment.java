@@ -49,10 +49,7 @@ public class MyFormDetailFragment extends BaseLoadingFragment {
 
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
-
         rvList.setLayoutManager(new LinearLayoutManager(getContext()));
-
-
     }
 
     @Override
@@ -70,26 +67,18 @@ public class MyFormDetailFragment extends BaseLoadingFragment {
         FormModel.myFormDetail(bean.getId())
                 .compose(RxHelper.<MyFormDetailBean>handleResult())
                 .compose(this.<MyFormDetailBean>bindToLifecycle())
-//                .doOnSubscribe(new Action0() {
-//                    @Override
-//                    public void call() {
-//                        showProgress();
-//                    }
-//                })
                 .subscribe(new RxSubscribe<MyFormDetailBean>() {
                     @Override
                     protected void _onNext(MyFormDetailBean myFormDetailBean) {
                         checkData(myFormDetailBean);
                         FormDetailMultiAdapter adapter = new FormDetailMultiAdapter(myFormDetailBean.getFormDataVos());
                         rvList.setAdapter(adapter);
-//                        dismissProgress();
                     }
 
                     @Override
                     protected void _onError(String message) {
                         showErrorPage();
                         ToastUtil.showToast(getContext(), message);
-//                        dismissProgress();
                     }
 
                     @Override
