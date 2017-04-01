@@ -11,6 +11,7 @@ import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.activity.MyOrderActivity;
 import com.tianchuang.ihome_b.adapter.DetailMultiAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
+import com.tianchuang.ihome_b.base.BaseLoadingFragment;
 import com.tianchuang.ihome_b.bean.DetailMultiItem;
 import com.tianchuang.ihome_b.bean.EvaluateBean;
 import com.tianchuang.ihome_b.bean.MyOrderDetailBean;
@@ -40,7 +41,7 @@ import rx.functions.Action0;
  * description:我的订单详情
  */
 
-public class MyOrderDetailFragment extends BaseFragment {
+public class MyOrderDetailFragment extends BaseLoadingFragment {
     @BindView(R.id.rv_list)
     RecyclerView rvList;
     @BindView(R.id.tv_status)
@@ -82,24 +83,20 @@ public class MyOrderDetailFragment extends BaseFragment {
         rvList.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new DetailMultiAdapter(new ArrayList<DetailMultiItem>());
         rvList.setAdapter(adapter);
-        requestNet(id);
     }
 
-    /**
-     * 请求网络
-     *
-     * @param id
-     */
-    private void requestNet(final int id) {
+
+    @Override
+    protected void initData() {
         MyOrderModel.myOrderDetail(id)
                 .compose(this.<HttpModle<MyOrderDetailBean>>bindToLifecycle())
                 .compose(RxHelper.<MyOrderDetailBean>handleResult())
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        showProgress();
-                    }
-                })
+//                .doOnSubscribe(new Action0() {
+//                    @Override
+//                    public void call() {
+//                        showProgress();
+//                    }
+//                })
                 .subscribe(new RxSubscribe<MyOrderDetailBean>() {
                     @Override
                     protected void _onNext(MyOrderDetailBean bean) {
@@ -170,13 +167,15 @@ public class MyOrderDetailFragment extends BaseFragment {
                                 tvStatus.setVisibility(View.GONE);
                                 break;
                         }
+                        checkData(bean);
                         adapter.notifyDataSetChanged();
                     }
 
                     @Override
                     protected void _onError(String message) {
                         ToastUtil.showToast(getContext(), message);
-                        dismissProgress();
+                        showErrorPage();
+//                        dismissProgress();
                     }
 
                     @Override
@@ -186,12 +185,13 @@ public class MyOrderDetailFragment extends BaseFragment {
                 });
     }
 
+
     /**
      * 费用明细提交成功刷新页面
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(FeeSubmitSuccessEvent feeSubmitSuccess) {
-        requestNet(id);
+        initData();
     }
 
     @Override
@@ -199,4 +199,6 @@ public class MyOrderDetailFragment extends BaseFragment {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
+
+
 }

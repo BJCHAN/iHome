@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.base.BaseFragment;
+import com.tianchuang.ihome_b.base.BaseLoadingFragment;
 import com.tianchuang.ihome_b.bean.NotificationItemBean;
 import com.tianchuang.ihome_b.bean.model.NotificationModel;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
@@ -22,7 +23,7 @@ import rx.functions.Action0;
  * description:公告详情页面
  */
 
-public class NotificationDetailFragment extends BaseFragment {
+public class NotificationDetailFragment extends BaseLoadingFragment {
     @BindView(R.id.tv_notification_type)
     TextView tvNotificationType;
     @BindView(R.id.tv_notification_date)
@@ -51,30 +52,38 @@ public class NotificationDetailFragment extends BaseFragment {
 
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
+
+    }
+
+
+    @Override
+    protected void initData() {
         int noticeId = getArguments().getInt("noticeId");
         NotificationModel.notificationDetail(noticeId)
                 .compose(RxHelper.<NotificationItemBean>handleResult())
                 .compose(this.<NotificationItemBean>bindToLifecycle())
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        showProgress();
-                    }
-                })
+//                .doOnSubscribe(new Action0() {
+//                    @Override
+//                    public void call() {
+//                        showProgress();
+//                    }
+//                })
                 .subscribe(new RxSubscribe<NotificationItemBean>() {
                     @Override
                     protected void _onNext(NotificationItemBean itemBean) {
+                        checkData(itemBean);
                         tvNotificationType.setText(StringUtils.getNotNull(itemBean.getTitle()));
                         tvNotificationDate.setText(StringUtils.getNotNull(
                                 DateUtils.formatDate(itemBean.getCreatedDate(), DateUtils.TYPE_05)));
                         tvContent.setText(StringUtils.getNotNull(itemBean.getContent()));
-                        dismissProgress();
+//                        dismissProgress();
                     }
 
                     @Override
                     protected void _onError(String message) {
                         ToastUtil.showToast(getContext(), message);
-                        dismissProgress();
+                        showErrorPage();
+//                        dismissProgress();
                     }
 
                     @Override
@@ -83,6 +92,4 @@ public class NotificationDetailFragment extends BaseFragment {
                     }
                 });
     }
-
-
 }

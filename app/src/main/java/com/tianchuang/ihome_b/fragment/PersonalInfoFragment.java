@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.adapter.PersonalInfoAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
+import com.tianchuang.ihome_b.base.BaseLoadingFragment;
 import com.tianchuang.ihome_b.bean.PersonalInfoBean;
 import com.tianchuang.ihome_b.bean.model.HomePageModel;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
@@ -25,10 +26,10 @@ import rx.functions.Action0;
 
 /**
  * Created by Abyss on 2017/3/29.
- * description:
+ * description: 个人信息
  */
 
-public class PersonalInfoFragment extends BaseFragment {
+public class PersonalInfoFragment extends BaseLoadingFragment {
     @BindView(R.id.tv_name)
     TextView tvName;
     @BindView(R.id.tv_phone)
@@ -62,12 +63,6 @@ public class PersonalInfoFragment extends BaseFragment {
         HomePageModel.requestPersonInfo()
                 .compose(RxHelper.<ArrayList<PersonalInfoBean>>handleResult())
                 .compose(this.<ArrayList<PersonalInfoBean>>bindToLifecycle())
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        showProgress();
-                    }
-                })
                 .subscribe(new RxSubscribe<ArrayList<PersonalInfoBean>>() {
                     @Override
                     protected void _onNext(ArrayList<PersonalInfoBean> list) {
@@ -78,14 +73,13 @@ public class PersonalInfoFragment extends BaseFragment {
 
                     @Override
                     protected void _onError(String message) {
+                        showErrorPage();
                         ToastUtil.showToast(getContext(), message);
-                        dismissProgress();
                     }
 
                     @Override
                     public void onCompleted() {
-                        dismissProgress();
-
+                        showSucceedPage();
                     }
                 });
     }

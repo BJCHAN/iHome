@@ -2,14 +2,12 @@ package com.tianchuang.ihome_b.base;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.TianChuangApplication;
@@ -27,9 +25,9 @@ import butterknife.ButterKnife;
 public abstract class BaseLoadingFragment extends BaseFragment {
     protected LoadingPager loadingPager;
     protected Context mContext = getActivity() == null ? TianChuangApplication.application : getActivity();
-    private int errorPagerId;
-    private int emptyPagerId;
-    private int loadingPagerId;
+    private int errorPageId;
+    private int emptyPageId;
+    private int loadingPageId;
 
 
     @Nullable
@@ -56,11 +54,11 @@ public abstract class BaseLoadingFragment extends BaseFragment {
 
     @NonNull
     private LoadingPager getLoadingPager() {
-        loadingPagerId = R.layout.base_loading_pager;
-        errorPagerId = R.layout.base_error_pager;
-        emptyPagerId = R.layout.base_empty_pager;
+        loadingPageId = R.layout.base_loading_pager;
+        errorPageId = R.layout.base_error_pager;
+        emptyPageId = R.layout.base_empty_pager;
         setCustomLoadingPager();
-        return new LoadingPager(mContext, loadingPagerId, errorPagerId, emptyPagerId) {
+        return new LoadingPager(mContext, loadingPageId, errorPageId, emptyPageId) {
             @Override
             protected View createSuccessView() {
                 return rootView;
@@ -81,25 +79,25 @@ public abstract class BaseLoadingFragment extends BaseFragment {
 
     }
 
-    public void setErrorPagerId(@LayoutRes int errorPagerId) {
-        this.errorPagerId = errorPagerId;
+    public void setErrorPageId(@LayoutRes int errorPageId) {
+        this.errorPageId = errorPageId;
     }
 
-    public void setEmptyPagerId(@LayoutRes int emptyPagerId) {
-        this.emptyPagerId = emptyPagerId;
+    public void setEmptyPageId(@LayoutRes int emptyPageId) {
+        this.emptyPageId = emptyPageId;
     }
 
-    public void setLoadingPagerId(@LayoutRes int loadingPagerId) {
-        this.loadingPagerId = loadingPagerId;
+    public void setLoadingPageId(@LayoutRes int loadingPageId) {
+        this.loadingPageId = loadingPageId;
     }
 
     /**
-     * 必须在获取到数据后调用checkData方法
+     * 获取数据必须实现
      */
     protected abstract void initData();
 
     /**
-     * 校验数据，必须调用
+     * 校验数据，自选调用
      */
     protected void checkData(Object datas) {
 //        if (datas == null) {

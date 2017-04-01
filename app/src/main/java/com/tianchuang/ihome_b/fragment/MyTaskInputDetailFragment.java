@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.adapter.TaskInputDetailListAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
+import com.tianchuang.ihome_b.base.BaseLoadingFragment;
 import com.tianchuang.ihome_b.bean.MyTaskUnderWayItemBean;
 import com.tianchuang.ihome_b.bean.TaskInputDetailBean;
 import com.tianchuang.ihome_b.bean.TaskRoomDataListBean;
@@ -36,7 +37,7 @@ import rx.functions.Action0;
  * description:任务录入详情
  */
 
-public class MyTaskInputDetailFragment extends BaseFragment {
+public class MyTaskInputDetailFragment extends BaseLoadingFragment {
     @BindView(R.id.rv_list)
     RecyclerView rvList;
     @BindView(R.id.tv_title)
@@ -90,21 +91,19 @@ public class MyTaskInputDetailFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-        super.initData();
         MyTaskModel.taskInputDetail(taskRecordId)
                 .compose(RxHelper.<TaskInputDetailBean>handleResult())
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        showProgress();
-                    }
-                })
+//                .doOnSubscribe(new Action0() {
+//                    @Override
+//                    public void call() {
+//                        showProgress();
+//                    }
+//                })
                 .compose(this.<TaskInputDetailBean>bindToLifecycle())
                 .subscribe(new RxSubscribe<TaskInputDetailBean>() {
 
                     @Override
                     protected void _onNext(TaskInputDetailBean taskInputDetailBean) {
-                        if (taskInputDetailBean != null) {
                             taskInputDetailBean.setTaskRecordId(taskRecordId);
                             MyTaskInputDetailFragment.this.taskInputDetailBean = taskInputDetailBean;
                             tvTitle.setText(getNotNull(item.getTaskName()));
@@ -118,18 +117,19 @@ public class MyTaskInputDetailFragment extends BaseFragment {
                                 mListData.addAll(taskInputDetailBean.getTaskRoomDataList());
                             }
                             rvList.setAdapter(new TaskInputDetailListAdapter(mListData));
-                        }
                     }
 
                     @Override
                     protected void _onError(String message) {
+                        showErrorPage();
                         ToastUtil.showToast(getContext(), message);
-                        dismissProgress();
+//                        dismissProgress();
                     }
 
                     @Override
                     public void onCompleted() {
-                        dismissProgress();
+                        showSucceedPage();
+//                        dismissProgress();
                     }
                 });
     }

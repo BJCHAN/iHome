@@ -11,6 +11,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.base.BaseFragment;
+import com.tianchuang.ihome_b.base.BaseLoadingFragment;
 import com.tianchuang.ihome_b.bean.BaseItemLoadBean;
 import com.tianchuang.ihome_b.bean.BaseListLoadBean;
 import com.tianchuang.ihome_b.bean.recyclerview.EmptyLoadMore;
@@ -31,7 +32,7 @@ import rx.functions.Action0;
  * description:T 是itemBean,E是ListBean
  */
 
-abstract class BaseRefreshAndLoadMoreFragment<T extends BaseItemLoadBean, E extends BaseListLoadBean> extends BaseFragment implements PullToLoadMoreListener.OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
+abstract class BaseRefreshAndLoadMoreFragment<T extends BaseItemLoadBean, E extends BaseListLoadBean> extends BaseLoadingFragment implements PullToLoadMoreListener.OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
     @BindView(R.id.rv_list)
     RecyclerView rvList;
     @BindView(R.id.swipeLayout)
@@ -59,13 +60,18 @@ abstract class BaseRefreshAndLoadMoreFragment<T extends BaseItemLoadBean, E exte
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(getContext(), R.color.refresh_scheme_color));
         rvList.addOnScrollListener(new PullToLoadMoreListener(mSwipeRefreshLayout, this));
+
+    }
+
+    @Override
+    protected void initData() {
         getNetObservable(0)
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        showProgress();
-                    }
-                })
+//                .doOnSubscribe(new Action0() {
+//                    @Override
+//                    public void call() {
+//                        showProgress();
+//                    }
+//                })
                 .compose(this.<E>bindToLifecycle())
                 .retry(2)
                 .subscribe(new RxSubscribe<E>() {
@@ -74,18 +80,20 @@ abstract class BaseRefreshAndLoadMoreFragment<T extends BaseItemLoadBean, E exte
                     protected void _onNext(E bean) {
                         pageSize = bean.getPageSize();
                         ArrayList listVo = bean.getListVo();
+                        checkData(listVo);
                         if (listVo.size() > 0)
                             mData.addAll(listVo);
                         adapter = initAdapter(mData, bean);
                         setAdapter();
                         rvList.setAdapter(adapter);
-                        dismissProgress();
+//                        dismissProgress();
                     }
 
                     @Override
                     protected void _onError(String message) {
                         ToastUtil.showToast(getContext(), message);
-                        dismissProgress();
+                        showErrorPage();
+//                        dismissProgress();
                     }
 
                     @Override
@@ -94,7 +102,6 @@ abstract class BaseRefreshAndLoadMoreFragment<T extends BaseItemLoadBean, E exte
                     }
                 });
     }
-
 
     /**
      * 加载更多

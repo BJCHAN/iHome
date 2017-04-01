@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.adapter.DetailMultiAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
+import com.tianchuang.ihome_b.base.BaseLoadingFragment;
 import com.tianchuang.ihome_b.bean.ComplainDetailBean;
 import com.tianchuang.ihome_b.bean.model.ComplainSuggestModel;
 import com.tianchuang.ihome_b.bean.recyclerview.CommonItemDecoration;
@@ -32,13 +33,14 @@ import rx.Subscriber;
  * description:投诉详情
  */
 
-public class ComplainDetailFragment extends BaseFragment {
+public class ComplainDetailFragment extends BaseLoadingFragment {
     @BindView(R.id.rv_list)
     RecyclerView rvList;
     @BindView(R.id.fl_complain)
     FrameLayout flComplain;
     private TextView tv_sure;
     private EditText tv_content;
+    private int id;
 
     @Override
     protected int getLayoutId() {
@@ -61,18 +63,16 @@ public class ComplainDetailFragment extends BaseFragment {
 
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
-        int id = getArguments().getInt("id");
+        id = getArguments().getInt("id");
         rvList.addItemDecoration(new CommonItemDecoration(20));
         rvList.setLayoutManager(new LinearLayoutManager(getContext()));
-        requestNet(id);
     }
 
     /**
      * 请求网络
-     *
-     * @param id
      */
-    private void requestNet(final int id) {
+    @Override
+    protected void initData() {
         ComplainSuggestModel.complainDetail(id)
                 .compose(this.<HttpModle<ComplainDetailBean>>bindToLifecycle())
                 .compose(RxHelper.<ComplainDetailBean>handleResult())
@@ -112,15 +112,17 @@ public class ComplainDetailFragment extends BaseFragment {
 
                     @Override
                     protected void _onError(String message) {
-
+                        showErrorPage();
+                        ToastUtil.showToast(getContext(), message);
                     }
 
                     @Override
                     public void onCompleted() {
-
+                        showSucceedPage();
                     }
                 });
     }
+
 
     /**
      * 请求网络进行回复
@@ -146,7 +148,7 @@ public class ComplainDetailFragment extends BaseFragment {
                     public void onNext(HttpModle<String> modle) {
                         if (modle.success()) {
 //                            showDialog("回复成功");
-                            ToastUtil.showToast(getContext(),"回复成功");
+                            ToastUtil.showToast(getContext(), "回复成功");
                             removeFragment();
                         } else {
                             if (modle.msg != null)
@@ -189,5 +191,6 @@ public class ComplainDetailFragment extends BaseFragment {
             }
         });
     }
+
 
 }

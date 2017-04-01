@@ -10,6 +10,7 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.adapter.TaskControlPointDetailListAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
+import com.tianchuang.ihome_b.base.BaseLoadingFragment;
 import com.tianchuang.ihome_b.bean.ControlPointItemBean;
 import com.tianchuang.ihome_b.bean.TaskControlPointDetailBean;
 import com.tianchuang.ihome_b.bean.event.TaskFormSubmitSuccessEvent;
@@ -35,7 +36,7 @@ import rx.functions.Action0;
  * description:我的任务控制点详情页面
  */
 
-public class MyTaskControlPointDetailFragment extends BaseFragment {
+public class MyTaskControlPointDetailFragment extends BaseLoadingFragment {
 
     @BindView(R.id.tv_title)
     TextView tvTitle;
@@ -70,7 +71,7 @@ public class MyTaskControlPointDetailFragment extends BaseFragment {
 
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
-        this.taskRecordId =  getArguments().getInt("taskRecordId");
+        this.taskRecordId = getArguments().getInt("taskRecordId");
         CustomLinearLayoutManager layoutManager = new CustomLinearLayoutManager(getContext());
         layoutManager.setScrollEnabled(false);
         mListData = new ArrayList<>();
@@ -99,38 +100,38 @@ public class MyTaskControlPointDetailFragment extends BaseFragment {
         MyTaskModel.taskControlPointDetail(taskRecordId)//请求控制点数据
                 .compose(RxHelper.<TaskControlPointDetailBean>handleResult())
                 .compose(this.<TaskControlPointDetailBean>bindToLifecycle())
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        showProgress();
-                    }
-                })
+//                .doOnSubscribe(new Action0() {
+//                    @Override
+//                    public void call() {
+//                        showProgress();
+//                    }
+//                })
                 .subscribe(new RxSubscribe<TaskControlPointDetailBean>() {
                     @Override
                     protected void _onNext(TaskControlPointDetailBean taskControlPointDetailBean) {
-                        if (taskControlPointDetailBean != null) {
-                            tvTitle.setText(getNotNull(taskControlPointDetailBean.getTaskName()));
-                            tvDate.setText(getNotNull(DateUtils.formatDate(taskControlPointDetailBean.getCreatedDate(), DateUtils.TYPE_01)));
-                            tvContent.setText(getNotNull(taskControlPointDetailBean.getTaskExplains()));
-                            if (taskControlPointDetailBean.getEquipmentControlVoList().size() > 0) {
-                                mListData.clear();
-                                mListData.addAll(taskControlPointDetailBean.getEquipmentControlVoList());
-                            }
-                            adapter = new TaskControlPointDetailListAdapter(mListData);
-                            rvList.setAdapter(adapter);//设置控制点列表
+                        tvTitle.setText(getNotNull(taskControlPointDetailBean.getTaskName()));
+                        tvDate.setText(getNotNull(DateUtils.formatDate(taskControlPointDetailBean.getCreatedDate(), DateUtils.TYPE_01)));
+                        tvContent.setText(getNotNull(taskControlPointDetailBean.getTaskExplains()));
+                        if (taskControlPointDetailBean.getEquipmentControlVoList().size() > 0) {
+                            mListData.clear();
+                            mListData.addAll(taskControlPointDetailBean.getEquipmentControlVoList());
                         }
+                        adapter = new TaskControlPointDetailListAdapter(mListData);
+                        rvList.setAdapter(adapter);//设置控制点列表
                     }
 
                     @Override
                     protected void _onError(String message) {
+                        showErrorPage();
                         ToastUtil.showToast(getContext(), message);
-                        dismissProgress();
+//                        dismissProgress();
 
                     }
 
                     @Override
                     public void onCompleted() {
-                        dismissProgress();
+                        showSucceedPage();
+//                        dismissProgress();
                     }
                 });
     }

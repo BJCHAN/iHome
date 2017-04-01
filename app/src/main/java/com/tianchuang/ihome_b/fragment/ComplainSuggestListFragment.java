@@ -15,6 +15,7 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.adapter.ComplainSuggestListAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
+import com.tianchuang.ihome_b.base.BaseLoadingFragment;
 import com.tianchuang.ihome_b.bean.ComplainSuggestListItem;
 import com.tianchuang.ihome_b.bean.ComplainSuggestProcessedBean;
 import com.tianchuang.ihome_b.bean.ComplainSuggestUntratedBean;
@@ -37,7 +38,7 @@ import rx.functions.Action0;
 /**
  * 投诉建议列表
  */
-public class ComplainSuggestListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, PullToLoadMoreListener.OnLoadMoreListener {
+public class ComplainSuggestListFragment extends BaseLoadingFragment implements SwipeRefreshLayout.OnRefreshListener, PullToLoadMoreListener.OnLoadMoreListener {
     @BindView(R.id.rv_list)
     RecyclerView mRvList;
     @BindView(R.id.swipeLayout)
@@ -103,8 +104,7 @@ public class ComplainSuggestListFragment extends BaseFragment implements SwipeRe
 
     @Override
     protected void initData() {
-        super.initData();
-        showProgress();
+//        showProgress();
         //未处理
         if (type == TYPE_UNTREATED) {
             mComplainSuggestListAdapter.setEmptyView(ViewHelper.getEmptyView(getString(R.string.complain_suggest_untreated_empty)));
@@ -190,14 +190,18 @@ public class ComplainSuggestListFragment extends BaseFragment implements SwipeRe
                     @Override
                     protected void _onError(String message) {
                         ToastUtil.showToast(getActivity(), message);
-                        dismissProgress();
+//                        dismissProgress();
+                        showErrorPage();
                         mSwipeRefreshLayout.setRefreshing(false);//刷新完成
                         loadComplete = true;
                     }
 
                     @Override
                     public void onCompleted() {
-                        dismissProgress();
+//                        dismissProgress();
+                        if (untratedMaxid == 0) {
+                            showSucceedPage();
+                        }
                         mSwipeRefreshLayout.setRefreshing(false);//刷新完成
                     }
                 });
@@ -253,14 +257,18 @@ public class ComplainSuggestListFragment extends BaseFragment implements SwipeRe
                     @Override
                     protected void _onError(String message) {
                         ToastUtil.showToast(getActivity(), message);
-                        dismissProgress();
+//                        dismissProgress();
+                        showErrorPage();
                         mSwipeRefreshLayout.setRefreshing(false);//刷新完成
                         loadComplete = true;
                     }
 
                     @Override
                     public void onCompleted() {
-                        dismissProgress();
+//                        dismissProgress();
+                        if (processedMaxid == 0) {
+                            showSucceedPage();
+                        }
                         mSwipeRefreshLayout.setRefreshing(false);//刷新完成
                     }
                 });

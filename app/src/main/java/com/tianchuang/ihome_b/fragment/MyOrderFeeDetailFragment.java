@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.adapter.ItemRemoveAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
+import com.tianchuang.ihome_b.base.BaseLoadingFragment;
 import com.tianchuang.ihome_b.bean.ChargeTypeListItemBean;
 import com.tianchuang.ihome_b.bean.CommonFeeBean;
 import com.tianchuang.ihome_b.bean.ControlPointItemBean;
@@ -43,7 +44,7 @@ import rx.functions.Action0;
  * description:费用明细
  */
 
-public class MyOrderFeeDetailFragment extends BaseFragment implements ChargeTypeDialogFragment.OnChargeTypeSelectedListener {
+public class MyOrderFeeDetailFragment extends BaseLoadingFragment implements ChargeTypeDialogFragment.OnChargeTypeSelectedListener {
 	@BindView(R.id.rv_item_remove_recyclerview)
 	ItemRemoveRecyclerView rvItemRemoveRecyclerview;
 	@BindView(R.id.tv_sum_price)
@@ -108,7 +109,7 @@ public class MyOrderFeeDetailFragment extends BaseFragment implements ChargeType
 				tvSumPrice.setText("￥" + StringUtils.formatNum(getSum()));
 			}
 		});
-		requestNet();
+//		requestNet();
 	}
 
 	@OnClick({R.id.tv_add_material, R.id.tv_add_charge, R.id.bt_sure})
@@ -160,23 +161,25 @@ public class MyOrderFeeDetailFragment extends BaseFragment implements ChargeType
 	/**
 	 * 请求材料和费用列表
 	 */
-	private void requestNet() {
+	@Override
+	protected void initData() {
 		materialList = new ArrayList<>();
 		chargeTypeList = new ArrayList<>();
 		materialListObservable = MyOrderModel.materialList().compose(RxHelper.<ArrayList<MaterialListItemBean>>handleResult());
 		chargeTypeListObservable = MyOrderModel.chargeTypeList().compose(RxHelper.<ArrayList<ChargeTypeListItemBean>>handleResult());
 		getChargeTypeAndMaterialList(materialListObservable, chargeTypeListObservable)
-				.doOnSubscribe(new Action0() {
-					@Override
-					public void call() {
-						showProgress();
-					}
-				})
+//				.doOnSubscribe(new Action0() {
+//					@Override
+//					public void call() {
+//						showProgress();
+//					}
+//				})
 				.retry(2)
 				.subscribe(new RxSubscribe<Object>() {
 					@Override
 					public void onCompleted() {
-						dismissProgress();
+						showSucceedPage();
+//						dismissProgress();
 					}
 
 					@Override
@@ -198,10 +201,12 @@ public class MyOrderFeeDetailFragment extends BaseFragment implements ChargeType
 					@Override
 					protected void _onError(String message) {
 						ToastUtil.showToast(getContext(), message);
-						dismissProgress();
+						showErrorPage();
+//						dismissProgress();
 					}
 				});
 	}
+
 
 	private Observable<Object> getChargeTypeAndMaterialList(Observable<ArrayList<MaterialListItemBean>> materialListObservable, Observable<ArrayList<ChargeTypeListItemBean>> chargeTypeListObservable) {
 		return Observable.merge(materialListObservable, chargeTypeListObservable)
@@ -238,4 +243,6 @@ public class MyOrderFeeDetailFragment extends BaseFragment implements ChargeType
 		super.onDestroy();
 		EventBus.getDefault().unregister(this);
 	}
+
+
 }
