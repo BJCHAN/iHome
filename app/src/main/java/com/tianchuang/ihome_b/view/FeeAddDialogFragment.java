@@ -34,8 +34,6 @@ public class FeeAddDialogFragment extends BaseFragment {
     TextView tvUnitPrice;
     @BindView(R.id.tv_sum_price)
     TextView tvSumPrice;
-    @BindView(R.id.tv_sure)
-    TextView tvSure;
     private float buyPrice;
     private MaterialListItemBean bean;
 
@@ -55,18 +53,15 @@ public class FeeAddDialogFragment extends BaseFragment {
         buyPrice = bean.getSalePrice();
         tvUnitPrice.setText("单价：" + StringUtils.formatNum(buyPrice) + "元/1" + bean.getTypeUnits());
         RxTextView.textChanges(etNum)
-                .compose(this.<CharSequence>bindToLifecycle())
-                .subscribe(new Action1<CharSequence>() {
-                    @Override
-                    public void call(CharSequence text) {
-                        String str = String.valueOf(text);
-                        if (StringUtils.isNumber(str)) {
-                            float num = Float.parseFloat(str);
-                            float sumPrice = buyPrice * num;
-                            tvSumPrice.setText(String.valueOf("总计：￥" + StringUtils.formatNum(sumPrice) + ""));
-                        }
-
+                .compose(bindToLifecycle())
+                .subscribe(text -> {
+                    String str = String.valueOf(text);
+                    if (StringUtils.isNumber(str)) {
+                        float num = Float.parseFloat(str);
+                        float sumPrice = buyPrice * num;
+                        tvSumPrice.setText(String.valueOf("总计：￥" + StringUtils.formatNum(sumPrice) + ""));
                     }
+
                 });
     }
 

@@ -2,7 +2,6 @@ package com.tianchuang.ihome_b.mvp.mvpbase;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.view.View;
 
 import com.tianchuang.ihome_b.base.BaseLoadingFragment;
 import com.tianchuang.ihome_b.utils.InstanceUtils;
@@ -12,9 +11,10 @@ import com.tianchuang.ihome_b.utils.InstanceUtils;
  * description:fragemnt作为View,通用实现
  */
 
-public abstract class MVPBaseFragment<V extends BaseView,T extends BasePresenterImpl<V>> extends BaseLoadingFragment implements BaseView{
+public abstract class MVPBaseFragment<V extends BaseView, T extends BasePresenterImpl<V>> extends BaseLoadingFragment implements BaseView {
 
     protected T mPresenter;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +26,6 @@ public abstract class MVPBaseFragment<V extends BaseView,T extends BasePresenter
     public void onDestroy() {
         super.onDestroy();
         if (mPresenter != null) {
-            mPresenter.unsubscribe();
             mPresenter.detachView();
         }
 

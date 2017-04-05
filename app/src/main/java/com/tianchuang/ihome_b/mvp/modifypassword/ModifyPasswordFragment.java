@@ -91,17 +91,10 @@ public class ModifyPasswordFragment extends MVPBaseFragment<ModifyPasswordContra
      * 原密码和新密码控制登录按钮
      */
     private void submitBtnEnable(Observable<CharSequence> oldPwd, Observable<CharSequence> newPwd, Observable<CharSequence> surePwd) {
-        Observable.combineLatest(oldPwd, newPwd, surePwd, new Func3<CharSequence, CharSequence, CharSequence, Boolean>() {
-            @Override
-            public Boolean call(CharSequence oldPwd, CharSequence newPwd, CharSequence surePwd) {
-                return oldPwd.length() >= 6 && newPwd.length() > 0 && surePwd.length() > 0;
-            }
-        }).compose(this.<Boolean>bindToLifecycle()).subscribe(new Action1<Boolean>() {
-            @Override
-            public void call(Boolean aBoolean) {
-                btSubmit.setEnabled(aBoolean);
-            }
-        });
+        Observable.combineLatest(oldPwd, newPwd, surePwd
+                , (oldPwd1, newPwd1, surePwd1) -> oldPwd1.length() >= 6 && newPwd1.length() > 0 && surePwd1.length() > 0)
+                .compose(bindToLifecycle())
+                .subscribe(aBoolean -> btSubmit.setEnabled(aBoolean));
     }
 
     /**

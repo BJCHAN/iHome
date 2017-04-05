@@ -32,7 +32,7 @@ public abstract class LoadingPager extends FrameLayout {
     private View mEmptyView;// 空的view
     private View mSucceedView;// 成功的view
 
-    public View getmSucceedView() {
+    public View getSucceedView() {
         return mSucceedView;
     }
 

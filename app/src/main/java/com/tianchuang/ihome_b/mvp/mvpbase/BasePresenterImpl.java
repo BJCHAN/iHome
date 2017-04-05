@@ -1,5 +1,8 @@
 package com.tianchuang.ihome_b.mvp.mvpbase;
 
+import android.content.Context;
+
+import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -9,12 +12,11 @@ import rx.subscriptions.CompositeSubscription;
 
 public class BasePresenterImpl<V extends BaseView> implements BasePresenter<V> {
     protected V mView;
-    protected CompositeSubscription compositeSubscription = new CompositeSubscription();
-
-    public CompositeSubscription getCompositeSubscription() {
-        return compositeSubscription;
-    }
-
+//    protected CompositeSubscription compositeSubscription = new CompositeSubscription();
+//
+//    public void addToSubscriptions(Subscription subscription) {
+//        compositeSubscription.add(subscription);
+//    }
     @Override
     public void attachView(V view) {
         this.mView = view;
@@ -25,9 +27,13 @@ public class BasePresenterImpl<V extends BaseView> implements BasePresenter<V> {
         this.mView = null;
     }
 
-    @Override
-    public void unsubscribe() {
-        if (compositeSubscription.hasSubscriptions())
-            compositeSubscription.clear();
+    public Context getContext() {//最好在获取资源时使用
+        return mView.getContext();
     }
+
+//    @Override
+//    public void unsubscribe() {
+//        if (compositeSubscription.hasSubscriptions())
+//            compositeSubscription.unsubscribe();
+//    }
 }

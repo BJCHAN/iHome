@@ -93,8 +93,6 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
     TextView tvDrawPhone;
     @BindView(R.id.iv_little_red)
     ImageView ivLittleRed;
-    @BindView(R.id.rl_user_info)
-    RelativeLayout rlUserInfo;
     private ArrayList<DrawMenuItem> drawMenuItems = new ArrayList<>();
     private DrawMenuAdapter menuAdapter;
     private int noticeCount = 0;
@@ -171,34 +169,31 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
         if (menuList != null && menuList.size() > 0) {
             Observable.from(menuList)
                     .distinct()//去重
-                    .compose(this.<Integer>bindToLifecycle())
-                    .subscribe(new Action1<Integer>() {
-                        @Override
-                        public void call(Integer integer) {
-                            switch (integer) {
-                                case 1://我的任务
-                                    drawMenuItems.add(new DrawMenuItem().setId(0).setName(itemsNameArray[0]));
-                                    break;
-                                case 2://我的表单
-                                    drawMenuItems.add(new DrawMenuItem().setId(1).setName(itemsNameArray[1]));
-                                    break;
-                                case 8://报修抢单
-                                    drawMenuItems.add(new DrawMenuItem().setId(2).setName(itemsNameArray[2]));
-                                    drawMenuItems.add(new DrawMenuItem().setId(3).setName(itemsNameArray[3]));
-                                    setIvRightEnable(true);//抢单大厅显示
-                                    break;
-                                case 7://访客列表
-                                    drawMenuItems.add(new DrawMenuItem().setId(4).setName(itemsNameArray[4]));
-                                    break;
-                                case 3://管理通知
-                                    drawMenuItems.add(new DrawMenuItem().setId(5).setName(itemsNameArray[5]));
-                                    break;
-                                case 5://内部报事接收
-                                    drawMenuItems.add(new DrawMenuItem().setId(6).setName(itemsNameArray[6]));
-                                    drawMenuItems.add(new DrawMenuItem().setId(7).setName(itemsNameArray[7]));
-                                    break;
+                    .compose(bindToLifecycle())
+                    .subscribe(integer -> {
+                        switch (integer) {
+                            case 1://我的任务
+                                drawMenuItems.add(new DrawMenuItem().setId(0).setName(itemsNameArray[0]));
+                                break;
+                            case 2://我的表单
+                                drawMenuItems.add(new DrawMenuItem().setId(1).setName(itemsNameArray[1]));
+                                break;
+                            case 8://报修抢单
+                                drawMenuItems.add(new DrawMenuItem().setId(2).setName(itemsNameArray[2]));
+                                drawMenuItems.add(new DrawMenuItem().setId(3).setName(itemsNameArray[3]));
+                                setIvRightEnable(true);//抢单大厅显示
+                                break;
+                            case 7://访客列表
+                                drawMenuItems.add(new DrawMenuItem().setId(4).setName(itemsNameArray[4]));
+                                break;
+                            case 3://管理通知
+                                drawMenuItems.add(new DrawMenuItem().setId(5).setName(itemsNameArray[5]));
+                                break;
+                            case 5://内部报事接收
+                                drawMenuItems.add(new DrawMenuItem().setId(6).setName(itemsNameArray[6]));
+                                drawMenuItems.add(new DrawMenuItem().setId(7).setName(itemsNameArray[7]));
+                                break;
 
-                            }
                         }
                     });
 
@@ -351,12 +346,7 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
                     } else {
                         ToastUtil.showToast(this, "再按一次退出");
                         twoBack = true;
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                twoBack = false;
-                            }
-                        }, 2000);
+                        new Handler().postDelayed(() -> twoBack = false, 2000);
                     }
                 }
                 return true;
@@ -417,8 +407,8 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
             map.put("propertyCompanyId", String.valueOf(UserUtil.getLoginBean().getPropertyCompanyId()));
             map.put("code", result);
             HomePageModel.requestQrCode(map)
-                    .compose(RxHelper.<ArrayList<QrCodeBean>>handleResult())
-                    .compose(this.<ArrayList<QrCodeBean>>bindToLifecycle())
+                    .compose(RxHelper.handleResult())
+                    .compose(this.bindToLifecycle())
                     .subscribe(new RxSubscribe<ArrayList<QrCodeBean>>() {
                         @Override
                         protected void _onNext(ArrayList<QrCodeBean> qrCodeBeanlist) {

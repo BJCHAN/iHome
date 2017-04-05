@@ -1,4 +1,4 @@
-package com.tianchuang.ihome_b.xgmessage;
+package com.tianchuang.ihome_b.xgpush;
 
 import android.app.Service;
 import android.content.Intent;

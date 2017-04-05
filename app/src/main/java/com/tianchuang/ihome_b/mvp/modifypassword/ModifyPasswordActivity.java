@@ -24,12 +24,7 @@ public class ModifyPasswordActivity extends ToolBarActivity {
         setFinishWithAnim(true);
         setToolbarTitle("修改密码");
         toolbar.setNavigationIcon(R.mipmap.back);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                removeFragment();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> removeFragment());
     }
 
     public int getContainer() {

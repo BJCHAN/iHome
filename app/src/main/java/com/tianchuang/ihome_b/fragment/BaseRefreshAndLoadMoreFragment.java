@@ -72,7 +72,7 @@ abstract class BaseRefreshAndLoadMoreFragment<T extends BaseItemLoadBean, E exte
 //                        showProgress();
 //                    }
 //                })
-                .compose(this.<E>bindToLifecycle())
+                .compose(this.bindToLifecycle())
                 .retry(2)
                 .subscribe(new RxSubscribe<E>() {
 
@@ -115,7 +115,7 @@ abstract class BaseRefreshAndLoadMoreFragment<T extends BaseItemLoadBean, E exte
         mSwipeRefreshLayout.setEnabled(false);
         isLoadMoreLoading = true;
         getNetObservable(mData.get(size - 1).getId())
-                .compose(this.<E>bindToLifecycle())
+                .compose(this.bindToLifecycle())
                 .subscribe(new RxSubscribe<E>() {
                     @Override
                     protected void _onNext(E bean) {
@@ -151,7 +151,7 @@ abstract class BaseRefreshAndLoadMoreFragment<T extends BaseItemLoadBean, E exte
     @Override
     public void onRefresh() {
         getNetObservable(0)
-                .compose(this.<E>bindToLifecycle())
+                .compose(this.bindToLifecycle())
                 .subscribe(new RxSubscribe<E>() {
                     @Override
                     protected void _onNext(E bean) {

@@ -49,18 +49,10 @@ public class MyOrderFeeDetailFragment extends BaseLoadingFragment implements Cha
 	ItemRemoveRecyclerView rvItemRemoveRecyclerview;
 	@BindView(R.id.tv_sum_price)
 	TextView tvSumPrice;
-	@BindView(R.id.tv_add_material)
-	TextView tvAddMaterial;
-	@BindView(R.id.tv_add_charge)
-	TextView tvAddCharge;
 	@BindView(R.id.cb_isunder_line)
 	CheckBox cbIsunderLine;
-	@BindView(R.id.bt_sure)
-	Button btSure;
 	private ArrayList<MaterialListItemBean> materialList;
 	private ArrayList<ChargeTypeListItemBean> chargeTypeList;
-	private Observable<ArrayList<MaterialListItemBean>> materialListObservable;
-	private Observable<ArrayList<ChargeTypeListItemBean>> chargeTypeListObservable;
 	private ArrayList<CommonFeeBean> commonFeeBeenList;
 	private ItemRemoveAdapter adapter;
 	private int repairId;
@@ -165,21 +157,14 @@ public class MyOrderFeeDetailFragment extends BaseLoadingFragment implements Cha
 	protected void initData() {
 		materialList = new ArrayList<>();
 		chargeTypeList = new ArrayList<>();
-		materialListObservable = MyOrderModel.materialList().compose(RxHelper.<ArrayList<MaterialListItemBean>>handleResult());
-		chargeTypeListObservable = MyOrderModel.chargeTypeList().compose(RxHelper.<ArrayList<ChargeTypeListItemBean>>handleResult());
+		Observable<ArrayList<MaterialListItemBean>> materialListObservable = MyOrderModel.materialList().compose(RxHelper.handleResult());
+		Observable<ArrayList<ChargeTypeListItemBean>> chargeTypeListObservable = MyOrderModel.chargeTypeList().compose(RxHelper.handleResult());
 		getChargeTypeAndMaterialList(materialListObservable, chargeTypeListObservable)
-//				.doOnSubscribe(new Action0() {
-//					@Override
-//					public void call() {
-//						showProgress();
-//					}
-//				})
 				.retry(2)
 				.subscribe(new RxSubscribe<Object>() {
 					@Override
 					public void onCompleted() {
 						showSucceedPage();
-//						dismissProgress();
 					}
 
 					@Override
@@ -202,7 +187,6 @@ public class MyOrderFeeDetailFragment extends BaseLoadingFragment implements Cha
 					protected void _onError(String message) {
 						ToastUtil.showToast(getContext(), message);
 						showErrorPage();
-//						dismissProgress();
 					}
 				});
 	}

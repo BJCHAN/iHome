@@ -58,6 +58,7 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
+import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -162,16 +163,10 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             return;
         }
         HomePageModel.homePageList()
-                .compose(RxHelper.<HomePageBean>handleResult())
-                .compose(this.<HomePageBean>bindToLifecycle())
+                .compose(RxHelper.handleResult())
+                .compose(bindToLifecycle())
                 .retry(2)
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        if (!swipeLayout.isRefreshing())
-                            showProgress();
-                    }
-                })
+                .doOnSubscribe(()-> {if (!swipeLayout.isRefreshing()) showProgress();})
                 .subscribe(new RxSubscribe<HomePageBean>() {
                     @Override
                     protected void _onNext(HomePageBean homePageBean) {
@@ -202,13 +197,8 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
         Observable.just(homePageBean)
                 .observeOn(Schedulers.io())
-                .map(new Func1<HomePageBean, List<HomePageMultiItem>>() {
-                    @Override
-                    public List<HomePageMultiItem> call(HomePageBean homePageBean) {//获取主页多类型数据集合
-                        return HomePageModel.getHomePageMultiItemList(homePageBean);
-                    }
-                })
-                .compose(this.<List<HomePageMultiItem>>bindToLifecycle())
+                .map(bean -> HomePageModel.getHomePageMultiItemList(bean))
+                .compose(bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<HomePageMultiItem>>() {
 
@@ -256,19 +246,21 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         llInternalReports.setVisibility(View.GONE);
         llMainQuery.setVisibility(View.GONE);
         if (menuList != null && menuList.size() > 0) {
-            for (Integer value : menuList) {
-                switch (value) {
-                    case 2://提交表单
-                        llWriteForm.setVisibility(View.VISIBLE);
-                        break;
-                    case 4://内部报事提交
-                        llInternalReports.setVisibility(View.VISIBLE);
-                        break;
-                    case 6://数据查询
-                        llMainQuery.setVisibility(View.VISIBLE);
-                        break;
-                }
-            }
+            menuList.stream().forEach(integer -> setViewVisibility(integer));
+        }
+    }
+
+    private void setViewVisibility(Integer integer) {
+        switch (integer) {
+            case 2://提交表单
+                llWriteForm.setVisibility(View.VISIBLE);
+                break;
+            case 4://内部报事提交
+                llInternalReports.setVisibility(View.VISIBLE);
+                break;
+            case 6://数据查询
+                llMainQuery.setVisibility(View.VISIBLE);
+                break;
         }
     }
 
