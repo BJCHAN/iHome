@@ -16,7 +16,10 @@ import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
 import com.tianchuang.ihome_b.bean.model.LoginModel;
+import com.tianchuang.ihome_b.utils.DateUtils;
 import com.tianchuang.ihome_b.utils.VerificationUtil;
+
+import java.util.function.Function;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -82,24 +85,14 @@ public class ResetPasswordFragment extends BaseFragment {
 	protected void initListener() {
 		RxTextView.textChanges(etNewPasswrod)
 				.compose(this.<CharSequence>bindToLifecycle())
-				.map(new Func1<CharSequence, Boolean>() {
-					@Override
-					public Boolean call(CharSequence text) {
-						return text.length() >= 6;
-					}
-				}).subscribe(new Action1<Boolean>() {
-			@Override
-			public void call(Boolean aBoolean) {
-				RxView.enabled(btSure).call(aBoolean);
-			}
-		});
+				.map(text -> text.length() >= 6)
+				.subscribe(aBoolean -> RxView.enabled(btSure).call(aBoolean));
 	}
 
 	@OnClick({R.id.iv_pwd_isvisible, R.id.bt_sure})
 	public void onClick(View view) {
 		switch (view.getId()) {
 			case R.id.iv_pwd_isvisible:
-
 				if (isPwdVisible) {
 					ivPwdIsvisible.setImageResource(R.mipmap.pwd_invisible_icon);
 					etNewPasswrod.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
@@ -113,28 +106,12 @@ public class ResetPasswordFragment extends BaseFragment {
 				break;
 
 			case R.id.bt_sure:
-				final String pwd = etNewPasswrod.getText().toString().trim();
+				 String pwd = etNewPasswrod.getText().toString().trim();
 				Observable.just(pwd)
-						.filter(new Func1<String, Boolean>() {
-							@Override
-							public Boolean call(String s) {
-								return whetherCanLogin(pwd);
-							}
-						})
-						.flatMap(new Func1<String, Observable<String>>() {
-							@Override
-							public Observable<String> call(String pwd) {
-								return LoginModel.resetPassword(phone, pwd, code).compose(RxHelper.<String>handleResult());
-							}
-						})
-						.doOnSubscribe(new Action0() {
-							@Override
-							public void call() {
-
-								showProgress();
-							}
-						})
-						.compose(this.<String>bindToLifecycle())
+						.filter(this::whetherCanLogin)
+						.flatMap(str->LoginModel.resetPassword(phone, str, code).compose(RxHelper.handleResult()))
+						.doOnSubscribe(this::showProgress)
+						.compose(bindToLifecycle())
 						.subscribe(new RxSubscribe<String>() {
 							@Override
 							protected void _onNext(String s) {
@@ -160,7 +137,7 @@ public class ResetPasswordFragment extends BaseFragment {
 	/**
 	 * 检验是否可以进行下一步
 	 */
-	private Boolean whetherCanLogin(String pwd) {
+	private boolean whetherCanLogin(String pwd) {
 		boolean b = VerificationUtil.isValidPassword(pwd);
 		if (!b) showRedTip(getResources().getString(R.string.pwd_format_error));
 		return b;

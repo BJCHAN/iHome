@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.utils.StringUtils;
+import com.tianchuang.ihome_b.utils.ToastUtil;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -24,6 +25,7 @@ public abstract class BaseFragment extends RxFragment {
     protected BaseActivity mActivity;
     protected Unbinder bind;
     protected View rootView;
+
     //获取布局文件ID
     protected abstract int getLayoutId();
 
@@ -51,14 +53,14 @@ public abstract class BaseFragment extends RxFragment {
     }
 
     //添加fragment
-    protected void addFragment(BaseFragment fragment) {
+    public void addFragment(BaseFragment fragment) {
         if (null != fragment) {
             getHoldingActivity().addFragment(fragment);
         }
     }
 
     //移除fragment
-    protected void removeFragment() {
+    public void removeFragment() {
         getHoldingActivity().removeFragment();
     }
 
@@ -76,7 +78,6 @@ public abstract class BaseFragment extends RxFragment {
             initView(rootView, savedInstanceState);
             initData();
             initListener();
-
         }
         return rootView;
     }
@@ -98,6 +99,10 @@ public abstract class BaseFragment extends RxFragment {
 
     public void dismissProgress() {
         getHoldingActivity().dismissProgress();
+    }
+
+    public void showToast(String message) {
+        ToastUtil.showToast(getContext(), message);
     }
 
     public void startActivityWithAnim(Intent intent) {

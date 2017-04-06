@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.activity.MyOrderActivity;
 import com.tianchuang.ihome_b.adapter.DetailMultiAdapter;
-import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.base.BaseLoadingFragment;
 import com.tianchuang.ihome_b.bean.DetailMultiItem;
 import com.tianchuang.ihome_b.bean.EvaluateBean;
@@ -22,7 +21,7 @@ import com.tianchuang.ihome_b.http.retrofit.HttpModle;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
 import com.tianchuang.ihome_b.bean.model.MyOrderModel;
-import com.tianchuang.ihome_b.utils.FragmentUtils;
+import com.tianchuang.ihome_b.mvp.ui.MyOrderFeeDetailFragment;
 import com.tianchuang.ihome_b.utils.ToastUtil;
 import com.tianchuang.ihome_b.utils.ViewHelper;
 
@@ -34,7 +33,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import rx.functions.Action0;
 
 /**
  * Created by Abyss on 2017/3/1.

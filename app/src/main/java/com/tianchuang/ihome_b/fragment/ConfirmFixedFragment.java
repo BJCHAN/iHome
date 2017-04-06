@@ -26,6 +26,7 @@ import com.tianchuang.ihome_b.http.retrofit.HttpModle;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
 import com.tianchuang.ihome_b.bean.model.MyOrderModel;
+import com.tianchuang.ihome_b.mvp.ui.MyOrderFeeDetailFragment;
 import com.tianchuang.ihome_b.utils.FragmentUtils;
 import com.tianchuang.ihome_b.utils.ImagesSelectorUtils;
 import com.tianchuang.ihome_b.utils.MultipartBuilder;
@@ -206,17 +207,13 @@ public class ConfirmFixedFragment extends BaseFragment implements MyOrderActivit
             ToastUtil.showToast(getContext(), "图片不能为空");
             return;
         }
-        Observable.just("1")
+        Observable.zip(Observable.just(beforeFiles), Observable.just(afterFiles), (file1, files2) -> {
+            List<MultipartBody.Part> beforePhotos = MultipartBuilder.filesToMultipartBodyParts(file1, "beforePhotos");
+            List<MultipartBody.Part> afterPhotos = MultipartBuilder.filesToMultipartBodyParts(files2, "afterPhotos");
+            beforePhotos.addAll(afterPhotos);
+            return beforePhotos;
+        })
                 .observeOn(Schedulers.io())
-                .map(new Func1<String, List<MultipartBody.Part>>() {
-                    @Override
-                    public List<MultipartBody.Part> call(String s) {
-                        List<MultipartBody.Part> beforePhotos = MultipartBuilder.filesToMultipartBodyParts(beforeFiles, "beforePhotos");
-                        List<MultipartBody.Part> afterPhotos = MultipartBuilder.filesToMultipartBodyParts(afterFiles, "afterPhotos");
-                        beforePhotos.addAll(afterPhotos);
-                        return beforePhotos;
-                    }
-                })
                 .switchMap(new Func1<List<MultipartBody.Part>, Observable<HttpModle<String>>>() {
                     @Override
                     public Observable<HttpModle<String>> call(List<MultipartBody.Part> parts) {

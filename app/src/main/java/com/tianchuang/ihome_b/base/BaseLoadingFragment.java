@@ -122,15 +122,15 @@ public abstract class BaseLoadingFragment extends BaseFragment {
 
     }
 
-    protected void showErrorPage() {
+    public void showErrorPage() {
         loadingPager.showPagerView(LoadingPager.STATE_ERROR);
     }
 
-    protected void showEmptyPage() {
+    public void showEmptyPage() {
         loadingPager.showPagerView(LoadingPager.STATE_EMPTY);
     }
 
-    protected void showSucceedPage() {
+    public void showSucceedPage() {
         loadingPager.showPagerView(LoadingPager.STATE_SUCCEED);
     }
 }

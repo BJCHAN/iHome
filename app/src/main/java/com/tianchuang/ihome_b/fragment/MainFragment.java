@@ -194,7 +194,6 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
      * 解析网络数据
      */
     private void parseResult(HomePageBean homePageBean) {
-
         Observable.just(homePageBean)
                 .observeOn(Schedulers.io())
                 .map(bean -> HomePageModel.getHomePageMultiItemList(bean))
@@ -246,7 +245,9 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         llInternalReports.setVisibility(View.GONE);
         llMainQuery.setVisibility(View.GONE);
         if (menuList != null && menuList.size() > 0) {
-            menuList.stream().forEach(integer -> setViewVisibility(integer));
+            Observable.from(menuList)
+                    .compose(bindToLifecycle())
+                    .subscribe(integer -> setViewVisibility(integer));
         }
     }
 

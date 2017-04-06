@@ -159,7 +159,7 @@ public interface ShowApi {
      */
     @POST(BizInterface.INNER_REPORTS_PROCESSING_URL)
     Observable<HttpModle<String>> reportsProcessing(@Query("propertyCompanyId") int propertyCompanyId,
-                                                         @Query("reportId") int reportId);
+                                                    @Query("reportId") int reportId);
 
     /***
      * 内部报事列表(已完成)
@@ -168,7 +168,7 @@ public interface ShowApi {
      */
     @POST(BizInterface.INNER_REPORTS_FINISHED_URL)
     Observable<HttpModle<String>> reportsFinished(@Query("propertyCompanyId") int propertyCompanyId,
-                                                         @Query("reportId") int reportId);
+                                                  @Query("reportId") int reportId);
 
     /***
      * 抢单大厅列表
@@ -563,6 +563,10 @@ public interface ShowApi {
      */
     @POST(BizInterface.QR_CODE_URL)
     Observable<HttpModle<ArrayList<QrCodeBean>>> requestQrCode(@QueryMap Map<String, String> map);
+
+    /**
+     * 用户详情
+     */
     @POST(BizInterface.USER_INFO_URL)
     Observable<HttpModle<ArrayList<PersonalInfoBean>>> requestPersonInfo();
 }

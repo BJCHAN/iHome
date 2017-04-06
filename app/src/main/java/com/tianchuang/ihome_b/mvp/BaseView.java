@@ -1,4 +1,4 @@
-package com.tianchuang.ihome_b.mvp.mvpbase;
+package com.tianchuang.ihome_b.mvp;
 
 import android.content.Context;
 

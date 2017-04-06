@@ -1,4 +1,4 @@
-package com.tianchuang.ihome_b.mvp.mvpbase;
+package com.tianchuang.ihome_b.mvp;
 
 /**
  * Created by Abyss on 2017/4/1.

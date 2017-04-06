@@ -1,12 +1,11 @@
-package com.tianchuang.ihome_b.mvp.modifypassword;
+package com.tianchuang.ihome_b.activity;
 
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.base.ToolBarActivity;
+import com.tianchuang.ihome_b.mvp.ui.ModifyPasswordFragment;
 
 /**
  * Created by Abyss on 2017/2/13.

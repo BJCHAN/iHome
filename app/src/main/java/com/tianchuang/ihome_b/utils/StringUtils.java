@@ -18,33 +18,6 @@ public class StringUtils {
 	public StringUtils() {
 	}
 
-	public static boolean isEmpty(String str) {
-		return str == null || str.length() == 0;
-	}
-
-
-	public static String[] chargeIntToString(int[] arr) {
-		if (arr == null) {
-			return null;
-		}
-		String[] result = new String[arr.length];
-		for (int i = 0; i < arr.length; i++) {
-			result[i] = String.valueOf(arr[i]);
-		}
-		return result;
-	}
-
-	public static String[] chargeLongToString(Long[] arr) {
-		if (arr == null) {
-			return null;
-		}
-		String[] result = new String[arr.length];
-		for (int i = 0; i < arr.length; i++) {
-			result[i] = String.valueOf(arr[i]);
-		}
-		return result;
-	}
-
 	/**
 	 * 判断字符串是否为null或全为空格
 	 *
@@ -87,6 +60,7 @@ public class StringUtils {
 		return new DecimalFormat("#.00").format(num);
 	}
 	/**
+	 *
 	 * 保留四位的小数
 	 */
 	public static String formatNumWithFour(String num) {
@@ -100,15 +74,11 @@ public class StringUtils {
 	 */
 	public static String toJson(Object obj, int method) {
 		if (method == 1) {
-
 			Gson gson = new Gson();
-			String obj2 = gson.toJson(obj);
-			return obj2;
+			return gson.toJson(obj);
 		} else if (method == 2) {
-
 			Gson gson2 = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES).create();
-			String obj2 = gson2.toJson(obj);
-			return obj2;
+			return gson2.toJson(obj);
 		}
 		return "";
 	}

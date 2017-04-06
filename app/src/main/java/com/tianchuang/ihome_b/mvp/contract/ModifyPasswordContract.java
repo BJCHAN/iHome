@@ -1,8 +1,7 @@
-package com.tianchuang.ihome_b.mvp.modifypassword;
+package com.tianchuang.ihome_b.mvp.contract;
 
-import com.tianchuang.ihome_b.mvp.mvpbase.BasePresenter;
-import com.tianchuang.ihome_b.mvp.mvpbase.BaseRequestView;
-import com.tianchuang.ihome_b.mvp.mvpbase.BaseView;
+import com.tianchuang.ihome_b.mvp.BasePresenter;
+import com.tianchuang.ihome_b.mvp.BaseRequestView;
 
 /**
  * Created by Abyss on 2017/4/1.

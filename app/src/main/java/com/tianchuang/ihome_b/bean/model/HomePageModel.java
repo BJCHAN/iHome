@@ -51,19 +51,18 @@ public class HomePageModel {
 
     public static  List<HomePageMultiItem> getHomePageMultiItemList(HomePageBean homePageBean) {
         List<HomePageMultiItem> list = new ArrayList<>();
-        homePageBean.getComplaintsVos().forEach(bean -> {
+        for (ComplainDetailBean complainItemBean : homePageBean.getComplaintsVos()) {
             HomePageMultiItem homePageMultiItem = new HomePageMultiItem();
             homePageMultiItem.setType(HomePageMultiItem.TYPE_COMPLAIN);
-            homePageMultiItem.setComplainItemBean(bean);
+            homePageMultiItem.setComplainItemBean(complainItemBean);
             list.add(homePageMultiItem);
-        });
-        homePageBean.getInternalReportVos().forEach(bean -> {
+        }
+        for (MenuInnerReportsItemBean menuInnerReportsItemBean : homePageBean.getInternalReportVos()) {
             HomePageMultiItem homePageMultiItem = new HomePageMultiItem();
             homePageMultiItem.setType(HomePageMultiItem.TYPE_INNER_REPORT);
-            homePageMultiItem.setMenuInnerReportsItemBean(bean);
+            homePageMultiItem.setMenuInnerReportsItemBean(menuInnerReportsItemBean);
             list.add(homePageMultiItem);
-        });
-
+        }
         for (NotificationItemBean notificationItemBean : homePageBean.getNotices()) {
             HomePageMultiItem homePageMultiItem = new HomePageMultiItem();
             homePageMultiItem.setType(HomePageMultiItem.TYPE_NOTICE);

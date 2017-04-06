@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.base.BaseCustomActivity;
 import com.tianchuang.ihome_b.bean.event.LogoutEvent;
-import com.tianchuang.ihome_b.mvp.modifypassword.ModifyPasswordActivity;
 import com.tianchuang.ihome_b.view.LogoutDialogFragment;
 
 import org.greenrobot.eventbus.EventBus;

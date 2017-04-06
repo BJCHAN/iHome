@@ -1,4 +1,4 @@
-package com.tianchuang.ihome_b.mvp.modifypassword;
+package com.tianchuang.ihome_b.mvp.ui;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,23 +9,23 @@ import android.widget.TextView;
 
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.tianchuang.ihome_b.R;
+import com.tianchuang.ihome_b.activity.ModifyPasswordActivity;
 import com.tianchuang.ihome_b.fragment.ModifyPwdSuccessFragment;
-import com.tianchuang.ihome_b.mvp.mvpbase.MVPBaseFragment;
+import com.tianchuang.ihome_b.mvp.MVPBaseFragment;
+import com.tianchuang.ihome_b.mvp.contract.ModifyPasswordContract;
+import com.tianchuang.ihome_b.mvp.presenter.ModifyPasswordPresenterImpl;
 import com.tianchuang.ihome_b.utils.FragmentUtils;
-import com.tianchuang.ihome_b.utils.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import rx.Observable;
-import rx.functions.Action1;
-import rx.functions.Func3;
 
 /**
  * Created by Abyss on 2017/2/16.
  * description:修改密码界面
  */
 
-public class ModifyPasswordFragment extends MVPBaseFragment<ModifyPasswordContract.View, ModifyPasswordPresenter> implements ModifyPasswordContract.View {
+public class ModifyPasswordFragment extends MVPBaseFragment<ModifyPasswordContract.View, ModifyPasswordPresenterImpl> implements ModifyPasswordContract.View {
     @BindView(R.id.et_old_passwrod)
     EditText etOldPasswrod;
     @BindView(R.id.et_new_passwrod)
@@ -58,26 +58,6 @@ public class ModifyPasswordFragment extends MVPBaseFragment<ModifyPasswordContra
         showSucceedPage();
     }
 
-    @OnClick(R.id.bt_submit)
-    public void onClick() {
-        final String oldPwd = etOldPasswrod.getText().toString().trim();
-        final String newPwd = etNewPasswrod.getText().toString().trim();
-        String surePwd = etSurePasswrod.getText().toString().trim();
-        showProgress();
-        mPresenter.submitPwdChanged(oldPwd, newPwd, surePwd);
-    }
-
-    @Override
-    public void onRequestError(String msg) {
-        ToastUtil.showToast(getContext(), msg);
-        dismissProgress();
-    }
-
-    @Override
-    public void onRequestCompleted() {
-        dismissProgress();
-        startFragment();//跳转第二个页面
-    }
 
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
@@ -95,6 +75,14 @@ public class ModifyPasswordFragment extends MVPBaseFragment<ModifyPasswordContra
                 , (oldPwd1, newPwd1, surePwd1) -> oldPwd1.length() >= 6 && newPwd1.length() > 0 && surePwd1.length() > 0)
                 .compose(bindToLifecycle())
                 .subscribe(aBoolean -> btSubmit.setEnabled(aBoolean));
+    }
+
+    @OnClick(R.id.bt_submit)
+    public void onClick() {
+        final String oldPwd = etOldPasswrod.getText().toString().trim();
+        final String newPwd = etNewPasswrod.getText().toString().trim();
+        String surePwd = etSurePasswrod.getText().toString().trim();
+        mPresenter.submitPwdChanged(oldPwd, newPwd, surePwd);
     }
 
     /**
