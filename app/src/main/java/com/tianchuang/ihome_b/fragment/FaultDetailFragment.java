@@ -12,6 +12,7 @@ import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.activity.FaultDetailActivity;
 import com.tianchuang.ihome_b.adapter.DetailMultiAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
+import com.tianchuang.ihome_b.base.BaseLoadingFragment;
 import com.tianchuang.ihome_b.bean.RobHallListItem;
 import com.tianchuang.ihome_b.bean.RobHallRepairDetailListBean;
 import com.tianchuang.ihome_b.bean.event.RobOrderSuccessEvent;
@@ -39,7 +40,7 @@ import rx.functions.Func1;
  * description:故障详情fragment
  */
 
-public class FaultDetailFragment extends BaseFragment {
+public class FaultDetailFragment extends BaseLoadingFragment {
 
     @BindView(R.id.rv_list)
     RecyclerView rvList;
@@ -65,22 +66,15 @@ public class FaultDetailFragment extends BaseFragment {
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
         rvList.setLayoutManager(new LinearLayoutManager(getContext()));
-        initMyData();
     }
-
-    private void initMyData() {
+    @Override
+    protected void initData() {
         RobHallListItem item = (RobHallListItem) getArguments().getSerializable("item");
         if (item != null) {
             repairsId = item.getId();
             RobHallModel.requestRobHallRepairDetail(repairsId)
                     .compose(RxHelper.<RobHallRepairDetailListBean>handleResult())
                     .compose(this.<RobHallRepairDetailListBean>bindToLifecycle())
-                    .doOnSubscribe(new Action0() {
-                        @Override
-                        public void call() {
-                            showProgress();
-                        }
-                    })
                     .subscribe(new RxSubscribe<RobHallRepairDetailListBean>() {
                         @Override
                         protected void _onNext(RobHallRepairDetailListBean bean) {
@@ -88,12 +82,13 @@ public class FaultDetailFragment extends BaseFragment {
                             //recyclerView添加头部
                             mAdapter.addHeaderView(ViewHelper.getDetailHeaderView(bean.getTypeName(), bean.getCreatedDate()));
                             rvList.setAdapter(mAdapter);
-                            dismissProgress();
+                            showSucceedPage();
                         }
 
                         @Override
                         protected void _onError(String message) {
-                            dismissProgress();
+                            showErrorPage();
+                            showToast(message);
 
                         }
 
@@ -143,4 +138,6 @@ public class FaultDetailFragment extends BaseFragment {
         OneButtonDialogFragment.newInstance(tip)
                 .show(getHoldingActivity().getFragmentManager(), OneButtonDialogFragment.class.getSimpleName());
     }
+
+
 }

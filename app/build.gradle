@@ -1,4 +1,8 @@
 apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+retrolambda{
+    javaVersion JavaVersion.VERSION_1_7
+}
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -9,9 +13,9 @@ android {
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
         multiDexEnabled true
-        jackOptions{
-            enabled=true
-        }
+//        jackOptions{
+//            enabled=true
+//        }
     }
 
     //签名

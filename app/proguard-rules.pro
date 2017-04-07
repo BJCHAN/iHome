@@ -214,4 +214,6 @@
 -keep class com.tencent.mid.** {* ;}
 -dontwarn android.app.Notification
 -dontwarn android.support.v4.**
+-dontwarn com.google.zxing.**
+-dontwarn java.lang.invoke.*
 
