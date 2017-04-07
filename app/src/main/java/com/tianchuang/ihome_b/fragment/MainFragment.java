@@ -92,6 +92,12 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         return new MainFragment();
     }
 
+    private int currentPostion = -1;//记录列表跳转的位置
+
+    public void setCurrentPostion(int currentPostion) {//用于本地维护是否刷新列表数据
+        this.currentPostion = currentPostion;
+    }
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_main;
@@ -128,6 +134,7 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                     HomePageMultiItem homePageMultiItem = mData.get(position);
                     Intent intent = new Intent();
                     intent.putExtra("item", homePageMultiItem);
+                    currentPostion = position;
                     switch (homePageMultiItem.getType()) {
                         case HomePageMultiItem.TYPE_COMPLAIN://建议
                             intent.setClass(getContext(), ComplainSuggestActivity.class);
@@ -166,7 +173,9 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                 .compose(RxHelper.handleResult())
                 .compose(bindToLifecycle())
                 .retry(2)
-                .doOnSubscribe(()-> {if (!swipeLayout.isRefreshing()) showProgress();})
+                .doOnSubscribe(() -> {
+                    if (!swipeLayout.isRefreshing()) showProgress();
+                })
                 .subscribe(new RxSubscribe<HomePageBean>() {
                     @Override
                     protected void _onNext(HomePageBean homePageBean) {
@@ -231,8 +240,15 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(NotifyHomePageRefreshEvent event) {//通知主页刷新
-        swipeLayout.setRefreshing(true);
-        initData();
+        if (currentPostion == -1) {//非主页跳转的通知
+            swipeLayout.setRefreshing(true);
+            initData();
+        } else {
+            homeMultiAdapter.remove(currentPostion);
+            currentPostion = -1;
+        }
+
+
     }
 
     private void initTab() {
@@ -294,6 +310,7 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     @OnClick({R.id.ll_rich_scan, R.id.ll_write_form, R.id.ll_internal_reports, R.id.ll_main_query})
     public void onClick(View view) {
+        currentPostion = -1;//初始化当前的位置
         switch (view.getId()) {
             case R.id.ll_rich_scan://扫一扫
                 EventBus.getDefault().post(new OpenScanEvent());
@@ -312,6 +329,7 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void onRefresh() {
+        currentPostion = -1;//初始化当前的位置
         initData();
     }
 }

@@ -15,6 +15,7 @@ import com.tianchuang.ihome_b.adapter.DetailMultiAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.base.BaseLoadingFragment;
 import com.tianchuang.ihome_b.bean.ComplainDetailBean;
+import com.tianchuang.ihome_b.bean.event.NotifyHomePageRefreshEvent;
 import com.tianchuang.ihome_b.bean.model.ComplainSuggestModel;
 import com.tianchuang.ihome_b.bean.recyclerview.CommonItemDecoration;
 import com.tianchuang.ihome_b.http.retrofit.HttpModle;
@@ -24,6 +25,8 @@ import com.tianchuang.ihome_b.utils.LayoutUtil;
 import com.tianchuang.ihome_b.utils.ToastUtil;
 import com.tianchuang.ihome_b.utils.ViewHelper;
 import com.tianchuang.ihome_b.view.OneButtonDialogFragment;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import rx.Subscriber;
@@ -133,6 +136,7 @@ public class ComplainDetailFragment extends BaseLoadingFragment {
     private void requestNetToReplay(int id, String content) {
         ComplainSuggestModel.complainReply(id, content)
                 .compose(this.<HttpModle<String>>bindToLifecycle())
+                .doOnSubscribe(()->showProgress())
                 .subscribe(new Subscriber<HttpModle<String>>() {
                     @Override
                     public void onCompleted() {
@@ -141,15 +145,17 @@ public class ComplainDetailFragment extends BaseLoadingFragment {
 
                     @Override
                     public void onError(Throwable e) {
+                        dismissProgress();
                         ToastUtil.showToast(getContext(), "连接失败");
                     }
 
                     @Override
                     public void onNext(HttpModle<String> modle) {
+                        dismissProgress();
                         if (modle.success()) {
-//                            showDialog("回复成功");
                             ToastUtil.showToast(getContext(), "回复成功");
                             removeFragment();
+                            EventBus.getDefault().post(new NotifyHomePageRefreshEvent());//通知主页刷新
                         } else {
                             if (modle.msg != null)
                                 showDialog(modle.msg);

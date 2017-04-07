@@ -15,6 +15,7 @@ import com.tianchuang.ihome_b.base.ToolBarActivity;
 import com.tianchuang.ihome_b.bean.ListBean;
 import com.tianchuang.ihome_b.bean.QrCodeBean;
 import com.tianchuang.ihome_b.bean.event.TransferLayoutEvent;
+import com.tianchuang.ihome_b.fragment.MyTaskControlPointDetailFragment;
 import com.tianchuang.ihome_b.fragment.TaskSelectFragment;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.yuyh.library.imgsel.ImgSelActivity;
@@ -37,6 +38,10 @@ public class TaskSelectActivity extends ToolBarActivity {
     @Override
     protected BaseFragment getFirstFragment() {
         ListBean listBean = (ListBean) getIntent().getSerializableExtra("listBean");
+        ArrayList<QrCodeBean> list = listBean.getQrCodeBeanArrayList();
+        if (list.size() == 1) {
+            return MyTaskControlPointDetailFragment.newInstance(list.get(0).getTaskRecordId());
+        }
         return TaskSelectFragment.newInstance(listBean);
     }
 

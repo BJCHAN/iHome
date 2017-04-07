@@ -100,12 +100,6 @@ public class MyTaskControlPointDetailFragment extends BaseLoadingFragment {
         MyTaskModel.taskControlPointDetail(taskRecordId)//请求控制点数据
                 .compose(RxHelper.<TaskControlPointDetailBean>handleResult())
                 .compose(this.<TaskControlPointDetailBean>bindToLifecycle())
-//                .doOnSubscribe(new Action0() {
-//                    @Override
-//                    public void call() {
-//                        showProgress();
-//                    }
-//                })
                 .subscribe(new RxSubscribe<TaskControlPointDetailBean>() {
                     @Override
                     protected void _onNext(TaskControlPointDetailBean taskControlPointDetailBean) {
@@ -124,14 +118,12 @@ public class MyTaskControlPointDetailFragment extends BaseLoadingFragment {
                     protected void _onError(String message) {
                         showErrorPage();
                         ToastUtil.showToast(getContext(), message);
-//                        dismissProgress();
 
                     }
 
                     @Override
                     public void onCompleted() {
                         showSucceedPage();
-//                        dismissProgress();
                     }
                 });
     }

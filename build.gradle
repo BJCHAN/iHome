@@ -7,7 +7,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.1'
-        classpath 'me.tatarka:gradle-retrolambda:3.2.5'
+        classpath 'me.tatarka:gradle-retrolambda:3.6.0'
     }
 }
 
@@ -22,10 +22,11 @@ ext {
     compileSdkVersion = 25
     targetSdkVersion = compileSdkVersion
     minSdkVersion = 18      //4.3
-    versionCode = 17
-    versionName = "1.1.7"
+    versionCode = 19
+    versionName = "1.1.9"
     supportLibVersion = '25.3.0'
 }
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

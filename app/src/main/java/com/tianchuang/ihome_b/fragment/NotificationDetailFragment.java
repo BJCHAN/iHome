@@ -5,9 +5,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.tianchuang.ihome_b.R;
-import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.base.BaseLoadingFragment;
 import com.tianchuang.ihome_b.bean.NotificationItemBean;
+import com.tianchuang.ihome_b.bean.event.NotifyHomePageRefreshEvent;
 import com.tianchuang.ihome_b.bean.model.NotificationModel;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
@@ -15,8 +15,9 @@ import com.tianchuang.ihome_b.utils.DateUtils;
 import com.tianchuang.ihome_b.utils.StringUtils;
 import com.tianchuang.ihome_b.utils.ToastUtil;
 
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.BindView;
-import rx.functions.Action0;
 
 /**
  * Created by Abyss on 2017/3/15.
@@ -62,12 +63,6 @@ public class NotificationDetailFragment extends BaseLoadingFragment {
         NotificationModel.notificationDetail(noticeId)
                 .compose(RxHelper.<NotificationItemBean>handleResult())
                 .compose(this.<NotificationItemBean>bindToLifecycle())
-//                .doOnSubscribe(new Action0() {
-//                    @Override
-//                    public void call() {
-//                        showProgress();
-//                    }
-//                })
                 .subscribe(new RxSubscribe<NotificationItemBean>() {
                     @Override
                     protected void _onNext(NotificationItemBean itemBean) {
@@ -76,14 +71,13 @@ public class NotificationDetailFragment extends BaseLoadingFragment {
                         tvNotificationDate.setText(StringUtils.getNotNull(
                                 DateUtils.formatDate(itemBean.getCreatedDate(), DateUtils.TYPE_05)));
                         tvContent.setText(StringUtils.getNotNull(itemBean.getContent()));
-//                        dismissProgress();
+                        EventBus.getDefault().post(new NotifyHomePageRefreshEvent());//通知主页刷新
                     }
 
                     @Override
                     protected void _onError(String message) {
                         ToastUtil.showToast(getContext(), message);
                         showErrorPage();
-//                        dismissProgress();
                     }
 
                     @Override

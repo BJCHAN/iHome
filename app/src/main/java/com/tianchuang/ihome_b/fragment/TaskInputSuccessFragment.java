@@ -9,6 +9,7 @@ import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.activity.MyTaskActivity;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.TaskInputResponseBean;
+import com.tianchuang.ihome_b.bean.event.NotifyHomePageRefreshEvent;
 import com.tianchuang.ihome_b.bean.event.NotifyTaskDetailRefreshEvent;
 import com.tianchuang.ihome_b.bean.model.MyTaskModel;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
@@ -75,6 +76,7 @@ public class TaskInputSuccessFragment extends BaseFragment {
                             @Override
                             protected void _onNext(String s) {
                                 EventBus.getDefault().post(new NotifyTaskDetailRefreshEvent());
+                                EventBus.getDefault().post(new NotifyHomePageRefreshEvent());//通知主页刷新
                                 holdingActivity.closeAllFragment();
                             }
 

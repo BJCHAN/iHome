@@ -71,12 +71,7 @@ public abstract class ToolBarActivity extends BaseCustomActivity {
     public void initNormalToolbar(Toolbar toolbar, boolean animMation) {
         setFinishWithAnim(animMation);
         toolbar.setNavigationIcon(R.mipmap.back);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                removeFragment();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> removeFragment());
     }
 
 

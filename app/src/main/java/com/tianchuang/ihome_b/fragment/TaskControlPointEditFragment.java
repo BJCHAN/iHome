@@ -18,6 +18,7 @@ import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.CheakBean;
 import com.tianchuang.ihome_b.bean.ControlPointItemBean;
 import com.tianchuang.ihome_b.bean.FormTypeItemBean;
+import com.tianchuang.ihome_b.bean.event.NotifyHomePageRefreshEvent;
 import com.tianchuang.ihome_b.bean.event.TaskFormSubmitSuccessEvent;
 import com.tianchuang.ihome_b.bean.model.MyTaskModel;
 import com.tianchuang.ihome_b.bean.recyclerview.CommonItemDecoration;
@@ -137,51 +138,42 @@ public class TaskControlPointEditFragment extends BaseFragment implements TaskSu
         addEditTexts(submitTextMap);
         final HashMap<String, ArrayList<File>> submitImagesFiles = getSubmitImagesFiles();
         Observable.zip(Observable.just(submitTextMap), Observable.just(submitImagesFiles),
-                new Func2<HashMap<String, String>, HashMap<String, ArrayList<File>>, CheakBean>() {//检查是否可以提价
-                    @Override
-                    public CheakBean call(HashMap<String, String> submitTextMap, HashMap<String, ArrayList<File>> map) {//判断可否提交
-                        boolean textIsPut = cheackTextIsPut(submitTextMap);
-                        boolean imagesIsPut = cheackImagesIsPut(map);
-                        CheakBean cheakBean = new CheakBean();
-                        if (textIsPut && imagesIsPut) {
-                            cheakBean.setCan(true);
-                        } else if (!textIsPut) {
-                            cheakBean.setCan(false);
-                            cheakBean.setTip("文本或选项不能为空");
-                        } else if (!imagesIsPut) {
-                            cheakBean.setCan(false);
-                            cheakBean.setTip("图片不能为空");
-                        }
-                        return cheakBean;
+                (submitTextMap1, map) -> {//判断可否提交
+                    boolean textIsPut = cheackTextIsPut(submitTextMap1);
+                    boolean imagesIsPut = cheackImagesIsPut(map);
+                    CheakBean cheakBean = new CheakBean();
+                    if (textIsPut && imagesIsPut) {
+                        cheakBean.setCan(true);
+                    } else if (!textIsPut) {
+                        cheakBean.setCan(false);
+                        cheakBean.setTip("文本或选项不能为空");
+                    } else if (!imagesIsPut) {
+                        cheakBean.setCan(false);
+                        cheakBean.setTip("图片不能为空");
                     }
+                    return cheakBean;
                 })
                 .compose(this.<CheakBean>bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .filter(new Func1<CheakBean, Boolean>() {
-                    @Override
-                    public Boolean call(CheakBean bean) {//弹出错误提示
-                        boolean can = bean.isCan();
-                        if (!can) {
-                            dismissProgress();
-                            ToastUtil.showToast(getContext(), bean.getTip());
-                        }
-                        return can;
+                .filter(bean -> {//弹出错误提示
+                    boolean can = bean.isCan();
+                    if (!can) {
+                        dismissProgress();
+                        ToastUtil.showToast(getContext(), bean.getTip());
                     }
+                    return can;
                 })
                 .observeOn(Schedulers.io())//图片压缩转换
-                .map(new Func1<CheakBean, List<MultipartBody.Part>>() {
-                    @Override
-                    public List<MultipartBody.Part> call(CheakBean bean) {
-                        List<MultipartBody.Part> parts = MultipartBuilder.filesToMultipartBodyParts(new ArrayList<File>(), "");
-                        for (Map.Entry<String, ArrayList<File>> stringArrayListEntry : submitImagesFiles.entrySet()) {
-                            ArrayList<File> values = stringArrayListEntry.getValue();
-                            if (values.size() > 0) {
-                                parts.addAll(MultipartBuilder.filesToMultipartBodyParts(values, stringArrayListEntry.getKey()));
-                            }
+                .map(bean -> {
+                    List<MultipartBody.Part> parts = MultipartBuilder.filesToMultipartBodyParts(new ArrayList<File>(), "");
+                    for (Map.Entry<String, ArrayList<File>> stringArrayListEntry : submitImagesFiles.entrySet()) {
+                        ArrayList<File> values = stringArrayListEntry.getValue();
+                        if (values.size() > 0) {
+                            parts.addAll(MultipartBuilder.filesToMultipartBodyParts(values, stringArrayListEntry.getKey()));
                         }
-                        return parts;
                     }
+                    return parts;
                 })//请求网络
                 .flatMap(new Func1<List<MultipartBody.Part>, Observable<String>>() {
                     @Override
@@ -190,12 +182,7 @@ public class TaskControlPointEditFragment extends BaseFragment implements TaskSu
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        showProgress();
-                    }
-                })
+                .doOnSubscribe(() -> showProgress())
                 .subscribe(new RxSubscribe<String>() {
                     @Override
                     protected void _onNext(String s) {
@@ -203,6 +190,7 @@ public class TaskControlPointEditFragment extends BaseFragment implements TaskSu
                         ToastUtil.showToast(getContext(), "任务提交成功");
                         removeFragment();
                         EventBus.getDefault().post(new TaskFormSubmitSuccessEvent());
+                        EventBus.getDefault().post(new NotifyHomePageRefreshEvent());//通知主页刷新
                     }
 
                     @Override
@@ -231,6 +219,7 @@ public class TaskControlPointEditFragment extends BaseFragment implements TaskSu
 
     /**
      * 检查图片是否可以提交
+     *
      * @param map
      */
     private boolean cheackImagesIsPut(HashMap<String, ArrayList<File>> map) {
@@ -238,7 +227,7 @@ public class TaskControlPointEditFragment extends BaseFragment implements TaskSu
         for (Map.Entry<String, ArrayList<File>> entry : map.entrySet()) {
             FormTypeItemBean.FieldsBean field = getItemBeanByKeyField(entry.getKey());
             if (field != null && field.isMustInput()) {
-                if (entry.getValue().size()==0) {
+                if (entry.getValue().size() == 0) {
                     canSubmit = false;
                 }
             }

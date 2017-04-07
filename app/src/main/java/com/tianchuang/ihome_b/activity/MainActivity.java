@@ -96,6 +96,7 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
     private ArrayList<DrawMenuItem> drawMenuItems = new ArrayList<>();
     private DrawMenuAdapter menuAdapter;
     private int noticeCount = 0;
+    private MainFragment mainFragment;
 
     /**
      * 扫描跳转Activity RequestCode
@@ -119,7 +120,8 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
         EventBus.getDefault().register(this);
         initXGPush();
         //添加主页fragment
-        addFragment(MainFragment.newInstance().setLittleRedListener(this));
+        mainFragment = MainFragment.newInstance().setLittleRedListener(this);
+        addFragment(mainFragment);
         initView();
         //设置监听
         initListener();
@@ -144,7 +146,6 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
         });
         XGPushManager.registerPush(getApplicationContext());
     }
-
 
 
     private void initView() {
@@ -190,8 +191,10 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
                                 drawMenuItems.add(new DrawMenuItem().setId(5).setName(itemsNameArray[5]));
                                 break;
                             case 5://内部报事接收
-                                drawMenuItems.add(new DrawMenuItem().setId(6).setName(itemsNameArray[6]));
                                 drawMenuItems.add(new DrawMenuItem().setId(7).setName(itemsNameArray[7]));
+                                break;
+                            case 10://投诉建议
+                                drawMenuItems.add(new DrawMenuItem().setId(6).setName(itemsNameArray[6]));
                                 break;
 
                         }
@@ -208,6 +211,7 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
                 DrawMenuItem drawMenuItem = drawMenuItems.get(position);
+                mainFragment.setCurrentPostion(-1);
                 switch (drawMenuItem.getId()) {
                     case 0://我的任务
                         startActivityWithAnim(new Intent(MainActivity.this, MyTaskActivity.class));
@@ -275,6 +279,7 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
 
     @OnClick({R.id.iv_navigation_icon, R.id.iv_right, R.id.spinner, R.id.rl_user_info})
     public void onClick(View view) {
+        mainFragment.setCurrentPostion(-1);
         switch (view.getId()) {
             case R.id.iv_navigation_icon://侧滑菜单的入口
                 toggle();
