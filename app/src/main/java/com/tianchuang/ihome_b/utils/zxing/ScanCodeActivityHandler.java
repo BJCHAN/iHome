@@ -11,7 +11,7 @@ import android.util.Log;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
-import com.tianchuang.ihome_b.fragment.ScanCodeFragment;
+import com.tianchuang.ihome_b.mvp.ui.fragment.ScanCodeFragment;
 import com.uuzuche.lib_zxing.camera.CameraManager;
 import com.uuzuche.lib_zxing.decoding.CaptureActivityHandler;
 import com.uuzuche.lib_zxing.view.ViewfinderResultPointCallback;

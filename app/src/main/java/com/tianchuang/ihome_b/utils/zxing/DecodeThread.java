@@ -22,8 +22,7 @@ import android.os.Looper;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.ResultPointCallback;
-import com.tianchuang.ihome_b.fragment.ScanCodeFragment;
-import com.uuzuche.lib_zxing.activity.CaptureFragment;
+import com.tianchuang.ihome_b.mvp.ui.fragment.ScanCodeFragment;
 import com.uuzuche.lib_zxing.decoding.DecodeFormatManager;
 
 import java.util.Hashtable;

@@ -16,7 +16,7 @@ import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.bean.ListBean;
 import com.tianchuang.ihome_b.bean.MaterialListItemBean;
 import com.tianchuang.ihome_b.bean.event.MaterialFeeEvent;
-import com.tianchuang.ihome_b.fragment.MaterialTypeFragment;
+import com.tianchuang.ihome_b.mvp.ui.fragment.MaterialTypeFragment;
 import com.tianchuang.ihome_b.utils.DensityUtil;
 import com.tianchuang.ihome_b.utils.FragmentUtils;
 

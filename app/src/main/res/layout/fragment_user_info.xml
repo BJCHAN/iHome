@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:background="@color/background_gray"
     android:layout_height="match_parent"
-    tools:context="com.tianchuang.ihome_b.activity.PersonalInfoActivity">
+    tools:context=".mvp.ui.activity.PersonalInfoActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

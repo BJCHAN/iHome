@@ -18,7 +18,7 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-import com.tianchuang.ihome_b.fragment.ScanCodeFragment;
+import com.tianchuang.ihome_b.mvp.ui.fragment.ScanCodeFragment;
 import com.uuzuche.lib_zxing.camera.BitmapLuminanceSource;
 import com.uuzuche.lib_zxing.camera.CameraManager;
 import com.uuzuche.lib_zxing.decoding.DecodeFormatManager;

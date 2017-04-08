@@ -100,9 +100,6 @@ public abstract class BaseLoadingFragment extends BaseFragment {
      * 校验数据，自选调用
      */
     protected void checkData(Object datas) {
-//        if (datas == null) {
-//            loadingPager.showPagerView(LoadingPager.STATE_ERROR);//  请求服务器失败
-//        } else {
         try {
             @SuppressWarnings("unchecked") List<Object> ds = (List<Object>) datas;
             if (ds.size() == 0) {
@@ -118,7 +115,6 @@ public abstract class BaseLoadingFragment extends BaseFragment {
                 loadingPager.showPagerView(LoadingPager.STATE_SUCCEED);
             }
         }
-//        }
 
     }
 

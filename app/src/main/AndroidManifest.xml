@@ -49,7 +49,7 @@
         android:supportsRtl="true"
         android:theme="@style/ToolBarTheme">
         <activity
-            android:name=".activity.LoginActivity"
+            android:name=".mvp.ui.activity.LoginActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -58,102 +58,102 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".mvp.ui.activity.MainActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <!-- 设置模块 -->
         <activity
-            android:name=".activity.SettingActivity"
+            android:name=".mvp.ui.activity.SettingActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <!-- 修改密码模块 -->
         <activity
-            android:name=".activity.ModifyPasswordActivity"
+            android:name=".mvp.ui.activity.ModifyPasswordActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <!-- 关于物管宝 -->
         <activity
-            android:name=".activity.AboutMessageActivity"
+            android:name=".mvp.ui.activity.AboutMessageActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <!-- 扫一扫 -->
         <activity
-            android:name=".activity.ScanCodeActivity"
+            android:name=".mvp.ui.activity.ScanCodeActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <!-- 抢单大厅 -->
         <activity
-            android:name=".activity.RobHallActivity"
+            android:name=".mvp.ui.activity.RobHallActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <!-- 故障详情页面 -->
         <activity
-            android:name=".activity.FaultDetailActivity"
+            android:name=".mvp.ui.activity.FaultDetailActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <!-- 内部报事页面 -->
         <activity
-            android:name=".activity.InnerReportsActivity"
+            android:name=".mvp.ui.activity.InnerReportsActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <!-- 菜单内部报事 -->
         <activity
-            android:name=".activity.MenuInnerReportsActivity"
+            android:name=".mvp.ui.activity.MenuInnerReportsActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.DataSearchActivity"
+            android:name=".mvp.ui.activity.DataSearchActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <!-- 投诉建议 -->
         <activity
-            android:name=".activity.ComplainSuggestActivity"
+            android:name=".mvp.ui.activity.ComplainSuggestActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <!-- 访客列表 -->
         <activity
-            android:name=".activity.VisitorListActivity"
+            android:name=".mvp.ui.activity.VisitorListActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <!-- 我的订单 -->
         <activity
-            android:name=".activity.MyOrderActivity"
+            android:name=".mvp.ui.activity.MyOrderActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <!-- 我的任务 -->
         <activity
-            android:name=".activity.MyTaskActivity"
+            android:name=".mvp.ui.activity.MyTaskActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <!-- 表单申报 -->
         <activity
-            android:name=".activity.DeclareFormActivity"
+            android:name=".mvp.ui.activity.DeclareFormActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
         <!-- 表单提交 -->
         <activity
-            android:name=".activity.FormSubmitActivity"
+            android:name=".mvp.ui.activity.FormSubmitActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <!-- 我的表单 -->
-        <activity android:name=".activity.MyFormActivity" />
+        <activity android:name=".mvp.ui.activity.MyFormActivity" />
         <!-- 管理通知 -->
-        <activity android:name=".activity.ManageNotificationActivity" />
+        <activity android:name=".mvp.ui.activity.ManageNotificationActivity" />
         <!-- 任务选择 -->
         <activity
-            android:name=".activity.TaskSelectActivity"
+            android:name=".mvp.ui.activity.TaskSelectActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".activity.PersonalInfoActivity" />
+        <activity android:name=".mvp.ui.activity.PersonalInfoActivity" />
 
         <!-- 【必须】 信鸽receiver广播接收 -->
         <receiver android:name="com.tencent.android.tpush.XGPushReceiver"

@@ -28,8 +28,7 @@ import com.google.zxing.MultiFormatReader;
 import com.google.zxing.ReaderException;
 import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
-import com.tianchuang.ihome_b.fragment.ScanCodeFragment;
-import com.uuzuche.lib_zxing.activity.CaptureFragment;
+import com.tianchuang.ihome_b.mvp.ui.fragment.ScanCodeFragment;
 import com.uuzuche.lib_zxing.camera.CameraManager;
 import com.uuzuche.lib_zxing.camera.PlanarYUVLuminanceSource;
 
