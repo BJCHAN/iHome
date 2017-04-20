@@ -32,6 +32,7 @@ import com.tianchuang.ihome_b.bean.DrawMenuItem;
 import com.tianchuang.ihome_b.bean.ListBean;
 import com.tianchuang.ihome_b.bean.LoginBean;
 import com.tianchuang.ihome_b.bean.QrCodeBean;
+import com.tianchuang.ihome_b.bean.TaskPointDetailBean;
 import com.tianchuang.ihome_b.bean.event.LogoutEvent;
 import com.tianchuang.ihome_b.bean.event.OpenScanEvent;
 import com.tianchuang.ihome_b.bean.event.SwitchSuccessEvent;
@@ -405,47 +406,84 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
         if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
             String result = bundle.getString(CodeUtils.RESULT_STRING);
             HashMap<String, String> map = new HashMap<>();
-            if (taskId != -1) map.put("taskId", String.valueOf(taskId));
             map.put("propertyCompanyId", String.valueOf(UserUtil.getLoginBean().getPropertyCompanyId()));
             map.put("code", result);
-            HomePageModel.requestQrCode(map)
-                    .compose(RxHelper.handleResult())
-                    .compose(this.bindToLifecycle())
-                    .subscribe(new RxSubscribe<ArrayList<QrCodeBean>>() {
-                        @Override
-                        protected void _onNext(ArrayList<QrCodeBean> qrCodeBeanlist) {
-                            ToastUtil.showToast(MainActivity.this, "请求成功！");
-                            if (qrCodeBeanlist != null && qrCodeBeanlist.size() > 0) {
-                                Intent intent = new Intent(getApplicationContext(), TaskSelectActivity.class);
-                                ListBean listBean = new ListBean();
-                                listBean.setQrCodeBeanArrayList(qrCodeBeanlist);
-                                intent.putExtra("listBean", listBean);
-                                startActivityWithAnim(intent);
-                            } else {
-                                ToastUtil.showToast(getApplicationContext(), "任务为空");
-                            }
-
-                        }
-
-                        @Override
-                        protected void _onError(String message) {
-                            if ("考勤成功".equals(message)) {
-                                OneButtonDialogFragment.newInstance(message)
-                                        .show(getFragmentManager(), "");
-                            } else {
-                                ToastUtil.showToast(MainActivity.this, message);
-                            }
-                        }
-
-                        @Override
-                        public void onCompleted() {
-
-                        }
-                    });
+            if (taskId != -1) {
+                map.put("taskRecordId", String.valueOf(taskId));
+                requestTaskQrCode(map);
+            } else {
+                requestQrCode(map);
+            }
         } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
             Toast.makeText(MainActivity.this, "解析二维码失败", Toast.LENGTH_LONG).show();
         }
         setCurrentTaskId(-1);//初始化当前任务id
+    }
+    private void requestTaskQrCode(HashMap<String, String> map) {
+        HomePageModel.requestTaskQrCode(map)
+                .compose(RxHelper.handleResult())
+                .compose(bindToLifecycle())
+                .subscribe(new RxSubscribe<TaskPointDetailBean>() {
+                    @Override
+                    protected void _onNext(TaskPointDetailBean detailBean) {
+                        if (detailBean != null) {
+                            Intent intent = new Intent();
+                            intent.setClass(MainActivity.this, ControlPointDetailActivity.class);
+                            intent.putExtra("detailBean", detailBean);
+                            startActivityWithAnim(intent);
+                        } else {
+                            ToastUtil.showToast(getApplicationContext(),"任务为空");
+                        }
+
+                    }
+
+                    @Override
+                    protected void _onError(String message) {
+                        ToastUtil.showToast(MainActivity.this,message);
+                    }
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+                });
+
+    }
+    private void requestQrCode(HashMap<String, String> map) {
+        HomePageModel.requestQrCode(map)
+                .compose(RxHelper.handleResult())
+                .compose(this.bindToLifecycle())
+                .subscribe(new RxSubscribe<ArrayList<QrCodeBean>>() {
+                    @Override
+                    protected void _onNext(ArrayList<QrCodeBean> qrCodeBeanlist) {
+                        ToastUtil.showToast(MainActivity.this, "请求成功！");
+                        if (qrCodeBeanlist != null && qrCodeBeanlist.size() > 0) {
+                            Intent intent = new Intent(getApplicationContext(), TaskSelectActivity.class);
+                            ListBean listBean = new ListBean();
+                            listBean.setQrCodeBeanArrayList(qrCodeBeanlist);
+                            intent.putExtra("listBean", listBean);
+                            startActivityWithAnim(intent);
+                        } else {
+                            ToastUtil.showToast(getApplicationContext(), "任务为空");
+                        }
+
+                    }
+
+                    @Override
+                    protected void _onError(String message) {
+                        if ("考勤成功".equals(message)) {
+                            OneButtonDialogFragment.newInstance(message)
+                                    .show(getFragmentManager(), "");
+                        } else {
+                            ToastUtil.showToast(MainActivity.this, message);
+                        }
+                    }
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+                });
     }
 
     //基本权限 相机权限请求

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+    android:id="@+id/ll_container"
+             android:layout_height="wrap_content"
+             android:background="@color/background_gray">
+ <TextView
+     android:id="@+id/tv_delete"
+     android:layout_width="match_parent"
+     android:text="删除物业"
+     android:paddingLeft="30dp"
+     style="@style/normal_content_text"
+     android:gravity="center_vertical"
+     android:layout_height="55dp" />
+</LinearLayout>

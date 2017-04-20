@@ -161,7 +161,7 @@ public class SubmitMultiAdapter extends BaseMultiItemQuickAdapter<FormTypeItemBe
             //用户输入完毕后，处理输入数据，回调给主界面处理
             if (s != null) {
                 EditText editText = (EditText) helper.getView(R.id.et_content);
-                saveEditListener.SaveEdit(Integer.parseInt(editText.getTag().toString()), s.toString());
+                saveEditListener.saveEdit(Integer.parseInt(editText.getTag().toString()), s.toString());
             }
 
         }
@@ -175,7 +175,7 @@ public class SubmitMultiAdapter extends BaseMultiItemQuickAdapter<FormTypeItemBe
 
     public interface SaveEditListener {
 
-        void SaveEdit(int position, String string);
+        void saveEdit(int position, String string);
     }
 
     private String getNotNull(String text) {

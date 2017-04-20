@@ -1,17 +1,16 @@
 package com.tianchuang.ihome_b.mvp.ui.fragment;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.tianchuang.ihome_b.R;
-import com.tianchuang.ihome_b.adapter.TaskControlPointDetailListAdapter;
+import com.tianchuang.ihome_b.adapter.TaskFormListAdapter;
+import com.tianchuang.ihome_b.adapter.TaskPointListAdapter;
 import com.tianchuang.ihome_b.base.BaseLoadingFragment;
-import com.tianchuang.ihome_b.bean.ControlPointItemBean;
-import com.tianchuang.ihome_b.bean.TaskControlPointDetailBean;
+import com.tianchuang.ihome_b.bean.TaskPointDetailBean;
 import com.tianchuang.ihome_b.bean.event.TaskFormSubmitSuccessEvent;
 import com.tianchuang.ihome_b.bean.model.MyTaskModel;
 import com.tianchuang.ihome_b.bean.recyclerview.CustomLinearLayoutManager;
@@ -19,6 +18,7 @@ import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
 import com.tianchuang.ihome_b.utils.DateUtils;
 import com.tianchuang.ihome_b.utils.ToastUtil;
+import com.tianchuang.ihome_b.utils.ViewHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -43,10 +43,15 @@ public class MyTaskControlPointDetailFragment extends BaseLoadingFragment {
     @BindView(R.id.tv_content)
     TextView tvContent;
     @BindView(R.id.rv_list)
-    RecyclerView rvList;
+    RecyclerView rvPointList;
+    @BindView(R.id.rv_formlist)
+    RecyclerView rvFormlist;
     private int taskRecordId;
-    private List<ControlPointItemBean> mListData;
-    private TaskControlPointDetailListAdapter adapter;
+    private List<TaskPointDetailBean.EquipmentControlVoListBean> mListControls;
+    private List<TaskPointDetailBean.FormTypeVoListBean> mListForms;
+    private TaskPointListAdapter pointAdapter;
+    private TaskFormListAdapter formAdapter;
+    private TaskPointDetailBean taskPointDetailBean;
 
     @Override
     protected int getLayoutId() {
@@ -61,6 +66,14 @@ public class MyTaskControlPointDetailFragment extends BaseLoadingFragment {
         return fragment;
     }
 
+    public static MyTaskControlPointDetailFragment newInstance(TaskPointDetailBean detailBean) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("detailBean", detailBean);
+        MyTaskControlPointDetailFragment fragment = new MyTaskControlPointDetailFragment();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -69,65 +82,117 @@ public class MyTaskControlPointDetailFragment extends BaseLoadingFragment {
 
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
-        this.taskRecordId = getArguments().getInt("taskRecordId");
+        if (getArguments().getSerializable("detailBean") != null) {
+            taskPointDetailBean = (TaskPointDetailBean) getArguments().getSerializable("detailBean");
+            this.taskRecordId = taskPointDetailBean.getId();
+        } else {
+            this.taskRecordId = getArguments().getInt("taskRecordId");
+        }
         CustomLinearLayoutManager layoutManager = new CustomLinearLayoutManager(getContext());
         layoutManager.setScrollEnabled(false);
-        mListData = new ArrayList<>();
-        rvList.setLayoutManager(layoutManager);
+        mListControls = new ArrayList<>();
+        mListForms = new ArrayList<>();
+        rvPointList.setLayoutManager(layoutManager);
+        rvFormlist.setLayoutManager(new LinearLayoutManager(getContext()));
         EventBus.getDefault().register(this);
     }
 
     @Override
     protected void initListener() {
         //去往提交编辑任务
-        rvList.addOnItemTouchListener(new OnItemClickListener() {
-            @Override
-            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ControlPointItemBean controlPointItemBean = (ControlPointItemBean) adapter.getData().get(position);
-                if (!controlPointItemBean.isDone()) {
-                    addFragment(TaskControlPointEditFragment.newInstance(taskRecordId, controlPointItemBean));
-                } else {
-                    addFragment(TaskControlPointResultFragment.newInstance(controlPointItemBean));
-                }
-            }
-        });
+//        rvPointList.addOnItemTouchListener(new OnItemClickListener() {
+//            @Override
+//            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+//                ControlPointItemBean controlPointItemBean = (ControlPointItemBean) adapter.getData().get(position);
+//                if (!controlPointItemBean.isDone()) {
+//                    addFragment(TaskControlPointEditFragment.newInstance(taskRecordId, controlPointItemBean));
+//                } else {
+//                    addFragment(TaskControlPointResultFragment.newInstance(controlPointItemBean));
+//                }
+//            }
+//        });
     }
 
     @Override
     protected void initData() {
-        MyTaskModel.taskControlPointDetail(taskRecordId)//请求控制点数据
-                .compose(RxHelper.<TaskControlPointDetailBean>handleResult())
-                .compose(this.<TaskControlPointDetailBean>bindToLifecycle())
-                .subscribe(new RxSubscribe<TaskControlPointDetailBean>() {
-                    @Override
-                    protected void _onNext(TaskControlPointDetailBean taskControlPointDetailBean) {
-                        tvTitle.setText(getNotNull(taskControlPointDetailBean.getTaskName()));
-                        tvDate.setText(getNotNull(DateUtils.formatDate(taskControlPointDetailBean.getCreatedDate(), DateUtils.TYPE_01)));
-                        tvContent.setText(getNotNull(taskControlPointDetailBean.getTaskExplains()));
-                        if (taskControlPointDetailBean.getEquipmentControlVoList().size() > 0) {
-                            mListData.clear();
-                            mListData.addAll(taskControlPointDetailBean.getEquipmentControlVoList());
+        if (taskPointDetailBean == null) {
+            MyTaskModel.taskControlPointDetail(taskRecordId)//请求控制点数据
+                    .compose(RxHelper.handleResult())
+                    .compose(this.bindToLifecycle())
+                    .subscribe(new RxSubscribe<TaskPointDetailBean>() {
+
+                        @Override
+                        protected void _onNext(TaskPointDetailBean detailBean) {
+                            updateUI(detailBean);
                         }
-                        adapter = new TaskControlPointDetailListAdapter(mListData);
-                        rvList.setAdapter(adapter);//设置控制点列表
-                    }
 
-                    @Override
-                    protected void _onError(String message) {
-                        showErrorPage();
-                        ToastUtil.showToast(getContext(), message);
+                        @Override
+                        protected void _onError(String message) {
+                            showErrorPage();
+                            ToastUtil.showToast(getContext(), message);
 
-                    }
+                        }
 
-                    @Override
-                    public void onCompleted() {
-                        showSucceedPage();
-                    }
-                });
+
+                        @Override
+                        public void onCompleted() {
+                            showSucceedPage();
+
+                        }
+                    });
+        } else {
+            showSucceedPage();
+            updateUI(taskPointDetailBean);
+        }
+
+    }
+
+    /**
+     * 根据数据更新UI
+     */
+    private void updateUI(TaskPointDetailBean detailBean) {
+        MyTaskControlPointDetailFragment.this.taskPointDetailBean = detailBean;
+        tvTitle.setText(getNotNull(detailBean.getTaskName()));
+        tvDate.setText(getNotNull(DateUtils.formatDate(detailBean.getCreatedDate(), DateUtils.TYPE_01)));
+        tvContent.setText(getNotNull(detailBean.getTaskExplains()));
+        List<TaskPointDetailBean.EquipmentControlVoListBean> equipmentControlVoList = detailBean.getEquipmentControlVoList();
+        List<TaskPointDetailBean.FormTypeVoListBean> formTypeVoList = detailBean.getFormTypeVoList();
+        if (equipmentControlVoList != null && equipmentControlVoList.size() > 0) {
+            initPointList(detailBean);
+        } else {//没有控制点直接去表单页面
+
+            return;
+        }
+        if (formTypeVoList != null && formTypeVoList.size() > 0) {
+            initFormList(detailBean);
+        }
+    }
+
+    /**
+     * 初始化表单列表
+     */
+    private void initFormList(TaskPointDetailBean detailBean) {
+        mListForms.clear();
+        mListForms.addAll(detailBean.getFormTypeVoList());
+        formAdapter = new TaskFormListAdapter(mListForms);
+        formAdapter.addHeaderView(ViewHelper.getTaskHeaderView("表单"));
+        rvFormlist.setAdapter(formAdapter);
+    }
+
+    /**
+     * 初始化控制点列表
+     */
+    private void initPointList(TaskPointDetailBean detailBean) {
+        mListControls.clear();
+        mListControls.addAll(detailBean.getEquipmentControlVoList());
+        pointAdapter = new TaskPointListAdapter(mListControls);
+        pointAdapter.addHeaderView(ViewHelper.getTaskHeaderView("控制/设备点"));
+        rvPointList.setAdapter(pointAdapter);//设置控制点列表
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(TaskFormSubmitSuccessEvent event) {//任务提交成功的事件
+        taskPointDetailBean = null;
         //进行数据的刷新
         initData();
     }
@@ -137,4 +202,5 @@ public class MyTaskControlPointDetailFragment extends BaseLoadingFragment {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
+
 }

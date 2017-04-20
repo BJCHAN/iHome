@@ -34,6 +34,7 @@ public class TaskSelectActivity extends ToolBarActivity {
         ListBean listBean = (ListBean) getIntent().getSerializableExtra("listBean");
         ArrayList<QrCodeBean> list = listBean.getQrCodeBeanArrayList();
         if (list.size() == 1) {
+
             return MyTaskControlPointDetailFragment.newInstance(list.get(0).getTaskRecordId());
         }
         return TaskSelectFragment.newInstance(listBean);

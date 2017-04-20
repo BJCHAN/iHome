@@ -156,9 +156,11 @@
         <activity android:name=".mvp.ui.activity.PersonalInfoActivity" />
 
         <!-- 【必须】 信鸽receiver广播接收 -->
-        <receiver android:name="com.tencent.android.tpush.XGPushReceiver"
-            android:process=":xg_service_v3" >
-            <intent-filter android:priority="0x7fffffff" >
+        <receiver
+            android:name="com.tencent.android.tpush.XGPushReceiver"
+            android:process=":xg_service_v3">
+            <intent-filter android:priority="0x7fffffff">
+
                 <!-- 【必须】 信鸽SDK的内部广播 -->
                 <action android:name="com.tencent.android.tpush.action.SDK" />
                 <action android:name="com.tencent.android.tpush.action.INTERNAL_PUSH_MESSAGE" />
@@ -174,9 +176,11 @@
 
         <!-- 【可选】APP实现的Receiver，用于接收消息透传和操作结果的回调，请根据需要添加 -->
         <!-- YOUR_PACKAGE_PATH.CustomPushReceiver需要改为自己的Receiver： -->
-        <receiver android:name="com.tianchuang.ihome_b.xgpush.XGReceiver"
-            android:exported="true" >
+        <receiver
+            android:name=".xgpush.XGReceiver"
+            android:exported="true">
             <intent-filter>
+
                 <!-- 接收消息透传 -->
                 <action android:name="com.tencent.android.tpush.action.PUSH_MESSAGE" />
                 <!-- 监听注册、反注册、设置/删除标签、通知被点击等处理结果 -->
@@ -185,12 +189,13 @@
         </receiver>
 
         <!-- 【必须】 (2.30及以上版新增)展示通知的activity -->
-        <!-- 【注意】 如果被打开的activity是启动模式为SingleTop，SingleTask或SingleInstance，请根据通知的异常自查列表第8点处理-->
+        <!-- 【注意】 如果被打开的activity是启动模式为SingleTop，SingleTask或SingleInstance，请根据通知的异常自查列表第8点处理 -->
         <activity
             android:name="com.tencent.android.tpush.XGPushActivity"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
-                <!-- 若使用AndroidStudio，请设置android:name="android.intent.action"-->
+
+                <!-- 若使用AndroidStudio，请设置android:name="android.intent.action" -->
                 <action android:name="android.intent.action" />
             </intent-filter>
         </activity>
@@ -207,25 +212,23 @@
             android:name="com.tencent.android.tpush.service.XGDaemonService"
             android:process=":xg_service_v3" />
 
-
-        <!-- 【必须】 【注意】authorities修改为 包名.AUTH_XGPUSH, 如demo的包名为：com.qq.xgdemo-->
+        <!-- 【必须】 【注意】authorities修改为 包名.AUTH_XGPUSH, 如demo的包名为：com.qq.xgdemo -->
         <provider
             android:name="com.tencent.android.tpush.XGPushProvider"
             android:authorities="com.tianchuang.ihome_b.AUTH_XGPUSH"
-            android:exported="true"/>
+            android:exported="true" />
 
-        <!-- 【必须】 【注意】authorities修改为 包名.TPUSH_PROVIDER, 如demo的包名为：com.qq.xgdemo-->
+        <!-- 【必须】 【注意】authorities修改为 包名.TPUSH_PROVIDER, 如demo的包名为：com.qq.xgdemo -->
         <provider
             android:name="com.tencent.android.tpush.SettingsContentProvider"
             android:authorities="com.tianchuang.ihome_b.TPUSH_PROVIDER"
             android:exported="false" />
 
-        <!-- 【必须】 【注意】authorities修改为 包名.TENCENT.MID.V3, 如demo的包名为：com.qq.xgdemo-->
+        <!-- 【必须】 【注意】authorities修改为 包名.TENCENT.MID.V3, 如demo的包名为：com.qq.xgdemo -->
         <provider
             android:name="com.tencent.mid.api.MidProvider"
             android:authorities="com.tianchuang.ihome_b.TENCENT.MID.V3"
-            android:exported="true" >
-        </provider>
+            android:exported="true"></provider>
         <!-- 【必须】 请修改为APP的AccessId，“21”开头的10位数字，中间没空格 -->
         <meta-data
             android:name="XG_V2_ACCESS_ID"
@@ -235,7 +238,7 @@
             android:name="XG_V2_ACCESS_KEY"
             android:value="A5HFIM138G3N" />
 
-
+        <activity android:name=".mvp.ui.activity.ControlPointDetailActivity"></activity>
     </application>
 
 </manifest>

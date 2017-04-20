@@ -57,8 +57,8 @@ public class DensityUtil {
     public static float getDensity(Context context) {
         DisplayMetrics metric = new DisplayMetrics();
         ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(metric);
-        double width = metric.widthPixels; // 屏幕宽度（像素）
-        double height = metric.heightPixels; // 屏幕高度（像素）
+//        double width = metric.widthPixels; // 屏幕宽度（像素）
+//        double height = metric.heightPixels; // 屏幕高度（像素）
         float density = metric.density; // 屏幕密度
         return density;
     }

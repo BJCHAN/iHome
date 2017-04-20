@@ -91,12 +91,7 @@ public class TaskInputEditDataFragment extends BaseFragment {
             tvCurrentData.setText(formatNum);
             MyTaskModel.taskCurrentDataSubmit(dataInfo.getId(), formatNum)
                     .compose(RxHelper.<String>handleResult())
-                    .doOnSubscribe(new Action0() {
-                        @Override
-                        public void call() {
-                            showProgress();
-                        }
-                    })
+                    .doOnSubscribe(() -> showProgress())
                     .compose(this.<String>bindToLifecycle())
                     .subscribe(new RxSubscribe<String>() {
                         @Override

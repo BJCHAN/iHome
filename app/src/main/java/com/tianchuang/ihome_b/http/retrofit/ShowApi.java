@@ -33,6 +33,7 @@ import com.tianchuang.ihome_b.bean.TaskAreaListBean;
 import com.tianchuang.ihome_b.bean.TaskControlPointDetailBean;
 import com.tianchuang.ihome_b.bean.TaskInputDetailBean;
 import com.tianchuang.ihome_b.bean.TaskInputResponseBean;
+import com.tianchuang.ihome_b.bean.TaskPointDetailBean;
 import com.tianchuang.ihome_b.bean.VisitorBean;
 
 import java.util.ArrayList;
@@ -530,7 +531,7 @@ public interface ShowApi {
      * taskRecordId //  记录ID
      */
     @POST(BizInterface.TASK_CONTROL_POINT_URL)
-    Observable<HttpModle<TaskControlPointDetailBean>> taskControlPointDetail(@Query("taskRecordId") int taskRecordId);
+    Observable<HttpModle<TaskPointDetailBean>> taskControlPointDetail(@Query("taskRecordId") int taskRecordId);
 
     /**
      * 首页列表
@@ -563,6 +564,17 @@ public interface ShowApi {
      */
     @POST(BizInterface.QR_CODE_URL)
     Observable<HttpModle<ArrayList<QrCodeBean>>> requestQrCode(@QueryMap Map<String, String> map);
+
+    /**
+     * 我的任务-执行任务-设备点控制点型任务-提交表单
+     * taskRecordId:xxxxxx                     //  任务记录ID
+     * propertyCompanyId:xxx                   //  物业公司ID（对应在物业列表接口中propertyCompanyId）
+     * formTypeId:xxx                          //  表单类型ID（对应在投诉类型列表接口中id）
+     * fieldKey1:xxx                           //  对应字段属性列表中的fields
+     * fieldKey2:xxx
+     */
+    @POST(BizInterface.QR_CODE_URL)
+    Observable<HttpModle<TaskPointDetailBean>> requestTaskQrCode(@QueryMap Map<String, String> map);
 
     /**
      * 用户详情

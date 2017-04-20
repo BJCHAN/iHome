@@ -325,6 +325,7 @@ public class PhotoView extends ImageView {
             case FIT_XY:
                 initFitXY();
                 break;
+            default:
         }
 
         isInit = true;

@@ -14,6 +14,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.mvp.ui.activity.ComplainSuggestActivity;
+import com.tianchuang.ihome_b.mvp.ui.activity.ControlPointDetailActivity;
 import com.tianchuang.ihome_b.mvp.ui.activity.DataSearchActivity;
 import com.tianchuang.ihome_b.mvp.ui.activity.DeclareFormActivity;
 import com.tianchuang.ihome_b.mvp.ui.activity.InnerReportsActivity;
@@ -134,8 +135,9 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                                 intent.setClass(getContext(), MyTaskActivity.class);
                                 startActivityWithAnim(intent);
                             } else {//控制点型
-                                holdingActivity.setCurrentTaskId(homePageMultiItem.getMyTaskUnderWayItemBean().getTaskId());
+                                holdingActivity.setCurrentTaskId(homePageMultiItem.getMyTaskUnderWayItemBean().getId());
                                 EventBus.getDefault().post(new OpenScanEvent());
+
                             }
                             break;
                         case HomePageMultiItem.TYPE_INNER_REPORT://内部报事

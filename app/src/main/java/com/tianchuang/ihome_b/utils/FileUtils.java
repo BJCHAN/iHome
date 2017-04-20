@@ -103,7 +103,7 @@ public class FileUtils {
      *
      * @param file 要删除的根目录
      */
-    public static void RecursionDeleteFile(File file) {
+    public static void recursionDeleteFile(File file) {
         if (file.isFile()) {
             file.delete();
             return;
@@ -115,7 +115,7 @@ public class FileUtils {
                 return;
             }
             for (File f : childFile) {
-                RecursionDeleteFile(f);
+                recursionDeleteFile(f);
             }
             file.delete();
         }
@@ -137,7 +137,7 @@ public class FileUtils {
                 return;
             }
             for (File f : childFile) {
-                RecursionDeleteFile(f);
+                recursionDeleteFile(f);
             }
             file.delete();
         }

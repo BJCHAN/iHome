@@ -317,7 +317,7 @@ public class FormSubmitActivity extends BaseActivity implements View.OnClickList
 
     //动态保存列表中edittext的文本
     @Override
-    public void SaveEdit(int position, String string) {
+    public void saveEdit(int position, String string) {
         editTexts.put(position, string);
     }
 

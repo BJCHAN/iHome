@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".mvp.ui.activity.ManageNotificationActivity">
+    tools:context="com.tianchuang.ihome_b.mvp.ui.activity.ControlPointDetailActivity">
 
 </android.support.constraint.ConstraintLayout>

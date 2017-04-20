@@ -3,6 +3,7 @@ package com.tianchuang.ihome_b;
 import android.app.Activity;
 import android.app.Application;
 
+import com.facebook.stetho.Stetho;
 import com.squareup.leakcanary.LeakCanary;
 import com.tianchuang.ihome_b.database.UserInfo;
 import com.tianchuang.ihome_b.utils.Utils;
@@ -31,6 +32,8 @@ public class TianChuangApplication extends Application {
             return;
         }
         LeakCanary.install(this);//检测内存泄露的工具
+        //todo 调试工具,正式发布时去掉
+        Stetho.initializeWithDefaults(this);//调试工具
         if (application == null)
             application = this;
         Utils.init(this);//初始化工具类

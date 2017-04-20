@@ -103,23 +103,24 @@ public class TaskControlPointEditFragment extends BaseFragment implements TaskSu
         }
 
         mRecyclerView.addItemDecoration(new CommonItemDecoration(DensityUtil.dip2px(getContext(), 20)));
-        fields = formTypeItemBean.getFields();
-        if (fields.size() > 0) {
-            editTexts = new SparseArray<>();
-            submitMultiAdapter = new TaskSubmitMultiAdapter(holdingActivity, fields);
-            submitMultiAdapter.setSaveEditListener(this);
-            mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            //添加腿部
-            View footer = LayoutUtil.inflate(R.layout.form_submit_footer_holder);
-            TextView submitBtn = (TextView) footer.findViewById(R.id.tv_submit);
-            submitBtn.setText("完成");
-            submitBtn.setOnClickListener(this);
-            submitMultiAdapter.addFooterView(footer);
-            submitMultiAdapter.addHeaderView(header);
-            mRecyclerView.setAdapter(submitMultiAdapter);
+        if (formTypeItemBean != null) {
+            fields = formTypeItemBean.getFields();
+            if (fields.size() > 0) {
+                editTexts = new SparseArray<>();
+                submitMultiAdapter = new TaskSubmitMultiAdapter(holdingActivity, fields);
+                submitMultiAdapter.setSaveEditListener(this);
+                mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                //添加腿部
+                View footer = LayoutUtil.inflate(R.layout.form_submit_footer_holder);
+                TextView submitBtn = (TextView) footer.findViewById(R.id.tv_submit);
+                submitBtn.setText("完成");
+                submitBtn.setOnClickListener(this);
+                submitMultiAdapter.addFooterView(footer);
+                submitMultiAdapter.addHeaderView(header);
+                mRecyclerView.setAdapter(submitMultiAdapter);
 
+            }
         }
-
 
     }
 
@@ -174,7 +175,7 @@ public class TaskControlPointEditFragment extends BaseFragment implements TaskSu
                 .flatMap(new Func1<List<MultipartBody.Part>, Observable<String>>() {
                     @Override
                     public Observable<String> call(List<MultipartBody.Part> parts) {
-                        return MyTaskModel.taskFormSubmit(taskRecordId, formTypeItemBean.getId(), submitTextMap, parts).compose(RxHelper.<String>handleResult());
+                        return MyTaskModel.taskFormSubmit(taskRecordId, formTypeItemBean.getId(), submitTextMap, parts).compose(RxHelper.handleResult());
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
@@ -280,7 +281,7 @@ public class TaskControlPointEditFragment extends BaseFragment implements TaskSu
 
     //动态保存列表中edittext的文本
     @Override
-    public void SaveEdit(int position, String string) {
+    public void saveEdit(int position, String string) {
         editTexts.put(position, string);
     }
 

@@ -14,6 +14,7 @@ import com.tianchuang.ihome_b.bean.DetailHeaderBean;
 import com.tianchuang.ihome_b.bean.EvaluateBean;
 import com.tianchuang.ihome_b.bean.MyOrderDetailBean;
 import com.tianchuang.ihome_b.bean.RepairsFeeBean;
+import com.tianchuang.ihome_b.view.viewholder.TaskHeaderViewHolder;
 
 import java.util.List;
 
@@ -99,6 +100,15 @@ public class ViewHelper {
 	public static View getFormSubmitHeaderView(String typeName) {
 		FormSubmitHeaderViewHolder holder = new FormSubmitHeaderViewHolder();
 		holder.bindData(typeName);
+		return holder.getholderView();
+	}
+
+	/**
+	 * 任务的头部
+	 */
+	public static View getTaskHeaderView(String Name) {
+		TaskHeaderViewHolder holder = new TaskHeaderViewHolder();
+		holder.bindData(Name);
 		return holder.getholderView();
 	}
 

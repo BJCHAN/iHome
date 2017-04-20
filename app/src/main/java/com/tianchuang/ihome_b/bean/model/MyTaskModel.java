@@ -4,6 +4,7 @@ import com.tianchuang.ihome_b.bean.MyTaskUnderWayListBean;
 import com.tianchuang.ihome_b.bean.TaskControlPointDetailBean;
 import com.tianchuang.ihome_b.bean.TaskInputDetailBean;
 import com.tianchuang.ihome_b.bean.TaskInputResponseBean;
+import com.tianchuang.ihome_b.bean.TaskPointDetailBean;
 import com.tianchuang.ihome_b.http.retrofit.HttpModle;
 import com.tianchuang.ihome_b.http.retrofit.RetrofitService;
 import com.tianchuang.ihome_b.utils.UserUtil;
@@ -68,7 +69,7 @@ public class MyTaskModel {
     /**
      * 任务控制点详情
      */
-    public static Observable<HttpModle<TaskControlPointDetailBean>> taskControlPointDetail(int taskRecordId) {
+    public static Observable<HttpModle<TaskPointDetailBean>> taskControlPointDetail(int taskRecordId) {
         return RetrofitService.createShowApi().taskControlPointDetail(taskRecordId);
     }
 

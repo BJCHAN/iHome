@@ -24,4 +24,5 @@ public class CheakBean {
     public void setTip(String tip) {
         this.tip = tip;
     }
+
 }

@@ -35,7 +35,7 @@ public class ComplainSuggestProcessedBean implements Serializable {
         this.listVo = listVo;
     }
 
-    public static class ListVoBean {
+    public static class ListVoBean implements Serializable{
         /**
          * id : 18
          * typeName : 进水

@@ -176,7 +176,7 @@ public class ScanCodeFragment extends Fragment implements SurfaceHolder.Callback
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		hasSurface = false;
-		if (camera != null) {
+//		if (camera != null) {
 			if (camera != null && CameraManager.get().isPreviewing()) {
 				if (!CameraManager.get().isUseOneShotPreviewCallback()) {
 					camera.setPreviewCallback(null);
@@ -186,7 +186,7 @@ public class ScanCodeFragment extends Fragment implements SurfaceHolder.Callback
 				CameraManager.get().getAutoFocusCallback().setHandler(null, 0);
 				CameraManager.get().setPreviewing(false);
 			}
-		}
+//		}
 	}
 
 	public Handler getHandler() {
