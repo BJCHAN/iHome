@@ -5,8 +5,11 @@ import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.adapter.MyTaskFinishedAdapter;
 import com.tianchuang.ihome_b.bean.MyTaskUnderWayItemBean;
 import com.tianchuang.ihome_b.bean.MyTaskUnderWayListBean;
+import com.tianchuang.ihome_b.bean.TaskPointDetailBean;
 import com.tianchuang.ihome_b.bean.model.MyTaskModel;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
+import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
+import com.tianchuang.ihome_b.utils.ToastUtil;
 
 import java.util.ArrayList;
 
@@ -33,10 +36,39 @@ public class MyTaskFinishedFragment extends BaseRefreshAndLoadMoreFragment<MyTas
         if (itemBean.getTaskKind() == 5) {
             addFragment(MyTaskInputDetailFragment.newInstance(itemBean));
         } else {
-            addFragment(MyTaskControlPointDetailFragment.newInstance(itemBean.getId()));
+            requestDetailData(itemBean.getId());
         }
     }
+    /**
+     * 请求详情数据
+     */
+    private void requestDetailData(int taskRecordId) {
+        MyTaskModel.taskControlPointDetail(taskRecordId)//请求控制点数据
+                .compose(RxHelper.handleResult())
+                .compose(this.bindToLifecycle())
+                .doOnSubscribe(this::showProgress)
+                .subscribe(new RxSubscribe<TaskPointDetailBean>() {
 
+                    @Override
+                    protected void _onNext(TaskPointDetailBean detailBean) {
+                        dismissProgress();
+                        addFragment(MyTaskControlPointDetailFragment.newInstance(detailBean));
+                    }
+
+                    @Override
+                    protected void _onError(String message) {
+                        dismissProgress();
+                        ToastUtil.showToast(getContext(), message);
+
+                    }
+
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+                });
+    }
     @Override
     protected Observable<MyTaskUnderWayListBean> getNetObservable(int maxId) {
         return MyTaskModel.myTaskFinishList(maxId).compose(RxHelper.<MyTaskUnderWayListBean>handleResult());

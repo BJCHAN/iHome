@@ -6,6 +6,8 @@ import android.content.Intent;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.adapter.MyTaskUnderWayAdapter;
+import com.tianchuang.ihome_b.base.QrResultListener;
+import com.tianchuang.ihome_b.base.ToolBarActivity;
 import com.tianchuang.ihome_b.bean.MyTaskUnderWayItemBean;
 import com.tianchuang.ihome_b.bean.MyTaskUnderWayListBean;
 import com.tianchuang.ihome_b.bean.TaskPointDetailBean;
@@ -31,7 +33,7 @@ import rx.Observable;
  * description:我的任务（进行中）
  */
 
-public class MyTaskUnderWayFragment extends BaseRefreshAndLoadMoreFragment<MyTaskUnderWayItemBean, MyTaskUnderWayListBean> implements MyTaskActivity.QrResultListener {
+public class MyTaskUnderWayFragment extends BaseRefreshAndLoadMoreFragment<MyTaskUnderWayItemBean, MyTaskUnderWayListBean> implements  MyTaskActivity.QrMainResultListener {
 
     private MyTaskActivity holdingActivity;
 
@@ -57,7 +59,7 @@ public class MyTaskUnderWayFragment extends BaseRefreshAndLoadMoreFragment<MyTas
     @Override
     protected void handleBundle() {
         super.handleBundle();
-        holdingActivity.setQrResultListener(this);
+        holdingActivity.setMainQrResultListener(this);
     }
 
     @Override
@@ -67,7 +69,9 @@ public class MyTaskUnderWayFragment extends BaseRefreshAndLoadMoreFragment<MyTas
             addFragment(MyTaskInputDetailFragment.newInstance(itemBean));
         } else {//控制点
             currentTaskId=itemBean.getId();
-            EventBus.getDefault().post(new TaskOpenScanEvent());
+            TaskOpenScanEvent event = new TaskOpenScanEvent();
+            event.setType(1);
+            EventBus.getDefault().post(event);
         }
     }
 
@@ -85,7 +89,7 @@ public class MyTaskUnderWayFragment extends BaseRefreshAndLoadMoreFragment<MyTas
      * 接受到的二维码信息
      */
     @Override
-    public void qrResult(String code) {
+    public void qrMainResult(String code) {
         HashMap<String, String> map = new HashMap<>();
         map.put("taskRecordId", String.valueOf(currentTaskId));
         map.put("propertyCompanyId", String.valueOf(UserUtil.getLoginBean().getPropertyCompanyId()));

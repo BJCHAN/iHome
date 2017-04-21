@@ -18,6 +18,7 @@ import com.tianchuang.ihome_b.base.BaseActivity;
 import com.tianchuang.ihome_b.bean.CheakBean;
 import com.tianchuang.ihome_b.bean.FormTypeItemBean;
 import com.tianchuang.ihome_b.bean.event.MyFormSubmitSuccessEvent;
+import com.tianchuang.ihome_b.bean.event.TaskFormSubmitSuccessEvent;
 import com.tianchuang.ihome_b.bean.model.FormModel;
 import com.tianchuang.ihome_b.bean.recyclerview.CommonItemDecoration;
 import com.tianchuang.ihome_b.bean.recyclerview.CustomLinearLayoutManager;
@@ -80,6 +81,7 @@ public class FormSubmitActivity extends BaseActivity implements View.OnClickList
     protected int getFragmentContainerId() {
         return 0;
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,9 +146,11 @@ public class FormSubmitActivity extends BaseActivity implements View.OnClickList
     public void setGetImageByCodeListener(GetImageByCodeListener getImageByCodeListener) {
         this.getImageByCodeListener = getImageByCodeListener;
     }
+
     public interface GetImageByCodeListener {
         void onImages(List<String> paths, int type);
     }
+
     private GetImageByCodeListener getImageByCodeListener;
 
     /**
@@ -159,9 +163,9 @@ public class FormSubmitActivity extends BaseActivity implements View.OnClickList
         addEditTexts(submitTextMap);
         final HashMap<String, ArrayList<File>> submitImagesFiles = getSubmitImagesFiles();
         Observable.zip(Observable.just(submitTextMap), Observable.just(submitImagesFiles),
-                new Func2<HashMap<String, String>, HashMap<String, ArrayList<File>> , CheakBean>() {//检查是否可以提价
+                new Func2<HashMap<String, String>, HashMap<String, ArrayList<File>>, CheakBean>() {//检查是否可以提价
                     @Override
-                    public CheakBean call(HashMap<String, String> submitTextMap, HashMap<String, ArrayList<File>>  map) {//判断可否提交
+                    public CheakBean call(HashMap<String, String> submitTextMap, HashMap<String, ArrayList<File>> map) {//判断可否提交
                         boolean textIsPut = cheackTextIsPut(submitTextMap);
                         boolean imagesIsPut = cheackImagesIsPut(map);
                         CheakBean cheakBean = new CheakBean();
@@ -195,7 +199,7 @@ public class FormSubmitActivity extends BaseActivity implements View.OnClickList
                 .map(new Func1<CheakBean, List<MultipartBody.Part>>() {
                     @Override
                     public List<MultipartBody.Part> call(CheakBean bean) {
-                        List<MultipartBody.Part> parts =MultipartBuilder.filesToMultipartBodyParts(new ArrayList<File>(),"");
+                        List<MultipartBody.Part> parts = MultipartBuilder.filesToMultipartBodyParts(new ArrayList<File>(), "");
                         for (Map.Entry<String, ArrayList<File>> stringArrayListEntry : submitImagesFiles.entrySet()) {
                             ArrayList<File> values = stringArrayListEntry.getValue();
                             if (values.size() > 0) {
@@ -223,6 +227,7 @@ public class FormSubmitActivity extends BaseActivity implements View.OnClickList
                     protected void _onNext(String s) {
                         dismissProgress();
                         EventBus.getDefault().post(new MyFormSubmitSuccessEvent());//通知列表刷新
+                        EventBus.getDefault().post(new TaskFormSubmitSuccessEvent());//通知任务详情刷新
                         ToastUtil.showToast(FormSubmitActivity.this, "申报成功");
                         finishWithAnim();
                     }
@@ -253,6 +258,7 @@ public class FormSubmitActivity extends BaseActivity implements View.OnClickList
 
     /**
      * 检查图片是否可以提交
+     *
      * @param map
      */
     private boolean cheackImagesIsPut(HashMap<String, ArrayList<File>> map) {
@@ -260,7 +266,7 @@ public class FormSubmitActivity extends BaseActivity implements View.OnClickList
         for (Map.Entry<String, ArrayList<File>> entry : map.entrySet()) {
             FormTypeItemBean.FieldsBean field = getItemBeanByKeyField(entry.getKey());
             if (field != null && field.isMustInput()) {
-                if (entry.getValue().size()==0) {
+                if (entry.getValue().size() == 0) {
                     canSubmit = false;
                 }
             }
@@ -290,7 +296,7 @@ public class FormSubmitActivity extends BaseActivity implements View.OnClickList
     private HashMap<String, ArrayList<File>> getSubmitImagesFiles() {
         HashMap<String, ArrayList<File>> fileHashMap = new HashMap<>();
         for (ImagesSelectorAdapter imagesSelectorAdapter : submitMultiAdapter.getImagesSelectorAdapters()) {
-            fileHashMap.put(imagesSelectorAdapter.getKeyField(),submitMultiAdapter.getImageFiles(imagesSelectorAdapter));
+            fileHashMap.put(imagesSelectorAdapter.getKeyField(), submitMultiAdapter.getImageFiles(imagesSelectorAdapter));
         }
         return fileHashMap;
     }
@@ -332,7 +338,6 @@ public class FormSubmitActivity extends BaseActivity implements View.OnClickList
         }
         return null;
     }
-
 
 
     @Override

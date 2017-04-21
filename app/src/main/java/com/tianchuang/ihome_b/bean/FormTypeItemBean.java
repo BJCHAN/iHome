@@ -19,6 +19,8 @@ public class FormTypeItemBean extends BaseItemLoadBean  {
      * count : 0
      * used : false
      * fields : [{"id":30,"formTypeId":6,"fieldKey":"fieldKey30","name":"状态","sizeLimit":0,"type":2,"mustInput":true,"fieldExtras":[{"id":19,"formTypeFieldId":30,"value":"A选项"},{"id":20,"formTypeFieldId":30,"value":"B选项"},{"id":21,"formTypeFieldId":30,"value":"C选项"}]},{"id":31,"formTypeId":6,"fieldKey":"fieldKey31","name":"图片","sizeLimit":0,"type":3,"mustInput":true},{"id":32,"formTypeId":6,"fieldKey":"fieldKey32","name":"描述","sizeLimit":100,"type":1,"mustInput":true}]
+     *     private String place;
+     private String time;
      */
 
     private int propertyCompanyId;
@@ -27,7 +29,24 @@ public class FormTypeItemBean extends BaseItemLoadBean  {
     private int count;
     private boolean used;
     private List<FieldsBean> fields;
+    private String place;
+    private String time;
 
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     public int getPropertyCompanyId() {
         return propertyCompanyId;

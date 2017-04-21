@@ -28,9 +28,6 @@
             android:layout_marginLeft="15dp"
             android:layout_toRightOf="@id/iv_little_point"
             android:text="控制点一" />
-
-
-
         <TextView
             android:id="@+id/tv_point_date"
             android:layout_width="match_parent"

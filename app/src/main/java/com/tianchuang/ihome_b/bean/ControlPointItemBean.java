@@ -23,10 +23,10 @@ public class ControlPointItemBean implements Serializable {
     private int id;
     private String name;
     private String place;
+    private String time;
     private int finishTime;
     private int type;
     private int day;
-    private String time;
     private FormTypeItemBean formTypeVo;
     private MyFormDetailBean formDetailVo;
     private boolean isDone;

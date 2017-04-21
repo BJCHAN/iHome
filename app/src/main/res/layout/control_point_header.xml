@@ -15,31 +15,31 @@
         android:layout_marginLeft="15dp"
         android:text="控制点一" />
 
-    <TextView
-        android:id="@+id/tv_point_address"
-        style="@style/normal_content_gray_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_point_name"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="3dp"
-        android:text="XX位置的XXXXX地点" />
+    <!--<TextView-->
+        <!--android:id="@+id/tv_point_address"-->
+        <!--style="@style/normal_content_gray_text"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@id/tv_point_name"-->
+        <!--android:layout_marginLeft="15dp"-->
+        <!--android:layout_marginTop="3dp"-->
+        <!--android:text="XX位置的XXXXX地点" />-->
 
-    <TextView
-        android:id="@+id/tv_point_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="3dp"
-        android:layout_toRightOf="@id/tv_point_name"
-        android:gravity="right"
-        android:text="08:12完成"
-        android:paddingRight="15dp"
-        android:textColor="@color/app_primary_color"
-        android:textSize="15sp" />
+    <!--<TextView-->
+        <!--android:id="@+id/tv_point_date"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="15dp"-->
+        <!--android:layout_marginTop="3dp"-->
+        <!--android:layout_toRightOf="@id/tv_point_name"-->
+        <!--android:gravity="right"-->
+        <!--android:text="08:12完成"-->
+        <!--android:paddingRight="15dp"-->
+        <!--android:textColor="@color/app_primary_color"-->
+        <!--android:textSize="15sp" />-->
     <View
         android:layout_marginTop="10dp"
-        android:layout_below="@id/tv_point_address"
+        android:layout_below="@id/tv_point_name"
         android:layout_width="match_parent"
         android:background="@color/background_gray"
         android:layout_height="10dp"/>

@@ -6,4 +6,13 @@ package com.tianchuang.ihome_b.bean.event;
  */
 
 public class TaskOpenScanEvent {
+    private int type =0;//当type ==1时,表示我的任务--任务进行中的扫码,避免与控制点扫码的冲突,导致重复开启扫码
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public int getType() {
+        return type;
+    }
 }

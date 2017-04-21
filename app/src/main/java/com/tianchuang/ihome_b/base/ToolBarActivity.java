@@ -23,7 +23,14 @@ public abstract class ToolBarActivity extends BaseCustomActivity {
     Toolbar toolbar;
     @BindView(R.id.toolbar_title)
     TextView toolbarTitle;
+    /**
+     * 二维码的结果回调
+     */
+    public QrResultListener qrResultListener;
 
+    public void setQrResultListener(QrResultListener qrResultListener) {
+        this.qrResultListener = qrResultListener;
+    }
     //获取第一个fragment
     protected abstract BaseFragment getFirstFragment();
 

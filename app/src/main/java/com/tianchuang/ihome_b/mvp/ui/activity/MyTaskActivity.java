@@ -80,7 +80,9 @@ public class MyTaskActivity extends ToolBarActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)//接收打开扫一扫的事件
     public void onMessageEvent(TaskOpenScanEvent event) {//打开扫一扫的事件
-        requestCameraPermission();
+        if (event.getType()==1) {
+            requestCameraPermission();
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -102,8 +104,8 @@ public class MyTaskActivity extends ToolBarActivity {
                 }
                 if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
                     String result = bundle.getString(CodeUtils.RESULT_STRING);
-                    if (qrResultListener != null) {
-                        qrResultListener.qrResult(result);
+                    if (qrMainResultListener != null) {
+                        qrMainResultListener.qrMainResult(result);
                     }
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
                     Toast.makeText(MyTaskActivity.this, "解析二维码失败", Toast.LENGTH_LONG).show();
@@ -115,14 +117,14 @@ public class MyTaskActivity extends ToolBarActivity {
     /**
      * 二维码的结果回调
      */
-    public QrResultListener qrResultListener;
+    public QrMainResultListener qrMainResultListener;
 
-    public void setQrResultListener(QrResultListener qrResultListener) {
-        this.qrResultListener = qrResultListener;
+    public void setMainQrResultListener(QrMainResultListener qrResultListener) {
+        this.qrMainResultListener = qrResultListener;
     }
 
-    public interface QrResultListener {
-        void qrResult(String code);
+    public interface QrMainResultListener {
+        void qrMainResult(String code);
     }
 
     //基本权限 相机权限请求

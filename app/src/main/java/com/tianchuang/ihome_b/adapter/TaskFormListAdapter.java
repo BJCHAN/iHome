@@ -36,7 +36,7 @@ public class TaskFormListAdapter extends BaseQuickAdapter<TaskPointDetailBean.Fo
             Drawable img = ContextCompat.getDrawable(date.getContext(), R.mipmap.menu_arrow);
             // 调用setCompoundDrawables时，必须调用Drawable.setBounds()方法,否则图片不显示
             img.setBounds(0, 0, img.getMinimumWidth(), img.getMinimumHeight());
-            date.setCompoundDrawables(null, null, null, img); //设置右图标
+            date.setCompoundDrawables(null, null, img, null); //设置右图标
             date.setCompoundDrawablePadding(DensityUtil.dip2px(date.getContext(), 5f));
             date.setTextColor(ContextCompat.getColor(date.getContext(), R.color.app_primary_color));
             point.setImageDrawable(ContextCompat.getDrawable(point.getContext(), R.drawable.little_gray));

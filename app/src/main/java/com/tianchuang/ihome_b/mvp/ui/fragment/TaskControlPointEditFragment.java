@@ -28,6 +28,7 @@ import com.tianchuang.ihome_b.utils.LayoutUtil;
 import com.tianchuang.ihome_b.utils.MultipartBuilder;
 import com.tianchuang.ihome_b.utils.StringUtils;
 import com.tianchuang.ihome_b.utils.ToastUtil;
+import com.tianchuang.ihome_b.utils.ViewHelper;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -60,7 +61,7 @@ public class TaskControlPointEditFragment extends BaseFragment implements TaskSu
     private FormTypeItemBean formTypeItemBean;
     private int taskRecordId;
 
-    public static TaskControlPointEditFragment newInstance(int taskRecordId, ControlPointItemBean bean) {
+    public static TaskControlPointEditFragment newInstance(int taskRecordId, FormTypeItemBean bean) {
         Bundle bundle = new Bundle();
         bundle.putSerializable("bean", bean);
         bundle.putInt("taskRecordId", taskRecordId);
@@ -72,7 +73,7 @@ public class TaskControlPointEditFragment extends BaseFragment implements TaskSu
     @Override
     public void onStart() {
         super.onStart();
-        setToolbarTitle("任务结果");
+        setToolbarTitle("填写表单");
     }
 
     @Override
@@ -89,22 +90,22 @@ public class TaskControlPointEditFragment extends BaseFragment implements TaskSu
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
         //添加头部
-        View header = LayoutUtil.inflate(R.layout.control_point_header);
-        TextView tvPointAddress = (TextView) header.findViewById(R.id.tv_point_address);
-        TextView tvPointDate = (TextView) header.findViewById(R.id.tv_point_date);
-        TextView tvPointName = (TextView) header.findViewById(R.id.tv_point_name);
-        ControlPointItemBean controlPointItemBean = (ControlPointItemBean) getArguments().getSerializable("bean");
+//        View header = LayoutUtil.inflate(R.layout.control_point_header);
+
+//        TextView tvPointAddress = (TextView) header.findViewById(R.id.tv_point_address);
+//        TextView tvPointDate = (TextView) header.findViewById(R.id.tv_point_date);
+//        TextView tvPointName = (TextView) header.findViewById(R.id.tv_point_name);
+        FormTypeItemBean formTypeItemBean = (FormTypeItemBean) getArguments().getSerializable("bean");
         taskRecordId = getArguments().getInt("taskRecordId");
-        if (controlPointItemBean != null) {
-            tvPointName.setText(StringUtils.getNotNull(controlPointItemBean.getName()));
-            tvPointAddress.setText(StringUtils.getNotNull(controlPointItemBean.getPlace()));
-            tvPointDate.setText(StringUtils.getNotNull(controlPointItemBean.getTime()));
-            formTypeItemBean = controlPointItemBean.getFormTypeVo();
+        if (formTypeItemBean != null) {
+//            tvPointAddress.setText(StringUtils.getNotNull(formTypeItemBean.getPlace()));
+//            tvPointDate.setText(StringUtils.getNotNull(formTypeItemBean.getTime()));
+            this.formTypeItemBean = formTypeItemBean;
         }
 
         mRecyclerView.addItemDecoration(new CommonItemDecoration(DensityUtil.dip2px(getContext(), 20)));
-        if (formTypeItemBean != null) {
-            fields = formTypeItemBean.getFields();
+        if (this.formTypeItemBean != null) {
+            fields = this.formTypeItemBean.getFields();
             if (fields.size() > 0) {
                 editTexts = new SparseArray<>();
                 submitMultiAdapter = new TaskSubmitMultiAdapter(holdingActivity, fields);
@@ -116,7 +117,7 @@ public class TaskControlPointEditFragment extends BaseFragment implements TaskSu
                 submitBtn.setText("完成");
                 submitBtn.setOnClickListener(this);
                 submitMultiAdapter.addFooterView(footer);
-                submitMultiAdapter.addHeaderView(header);
+                submitMultiAdapter.addHeaderView(ViewHelper.getFormSubmitHeaderView(formTypeItemBean.getName()));
                 mRecyclerView.setAdapter(submitMultiAdapter);
 
             }

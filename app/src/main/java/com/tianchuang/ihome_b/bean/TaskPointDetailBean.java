@@ -334,6 +334,15 @@ public class TaskPointDetailBean implements Serializable {
         private int id;
         private FormTypeItemBean formTypeVo;
         private boolean done;
+        private MyFormDetailBean formDetailVo;
+
+        public MyFormDetailBean getFormDetailVo() {
+            return formDetailVo;
+        }
+
+        public void setFormDetailVo(MyFormDetailBean formDetailVo) {
+            this.formDetailVo = formDetailVo;
+        }
 
         public String getFormTypeName() {
             return formTypeName;

@@ -76,7 +76,7 @@
             android:overScrollMode="never"
             android:scrollbars="none" />
         <Button
-            android:id="@+id/loginBt"
+            android:id="@+id/sure_bt"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
