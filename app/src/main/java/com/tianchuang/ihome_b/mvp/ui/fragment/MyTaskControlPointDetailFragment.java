@@ -187,7 +187,9 @@ public class MyTaskControlPointDetailFragment extends BaseLoadingFragment implem
         tvContent.setText(getNotNull(detailBean.getTaskExplains()));
         List<TaskPointDetailBean.EquipmentControlVoListBean> equipmentControlVoList = detailBean.getEquipmentControlVoList();
         List<TaskPointDetailBean.FormTypeVoListBean> formTypeVoList = detailBean.getFormTypeVoList();
-        if (detailBean.getStatus() == 2||(equipmentControlVoList.size()==0&&formTypeVoList.size()==0)) {//任务已完成
+        if (detailBean.getStatus() == 2) {//任务已完成
+            sureBt.setVisibility(View.INVISIBLE);
+        } else if (formTypeVoList==null&&equipmentControlVoList==null) {
             sureBt.setVisibility(View.INVISIBLE);
         }
         if (equipmentControlVoList != null && equipmentControlVoList.size() > 0) {

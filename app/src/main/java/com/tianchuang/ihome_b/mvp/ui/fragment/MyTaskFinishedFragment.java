@@ -33,7 +33,7 @@ public class MyTaskFinishedFragment extends BaseRefreshAndLoadMoreFragment<MyTas
 
     @Override
     protected void onListitemClick(MyTaskUnderWayItemBean itemBean) {
-        if (itemBean.getTaskKind() == 5) {
+        if (itemBean.getTaskKind() == 13) {
             addFragment(MyTaskInputDetailFragment.newInstance(itemBean));
         } else {
             requestDetailData(itemBean.getId());

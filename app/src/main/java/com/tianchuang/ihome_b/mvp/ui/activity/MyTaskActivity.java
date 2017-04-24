@@ -65,7 +65,7 @@ public class MyTaskActivity extends ToolBarActivity {
             if (item != null && item instanceof HomePageMultiItem) {
                 MyTaskUnderWayItemBean itemBean = ((HomePageMultiItem) item).getMyTaskUnderWayItemBean();
                 int type = itemBean.getTaskKind();
-                if (type == 5) {//查看录入任务详情
+                if (type == 13) {//查看录入任务详情
                     return MyTaskInputDetailFragment.newInstance(itemBean);
                 }
             }

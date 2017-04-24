@@ -131,7 +131,7 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                             startActivityWithAnim(intent);
                             break;
                         case HomePageMultiItem.TYPE_TASK://任务
-                            if (homePageMultiItem.getMyTaskUnderWayItemBean().getTaskKind() == 5) {//录入数据型
+                            if (homePageMultiItem.getMyTaskUnderWayItemBean().getTaskKind() == 13) {//录入数据型
                                 intent.setClass(getContext(), MyTaskActivity.class);
                                 startActivityWithAnim(intent);
                             } else {//控制点型
