@@ -456,7 +456,7 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
                 .subscribe(new RxSubscribe<ArrayList<QrCodeBean>>() {
                     @Override
                     protected void _onNext(ArrayList<QrCodeBean> qrCodeBeanlist) {
-                        ToastUtil.showToast(MainActivity.this, "请求成功！");
+//                        ToastUtil.showToast(MainActivity.this, "请求成功！");
                         if (qrCodeBeanlist != null && qrCodeBeanlist.size() > 0) {
                             Intent intent = new Intent(getApplicationContext(), TaskSelectActivity.class);
                             ListBean listBean = new ListBean();

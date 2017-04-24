@@ -17,11 +17,15 @@ public interface PropertyListContract {
         void initAdapter(ArrayList<PropertyListItemBean> propertyList);
 
         void notifyUISetOften(int position);
+
+        void deleteItem(int position);
     }
 
     interface Presenter extends BasePresenter<View> {
         void requestPropertyListData();
 
         void requestSetOften(PropertyListItemBean propertyListItemBean, int position);
+
+        void requestDelete(int position);
     }
 }

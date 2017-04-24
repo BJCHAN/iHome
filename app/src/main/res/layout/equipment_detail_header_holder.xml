@@ -57,7 +57,7 @@
             android:gravity="right"
             android:layout_height="wrap_content"
             style="@style/small_content_gray_text"
-            android:text="信息："/>
+            android:text="品牌："/>
         <TextView
             android:id="@+id/tv_content"
             android:layout_width="match_parent"

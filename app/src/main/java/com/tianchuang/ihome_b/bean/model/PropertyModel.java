@@ -28,4 +28,11 @@ public class PropertyModel {
 		return RetrofitService.createShowApi().setOften(id);
 	}
 
+	/**
+	 * 物业删除
+	 */
+	public static Observable<HttpModle<String>> propertyDelete(int id) {
+		return RetrofitService.createShowApi().propertyDelete(id);
+	}
+
 }

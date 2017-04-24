@@ -15,10 +15,12 @@ import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.base.QrResultListener;
 import com.tianchuang.ihome_b.base.ToolBarActivity;
+import com.tianchuang.ihome_b.bean.EquipmentDetailBean;
 import com.tianchuang.ihome_b.bean.ListBean;
 import com.tianchuang.ihome_b.bean.QrCodeBean;
 import com.tianchuang.ihome_b.bean.event.TaskOpenScanEvent;
 import com.tianchuang.ihome_b.bean.event.TransferLayoutEvent;
+import com.tianchuang.ihome_b.mvp.ui.fragment.EquipmentDetailFragment;
 import com.tianchuang.ihome_b.mvp.ui.fragment.MyTaskControlPointDetailFragment;
 import com.tianchuang.ihome_b.mvp.ui.fragment.TaskSelectFragment;
 import com.tianchuang.ihome_b.permission.MPermission;
@@ -47,7 +49,10 @@ public class TaskSelectActivity extends ToolBarActivity {
         ListBean listBean = (ListBean) getIntent().getSerializableExtra("listBean");
         ArrayList<QrCodeBean> list = listBean.getQrCodeBeanArrayList();
         if (list.size() == 1) {
-
+            EquipmentDetailBean detailBean = list.get(0).getEquipmentDetailVo();
+            if (detailBean != null) {
+                return EquipmentDetailFragment.newInstance(detailBean);
+            }
             return MyTaskControlPointDetailFragment.newInstance(list.get(0).getTaskRecordId());
         }
         return TaskSelectFragment.newInstance(listBean);

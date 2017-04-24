@@ -9,6 +9,7 @@ import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
 import com.tianchuang.ihome_b.mvp.BasePresenterImpl;
 import com.tianchuang.ihome_b.mvp.contract.PropertyListContract;
+import com.tianchuang.ihome_b.utils.ToastUtil;
 import com.tianchuang.ihome_b.utils.UserUtil;
 
 import java.util.ArrayList;
@@ -85,6 +86,32 @@ public class PropertyListPresenter extends BasePresenterImpl<PropertyListContrac
                             mView.showToast("设为常用失败");
                         }
                         mView.dismissProgress();
+                    }
+                });
+    }
+
+    @Override
+    public void requestDelete(int position) {
+        PropertyModel.propertyDelete(data.get(position).getId())
+                .compose(mView.bindToLifecycle())
+                .doOnSubscribe(()->mView.showProgress())
+                .compose(RxHelper.handleResult())
+                .subscribe(new RxSubscribe<String>() {
+                    @Override
+                    protected void _onNext(String s) {
+                        mView.dismissProgress();
+                        mView.deleteItem(position);
+                    }
+
+                    @Override
+                    protected void _onError(String message) {
+                        mView.showToast(message);
+                        mView.dismissProgress();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+
                     }
                 });
     }

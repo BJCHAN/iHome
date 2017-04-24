@@ -1,5 +1,7 @@
 package com.tianchuang.ihome_b.bean;
 
+import android.text.TextUtils;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -31,6 +33,8 @@ public class TaskPointDetailBean implements Serializable {
      * departmentName : 后勤部
      * employeeName : 龚世晟
      * publicity : 1
+     * scanEquipmentName
+     * scanControlPointName//当前扫描控制点的名称
      * formTypeVoList : [{"formTypeName":"消防巡查记录表","formTypeId":25,"id":8,"formTypeVo":{"id":25,"propertyCompanyId":1,"name":"消防巡查记录表","description":"消防日常检查用表","count":0,"used":false,"fields":[{"id":108,"formTypeId":25,"fieldKey":"fieldKey108","name":"消火栓箱检查","sizeLimit":0,"type":2,"mustInput":true,"fieldExtras":[{"id":69,"formTypeFieldId":108,"value":"完好"},{"id":70,"formTypeFieldId":108,"value":"损坏"}]},{"id":109,"formTypeId":25,"fieldKey":"fieldKey109","name":"烟感报警","sizeLimit":0,"type":2,"mustInput":true,"fieldExtras":[{"id":71,"formTypeFieldId":109,"value":"正常"},{"id":72,"formTypeFieldId":109,"value":"不工作"}]},{"id":110,"formTypeId":25,"fieldKey":"fieldKey110","name":"防火门","sizeLimit":0,"type":2,"mustInput":true,"fieldExtras":[{"id":73,"formTypeFieldId":110,"value":"完好"},{"id":74,"formTypeFieldId":110,"value":"不能关闭"}]}]},"done":false},{"formTypeName":"AAAAAA","formTypeId":22,"id":9,"formTypeVo":{"id":22,"propertyCompanyId":1,"name":"AAAAAA","description":"AAAA","count":0,"used":false,"fields":[{"id":99,"formTypeId":22,"fieldKey":"fieldKey99","name":"输入框","sizeLimit":30,"type":1,"mustInput":true},{"id":100,"formTypeId":22,"fieldKey":"fieldKey100","name":"输入框","sizeLimit":20,"type":1,"mustInput":true}]},"done":false}]
      */
 
@@ -50,11 +54,21 @@ public class TaskPointDetailBean implements Serializable {
     private int alreadyEnterCount;
     private int EnterCount;
     private int executeTime;
+    private String scanControlPointName;
+    private String scanEquipmentName;
     private String departmentName;
     private String employeeName;
     private int publicity;
     private List<EquipmentControlVoListBean> equipmentControlVoList;
     private List<FormTypeVoListBean> formTypeVoList;
+
+    public String getScanControlPointName() {
+        if (TextUtils.isEmpty(scanEquipmentName)) {
+            return scanControlPointName+"控制点";
+        }
+        return scanEquipmentName+"设备点";
+    }
+
 
     public int getId() {
         return id;

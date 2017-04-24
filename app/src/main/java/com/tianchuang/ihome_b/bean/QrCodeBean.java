@@ -10,7 +10,7 @@ import java.io.Serializable;
  *  //设备点/控制点的二维码返回任务列表
  */
 
-public class QrCodeBean implements  Serializable,Parcelable {
+public class QrCodeBean implements  Serializable {
 
     /**
      * taskId : 8
@@ -18,6 +18,7 @@ public class QrCodeBean implements  Serializable,Parcelable {
      * taskName : 2017年03月20日巡更
      * controlPointId : 3
      * equipmentId : 0
+     * equipmentDetailVo//设备详情
      */
 
     private int taskId;
@@ -25,6 +26,15 @@ public class QrCodeBean implements  Serializable,Parcelable {
     private String taskName;
     private int controlPointId;
     private int equipmentId;
+    private EquipmentDetailBean equipmentDetailVo;
+
+    public EquipmentDetailBean getEquipmentDetailVo() {
+        return equipmentDetailVo;
+    }
+
+    public void setEquipmentDetailVo(EquipmentDetailBean equipmentDetailVo) {
+        this.equipmentDetailVo = equipmentDetailVo;
+    }
 
     public int getTaskId() {
         return taskId;
@@ -66,40 +76,4 @@ public class QrCodeBean implements  Serializable,Parcelable {
         this.equipmentId = equipmentId;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.taskId);
-        dest.writeInt(this.taskRecordId);
-        dest.writeString(this.taskName);
-        dest.writeInt(this.controlPointId);
-        dest.writeInt(this.equipmentId);
-    }
-
-    public QrCodeBean() {
-    }
-
-    protected QrCodeBean(Parcel in) {
-        this.taskId = in.readInt();
-        this.taskRecordId = in.readInt();
-        this.taskName = in.readString();
-        this.controlPointId = in.readInt();
-        this.equipmentId = in.readInt();
-    }
-
-    public static final Parcelable.Creator<QrCodeBean> CREATOR = new Parcelable.Creator<QrCodeBean>() {
-        @Override
-        public QrCodeBean createFromParcel(Parcel source) {
-            return new QrCodeBean(source);
-        }
-
-        @Override
-        public QrCodeBean[] newArray(int size) {
-            return new QrCodeBean[size];
-        }
-    };
 }

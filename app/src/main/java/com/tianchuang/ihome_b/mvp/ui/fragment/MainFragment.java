@@ -135,8 +135,13 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                                 intent.setClass(getContext(), MyTaskActivity.class);
                                 startActivityWithAnim(intent);
                             } else {//控制点型
-                                holdingActivity.setCurrentTaskId(homePageMultiItem.getMyTaskUnderWayItemBean().getId());
-                                EventBus.getDefault().post(new OpenScanEvent());
+//                                holdingActivity.setCurrentTaskId(homePageMultiItem.getMyTaskUnderWayItemBean().getId());
+//                                EventBus.getDefault().post(new OpenScanEvent());
+//                                ControlPointDetailActivity
+
+                                intent.setClass(getContext(), ControlPointDetailActivity.class);
+                                intent.putExtra("taskRecordId", homePageMultiItem.getMyTaskUnderWayItemBean().getId());
+                                startActivityWithAnim(intent);
 
                             }
                             break;

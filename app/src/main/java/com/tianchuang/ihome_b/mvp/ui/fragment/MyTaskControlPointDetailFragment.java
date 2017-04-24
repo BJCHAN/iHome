@@ -198,8 +198,6 @@ public class MyTaskControlPointDetailFragment extends BaseLoadingFragment implem
         }
         if (formTypeVoList != null && formTypeVoList.size() > 0) {
             initFormList(detailBean);
-        } else {
-
         }
     }
 
@@ -269,7 +267,8 @@ public class MyTaskControlPointDetailFragment extends BaseLoadingFragment implem
                     @Override
                     protected void _onNext(TaskPointDetailBean detailBean) {
                         if (detailBean != null) {
-                            goToFormTypeList(detailBean);
+                            addFragment(ControlPointSucceedFragment.newInstance(detailBean));
+//                            goToFormTypeList(detailBean);
                         } else {
                             ToastUtil.showToast(getContext(), "任务为空");
                         }

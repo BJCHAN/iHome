@@ -143,7 +143,7 @@ public class EquipmentDetailBean implements Serializable {
         this.fieldDataList = fieldDataList;
     }
 
-    public static class FieldDataListBean {
+    public static class FieldDataListBean implements Serializable{
         /**
          * fieldName : 编号
          * fieldValue : A10-0001

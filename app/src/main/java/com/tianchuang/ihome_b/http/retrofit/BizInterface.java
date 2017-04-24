@@ -29,6 +29,8 @@ public interface BizInterface {
     String PROPERTY_LIST_URL = "property/role/join/list.html";
     //设为常用
     String PROPERTY_SET_OFTEN_URL = "property/role/often/set.html";
+    //删除物业
+    String PROPERTY_DELETE_URL = "property/delete.html";
     //全部取消
     String PROPERTY_CANCEL_OFTEN_URL = "property/role/often/cancel.html";
     //内部报事列表(菜单)

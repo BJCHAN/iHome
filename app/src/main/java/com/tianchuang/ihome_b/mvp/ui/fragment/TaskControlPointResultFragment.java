@@ -36,6 +36,12 @@ public class TaskControlPointResultFragment extends BaseFragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        setToolbarTitle("表单详情");
+    }
+
+    @Override
     protected void initView(View view, Bundle savedInstanceState) {
         TaskPointDetailBean.FormTypeVoListBean bean = (TaskPointDetailBean.FormTypeVoListBean) getArguments().getSerializable("bean");
         if (bean != null) {

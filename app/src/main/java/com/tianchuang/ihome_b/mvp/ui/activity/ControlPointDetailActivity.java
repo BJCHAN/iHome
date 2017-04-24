@@ -26,6 +26,10 @@ public class ControlPointDetailActivity extends TaskSelectActivity {
 
     @Override
     protected BaseFragment getFirstFragment() {
+        if (getIntent().getSerializableExtra("detailBean") == null) {
+            int taskRecordId = getIntent().getIntExtra("taskRecordId", 0);
+            return MyTaskControlPointDetailFragment.newInstance(taskRecordId);
+        }
         TaskPointDetailBean detailBean = (TaskPointDetailBean) getIntent().getSerializableExtra("detailBean");
             return MyTaskControlPointDetailFragment.newInstance(detailBean);
 

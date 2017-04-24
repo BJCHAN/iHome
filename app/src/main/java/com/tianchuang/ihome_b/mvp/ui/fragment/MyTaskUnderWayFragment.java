@@ -17,6 +17,7 @@ import com.tianchuang.ihome_b.bean.model.MyTaskModel;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
 import com.tianchuang.ihome_b.mvp.ui.activity.ControlPointDetailActivity;
+import com.tianchuang.ihome_b.mvp.ui.activity.MainActivity;
 import com.tianchuang.ihome_b.mvp.ui.activity.MyTaskActivity;
 import com.tianchuang.ihome_b.utils.ToastUtil;
 import com.tianchuang.ihome_b.utils.UserUtil;
@@ -33,9 +34,9 @@ import rx.Observable;
  * description:我的任务（进行中）
  */
 
-public class MyTaskUnderWayFragment extends BaseRefreshAndLoadMoreFragment<MyTaskUnderWayItemBean, MyTaskUnderWayListBean> implements  MyTaskActivity.QrMainResultListener {
+public class MyTaskUnderWayFragment extends BaseRefreshAndLoadMoreFragment<MyTaskUnderWayItemBean, MyTaskUnderWayListBean>  {
 
-    private MyTaskActivity holdingActivity;
+//    private MyTaskActivity holdingActivity;
 
     public static MyTaskUnderWayFragment newInstance() {
         return new MyTaskUnderWayFragment();
@@ -45,22 +46,22 @@ public class MyTaskUnderWayFragment extends BaseRefreshAndLoadMoreFragment<MyTas
     protected BaseQuickAdapter initAdapter(ArrayList<MyTaskUnderWayItemBean> mData, MyTaskUnderWayListBean listBean) {
         return new MyTaskUnderWayAdapter(R.layout.mytask_under_way_item_holder,mData);
     }
+//
+//    private static int currentTaskId = -1;//当前的任务ID
 
-    private static int currentTaskId = -1;//当前的任务ID
 
 
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        holdingActivity = ((MyTaskActivity) getHoldingActivity());
-    }
-
-    @Override
-    protected void handleBundle() {
-        super.handleBundle();
-        holdingActivity.setMainQrResultListener(this);
-    }
+//    @Override
+//    public void onAttach(Context context) {
+//        super.onAttach(context);
+//        holdingActivity = ((MyTaskActivity) getHoldingActivity());
+//    }
+//
+//    @Override
+//    protected void handleBundle() {
+//        super.handleBundle();
+//        holdingActivity.setMainQrResultListener(this);
+//    }
 
     @Override
     protected void onListitemClick(MyTaskUnderWayItemBean itemBean) {
@@ -68,10 +69,14 @@ public class MyTaskUnderWayFragment extends BaseRefreshAndLoadMoreFragment<MyTas
         if (type == 5) {//查看录入任务详情
             addFragment(MyTaskInputDetailFragment.newInstance(itemBean));
         } else {//控制点
-            currentTaskId=itemBean.getId();
-            TaskOpenScanEvent event = new TaskOpenScanEvent();
-            event.setType(1);
-            EventBus.getDefault().post(event);
+//            currentTaskId=itemBean.getId();
+//            TaskOpenScanEvent event = new TaskOpenScanEvent();
+//            event.setType(1);
+//            EventBus.getDefault().post(event);
+            Intent intent = new Intent();
+            intent.setClass(getContext(), ControlPointDetailActivity.class);
+            intent.putExtra("taskRecordId", itemBean.getId());
+            startActivityWithAnim(intent);
         }
     }
 
@@ -85,46 +90,46 @@ public class MyTaskUnderWayFragment extends BaseRefreshAndLoadMoreFragment<MyTas
         return getString(R.string.mytask_under_way_empty_string);
     }
 
-    /**
-     * 接受到的二维码信息
-     */
-    @Override
-    public void qrMainResult(String code) {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("taskRecordId", String.valueOf(currentTaskId));
-        map.put("propertyCompanyId", String.valueOf(UserUtil.getLoginBean().getPropertyCompanyId()));
-        map.put("code", code);
-        requestTaskQrCode(map);
-    }
-
-    private void requestTaskQrCode(HashMap<String, String> map) {
-        HomePageModel.requestTaskQrCode(map)
-                .compose(RxHelper.handleResult())
-                .compose(bindToLifecycle())
-                .subscribe(new RxSubscribe<TaskPointDetailBean>() {
-                    @Override
-                    protected void _onNext(TaskPointDetailBean detailBean) {
-                        if (detailBean != null) {
-                            Intent intent = new Intent();
-                            intent.setClass(getContext(), ControlPointDetailActivity.class);
-                            intent.putExtra("detailBean", detailBean);
-                            startActivityWithAnim(intent);
-                        } else {
-                            ToastUtil.showToast(getContext(),"任务为空");
-                        }
-
-                    }
-
-                    @Override
-                    protected void _onError(String message) {
-                        ToastUtil.showToast(getContext(),message);
-                    }
-
-                    @Override
-                    public void onCompleted() {
-
-                    }
-                });
-
-    }
+//    /**
+//     * 接受到的二维码信息
+//     */
+//    @Override
+//    public void qrMainResult(String code) {
+//        HashMap<String, String> map = new HashMap<>();
+//        map.put("taskRecordId", String.valueOf(currentTaskId));
+//        map.put("propertyCompanyId", String.valueOf(UserUtil.getLoginBean().getPropertyCompanyId()));
+//        map.put("code", code);
+//        requestTaskQrCode(map);
+//    }
+//
+//    private void requestTaskQrCode(HashMap<String, String> map) {
+//        HomePageModel.requestTaskQrCode(map)
+//                .compose(RxHelper.handleResult())
+//                .compose(bindToLifecycle())
+//                .subscribe(new RxSubscribe<TaskPointDetailBean>() {
+//                    @Override
+//                    protected void _onNext(TaskPointDetailBean detailBean) {
+//                        if (detailBean != null) {
+//                            Intent intent = new Intent();
+//                            intent.setClass(getContext(), ControlPointDetailActivity.class);
+//                            intent.putExtra("detailBean", detailBean);
+//                            startActivityWithAnim(intent);
+//                        } else {
+//                            ToastUtil.showToast(getContext(),"任务为空");
+//                        }
+//
+//                    }
+//
+//                    @Override
+//                    protected void _onError(String message) {
+//                        ToastUtil.showToast(getContext(),message);
+//                    }
+//
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//                });
+//
+//    }
 }

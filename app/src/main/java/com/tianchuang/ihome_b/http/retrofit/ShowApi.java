@@ -30,7 +30,6 @@ import com.tianchuang.ihome_b.bean.QrCodeBean;
 import com.tianchuang.ihome_b.bean.RobHallListBean;
 import com.tianchuang.ihome_b.bean.RobHallRepairDetailListBean;
 import com.tianchuang.ihome_b.bean.TaskAreaListBean;
-import com.tianchuang.ihome_b.bean.TaskControlPointDetailBean;
 import com.tianchuang.ihome_b.bean.TaskInputDetailBean;
 import com.tianchuang.ihome_b.bean.TaskInputResponseBean;
 import com.tianchuang.ihome_b.bean.TaskPointDetailBean;
@@ -123,6 +122,14 @@ public interface ShowApi {
      */
     @POST(BizInterface.PROPERTY_SET_OFTEN_URL)
     Observable<HttpModle<String>> setOften(@Query("roleId") int id);
+
+    /***
+     * 删除物业
+     * params
+     propertyCompanyId:xxx           应物业公司ID-对应物业列表物业公司ID
+     */
+    @POST(BizInterface.PROPERTY_DELETE_URL)
+    Observable<HttpModle<String>> propertyDelete(@Query("propertyCompanyId") int id);
 
     /***
      * 常用全部取消

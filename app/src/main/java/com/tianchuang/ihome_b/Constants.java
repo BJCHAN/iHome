@@ -26,9 +26,9 @@ public class Constants {
 
         public final static String getUrl() {
             if (HTTP_DEBUG_MODE) {
-                return "http://api-staff-test.hecaifu.com/";
+                return "http://api-s.wuguan365.com/";
             }
-            return "http://4g.renhe.cn/";
+            return "http://api-s.wuguan365.com/";
         }
     }
 

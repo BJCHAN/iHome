@@ -87,6 +87,8 @@ public class PropertyListFragment extends MVPBaseFragment<PropertyListContract.V
         listAdapter.notifyDataSetChanged();
     }
 
+
+
     private void initmListener() {
         //设置常用
         rvList.addOnItemTouchListener(new OnItemChildClickListener() {
@@ -120,10 +122,13 @@ public class PropertyListFragment extends MVPBaseFragment<PropertyListContract.V
             @Override
             public void onSimpleItemLongClick(BaseQuickAdapter adapter, View view, int position) {
                 PropertyListDeleteDialogFragment.newInstance().setConfirmDeleteListener(() -> {//确认删除的回调
-                    adapter.remove(position);
+                    mPresenter.requestDelete(position);
                 }).show(getFragmentManager(), PropertyListDeleteDialogFragment.class.getSimpleName());
             }
         });
     }
-
+    @Override
+    public void deleteItem(int position) {
+        listAdapter.remove(position);
+    }
 }
