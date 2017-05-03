@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +16,7 @@ import com.bigkoo.pickerview.listener.CustomListener;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.tianchuang.ihome_b.R;
+import com.tianchuang.ihome_b.bean.BuildingRoomItemBean;
 import com.tianchuang.ihome_b.mvp.ui.activity.MyTaskActivity;
 import com.tianchuang.ihome_b.adapter.TaskBuildingAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
@@ -59,17 +59,20 @@ public class TaskInputBuildingSelectFragment extends BaseFragment {
     @BindView(R.id.tv_unit)
     TextView tvUnit;
     @BindView(R.id.tv_room)
-    EditText tvRoom;
+    TextView tvRoom;
     @BindView(R.id.bt_sure)
     Button btSure;
     private List<TaskAreaListBean> mData = new ArrayList<>();
     private TaskAreaListBean selestedBean;
     private TaskAreaListBean.CellListBean selectedBuildingBean;//被选中的楼宇
     private TaskAreaListBean.CellListBean.UnitListBean selectedUnitBean;//被选中的单元
+    private BuildingRoomItemBean selectedRoomBean;//被选中的房间
     private OptionsPickerView pvBuildingOptions;
     private OptionsPickerView pvUnitOptions;
+    private OptionsPickerView pvRoomOptions;
     private ArrayList<TaskAreaListBean.CellListBean> cellItems = new ArrayList<>();
     private ArrayList<TaskAreaListBean.CellListBean.UnitListBean> unitItems = new ArrayList<>();
+    private ArrayList<BuildingRoomItemBean> roomItems = new ArrayList<>();
     private TaskBuildingAdapter adapter;
     private TaskInputDetailBean taskBean;
     private MyTaskActivity holdingActivity;
@@ -80,6 +83,11 @@ public class TaskInputBuildingSelectFragment extends BaseFragment {
         TaskInputBuildingSelectFragment taskInputSelectFragment = new TaskInputBuildingSelectFragment();
         taskInputSelectFragment.setArguments(bundle);
         return taskInputSelectFragment;
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_task_input_select;
     }
 
     @Override
@@ -124,12 +132,9 @@ public class TaskInputBuildingSelectFragment extends BaseFragment {
                                 }
                                 selestedBean = mData.get(position);
                                 selestedBean.setSelected(true);
-                                selectedBuildingBean = null;
-                                selectedUnitBean = null;
-                                cellItems.clear();
-                                unitItems.clear();
-                                tvUnit.setText("");
-                                tvBuilding.setText("");
+                                cellsClear();
+                                unitsClear();
+                                roomsClear();
                                 adapter.notifyDataSetChanged();
                             }
                         });
@@ -148,13 +153,26 @@ public class TaskInputBuildingSelectFragment extends BaseFragment {
 
     }
 
-    @Override
-    protected int getLayoutId() {
-        return R.layout.fragment_task_input_select;
+    private void roomsClear() {
+        selectedRoomBean = null;
+        roomItems.clear();
+        tvRoom.setText("");
+    }
+
+    private void unitsClear() {
+        selectedUnitBean = null;
+        unitItems.clear();
+        tvUnit.setText("");
+    }
+
+    private void cellsClear() {
+        tvBuilding.setText("");
+        selectedBuildingBean = null;
+        cellItems.clear();
     }
 
 
-    @OnClick({R.id.tv_building, R.id.tv_unit, R.id.bt_sure})
+    @OnClick({R.id.tv_building, R.id.tv_unit, R.id.tv_room,R.id.bt_sure})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_building:
@@ -203,6 +221,13 @@ public class TaskInputBuildingSelectFragment extends BaseFragment {
                     pvUnitOptions.show();
                 } else {
                     ToastUtil.showToast(getContext(), "请先选择楼宇");
+                }
+                break;
+            case R.id.tv_room:
+                if (roomItems.size() > 0) {
+                    pvRoomOptions.show();
+                } else {
+                    ToastUtil.showToast(getContext(), "请先选择单元");
                 }
                 break;
             case R.id.bt_sure://确认
@@ -295,12 +320,11 @@ public class TaskInputBuildingSelectFragment extends BaseFragment {
 
     private void initUnitOptionPicker(TaskAreaListBean.CellListBean cellListBean) {
         //还原初始状态
-        selectedUnitBean = null;
-        tvUnit.setText("");
-        unitItems.clear();
+        unitsClear();
+        roomsClear();
         List<TaskAreaListBean.CellListBean.UnitListBean> unitList = cellListBean.getUnitList();
         if (unitList.size() <= 0) {
-            ToastUtil.showToast(getContext(),"数据为空");
+            ToastUtil.showToast(getContext(), "数据为空");
             return;
         }
         unitItems.addAll(unitList);
@@ -311,6 +335,7 @@ public class TaskInputBuildingSelectFragment extends BaseFragment {
                 selectedUnitBean = unitItems.get(options1);
                 String tx = selectedUnitBean.getPickerViewText();
                 tvUnit.setText(tx);
+                requestRooms(selectedUnitBean);
             }
         })
                 .setLayoutRes(R.layout.pickerview_custom_options, new CustomListener() {
@@ -334,6 +359,72 @@ public class TaskInputBuildingSelectFragment extends BaseFragment {
                 })
                 .build();
         pvUnitOptions.setPicker(unitItems);//添加数据
+    }
+
+    private void initRoomsOptionPicker(ArrayList<BuildingRoomItemBean> roomlist) {
+        //还原初始状态
+        roomsClear();
+        roomItems.addAll(roomlist);
+        pvRoomOptions = new OptionsPickerView.Builder(getContext(), new OptionsPickerView.OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int option2, int options3, View v) {
+                //返回的分别是三个级别的选中位置
+                selectedRoomBean = roomItems.get(options1);
+                String tx = selectedRoomBean.getPickerViewText();
+                tvRoom.setText(tx);
+            }
+        })
+                .setLayoutRes(R.layout.pickerview_custom_options, new CustomListener() {
+                    @Override
+                    public void customLayout(View v) {
+                        final TextView tvSubmit = (TextView) v.findViewById(R.id.tv_finish);
+                        ImageView ivCancel = (ImageView) v.findViewById(R.id.iv_cancel);
+                        tvSubmit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                pvRoomOptions.returnData(tvSubmit);
+                            }
+                        });
+                        ivCancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                pvRoomOptions.dismiss();
+                            }
+                        });
+                    }
+                })
+                .build();
+        pvRoomOptions.setPicker(roomItems);//添加数据
+    }
+
+    /**
+     * 请求房间列表
+     */
+    private void requestRooms(TaskAreaListBean.CellListBean.UnitListBean selectedUnitBean) {
+        MyTaskModel.requestRoomNumList(selectedUnitBean.getBuildingId(), selectedUnitBean.getBuildingCellId(), selectedUnitBean.getId())
+                .compose(RxHelper.handleResult())
+                .compose(bindToLifecycle())
+                .subscribe(new RxSubscribe<ArrayList<BuildingRoomItemBean>>() {
+                    @Override
+                    protected void _onNext(ArrayList<BuildingRoomItemBean> roomslist) {
+                        if (roomslist.size() == 0) {
+                            showToast("房间列表为空");
+                            return;
+                        }
+                        initRoomsOptionPicker(roomslist);
+
+                    }
+
+                    @Override
+                    protected void _onError(String message) {
+                        showToast(message);
+                    }
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+                });
     }
 
     @Override

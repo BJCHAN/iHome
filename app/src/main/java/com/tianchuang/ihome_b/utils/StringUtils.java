@@ -64,6 +64,9 @@ public class StringUtils {
 	 * 保留四位的小数
 	 */
 	public static String formatNumWithFour(String num) {
+		if (Double.valueOf(num)==0) {
+			return "0";
+		}
 		return new DecimalFormat("#.0000").format(Double.valueOf(num));
 	}
 	/**

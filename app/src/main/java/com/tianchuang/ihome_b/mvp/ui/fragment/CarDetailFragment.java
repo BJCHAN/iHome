@@ -135,6 +135,7 @@ public class CarDetailFragment extends BaseFragment {
                 DataSearchModel.carDetail(carSelectedItem.getName() + plateNum)
                         .compose(RxHelper.<CarDetailBean>handleResult())
                         .compose(this.<CarDetailBean>bindToLifecycle())
+                        .doOnSubscribe(this::showProgress)
                         .subscribe(new RxSubscribe<CarDetailBean>() {
                             @Override
                             protected void _onNext(CarDetailBean carDetailBean) {
@@ -156,10 +157,12 @@ public class CarDetailFragment extends BaseFragment {
                                     KeyboardUtils.hideSoftInput(getHoldingActivity());
                                 }
                                 adapter.notifyDataSetChanged();
+                                dismissProgress();
                             }
 
                             @Override
                             protected void _onError(String message) {
+                                dismissProgress();
                                 ToastUtil.showToast(getContext(), message);
                             }
 

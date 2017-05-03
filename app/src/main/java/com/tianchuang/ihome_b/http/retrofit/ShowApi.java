@@ -1,6 +1,7 @@
 package com.tianchuang.ihome_b.http.retrofit;
 
 
+import com.tianchuang.ihome_b.bean.BuildingRoomItemBean;
 import com.tianchuang.ihome_b.bean.BuildingRoomListBean;
 import com.tianchuang.ihome_b.bean.CarDetailBean;
 import com.tianchuang.ihome_b.bean.ChargeTypeListItemBean;
@@ -283,6 +284,19 @@ public interface ShowApi {
      */
     @POST(BizInterface.DATA_ROOM_LIST_URL)
     Observable<HttpModle<ArrayList<BuildingRoomListBean>>> requestRoomList(@Query("buildingUnitId") int buildingUnitId);
+
+    /***
+     * 房间号列表(任务)
+     propertyCompanyId:xxx                           //  当前物业ID
+     buildingId:xx               （分区ID-物业小区分区列表数据接口数据的ID）
+     buildingCellId:xx           （楼宇（幢）ID-物业小区分区楼宇（幢）数据接口数据的ID）
+     buildingUnitId:xx           （楼宇（单元）ID-物业小区分区楼宇（单元）数据接口数据的ID
+     */
+    @POST(BizInterface.TASK_ROOM_NUMS_URL)
+    Observable<HttpModle<ArrayList<BuildingRoomItemBean>>> requestRoomNumList(@Query("propertyCompanyId") int propertyCompanyId,
+                                                                           @Query("buildingId") int buildingId,
+                                                                           @Query("buildingCellId") int buildingCellId,
+                                                                           @Query("buildingUnitId") int buildingUnitId);
 
 
     /***

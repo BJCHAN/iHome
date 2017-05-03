@@ -55,9 +55,11 @@ public class TaskFormTypeListFragment extends BaseFragment {
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
         detailBean = (TaskPointDetailBean) getArguments().getSerializable("detailBean");
-        Observable.from(detailBean.getFormTypeVoList())
+        List<TaskPointDetailBean.FormTypeVoListBean> list = detailBean.getFormTypeVoList();
+        Observable.from(list)
                 .filter(typeVoListBean->!typeVoListBean.isDone())
                 .map(TaskPointDetailBean.FormTypeVoListBean::getFormTypeVo)
+                .filter(formTypeItemBean -> formTypeItemBean!=null)
                 .compose(bindToLifecycle())
                 .toList()
                 .subscribe(formTypeItemBeanList -> {

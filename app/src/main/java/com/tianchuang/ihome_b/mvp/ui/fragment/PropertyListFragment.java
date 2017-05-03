@@ -109,23 +109,29 @@ public class PropertyListFragment extends MVPBaseFragment<PropertyListContract.V
         rvList.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                for (PropertyListItemBean propertyListItemBean : listAdapter.getData()) {
+                    propertyListItemBean.setCurrentProperty(false);
+                }
                 PropertyListItemBean propertyListItemBean = PropertyListFragment.this.listAdapter.getData().get(position);
+                propertyListItemBean.setCurrentProperty(true);//当前物业
                 LoginBean loginBean = UserUtil.propertyListItemBeanToLoginBean(propertyListItemBean);
                 UserUtil.setLoginBean(loginBean);//更新内存中的loginbean
+                listAdapter.notifyDataSetChanged();
                 PropertyListFragment.this.removeFragment();
                 ToastUtil.showToast(holdingActivity, "切换成功");
                 EventBus.getDefault().post(new SwitchSuccessEvent());
             }
         });
-        //长按物业删除弹窗
-        rvList.addOnItemTouchListener(new OnItemLongClickListener() {
-            @Override
-            public void onSimpleItemLongClick(BaseQuickAdapter adapter, View view, int position) {
-                PropertyListDeleteDialogFragment.newInstance().setConfirmDeleteListener(() -> {//确认删除的回调
-                    mPresenter.requestDelete(position);
-                }).show(getFragmentManager(), PropertyListDeleteDialogFragment.class.getSimpleName());
-            }
-        });
+        //长按删除需求隐藏,以免后来又加上
+//        //长按物业删除弹窗
+//        rvList.addOnItemTouchListener(new OnItemLongClickListener() {
+//            @Override
+//            public void onSimpleItemLongClick(BaseQuickAdapter adapter, View view, int position) {
+//                PropertyListDeleteDialogFragment.newInstance().setConfirmDeleteListener(() -> {//确认删除的回调
+//                    mPresenter.requestDelete(position);
+//                }).show(getFragmentManager(), PropertyListDeleteDialogFragment.class.getSimpleName());
+//            }
+//        });
     }
     @Override
     public void deleteItem(int position) {

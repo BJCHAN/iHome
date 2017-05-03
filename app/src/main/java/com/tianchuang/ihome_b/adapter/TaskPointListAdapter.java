@@ -11,6 +11,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.bean.ControlPointItemBean;
 import com.tianchuang.ihome_b.bean.TaskPointDetailBean;
+import com.tianchuang.ihome_b.utils.DateUtils;
 import com.tianchuang.ihome_b.utils.StringUtils;
 
 import java.util.List;
@@ -32,9 +33,9 @@ public class TaskPointListAdapter extends BaseQuickAdapter<TaskPointDetailBean.E
         TextView date = helper.getView(R.id.tv_point_date);
         ImageView point = helper.getView(R.id.iv_little_point);
         if (item.getExecuteTime()>0) {
-            date.setText(StringUtils.getNotNull(item.getTime()) + "完成");
+            date.setText(StringUtils.getNotNull(DateUtils.formatDate(item.getExecuteTime(),DateUtils.TYPE_06)+ "完成"));
             date.setTextColor(ContextCompat.getColor(date.getContext(), R.color.app_primary_color));
-            point.setImageDrawable(ContextCompat.getDrawable(point.getContext(), R.drawable.little_gray));
+            point.setImageDrawable(ContextCompat.getDrawable(point.getContext(), R.drawable.bulepoint_icon));
         } else {
             point.setImageDrawable(ContextCompat.getDrawable(point.getContext(), R.drawable.little_red));
             date.setText(StringUtils.getNotNull(item.getTime()));

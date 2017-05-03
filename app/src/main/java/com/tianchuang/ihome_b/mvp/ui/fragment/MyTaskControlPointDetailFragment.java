@@ -2,6 +2,7 @@ package com.tianchuang.ihome_b.mvp.ui.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.tianchuang.ihome_b.bean.recyclerview.CustomLinearLayoutManager;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
 import com.tianchuang.ihome_b.utils.DateUtils;
+import com.tianchuang.ihome_b.utils.FragmentUtils;
 import com.tianchuang.ihome_b.utils.ToastUtil;
 import com.tianchuang.ihome_b.utils.UserUtil;
 import com.tianchuang.ihome_b.utils.ViewHelper;
@@ -121,6 +123,18 @@ public class MyTaskControlPointDetailFragment extends BaseLoadingFragment implem
 
     @Override
     protected void initListener() {
+        rvFormlist.addOnItemTouchListener(new OnItemClickListener() {
+            @Override
+            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                if (mListForms.size() == 0) {
+                    return;
+                }
+                TaskPointDetailBean.FormTypeVoListBean formTypeVoListBean = mListForms.get(position);
+                if (formTypeVoListBean.isDone()) {//去结果页面
+                    addFragment(TaskControlPointResultFragment.newInstance(formTypeVoListBean));
+                }
+            }
+        });
     }
 
     /**
@@ -142,8 +156,17 @@ public class MyTaskControlPointDetailFragment extends BaseLoadingFragment implem
         } else {
             showSucceedPage();
             updateUI(taskPointDetailBean);
+            whereToGo(taskPointDetailBean);
         }
 
+    }
+
+    private void whereToGo(TaskPointDetailBean taskPointDetailBean) {
+        List<TaskPointDetailBean.EquipmentControlVoListBean> equipmentControlVoList = taskPointDetailBean.getEquipmentControlVoList();
+        if (taskPointDetailBean.getStatus()!=2
+                 &&(equipmentControlVoList == null || equipmentControlVoList.size() == 0)){//未完成,没有控制点直接去表单列表页面
+            goToFormTypeList(taskPointDetailBean);
+        }
     }
 
     /**
@@ -158,13 +181,13 @@ public class MyTaskControlPointDetailFragment extends BaseLoadingFragment implem
                     @Override
                     protected void _onNext(TaskPointDetailBean detailBean) {
                         updateUI(detailBean);
+                        whereToGo(detailBean);
                     }
 
                     @Override
                     protected void _onError(String message) {
                         showErrorPage();
                         ToastUtil.showToast(getContext(), message);
-
                     }
 
 
@@ -194,9 +217,6 @@ public class MyTaskControlPointDetailFragment extends BaseLoadingFragment implem
         }
         if (equipmentControlVoList != null && equipmentControlVoList.size() > 0) {
             initPointList(detailBean);
-        } else {//没有控制点直接去表单页面
-            goToFormTypeList(detailBean);
-            return;
         }
         if (formTypeVoList != null && formTypeVoList.size() > 0) {
             initFormList(detailBean);
@@ -212,15 +232,7 @@ public class MyTaskControlPointDetailFragment extends BaseLoadingFragment implem
         formAdapter = new TaskFormListAdapter(mListForms);
         formAdapter.addHeaderView(ViewHelper.getTaskHeaderView("表单"));
         rvFormlist.setAdapter(formAdapter);
-        rvFormlist.addOnItemTouchListener(new OnItemClickListener() {
-            @Override
-            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                TaskPointDetailBean.FormTypeVoListBean formTypeVoListBean = mListForms.get(position);
-                if (formTypeVoListBean.isDone()) {//去结果页面
-                    addFragment(TaskControlPointResultFragment.newInstance(formTypeVoListBean));
-                }
-            }
-        });
+
     }
 
     /**
@@ -269,8 +281,8 @@ public class MyTaskControlPointDetailFragment extends BaseLoadingFragment implem
                     @Override
                     protected void _onNext(TaskPointDetailBean detailBean) {
                         if (detailBean != null) {
+                            updateUI(detailBean);
                             addFragment(ControlPointSucceedFragment.newInstance(detailBean));
-//                            goToFormTypeList(detailBean);
                         } else {
                             ToastUtil.showToast(getContext(), "任务为空");
                         }
@@ -295,8 +307,14 @@ public class MyTaskControlPointDetailFragment extends BaseLoadingFragment implem
      * 去表单页面
      */
     private void goToFormTypeList(TaskPointDetailBean detailBean) {
+        if (detailBean == null) {
+            return;
+        }
         if (detailBean.getFormTypeVoList() != null && detailBean.getFormTypeVoList().size() > 0) {
-            addFragment(TaskFormTypeListFragment.newInstance(detailBean));
+            Fragment fragment = FragmentUtils.findFragment(getFragmentManager(), TaskFormTypeListFragment.class);
+            if (fragment == null) {//避免重复添加
+                addFragment(TaskFormTypeListFragment.newInstance(detailBean));
+            }
         } else {
             ToastUtil.showToast(getContext(), "表单为空");
         }

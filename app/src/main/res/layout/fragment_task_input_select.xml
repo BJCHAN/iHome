@@ -148,22 +148,38 @@
                     android:layout_below="@id/tv_unit"
                     android:layout_marginTop="29dp"
                     android:text="房间" />
-
-                <EditText
-                    android:lines="1"
-                    android:minWidth="120dp"
+                <TextView
                     android:id="@+id/tv_room"
                     style="@style/normal_content_text"
                     android:layout_width="wrap_content"
-                    android:layout_height="38dp"
+                    android:layout_height="wrap_content"
                     android:layout_below="@id/tv_unit"
                     android:layout_marginLeft="11dp"
                     android:layout_marginTop="20dp"
                     android:layout_toRightOf="@id/tv_dot3"
-                    android:background="@drawable/bg_edittext_gray_shape"
-                    android:drawablePadding="28dp"
-                    android:inputType="number"
-                    android:padding="9dp" />
+                    android:background="@drawable/bg_edittext_normal_shape"
+                    android:drawablePadding="18dp"
+                    android:drawableRight="@drawable/double_arrow"
+                    android:lines="1"
+                    android:minWidth="120dp"
+                    android:padding="9dp"
+                    android:textColorHint="@color/TC_2"
+                    android:hint="请选择房间"/>
+                <!--<EditText-->
+                    <!--android:lines="1"-->
+                    <!--android:minWidth="120dp"-->
+                    <!--android:id="@+id/tv_room"-->
+                    <!--style="@style/normal_content_text"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="38dp"-->
+                    <!--android:layout_below="@id/tv_unit"-->
+                    <!--android:layout_marginLeft="11dp"-->
+                    <!--android:layout_marginTop="20dp"-->
+                    <!--android:layout_toRightOf="@id/tv_dot3"-->
+                    <!--android:background="@drawable/bg_edittext_gray_shape"-->
+                    <!--android:drawablePadding="28dp"-->
+                    <!--android:inputType="number"-->
+                    <!--android:padding="9dp" />-->
 
             </RelativeLayout>
         </LinearLayout>

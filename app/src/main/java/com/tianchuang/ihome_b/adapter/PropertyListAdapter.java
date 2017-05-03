@@ -1,6 +1,8 @@
 package com.tianchuang.ihome_b.adapter;
 
+import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -39,6 +41,16 @@ public class PropertyListAdapter extends BaseQuickAdapter<PropertyListItemBean,B
 	protected void convert(BaseViewHolder helper, PropertyListItemBean item) {
 		helper.addOnClickListener(R.id.fl_often_btn);
 		TextView littleRed = helper.getView(R.id.tv_little_red);//小红点
+		CardView cardView = helper.getView(R.id.card_view);
+		View line = helper.getView(R.id.tv_line);
+		if (item.isCurrentProperty()) {
+			cardView.setCardBackgroundColor(Color.parseColor("#ffffff"));
+			line.setBackgroundColor(Color.parseColor("#E0E0E0"));
+		} else {
+			cardView.setCardBackgroundColor(Color.parseColor("#E0E0E0"));
+			line.setBackgroundColor(Color.parseColor("#ffffff"));
+
+		}
 		helper.setText(R.id.tv_company_name, item.getPropertyCompanyName())
 				.setText(R.id.tv_department_name, item.getDepartmentName())
 				.setText(R.id.tv_position_name, item.getPositionName());
@@ -47,7 +59,7 @@ public class PropertyListAdapter extends BaseQuickAdapter<PropertyListItemBean,B
 		Boolean oftenUse = item.getOftenUse();
 		int noticeCount = item.getNoticeCount();
 		Badge badge = new QBadgeView(littleRed.getContext()).bindTarget(littleRed).setBadgeNumber(noticeCount);
-		badge.setBadgeBackground(ContextCompat.getDrawable(littleRed.getContext(),R.drawable.little_red));
+		badge.setBadgeBackground(ContextCompat.getDrawable(littleRed.getContext(),R.drawable.ic_super_red_point));
 		badge.setBadgeGravity(Gravity.CENTER);
 		badge.setBadgeTextSize(12, true);
 		badge.setBadgePadding(6, true);

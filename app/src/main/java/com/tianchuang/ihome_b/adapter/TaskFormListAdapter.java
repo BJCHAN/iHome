@@ -39,7 +39,7 @@ public class TaskFormListAdapter extends BaseQuickAdapter<TaskPointDetailBean.Fo
             date.setCompoundDrawables(null, null, img, null); //设置右图标
             date.setCompoundDrawablePadding(DensityUtil.dip2px(date.getContext(), 5f));
             date.setTextColor(ContextCompat.getColor(date.getContext(), R.color.app_primary_color));
-            point.setImageDrawable(ContextCompat.getDrawable(point.getContext(), R.drawable.little_gray));
+            point.setImageDrawable(ContextCompat.getDrawable(point.getContext(), R.drawable.bulepoint_icon));
         } else {
             date.setCompoundDrawablePadding(DensityUtil.dip2px(date.getContext(), 0f));
             date.setCompoundDrawables(null, null, null, null); //设置右图标

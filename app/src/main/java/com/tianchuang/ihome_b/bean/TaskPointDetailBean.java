@@ -66,7 +66,7 @@ public class TaskPointDetailBean implements Serializable {
         if (TextUtils.isEmpty(scanEquipmentName)) {
             return scanControlPointName+"控制点";
         }
-        return scanEquipmentName+"设备点";
+        return scanEquipmentName+"";
     }
 
 

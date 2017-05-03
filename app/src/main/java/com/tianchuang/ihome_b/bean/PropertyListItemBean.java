@@ -36,6 +36,15 @@ public class PropertyListItemBean implements Serializable {
 	private Boolean oftenUse;
 	private List<Integer> menuList;
 	private int noticeCount;
+	private boolean isCurrentProperty=false;//是否是当前的物业,默认不是
+
+	public boolean isCurrentProperty() {
+		return isCurrentProperty;
+	}
+
+	public void setCurrentProperty(boolean currentProperty) {
+		isCurrentProperty = currentProperty;
+	}
 
 	public int getNoticeCount() {
 		return noticeCount;

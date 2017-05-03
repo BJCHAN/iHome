@@ -14,8 +14,10 @@ import com.tianchuang.ihome_b.utils.UserUtil;
 
 import java.util.ArrayList;
 
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -35,6 +37,7 @@ public class PropertyListPresenter extends BasePresenterImpl<PropertyListContrac
                     protected void _onNext(ArrayList<PropertyListItemBean> propertyList) {
                         data = propertyList;
                         mView.showSucceedPage();
+                        setCurrentProperty(propertyList);
                         mView.initAdapter(propertyList);
 
                     }
@@ -49,6 +52,17 @@ public class PropertyListPresenter extends BasePresenterImpl<PropertyListContrac
                     public void onCompleted() {
 
                     }
+                });
+    }
+    /**
+     * 设置当前的物业
+     * */
+    private void setCurrentProperty(ArrayList<PropertyListItemBean> propertyList) {
+        Observable.from(propertyList)
+                .filter(bean->bean.getPropertyCompanyId()== UserUtil.getLoginBean().getPropertyCompanyId())//当前的物业
+                .compose(mView.bindToLifecycle())
+                .subscribe(propertyListItemBean -> {
+                    propertyListItemBean.setCurrentProperty(true);
                 });
     }
 

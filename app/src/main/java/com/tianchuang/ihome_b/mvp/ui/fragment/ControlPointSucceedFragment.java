@@ -11,8 +11,13 @@ import com.tianchuang.ihome_b.bean.TaskPointDetailBean;
 import com.tianchuang.ihome_b.utils.DateUtils;
 import com.tianchuang.ihome_b.utils.FragmentUtils;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+import rx.Observable;
+import rx.functions.Action1;
+import rx.functions.Func1;
 
 /**
  * Created by Abyss on 2017/4/24.
@@ -63,8 +68,18 @@ public class ControlPointSucceedFragment extends BaseLoadingFragment {
     @Override
     protected void initData() {
         showSucceedPage();
-        if (detailBean.getFormTypeVoList() == null || detailBean.getFormTypeVoList().size() == 0) {
+        List<TaskPointDetailBean.FormTypeVoListBean> formTypeVoList = detailBean.getFormTypeVoList();
+        if (formTypeVoList == null || formTypeVoList.size() == 0) {
             tvSure.setVisibility(View.INVISIBLE);
+        } else {
+            Observable.from(formTypeVoList)
+                    .filter(typeVoListBean -> typeVoListBean.isDone())
+                    .toList()
+                    .subscribe(list -> {
+                        if (list.size() == formTypeVoList.size()) {
+                            tvSure.setVisibility(View.INVISIBLE);
+                        }
+                    });
         }
     }
 

@@ -1,5 +1,6 @@
 package com.tianchuang.ihome_b.bean.model;
 
+import com.tianchuang.ihome_b.bean.BuildingRoomItemBean;
 import com.tianchuang.ihome_b.bean.MyTaskUnderWayListBean;
 import com.tianchuang.ihome_b.bean.TaskControlPointDetailBean;
 import com.tianchuang.ihome_b.bean.TaskInputDetailBean;
@@ -9,6 +10,7 @@ import com.tianchuang.ihome_b.http.retrofit.HttpModle;
 import com.tianchuang.ihome_b.http.retrofit.RetrofitService;
 import com.tianchuang.ihome_b.utils.UserUtil;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -81,5 +83,11 @@ public class MyTaskModel {
         map.put("taskRecordId", String.valueOf(recordId));
         map.put("formTypeId", String.valueOf(formId));
         return RetrofitService.createShowApi().taskControlPointSubmit(map, parts);
+    }
+    /**
+     * 房间号列表
+     */
+    public static Observable<HttpModle<ArrayList<BuildingRoomItemBean>>> requestRoomNumList(int buildingId, int buildingCellId, int buildingUnitId) {
+        return RetrofitService.createShowApi().requestRoomNumList(UserUtil.getLoginBean().getPropertyCompanyId(),buildingId,buildingCellId,buildingUnitId);
     }
 }
