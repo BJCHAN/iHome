@@ -93,7 +93,7 @@ public class EquipmentTypeFormFragment extends BaseFragment {
                 .compose(RxHelper.<ArrayList<EquipmentSearchListItemBean>>handleResult())
                 .subscribe(new RxSubscribe<ArrayList<EquipmentSearchListItemBean>>() {
                     @Override
-                    protected void _onNext(ArrayList<EquipmentSearchListItemBean> list) {
+                    public void _onNext(ArrayList<EquipmentSearchListItemBean> list) {
                         if (list != null && list.size() > 0) {
                             mData.clear();
                             mData.addAll(list);
@@ -106,12 +106,12 @@ public class EquipmentTypeFormFragment extends BaseFragment {
                     }
 
                     @Override
-                    protected void _onError(String message) {
+                    public void _onError(String message) {
                         ToastUtil.showToast(getContext(), message);
                     }
 
                     @Override
-                    public void onCompleted() {
+                    public void onComplete() {
 
                     }
                 });

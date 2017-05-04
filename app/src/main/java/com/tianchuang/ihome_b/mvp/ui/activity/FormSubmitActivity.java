@@ -43,13 +43,12 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.MultipartBody;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
-import rx.functions.Func1;
-import rx.functions.Func2;
-import rx.schedulers.Schedulers;
+
 
 /**
  * Created by Abyss on 2017/3/10.
@@ -163,85 +162,76 @@ public class FormSubmitActivity extends BaseActivity implements View.OnClickList
         addEditTexts(submitTextMap);
         final HashMap<String, ArrayList<File>> submitImagesFiles = getSubmitImagesFiles();
         Observable.zip(Observable.just(submitTextMap), Observable.just(submitImagesFiles),
-                new Func2<HashMap<String, String>, HashMap<String, ArrayList<File>>, CheakBean>() {//检查是否可以提价
-                    @Override
-                    public CheakBean call(HashMap<String, String> submitTextMap, HashMap<String, ArrayList<File>> map) {//判断可否提交
-                        boolean textIsPut = cheackTextIsPut(submitTextMap);
-                        boolean imagesIsPut = cheackImagesIsPut(map);
-                        CheakBean cheakBean = new CheakBean();
-                        if (textIsPut && imagesIsPut) {
-                            cheakBean.setCan(true);
-                        } else if (!textIsPut) {
-                            cheakBean.setCan(false);
-                            cheakBean.setTip("文本或选项不能为空");
-                        } else if (!imagesIsPut) {
-                            cheakBean.setCan(false);
-                            cheakBean.setTip("图片不能为空");
-                        }
-                        return cheakBean;
+                (submitTextMap1, map) -> {//判断可否提交
+                    boolean textIsPut = cheackTextIsPut(submitTextMap1);
+                    boolean imagesIsPut = cheackImagesIsPut(map);
+                    CheakBean cheakBean = new CheakBean();
+                    if (textIsPut && imagesIsPut) {
+                        cheakBean.setCan(true);
+                    } else if (!textIsPut) {
+                        cheakBean.setCan(false);
+                        cheakBean.setTip("文本或选项不能为空");
+                    } else if (!imagesIsPut) {
+                        cheakBean.setCan(false);
+                        cheakBean.setTip("图片不能为空");
                     }
+                    return cheakBean;
                 })
-                .compose(this.<CheakBean>bindToLifecycle())
+                .compose(bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .filter(new Func1<CheakBean, Boolean>() {
-                    @Override
-                    public Boolean call(CheakBean bean) {//弹出错误提示
-                        boolean can = bean.isCan();
-                        if (!can) {
-                            dismissProgress();
-                            ToastUtil.showToast(FormSubmitActivity.this, bean.getTip());
-                        }
-                        return can;
+                .filter(bean -> {
+                    boolean can = bean.isCan();
+                    if (!can) {
+                        dismissProgress();
+                        ToastUtil.showToast(FormSubmitActivity.this, bean.getTip());
                     }
+                    return can;
                 })
                 .observeOn(Schedulers.io())//图片压缩转换
-                .map(new Func1<CheakBean, List<MultipartBody.Part>>() {
-                    @Override
-                    public List<MultipartBody.Part> call(CheakBean bean) {
-                        List<MultipartBody.Part> parts = MultipartBuilder.filesToMultipartBodyParts(new ArrayList<File>(), "");
-                        for (Map.Entry<String, ArrayList<File>> stringArrayListEntry : submitImagesFiles.entrySet()) {
-                            ArrayList<File> values = stringArrayListEntry.getValue();
-                            if (values.size() > 0) {
-                                parts.addAll(MultipartBuilder.filesToMultipartBodyParts(values, stringArrayListEntry.getKey()));
+                .map(bean -> {
+                            List<MultipartBody.Part> parts = MultipartBuilder.filesToMultipartBodyParts(new ArrayList<File>(), "");
+                            for (Map.Entry<String, ArrayList<File>> stringArrayListEntry : submitImagesFiles.entrySet()) {
+                                ArrayList<File> values = stringArrayListEntry.getValue();
+                                if (values.size() > 0) {
+                                    parts.addAll(MultipartBuilder.filesToMultipartBodyParts(values, stringArrayListEntry.getKey()));
+                                }
                             }
+                            return parts;
                         }
-                        return parts;
-                    }
-                })//请求网络
-                .flatMap(new Func1<List<MultipartBody.Part>, Observable<String>>() {
+                )//请求网络
+                .flatMap(new Function<List<MultipartBody.Part>, Observable<String>>() {
                     @Override
-                    public Observable<String> call(List<MultipartBody.Part> parts) {
+                    public Observable<String> apply(List<MultipartBody.Part> parts) {
                         return FormModel.formSubmit(formTypeItemBean.getId(), submitTextMap, parts).compose(RxHelper.<String>handleResult());
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        showProgress();
-                    }
-                })
+                .doOnSubscribe(disposable -> showProgress()
+                )
                 .subscribe(new RxSubscribe<String>() {
+
                     @Override
-                    protected void _onNext(String s) {
-                        dismissProgress();
+                    public void onComplete() {
                         EventBus.getDefault().post(new MyFormSubmitSuccessEvent());//通知列表刷新
                         EventBus.getDefault().post(new TaskFormSubmitSuccessEvent());//通知任务详情刷新
                         ToastUtil.showToast(FormSubmitActivity.this, "申报成功");
                         finishWithAnim();
-                    }
-
-                    @Override
-                    protected void _onError(String message) {
-                        ToastUtil.showToast(FormSubmitActivity.this, message);
                         dismissProgress();
                     }
 
                     @Override
-                    public void onCompleted() {
+                    public void _onNext(String s) {
 
                     }
+
+                    @Override
+                    public void _onError(String message) {
+                        ToastUtil.showToast(FormSubmitActivity.this, message);
+                        dismissProgress();
+                    }
+
+
                 });
 
     }

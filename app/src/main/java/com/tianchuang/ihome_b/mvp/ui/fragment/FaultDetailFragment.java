@@ -6,17 +6,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import com.jakewharton.rxbinding.view.RxView;
+import com.jakewharton.rxbinding2.view.RxView;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.adapter.DetailMultiAdapter;
 import com.tianchuang.ihome_b.base.BaseLoadingFragment;
 import com.tianchuang.ihome_b.bean.RobHallListItem;
 import com.tianchuang.ihome_b.bean.RobHallRepairDetailListBean;
 import com.tianchuang.ihome_b.bean.event.RobOrderSuccessEvent;
+import com.tianchuang.ihome_b.bean.model.RobHallModel;
 import com.tianchuang.ihome_b.http.retrofit.HttpModle;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
-import com.tianchuang.ihome_b.bean.model.RobHallModel;
 import com.tianchuang.ihome_b.utils.ToastUtil;
 import com.tianchuang.ihome_b.utils.ViewHelper;
 import com.tianchuang.ihome_b.view.OneButtonDialogFragment;
@@ -26,9 +26,9 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
-import rx.Observable;
-import rx.Subscriber;
-import rx.functions.Func1;
+import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by Abyss on 2017/2/20.
@@ -62,17 +62,18 @@ public class FaultDetailFragment extends BaseLoadingFragment {
     protected void initView(View view, Bundle savedInstanceState) {
         rvList.setLayoutManager(new LinearLayoutManager(getContext()));
     }
+
     @Override
     protected void initData() {
         RobHallListItem item = (RobHallListItem) getArguments().getSerializable("item");
         if (item != null) {
             repairsId = item.getId();
             RobHallModel.requestRobHallRepairDetail(repairsId)
-                    .compose(RxHelper.<RobHallRepairDetailListBean>handleResult())
-                    .compose(this.<RobHallRepairDetailListBean>bindToLifecycle())
+                    .compose(RxHelper.handleResult())
+                    .compose(this.bindToLifecycle())
                     .subscribe(new RxSubscribe<RobHallRepairDetailListBean>() {
                         @Override
-                        protected void _onNext(RobHallRepairDetailListBean bean) {
+                        public void _onNext(RobHallRepairDetailListBean bean) {
                             mAdapter = new DetailMultiAdapter(bean.getRepairsDataVos());
                             //recyclerView添加头部
                             mAdapter.addHeaderView(ViewHelper.getDetailHeaderView(bean.getTypeName(), bean.getCreatedDate()));
@@ -81,37 +82,40 @@ public class FaultDetailFragment extends BaseLoadingFragment {
                         }
 
                         @Override
-                        protected void _onError(String message) {
+                        public void _onError(String message) {
                             showErrorPage();
                             showToast(message);
 
                         }
 
                         @Override
-                        public void onCompleted() {
+                        public void onComplete() {
 
                         }
                     });
 
             RxView.clicks(tvRobOrder)
                     .throttleFirst(3, TimeUnit.SECONDS)
-                    .flatMap(new Func1<Void, Observable<HttpModle<String>>>() {
+                    .flatMap(o -> {
+                                showProgress();
+                                return RobHallModel.requestRobRepair(repairsId);
+                            }
+                    )
+                    .compose(this.bindToLifecycle())
+                    .subscribe(new Observer<HttpModle<String>>() {
                         @Override
-                        public Observable<HttpModle<String>> call(Void aVoid) {
-                            showProgress();
-                            return RobHallModel.requestRobRepair(repairsId);
-                        }
-                    })
-                    .compose(this.<HttpModle<String>>bindToLifecycle())
-                    .subscribe(new Subscriber<HttpModle<String>>() {
-                        @Override
-                        public void onCompleted() {
+                        public void onComplete() {
                             dismissProgress();
                         }
 
                         @Override
                         public void onError(Throwable e) {
                             dismissProgress();
+                        }
+
+                        @Override
+                        public void onSubscribe(@NonNull Disposable d) {
+
                         }
 
                         @Override

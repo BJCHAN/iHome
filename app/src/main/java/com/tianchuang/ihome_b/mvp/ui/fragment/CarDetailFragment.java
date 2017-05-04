@@ -135,10 +135,10 @@ public class CarDetailFragment extends BaseFragment {
                 DataSearchModel.carDetail(carSelectedItem.getName() + plateNum)
                         .compose(RxHelper.<CarDetailBean>handleResult())
                         .compose(this.<CarDetailBean>bindToLifecycle())
-                        .doOnSubscribe(this::showProgress)
+                        .doOnSubscribe(o ->showProgress())
                         .subscribe(new RxSubscribe<CarDetailBean>() {
                             @Override
-                            protected void _onNext(CarDetailBean carDetailBean) {
+                            public void _onNext(CarDetailBean carDetailBean) {
                                 mData.clear();
                                 if (carDetailBean != null) {
                                     if (carDetailBean.getOwnersName() != null) {
@@ -161,13 +161,13 @@ public class CarDetailFragment extends BaseFragment {
                             }
 
                             @Override
-                            protected void _onError(String message) {
+                            public void _onError(String message) {
                                 dismissProgress();
                                 ToastUtil.showToast(getContext(), message);
                             }
 
                             @Override
-                            public void onCompleted() {
+                            public void onComplete() {
 
                             }
                         });

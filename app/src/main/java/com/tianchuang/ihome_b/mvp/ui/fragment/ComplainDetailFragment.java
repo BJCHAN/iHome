@@ -28,7 +28,9 @@ import com.tianchuang.ihome_b.view.OneButtonDialogFragment;
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
-import rx.Subscriber;
+import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by Abyss on 2017/3/1.
@@ -80,7 +82,7 @@ public class ComplainDetailFragment extends BaseLoadingFragment {
                 .compose(RxHelper.<ComplainDetailBean>handleResult())
                 .subscribe(new RxSubscribe<ComplainDetailBean>() {
                     @Override
-                    protected void _onNext(ComplainDetailBean bean) {
+                    public void _onNext(ComplainDetailBean bean) {
                         DetailMultiAdapter detailMultiAdapter = new DetailMultiAdapter(bean.getComplaintsDataVos());
                         rvList.setAdapter(detailMultiAdapter);
                         int status = bean.getStatus();
@@ -113,13 +115,13 @@ public class ComplainDetailFragment extends BaseLoadingFragment {
                     }
 
                     @Override
-                    protected void _onError(String message) {
+                    public void _onError(String message) {
                         showErrorPage();
                         ToastUtil.showToast(getContext(), message);
                     }
 
                     @Override
-                    public void onCompleted() {
+                    public void onComplete() {
                         showSucceedPage();
                     }
                 });
@@ -135,10 +137,10 @@ public class ComplainDetailFragment extends BaseLoadingFragment {
     private void requestNetToReplay(int id, String content) {
         ComplainSuggestModel.complainReply(id, content)
                 .compose(this.<HttpModle<String>>bindToLifecycle())
-                .doOnSubscribe(()->showProgress())
-                .subscribe(new Subscriber<HttpModle<String>>() {
+                .doOnSubscribe(o->showProgress())
+                .subscribe(new Observer<HttpModle<String>>() {
                     @Override
-                    public void onCompleted() {
+                    public void onComplete() {
 
                     }
 
@@ -146,6 +148,11 @@ public class ComplainDetailFragment extends BaseLoadingFragment {
                     public void onError(Throwable e) {
                         dismissProgress();
                         ToastUtil.showToast(getContext(), "连接失败");
+                    }
+
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
                     }
 
                     @Override

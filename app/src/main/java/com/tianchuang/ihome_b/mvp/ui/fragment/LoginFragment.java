@@ -8,25 +8,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.jakewharton.rxbinding.widget.RxTextView;
+import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.tianchuang.ihome_b.R;
-import com.tianchuang.ihome_b.mvp.ui.activity.LoginActivity;
-import com.tianchuang.ihome_b.mvp.ui.activity.MainActivity;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.LoginBean;
+import com.tianchuang.ihome_b.bean.model.LoginModel;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
-import com.tianchuang.ihome_b.bean.model.LoginModel;
+import com.tianchuang.ihome_b.mvp.ui.activity.LoginActivity;
+import com.tianchuang.ihome_b.mvp.ui.activity.MainActivity;
 import com.tianchuang.ihome_b.utils.UserUtil;
 import com.tianchuang.ihome_b.utils.VerificationUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import rx.Observable;
-import rx.functions.Action0;
-import rx.functions.Action1;
-import rx.functions.Func1;
-import rx.functions.Func2;
+import io.reactivex.Observable;
+
 
 /**
  * Created by Abyss on 2017/2/13.
@@ -104,34 +101,19 @@ public class LoginFragment extends BaseFragment {
     private void goToLogin(EditText etPhoneNum, EditText etPasswrod) {
         final String phone = etPhoneNum.getText().toString().trim();
         final String pwd = etPasswrod.getText().toString().trim();
-        Observable.zip(Observable.just(phone), Observable.just(pwd), new Func2<String, String, Boolean>() {
-            @Override
-            public Boolean call(String phone, String pwd) {
-                return whetherCanLogin(phone);
-            }
-        })
-                .filter(new Func1<Boolean, Boolean>() {
-                    @Override
-                    public Boolean call(Boolean aBoolean) {
-                        return aBoolean;
-                    }
-                })
-                .flatMap(new Func1<Boolean, Observable<LoginBean>>() {
-                    @Override
-                    public Observable<LoginBean> call(Boolean aBoolean) {
-                        return LoginModel.requestLogin(phone, pwd).compose(RxHelper.<LoginBean>handleResult());
-                    }
-                })
-                .compose(this.<LoginBean>bindToLifecycle())
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        showProgress();
-                    }
-                })
+        Observable.zip(Observable.just(phone), Observable.just(pwd),
+
+                (phone1,pwd1) ->whetherCanLogin(phone)
+        )
+                .filter(b ->b )
+                .flatMap(b -> LoginModel.requestLogin(phone, pwd).compose(RxHelper.handleResult())
+
+                )
+                .compose(this.bindToLifecycle())
+                .doOnSubscribe(o ->showProgress())
                 .subscribe(new RxSubscribe<LoginBean>() {
                     @Override
-                    protected void _onNext(LoginBean s) {
+                    public void _onNext(LoginBean s) {
                         UserUtil.login(s);
                         mActivity.dismissProgress();
                         startActivityWithAnim(new Intent(mActivity, MainActivity.class));
@@ -139,14 +121,14 @@ public class LoginFragment extends BaseFragment {
                     }
 
                     @Override
-                    protected void _onError(String message) {
+                    public void _onError(String message) {
                         mActivity.getMaterialDialogsUtil().dismiss();
                         showRedTip(message);
                         dismissProgress();
                     }
 
                     @Override
-                    public void onCompleted() {
+                    public void onComplete() {
 
                     }
                 });
@@ -178,16 +160,8 @@ public class LoginFragment extends BaseFragment {
      * @param pwd
      */
     private void loginBtnEnable(Observable<CharSequence> phone, Observable<CharSequence> pwd) {
-        Observable.combineLatest(phone, pwd, new Func2<CharSequence, CharSequence, Boolean>() {
-            @Override
-            public Boolean call(CharSequence email, CharSequence pwd) {//每当发射数据结合最近一个
-                return email.length() > 0 && pwd.length() >= 6;
-            }
-        }).compose(this.<Boolean>bindToLifecycle()).subscribe(new Action1<Boolean>() {
-            @Override
-            public void call(Boolean aBoolean) {
-                mLoginBt.setEnabled(aBoolean);
-            }
-        });
+        Observable.combineLatest(phone, pwd,
+                (email1,pwd1) ->email1.length() > 0 && pwd1.length() >= 6
+        ).compose(this.bindToLifecycle()).subscribe(b -> mLoginBt.setEnabled(b));
     }
 }

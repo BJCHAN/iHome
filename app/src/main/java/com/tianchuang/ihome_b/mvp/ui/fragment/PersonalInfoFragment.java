@@ -62,20 +62,20 @@ public class PersonalInfoFragment extends BaseLoadingFragment {
                 .compose(this.<ArrayList<PersonalInfoBean>>bindToLifecycle())
                 .subscribe(new RxSubscribe<ArrayList<PersonalInfoBean>>() {
                     @Override
-                    protected void _onNext(ArrayList<PersonalInfoBean> list) {
+                    public void _onNext(ArrayList<PersonalInfoBean> list) {
                         mData.clear();
                         mData.addAll(list);
                         adapter.notifyDataSetChanged();
                     }
 
                     @Override
-                    protected void _onError(String message) {
+                    public void _onError(String message) {
                         showErrorPage();
                         ToastUtil.showToast(getContext(), message);
                     }
 
                     @Override
-                    public void onCompleted() {
+                    public void onComplete() {
                         showSucceedPage();
                     }
                 });

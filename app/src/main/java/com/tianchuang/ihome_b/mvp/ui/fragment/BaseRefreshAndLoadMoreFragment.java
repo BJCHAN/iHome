@@ -22,7 +22,7 @@ import com.tianchuang.ihome_b.utils.ViewHelper;
 import java.util.ArrayList;
 
 import butterknife.BindView;
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  * Created by Abyss on 2017/3/9.
@@ -69,7 +69,7 @@ abstract class BaseRefreshAndLoadMoreFragment<T extends BaseItemLoadBean, E exte
                 .subscribe(new RxSubscribe<E>() {
 
                     @Override
-                    protected void _onNext(E bean) {
+                    public void _onNext(E bean) {
                         pageSize = bean.getPageSize();
                         ArrayList listVo = bean.getListVo();
 //                        checkData(listVo);
@@ -81,13 +81,13 @@ abstract class BaseRefreshAndLoadMoreFragment<T extends BaseItemLoadBean, E exte
                     }
 
                     @Override
-                    protected void _onError(String message) {
+                    public void _onError(String message) {
                         ToastUtil.showToast(getContext(), message);
                         showErrorPage();
                     }
 
                     @Override
-                    public void onCompleted() {
+                    public void onComplete() {
                         showSucceedPage();
                     }
                 });
@@ -108,7 +108,7 @@ abstract class BaseRefreshAndLoadMoreFragment<T extends BaseItemLoadBean, E exte
                 .compose(this.bindToLifecycle())
                 .subscribe(new RxSubscribe<E>() {
                     @Override
-                    protected void _onNext(E bean) {
+                    public void _onNext(E bean) {
                         adapter.addData(bean.getListVo());
                         if (bean.getListVo().size() < pageSize) {//没有更多数据
                             adapter.loadMoreEnd(false);
@@ -121,14 +121,14 @@ abstract class BaseRefreshAndLoadMoreFragment<T extends BaseItemLoadBean, E exte
                     }
 
                     @Override
-                    protected void _onError(String message) {
+                    public void _onError(String message) {
                         isLoadMoreLoading = false;
                         adapter.loadMoreFail();
                         ToastUtil.showToast(getContext(), message);
                     }
 
                     @Override
-                    public void onCompleted() {
+                    public void onComplete() {
 
                     }
                 });
@@ -144,7 +144,7 @@ abstract class BaseRefreshAndLoadMoreFragment<T extends BaseItemLoadBean, E exte
                 .compose(this.bindToLifecycle())
                 .subscribe(new RxSubscribe<E>() {
                     @Override
-                    protected void _onNext(E bean) {
+                    public void _onNext(E bean) {
                         isLoadMoreLoading = false;
                         mData.clear();
                         mData.addAll(bean.getListVo());
@@ -157,13 +157,13 @@ abstract class BaseRefreshAndLoadMoreFragment<T extends BaseItemLoadBean, E exte
                     }
 
                     @Override
-                    protected void _onError(String message) {
+                    public void _onError(String message) {
                         mSwipeRefreshLayout.setRefreshing(false);
                         ToastUtil.showToast(getContext(), message);
                     }
 
                     @Override
-                    public void onCompleted() {
+                    public void onComplete() {
 
                     }
                 });

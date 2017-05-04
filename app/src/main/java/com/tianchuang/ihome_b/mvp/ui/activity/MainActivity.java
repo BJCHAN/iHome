@@ -65,7 +65,7 @@ import butterknife.BindArray;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Observable;
+import io.reactivex.Observable;
 
 import static com.tencent.android.tpush.XGPush4Msdk.registerPush;
 
@@ -166,7 +166,7 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
         setIvRightEnable(false);
         List<Integer> menuList = loginBean.getMenuList();
         if (menuList != null && menuList.size() > 0) {
-            Observable.from(menuList)
+            Observable.fromIterable(menuList)
                     .distinct()//去重
                     .compose(bindToLifecycle())
                     .subscribe(integer -> {
@@ -425,7 +425,7 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
                 .compose(bindToLifecycle())
                 .subscribe(new RxSubscribe<TaskPointDetailBean>() {
                     @Override
-                    protected void _onNext(TaskPointDetailBean detailBean) {
+                    public void _onNext(TaskPointDetailBean detailBean) {
                         if (detailBean != null) {
                             Intent intent = new Intent();
                             intent.setClass(MainActivity.this, ControlPointDetailActivity.class);
@@ -438,12 +438,12 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
                     }
 
                     @Override
-                    protected void _onError(String message) {
+                    public void _onError(String message) {
                         ToastUtil.showToast(MainActivity.this,message);
                     }
 
                     @Override
-                    public void onCompleted() {
+                    public void onComplete() {
 
                     }
                 });
@@ -455,7 +455,7 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
                 .compose(this.bindToLifecycle())
                 .subscribe(new RxSubscribe<ArrayList<QrCodeBean>>() {
                     @Override
-                    protected void _onNext(ArrayList<QrCodeBean> qrCodeBeanlist) {
+                    public void _onNext(ArrayList<QrCodeBean> qrCodeBeanlist) {
 //                        ToastUtil.showToast(MainActivity.this, "请求成功！");
                         if (qrCodeBeanlist != null && qrCodeBeanlist.size() > 0) {
                             Intent intent = new Intent(getApplicationContext(), TaskSelectActivity.class);
@@ -470,7 +470,7 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
                     }
 
                     @Override
-                    protected void _onError(String message) {
+                    public void _onError(String message) {
                         if ("考勤成功".equals(message)) {
                             OneButtonDialogFragment.newInstance(message)
                                     .show(getFragmentManager(), "");
@@ -480,7 +480,7 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
                     }
 
                     @Override
-                    public void onCompleted() {
+                    public void onComplete() {
 
                     }
                 });

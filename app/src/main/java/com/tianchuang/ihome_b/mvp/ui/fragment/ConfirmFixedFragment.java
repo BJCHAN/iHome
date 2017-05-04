@@ -14,18 +14,17 @@ import android.widget.ScrollView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
-import com.jakewharton.rxbinding.view.RxView;
+import com.jakewharton.rxbinding2.view.RxView;
 import com.tianchuang.ihome_b.R;
-import com.tianchuang.ihome_b.mvp.ui.activity.MyOrderActivity;
 import com.tianchuang.ihome_b.adapter.ImagesSelectorAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.ImagesMultipleItem;
 import com.tianchuang.ihome_b.bean.event.FeeSubmitSuccessEvent;
+import com.tianchuang.ihome_b.bean.model.MyOrderModel;
 import com.tianchuang.ihome_b.bean.recyclerview.ImagesSelectorItemDecoration;
-import com.tianchuang.ihome_b.http.retrofit.HttpModle;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
-import com.tianchuang.ihome_b.bean.model.MyOrderModel;
+import com.tianchuang.ihome_b.mvp.ui.activity.MyOrderActivity;
 import com.tianchuang.ihome_b.utils.FragmentUtils;
 import com.tianchuang.ihome_b.utils.ImagesSelectorUtils;
 import com.tianchuang.ihome_b.utils.MultipartBuilder;
@@ -40,11 +39,9 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
+import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.MultipartBody;
-import rx.Observable;
-import rx.functions.Action1;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by Abyss on 2017/3/4.
@@ -180,14 +177,9 @@ public class ConfirmFixedFragment extends BaseFragment implements MyOrderActivit
     protected void initListener() {
         RxView.clicks(loginBt)
                 .throttleFirst(3, TimeUnit.SECONDS)
-                .compose(this.<Void>bindToLifecycle())
-                .subscribe(new Action1<Void>() {
-                    @Override
-                    public void call(Void aVoid) {
-                        requestNet();
-//						addFragment(MyOrderFeeDetailFragment.newInstance(repairId));
-                    }
-                });
+                .compose(bindToLifecycle())
+                .subscribe(o ->requestNet()
+                   );
         holdingActivity.setGetImageByCodeListener(this);//选择图片的监听
     }
 
@@ -213,31 +205,28 @@ public class ConfirmFixedFragment extends BaseFragment implements MyOrderActivit
             return beforePhotos;
         })
                 .observeOn(Schedulers.io())
-                .switchMap(new Func1<List<MultipartBody.Part>, Observable<HttpModle<String>>>() {
-                    @Override
-                    public Observable<HttpModle<String>> call(List<MultipartBody.Part> parts) {
-                        return MyOrderModel.confirmOrder(repairId, content, parts);
-                    }
-                })
-                .compose(this.<HttpModle<String>>bindToLifecycle())
-                .compose(RxHelper.<String>handleResult())
+                .switchMap(parts ->  MyOrderModel.confirmOrder(repairId, content, parts)
+                    )
+                .compose(this.bindToLifecycle())
+                .compose(RxHelper.handleResult())
                 .subscribe(new RxSubscribe<String>() {
                     @Override
-                    protected void _onNext(String s) {
+                    public void _onNext(String s) {
 //						FileUtils.deleteImageFile();
-                        //跳转到费用明细
-                        EventBus.getDefault().post(new FeeSubmitSuccessEvent());//通知前一个页面刷新
-                        FragmentUtils.popAddFragment(getFragmentManager(), holdingActivity.getFragmentContainerId(), MyOrderFeeDetailFragment.newInstance(repairId), true);
+
                     }
 
                     @Override
-                    protected void _onError(String message) {
+                    public void _onError(String message) {
                         ToastUtil.showToast(getContext(), message);
 //						FileUtils.deleteImageFile();//删除压缩的图片
                     }
 
                     @Override
-                    public void onCompleted() {
+                    public void onComplete() {
+                        //跳转到费用明细
+                        EventBus.getDefault().post(new FeeSubmitSuccessEvent());//通知前一个页面刷新
+                        FragmentUtils.popAddFragment(getFragmentManager(), holdingActivity.getFragmentContainerId(), MyOrderFeeDetailFragment.newInstance(repairId), true);
                     }
                 });
 

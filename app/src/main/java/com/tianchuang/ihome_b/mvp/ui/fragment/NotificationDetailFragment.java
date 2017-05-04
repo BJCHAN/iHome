@@ -65,7 +65,7 @@ public class NotificationDetailFragment extends BaseLoadingFragment {
                 .compose(this.<NotificationItemBean>bindToLifecycle())
                 .subscribe(new RxSubscribe<NotificationItemBean>() {
                     @Override
-                    protected void _onNext(NotificationItemBean itemBean) {
+                    public void _onNext(NotificationItemBean itemBean) {
                         checkData(itemBean);
                         tvNotificationType.setText(StringUtils.getNotNull(itemBean.getTitle()));
                         tvNotificationDate.setText(StringUtils.getNotNull(
@@ -75,13 +75,13 @@ public class NotificationDetailFragment extends BaseLoadingFragment {
                     }
 
                     @Override
-                    protected void _onError(String message) {
+                    public void _onError(String message) {
                         ToastUtil.showToast(getContext(), message);
                         showErrorPage();
                     }
 
                     @Override
-                    public void onCompleted() {
+                    public void onComplete() {
 
                     }
                 });

@@ -19,7 +19,7 @@ import com.tianchuang.ihome_b.utils.LayoutUtil;
 import java.util.List;
 
 import butterknife.BindView;
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  * Created by Abyss on 2017/4/21.
@@ -56,7 +56,7 @@ public class TaskFormTypeListFragment extends BaseFragment {
     protected void initView(View view, Bundle savedInstanceState) {
         detailBean = (TaskPointDetailBean) getArguments().getSerializable("detailBean");
         List<TaskPointDetailBean.FormTypeVoListBean> list = detailBean.getFormTypeVoList();
-        Observable.from(list)
+        Observable.fromIterable(list)
                 .filter(typeVoListBean->!typeVoListBean.isDone())
                 .map(TaskPointDetailBean.FormTypeVoListBean::getFormTypeVo)
                 .filter(formTypeItemBean -> formTypeItemBean!=null)

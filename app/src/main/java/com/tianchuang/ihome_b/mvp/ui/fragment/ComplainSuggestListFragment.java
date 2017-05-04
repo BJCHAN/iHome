@@ -30,8 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import rx.Observable;
-import rx.functions.Action0;
+import io.reactivex.Observable;
 
 /**
  * 投诉建议列表
@@ -144,16 +143,14 @@ public class ComplainSuggestListFragment extends BaseLoadingFragment implements 
     }
     private void getComplainSuggestUntratedBean() {
         getComplainSuggestUntratedBean(untratedMaxid)
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
+                .doOnSubscribe(o -> {
                         loadComplete = false;
                     }
-                })
+                )
                 .compose(this.<ComplainSuggestUntratedBean>bindToLifecycle()) //保证加载过程中，退出本页面造成的一系列空指针
                 .subscribe(new RxSubscribe<ComplainSuggestUntratedBean>() {
                     @Override
-                    protected void _onNext(ComplainSuggestUntratedBean complainSuggestUntratedBean) {
+                    public void _onNext(ComplainSuggestUntratedBean complainSuggestUntratedBean) {
                         if (null != complainSuggestUntratedBean) {
                             untratedSize = complainSuggestUntratedBean.getPageSize();
                             List<ComplainSuggestUntratedBean.ListVoBean> listVo = complainSuggestUntratedBean.getListVo();
@@ -186,7 +183,7 @@ public class ComplainSuggestListFragment extends BaseLoadingFragment implements 
                     }
 
                     @Override
-                    protected void _onError(String message) {
+                    public void _onError(String message) {
                         ToastUtil.showToast(getActivity(), message);
 //                        dismissProgress();
                         showErrorPage();
@@ -195,7 +192,7 @@ public class ComplainSuggestListFragment extends BaseLoadingFragment implements 
                     }
 
                     @Override
-                    public void onCompleted() {
+                    public void onComplete() {
 //                        dismissProgress();
                         if (untratedMaxid == 0) {
                             showSucceedPage();
@@ -207,20 +204,18 @@ public class ComplainSuggestListFragment extends BaseLoadingFragment implements 
 
     private void getComplainSuggestProcessedBean() {
         getComplainSuggestProcessedBean(processedMaxid)
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
+                .doOnSubscribe(o ->{
                         loadComplete = false;
                         //processedMaxid == 0为第一次加载
                         if (processedMaxid == 0) {
                             mComplainSuggestListItemList.clear();
                         }
                     }
-                })
+                )
                 .compose(this.<ComplainSuggestProcessedBean>bindToLifecycle()) //保证加载过程中，退出本页面造成的一系列空指针
                 .subscribe(new RxSubscribe<ComplainSuggestProcessedBean>() {
                     @Override
-                    protected void _onNext(ComplainSuggestProcessedBean complainSuggestProcessedBean) {
+                    public void _onNext(ComplainSuggestProcessedBean complainSuggestProcessedBean) {
                         if (null != complainSuggestProcessedBean) {
                             processedSize = complainSuggestProcessedBean.getPageSize();
                             List<ComplainSuggestProcessedBean.ListVoBean> listVo = complainSuggestProcessedBean.getListVo();
@@ -253,7 +248,7 @@ public class ComplainSuggestListFragment extends BaseLoadingFragment implements 
                     }
 
                     @Override
-                    protected void _onError(String message) {
+                    public void _onError(String message) {
                         ToastUtil.showToast(getActivity(), message);
 //                        dismissProgress();
                         showErrorPage();
@@ -262,7 +257,7 @@ public class ComplainSuggestListFragment extends BaseLoadingFragment implements 
                     }
 
                     @Override
-                    public void onCompleted() {
+                    public void onComplete() {
 //                        dismissProgress();
                         if (processedMaxid == 0) {
                             showSucceedPage();

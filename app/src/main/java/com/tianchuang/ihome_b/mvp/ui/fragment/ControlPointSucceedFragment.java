@@ -15,9 +15,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import rx.Observable;
-import rx.functions.Action1;
-import rx.functions.Func1;
+import io.reactivex.Observable;
 
 /**
  * Created by Abyss on 2017/4/24.
@@ -72,7 +70,7 @@ public class ControlPointSucceedFragment extends BaseLoadingFragment {
         if (formTypeVoList == null || formTypeVoList.size() == 0) {
             tvSure.setVisibility(View.INVISIBLE);
         } else {
-            Observable.from(formTypeVoList)
+            Observable.fromIterable(formTypeVoList)
                     .filter(typeVoListBean -> typeVoListBean.isDone())
                     .toList()
                     .subscribe(list -> {

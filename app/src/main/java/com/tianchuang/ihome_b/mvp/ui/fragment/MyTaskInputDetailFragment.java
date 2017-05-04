@@ -101,7 +101,7 @@ public class MyTaskInputDetailFragment extends BaseLoadingFragment {
                 .subscribe(new RxSubscribe<TaskInputDetailBean>() {
 
                     @Override
-                    protected void _onNext(TaskInputDetailBean taskInputDetailBean) {
+                    public void _onNext(TaskInputDetailBean taskInputDetailBean) {
                             taskInputDetailBean.setTaskRecordId(taskRecordId);
                             MyTaskInputDetailFragment.this.taskInputDetailBean = taskInputDetailBean;
                             tvTitle.setText(getNotNull(item.getTaskName()));
@@ -118,14 +118,14 @@ public class MyTaskInputDetailFragment extends BaseLoadingFragment {
                     }
 
                     @Override
-                    protected void _onError(String message) {
+                    public void _onError(String message) {
                         showErrorPage();
                         ToastUtil.showToast(getContext(), message);
 //                        dismissProgress();
                     }
 
                     @Override
-                    public void onCompleted() {
+                    public void onComplete() {
                         showSucceedPage();
 //                        dismissProgress();
                     }

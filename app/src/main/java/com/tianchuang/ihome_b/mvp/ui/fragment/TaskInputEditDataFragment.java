@@ -20,7 +20,6 @@ import com.tianchuang.ihome_b.utils.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import rx.functions.Action0;
 
 /**
  * Created by Abyss on 2017/3/17.
@@ -94,24 +93,25 @@ public class TaskInputEditDataFragment extends BaseFragment {
             tvCurrentData.setText(formatNum);
             MyTaskModel.taskCurrentDataSubmit(dataInfo.getId(), formatNum)
                     .compose(RxHelper.<String>handleResult())
-                    .doOnSubscribe(() -> showProgress())
+                    .doOnSubscribe(o -> showProgress())
                     .compose(this.<String>bindToLifecycle())
                     .subscribe(new RxSubscribe<String>() {
                         @Override
-                        protected void _onNext(String s) {
-                            FragmentUtils.popAddFragment(getFragmentManager(),
-                                    holdingActivity.getFragmentContainerId(),
-                                    TaskInputSuccessFragment.newInstance(taskBean), true);
+                        public void _onNext(String s) {
+
                         }
 
                         @Override
-                        protected void _onError(String message) {
+                        public void _onError(String message) {
                             ToastUtil.showToast(getContext(), message);
                             dismissProgress();
                         }
 
                         @Override
-                        public void onCompleted() {
+                        public void onComplete() {
+                            FragmentUtils.popAddFragment(getFragmentManager(),
+                                    holdingActivity.getFragmentContainerId(),
+                                    TaskInputSuccessFragment.newInstance(taskBean), true);
                             dismissProgress();
 
                         }

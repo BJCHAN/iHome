@@ -30,7 +30,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import rx.functions.Action0;
 
 /**
  * Created by Abyss on 2017/3/25.
@@ -76,7 +75,7 @@ public class OwnerSearchFragment extends BaseLoadingFragment {
                 .compose(this.<ArrayList<TaskAreaListBean>>bindToLifecycle())
                 .subscribe(new RxSubscribe<ArrayList<TaskAreaListBean>>() {
                     @Override
-                    protected void _onNext(ArrayList<TaskAreaListBean> list) {
+                    public void _onNext(ArrayList<TaskAreaListBean> list) {
                         mData.clear();
                         mData.addAll(list);
                         checkData(list);
@@ -99,20 +98,22 @@ public class OwnerSearchFragment extends BaseLoadingFragment {
                     }
 
                     @Override
-                    protected void _onError(String message) {
+                    public void _onError(String message) {
                         ToastUtil.showToast(getContext(), message);
                         showErrorPage();
                     }
 
                     @Override
-                    public void onCompleted() {
+                    public void onComplete() {
                     }
                 });
     }
+
     @Override
     protected void initData() {
 
     }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -163,15 +164,13 @@ public class OwnerSearchFragment extends BaseLoadingFragment {
         DataSearchModel.requestOwnerDetail(value)
                 .compose(RxHelper.<OwnerDetailBean>handleResult())
                 .compose(this.<OwnerDetailBean>bindToLifecycle())
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        showProgress();
-                    }
-                })
+                .doOnSubscribe(o -> {
+                            showProgress();
+                        }
+                )
                 .subscribe(new RxSubscribe<OwnerDetailBean>() {
                     @Override
-                    protected void _onNext(OwnerDetailBean ownerDetailBean) {
+                    public void _onNext(OwnerDetailBean ownerDetailBean) {
                         if (ownerDetailBean != null) {
                             ownerDetailBean.setAddress(getNotNull(selestedAreaBean.getName() +
                                     selectedBuildingBean.getName() +
@@ -184,13 +183,13 @@ public class OwnerSearchFragment extends BaseLoadingFragment {
                     }
 
                     @Override
-                    protected void _onError(String message) {
+                    public void _onError(String message) {
                         ToastUtil.showToast(getContext(), message);
                         dismissProgress();
                     }
 
                     @Override
-                    public void onCompleted() {
+                    public void onComplete() {
                         dismissProgress();
 
                     }
@@ -206,15 +205,13 @@ public class OwnerSearchFragment extends BaseLoadingFragment {
         DataSearchModel.requestBuildingList(selestedAreaBean.getId())
                 .compose(RxHelper.<ArrayList<TaskAreaListBean.CellListBean>>handleResult())
                 .compose(this.<ArrayList<TaskAreaListBean.CellListBean>>bindToLifecycle())
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        showProgress();
-                    }
-                })
+                .doOnSubscribe(o -> {
+                            showProgress();
+                        }
+                )
                 .subscribe(new RxSubscribe<ArrayList<TaskAreaListBean.CellListBean>>() {
                     @Override
-                    protected void _onNext(ArrayList<TaskAreaListBean.CellListBean> cellListBeen) {
+                    public void _onNext(ArrayList<TaskAreaListBean.CellListBean> cellListBeen) {
                         selestedAreaBean.setCellList(cellListBeen);
                         if (cellListBeen != null && cellListBeen.size() > 0) {
                             initBuildingOptionPicker(selestedAreaBean);//初始化楼宇选择器
@@ -224,13 +221,13 @@ public class OwnerSearchFragment extends BaseLoadingFragment {
                     }
 
                     @Override
-                    protected void _onError(String message) {
+                    public void _onError(String message) {
                         ToastUtil.showToast(getContext(), message);
                         dismissProgress();
                     }
 
                     @Override
-                    public void onCompleted() {
+                    public void onComplete() {
                         dismissProgress();
                     }
                 });
@@ -243,27 +240,26 @@ public class OwnerSearchFragment extends BaseLoadingFragment {
         DataSearchModel.requestUnitList(buildingId)
                 .compose(RxHelper.<ArrayList<TaskAreaListBean.CellListBean.UnitListBean>>handleResult())
                 .compose(this.<ArrayList<TaskAreaListBean.CellListBean.UnitListBean>>bindToLifecycle())
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        showProgress();
-                    }
-                })
+                .doOnSubscribe(o ->
+
+                        showProgress()
+
+                )
                 .subscribe(new RxSubscribe<ArrayList<TaskAreaListBean.CellListBean.UnitListBean>>() {
                     @Override
-                    protected void _onNext(ArrayList<TaskAreaListBean.CellListBean.UnitListBean> unitListBeen) {
+                    public void _onNext(ArrayList<TaskAreaListBean.CellListBean.UnitListBean> unitListBeen) {
                         selectedBuildingBean.setUnitList(unitListBeen);
                         initUnitOptionPicker(selectedBuildingBean);
                     }
 
                     @Override
-                    protected void _onError(String message) {
+                    public void _onError(String message) {
                         ToastUtil.showToast(getContext(), message);
                         dismissProgress();
                     }
 
                     @Override
-                    public void onCompleted() {
+                    public void onComplete() {
                         dismissProgress();
                     }
                 });
@@ -277,27 +273,25 @@ public class OwnerSearchFragment extends BaseLoadingFragment {
         DataSearchModel.requestRoomList(value)
                 .compose(RxHelper.<ArrayList<BuildingRoomListBean>>handleResult())
                 .compose(this.<ArrayList<BuildingRoomListBean>>bindToLifecycle())
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
+                .doOnSubscribe(o -> {
                         showProgress();
                     }
-                })
+                )
                 .subscribe(new RxSubscribe<ArrayList<BuildingRoomListBean>>() {
                     @Override
-                    protected void _onNext(ArrayList<BuildingRoomListBean> buildingRoomListBeen) {
+                    public void _onNext(ArrayList<BuildingRoomListBean> buildingRoomListBeen) {
                         selectedUnitBean.setRoomList(buildingRoomListBeen);
                         initRoomOptionPicker(selectedUnitBean);
                     }
 
                     @Override
-                    protected void _onError(String message) {
+                    public void _onError(String message) {
                         ToastUtil.showToast(getContext(), message);
 
                     }
 
                     @Override
-                    public void onCompleted() {
+                    public void onComplete() {
                         dismissProgress();
                     }
                 });

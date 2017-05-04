@@ -47,10 +47,12 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 
 /**
@@ -169,12 +171,12 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                 .compose(RxHelper.handleResult())
                 .compose(bindToLifecycle())
                 .retry(2)
-                .doOnSubscribe(() -> {
+                .doOnSubscribe(o -> {
                     if (!swipeLayout.isRefreshing()) showProgress();
                 })
                 .subscribe(new RxSubscribe<HomePageBean>() {
                     @Override
-                    protected void _onNext(HomePageBean homePageBean) {
+                    public void _onNext(HomePageBean homePageBean) {
                         parseResult(homePageBean);
                         if (littleRedListener != null) {
                             littleRedListener.onRedPointChanged(homePageBean.getNoticeCount());
@@ -182,14 +184,14 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                     }
 
                     @Override
-                    protected void _onError(String message) {
+                    public void _onError(String message) {
                         dismissProgress();
                         ToastUtil.showToast(getContext(), message);
                         swipeLayout.setRefreshing(false);
                     }
 
                     @Override
-                    public void onCompleted() {
+                    public void onComplete() {
 
                     }
                 });
@@ -204,10 +206,10 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                 .map(bean -> HomePageModel.getHomePageMultiItemList(bean))
                 .compose(bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<HomePageMultiItem>>() {
+                .subscribe(new Observer<List<HomePageMultiItem>>() {
 
                     @Override
-                    public void onCompleted() {
+                    public void onComplete() {
                         swipeLayout.setRefreshing(false);
                         dismissProgress();
                     }
@@ -216,6 +218,11 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                     public void onError(Throwable e) {
                         dismissProgress();
                         swipeLayout.setRefreshing(false);
+                    }
+
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+
                     }
 
                     @Override
@@ -257,7 +264,7 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         llInternalReports.setVisibility(View.GONE);
         llMainQuery.setVisibility(View.GONE);
         if (menuList != null && menuList.size() > 0) {
-            Observable.from(menuList)
+            Observable.fromIterable(menuList)
                     .compose(bindToLifecycle())
                     .subscribe(integer -> setViewVisibility(integer));
         }

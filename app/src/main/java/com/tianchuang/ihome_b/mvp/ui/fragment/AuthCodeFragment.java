@@ -2,14 +2,16 @@ package com.tianchuang.ihome_b.mvp.ui.fragment;
 
 
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.jakewharton.rxbinding.view.RxView;
-import com.jakewharton.rxbinding.widget.RxTextView;
+
+import com.jakewharton.rxbinding2.view.RxView;
+import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.mvp.ui.activity.LoginActivity;
 import com.tianchuang.ihome_b.base.BaseFragment;
@@ -22,11 +24,12 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import rx.Observable;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func1;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+
 
 /**
  * Created by Abyss on 2017/2/13.
@@ -65,7 +68,7 @@ public class AuthCodeFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-       setToolbarTitle("验证码");
+        setToolbarTitle("验证码");
 
     }
 
@@ -75,19 +78,18 @@ public class AuthCodeFragment extends BaseFragment {
         LoginModel.requestRegisterAccount(phone, passwrod, authCode, name).compose(RxHelper.<String>handleResult())
                 .subscribe(new RxSubscribe<String>() {
                     @Override
-                    protected void _onNext(String s) {//注册成功
-                        ToastUtil.showToast(getContext(), "注册成功");
-                        holdingActivity.closeAllFragment();//到登录页面
+                    public void _onNext(String s) {//注册成功
                     }
 
                     @Override
-                    protected void _onError(String message) {
+                    public void _onError(String message) {
                         showRedTip(message);
                     }
 
                     @Override
-                    public void onCompleted() {
-
+                    public void onComplete() {
+                        ToastUtil.showToast(getContext(), "注册成功");
+                        holdingActivity.closeAllFragment();//到登录页面
                     }
                 });
     }
@@ -110,69 +112,54 @@ public class AuthCodeFragment extends BaseFragment {
 
     @Override
     protected void initListener() {
-        verifyCodeListener();//控制验证码的发送
+        try {
+            verifyCodeListener();//控制验证码的发送
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         RxTextView.textChanges(etAuthCode)//控制确认按钮是否可用
                 .compose(this.<CharSequence>bindToLifecycle())
-                .map(new Func1<CharSequence, Boolean>() {
-                    @Override
-                    public Boolean call(CharSequence charSequence) {
-                        return etAuthCode.length() == 4;
-                    }
-                })
-                .subscribe(new Action1<Boolean>() {
-                    @Override
-                    public void call(Boolean aBoolean) {
-                        RxView.enabled(btSure).call(aBoolean);
-                    }
-                });
+                .map(o -> etAuthCode.length() == 4)
+                .subscribe(b ->
+                        RxView.enabled(btSure).accept(b));
 
     }
 
-    private void verifyCodeListener() {
-
+    private void verifyCodeListener() throws Exception {
         initTimer();
-        RxView.enabled(tvSendAuthCode).call(false);
-        tvSendAuthCode.setTextColor(getResources().getColor(R.color.TC_2));
-        Observable<Void> verifyCodeObservable = RxView.clicks(tvSendAuthCode)
+        RxView.enabled(tvSendAuthCode).accept(false);
+        tvSendAuthCode.setTextColor(ContextCompat.getColor(getContext(), R.color.TC_2));
+        Observable<Object> verifyCodeObservable = RxView.clicks(tvSendAuthCode)
                 .throttleFirst(3, TimeUnit.SECONDS) //防止20秒内连续点击,或者只使用doOnNext部分
                 .subscribeOn(AndroidSchedulers.mainThread())
-                .doOnNext(new Action1<Void>() {
-                    @Override
-                    public void call(Void aVoid) {
-                        RxView.enabled(tvSendAuthCode).call(false);
-                    }
-                });
+                .doOnNext(o ->
+                        RxView.enabled(tvSendAuthCode).accept(false));
+
         verifyCodeObservable
-                .compose(this.<Void>bindToLifecycle())
-                .subscribe(new Action1<Void>() {
-                    @Override
-                    public void call(Void aVoid) {
-                        requestNetForCode();//请求网络发送验证码
-                    }
-                });
+                .compose(bindToLifecycle())
+                .subscribe(o -> this.requestNetForCode());
     }
 
     /**
      * 请求网络发送验证码
      */
-    private void requestNetForCode() {
+    public void requestNetForCode() {
         LoginModel.requestAuthCode(phone)
-                .compose(RxHelper.<String>handleResult())
-                .compose(this.<String>bindToLifecycle())
+                .compose(RxHelper.handleResult())
+                .compose(bindToLifecycle())
                 .subscribe(new RxSubscribe<String>() {
                     @Override
-                    protected void _onNext(String s) {
-                        initTimer();//初始化计时器
+                    public void _onNext(String s) {
                     }
 
                     @Override
-                    protected void _onError(String message) {
+                    public void _onError(String message) {
                         showRedTip(message);
                     }
 
                     @Override
-                    public void onCompleted() {
-
+                    public void onComplete() {
+                        initTimer();//初始化计时器
                     }
                 });
     }
@@ -183,26 +170,20 @@ public class AuthCodeFragment extends BaseFragment {
     private void initTimer() {
         Observable.interval(1, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
                 .take(SECOND)
-                .compose(this.<Long>bindToLifecycle())
-                .subscribe(new Observer<Long>() {
-                    @Override
-                    public void onCompleted() {
-                        RxTextView.text(tvSendAuthCode).call("重新发送");
-                        tvSendAuthCode.setTextColor(getResources().getColor(R.color.app_primary_color));
-                        RxView.enabled(tvSendAuthCode).call(true);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                    }
-
-                    @Override
-                    public void onNext(Long aLong) {
-                        if (aLong == 0)
-                            tvSendAuthCode.setTextColor(getResources().getColor(R.color.TC_2));
-                        RxTextView.text(tvSendAuthCode).call((SECOND - aLong) + "s");
-                    }
-                });
+                .compose(this.bindToLifecycle())
+                .subscribe(aLong -> {
+                            if (aLong == 0)
+                                tvSendAuthCode.setTextColor(ContextCompat.getColor(getContext(), R.color.TC_2));
+                            RxTextView.text(tvSendAuthCode).accept((SECOND - aLong) + "s");
+                        }
+                        , e -> {
+                        }
+                        , () -> {
+                            RxTextView.text(tvSendAuthCode).accept("重新发送");
+                            tvSendAuthCode.setTextColor(getResources().getColor(R.color.app_primary_color));
+                            RxView.enabled(tvSendAuthCode).accept(true);
+                        }
+                );
     }
 
 

@@ -15,7 +15,8 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
-import rx.Observable;
+import io.reactivex.Observable;
+
 
 /**
  * Created by Abyss on 2017/04/06
@@ -48,12 +49,12 @@ public class FeeDetailPresenter extends BasePresenterImpl<FeeDetailContract.View
                 .retry(2)
                 .subscribe(new RxSubscribe<Object>() {
                     @Override
-                    public void onCompleted() {
+                    public void onComplete() {
                         mView.showSucceedPage();
                     }
 
                     @Override
-                    protected void _onNext(Object o) {
+                    public void _onNext(Object o) {
                         if (o instanceof ArrayList) {
                             ArrayList list = (ArrayList) o;
                             if (list.size() > 0) {
@@ -69,7 +70,7 @@ public class FeeDetailPresenter extends BasePresenterImpl<FeeDetailContract.View
                     }
 
                     @Override
-                    protected void _onError(String message) {
+                    public void _onError(String message) {
                         mView.showToast(message);
                         mView.showErrorPage();
                     }
@@ -88,25 +89,25 @@ public class FeeDetailPresenter extends BasePresenterImpl<FeeDetailContract.View
         MyOrderModel.submitFeeList(repairId, checked ? 1 : 0, StringUtils.toJson(commonFeeBeenList, 2))
                 .compose(RxHelper.handleResult())
                 .compose(mView.bindToLifecycle())
-                .doOnSubscribe(()->mView.showProgress())
+                .doOnSubscribe(o->mView.showProgress())
                 .subscribe(new RxSubscribe<String>() {
                     @Override
-                    protected void _onNext(String s) {
-                        mView.showToast("提交成功");
-                        mView.removeFragment();
-                        mView.dismissProgress();
-                        EventBus.getDefault().post(new FeeSubmitSuccessEvent());
+                    public void _onNext(String s) {
+
                     }
 
                     @Override
-                    protected void _onError(String message) {
+                    public void _onError(String message) {
                         mView.dismissProgress();
                         mView.showToast(message);
                     }
 
                     @Override
-                    public void onCompleted() {
-
+                    public void onComplete() {
+                        mView.showToast("提交成功");
+                        mView.dismissProgress();
+                        mView.removeFragment();
+                        EventBus.getDefault().post(new FeeSubmitSuccessEvent());
                     }
                 });
     }

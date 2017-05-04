@@ -37,10 +37,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import rx.Observable;
-import rx.Subscriber;
-import rx.functions.Action0;
-import rx.functions.Func1;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+
 
 /**
  * Created by Abyss on 2017/3/16.
@@ -109,17 +109,15 @@ public class TaskInputBuildingSelectFragment extends BaseFragment {
         rvList.setLayoutManager(new GridLayoutManager(getContext(), 3));
         rvList.addItemDecoration(new TaskInputSelectDecoration(DensityUtil.dip2px(getContext(), 5)));
         mData.clear();
-        Observable.from(taskBean.getBuildingList())
-                .filter(new Func1<TaskAreaListBean, Boolean>() {
-                    @Override
-                    public Boolean call(TaskAreaListBean taskBuildingListBean) {
+        Observable.fromIterable(taskBean.getBuildingList())
+                .filter(taskBuildingListBean -> {
                         return taskBuildingListBean.isUsed();
                     }
-                })
+                )
                 .compose(this.<TaskAreaListBean>bindToLifecycle())
-                .subscribe(new Subscriber<TaskAreaListBean>() {
+                .subscribe(new Observer<TaskAreaListBean>() {
                     @Override
-                    public void onCompleted() {
+                    public void onComplete() {
                         selestedBean = null;
                         adapter = new TaskBuildingAdapter(mData);
                         rvList.setAdapter(adapter);
@@ -140,8 +138,14 @@ public class TaskInputBuildingSelectFragment extends BaseFragment {
                         });
                     }
 
+
                     @Override
                     public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onSubscribe(@io.reactivex.annotations.NonNull Disposable d) {
 
                     }
 
@@ -183,23 +187,27 @@ public class TaskInputBuildingSelectFragment extends BaseFragment {
                         ToastUtil.showToast(getContext(), "数据为空");
                         return;
                     }
-                    Observable.from(cellList)
-                            .filter(new Func1<TaskAreaListBean.CellListBean, Boolean>() {
-                                @Override
-                                public Boolean call(TaskAreaListBean.CellListBean cellListBean) {
+                    Observable.fromIterable(cellList)
+                            .filter(cellListBean ->{
                                     return cellListBean.isUsed();
                                 }
-                            })
+                            )
                             .compose(this.<TaskAreaListBean.CellListBean>bindToLifecycle())
-                            .subscribe(new Subscriber<TaskAreaListBean.CellListBean>() {
+                            .subscribe(new Observer<TaskAreaListBean.CellListBean>() {
                                 @Override
-                                public void onCompleted() {
+                                public void onComplete() {
                                     pvBuildingOptions.setPicker(cellItems);
                                     pvBuildingOptions.show();
                                 }
 
+
                                 @Override
                                 public void onError(Throwable e) {
+
+                                }
+
+                                @Override
+                                public void onSubscribe(@io.reactivex.annotations.NonNull Disposable d) {
 
                                 }
 
@@ -237,7 +245,7 @@ public class TaskInputBuildingSelectFragment extends BaseFragment {
                     getTaskInputResponseBeanObservable(roomId)
                             .subscribe(new RxSubscribe<TaskInputResponseBean>() {
                                 @Override
-                                protected void _onNext(TaskInputResponseBean taskInputResponseBean) {
+                                public void _onNext(TaskInputResponseBean taskInputResponseBean) {
                                     if (taskInputResponseBean != null) {
                                         FragmentUtils.popAddFragment(getFragmentManager(),
                                                 holdingActivity.getFragmentContainerId(),
@@ -248,13 +256,13 @@ public class TaskInputBuildingSelectFragment extends BaseFragment {
                                 }
 
                                 @Override
-                                protected void _onError(String message) {
+                                public void _onError(String message) {
                                     ToastUtil.showToast(getContext(), message);
                                     dismissProgress();
                                 }
 
                                 @Override
-                                public void onCompleted() {
+                                public void onComplete() {
                                     dismissProgress();
                                 }
                             });
@@ -271,12 +279,10 @@ public class TaskInputBuildingSelectFragment extends BaseFragment {
         return MyTaskModel.taskInputSubmit(taskBean.getTaskRecordId(), selectedUnitBean.getBuildingId(), selectedUnitBean.getBuildingCellId(), selectedUnitBean.getId(), roomId)
                 .compose(RxHelper.<TaskInputResponseBean>handleResult())
                 .compose(this.<TaskInputResponseBean>bindToLifecycle())
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
+                .doOnSubscribe(o -> {
                         showProgress();
                     }
-                });
+                );
     }
 
 
@@ -406,7 +412,7 @@ public class TaskInputBuildingSelectFragment extends BaseFragment {
                 .compose(bindToLifecycle())
                 .subscribe(new RxSubscribe<ArrayList<BuildingRoomItemBean>>() {
                     @Override
-                    protected void _onNext(ArrayList<BuildingRoomItemBean> roomslist) {
+                    public void _onNext(ArrayList<BuildingRoomItemBean> roomslist) {
                         if (roomslist.size() == 0) {
                             showToast("房间列表为空");
                             return;
@@ -416,12 +422,12 @@ public class TaskInputBuildingSelectFragment extends BaseFragment {
                     }
 
                     @Override
-                    protected void _onError(String message) {
+                    public void _onError(String message) {
                         showToast(message);
                     }
 
                     @Override
-                    public void onCompleted() {
+                    public void onComplete() {
 
                     }
                 });

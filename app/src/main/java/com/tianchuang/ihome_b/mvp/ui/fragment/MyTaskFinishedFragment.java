@@ -13,7 +13,8 @@ import com.tianchuang.ihome_b.utils.ToastUtil;
 
 import java.util.ArrayList;
 
-import rx.Observable;
+import io.reactivex.Observable;
+import io.reactivex.Observable;
 
 /**
  * Created by Abyss on 2017/3/15.
@@ -46,17 +47,17 @@ public class MyTaskFinishedFragment extends BaseRefreshAndLoadMoreFragment<MyTas
         MyTaskModel.taskControlPointDetail(taskRecordId)//请求控制点数据
                 .compose(RxHelper.handleResult())
                 .compose(this.bindToLifecycle())
-                .doOnSubscribe(this::showProgress)
+                .doOnSubscribe(o->showProgress())
                 .subscribe(new RxSubscribe<TaskPointDetailBean>() {
 
                     @Override
-                    protected void _onNext(TaskPointDetailBean detailBean) {
+                    public void _onNext(TaskPointDetailBean detailBean) {
                         dismissProgress();
                         addFragment(MyTaskControlPointDetailFragment.newInstance(detailBean));
                     }
 
                     @Override
-                    protected void _onError(String message) {
+                    public void _onError(String message) {
                         dismissProgress();
                         ToastUtil.showToast(getContext(), message);
 
@@ -64,7 +65,7 @@ public class MyTaskFinishedFragment extends BaseRefreshAndLoadMoreFragment<MyTas
 
 
                     @Override
-                    public void onCompleted() {
+                    public void onComplete() {
 
                     }
                 });

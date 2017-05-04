@@ -66,7 +66,7 @@ public class EquipmentTypeFragment extends BaseLoadingFragment {
                 .compose(this.<ArrayList<EquipmentTypeSearchBean>>bindToLifecycle())
                 .subscribe(new RxSubscribe<ArrayList<EquipmentTypeSearchBean>>() {
                     @Override
-                    protected void _onNext(ArrayList<EquipmentTypeSearchBean> list) {
+                    public void _onNext(ArrayList<EquipmentTypeSearchBean> list) {
                         mData.clear();
                         mData.addAll(list);
                         checkData(list);
@@ -86,13 +86,13 @@ public class EquipmentTypeFragment extends BaseLoadingFragment {
                     }
 
                     @Override
-                    protected void _onError(String message) {
+                    public void _onError(String message) {
                         showErrorPage();
                         ToastUtil.showToast(getContext(), message);
                     }
 
                     @Override
-                    public void onCompleted() {
+                    public void onComplete() {
 
                     }
                 });

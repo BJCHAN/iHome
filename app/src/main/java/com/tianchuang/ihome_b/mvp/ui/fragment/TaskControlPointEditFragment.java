@@ -39,11 +39,10 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.MultipartBody;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by Abyss on 2017/3/20.
@@ -151,7 +150,7 @@ public class TaskControlPointEditFragment extends BaseFragment implements TaskSu
                     }
                     return cheakBean;
                 })
-                .compose(this.<CheakBean>bindToLifecycle())
+                .compose(bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .filter(bean -> {//弹出错误提示
@@ -173,33 +172,30 @@ public class TaskControlPointEditFragment extends BaseFragment implements TaskSu
                     }
                     return parts;
                 })//请求网络
-                .flatMap(new Func1<List<MultipartBody.Part>, Observable<String>>() {
-                    @Override
-                    public Observable<String> call(List<MultipartBody.Part> parts) {
-                        return MyTaskModel.taskFormSubmit(taskRecordId, formTypeItemBean.getId(), submitTextMap, parts).compose(RxHelper.handleResult());
-                    }
-                })
+                .flatMap(parts -> MyTaskModel.taskFormSubmit(taskRecordId, formTypeItemBean.getId(), submitTextMap, parts)
+                        .compose(RxHelper.handleResult())
+                )
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(() -> showProgress())
+                .doOnSubscribe(o -> showProgress())
                 .subscribe(new RxSubscribe<String>() {
                     @Override
-                    protected void _onNext(String s) {
-                        dismissProgress();
-                        ToastUtil.showToast(getContext(), "任务提交成功");
-                        removeFragment();
-                        EventBus.getDefault().post(new TaskFormSubmitSuccessEvent());
-                        EventBus.getDefault().post(new NotifyHomePageRefreshEvent());//通知主页刷新
+                    public void _onNext(String s) {
+
                     }
 
                     @Override
-                    protected void _onError(String message) {
+                    public void _onError(String message) {
                         ToastUtil.showToast(getContext(), message);
                         dismissProgress();
                     }
 
                     @Override
-                    public void onCompleted() {
-
+                    public void onComplete() {
+                        dismissProgress();
+                        ToastUtil.showToast(getContext(), "任务提交成功");
+                        removeFragment();
+                        EventBus.getDefault().post(new TaskFormSubmitSuccessEvent());
+                        EventBus.getDefault().post(new NotifyHomePageRefreshEvent());//通知主页刷新
                     }
                 });
 

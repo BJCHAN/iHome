@@ -11,8 +11,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.jakewharton.rxbinding.widget.RxCompoundButton;
-import com.jakewharton.rxbinding.widget.RxTextView;
+import com.jakewharton.rxbinding2.widget.RxCompoundButton;
+import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.mvp.ui.activity.LoginActivity;
 import com.tianchuang.ihome_b.base.BaseFragment;
@@ -26,11 +26,9 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import rx.Observable;
-import rx.Subscriber;
-import rx.functions.Action1;
-import rx.functions.Func1;
-import rx.functions.Func3;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+
 
 import static com.tianchuang.ihome_b.R.id.iv_pwd_isvisible;
 
@@ -125,62 +123,40 @@ public class RegisterAccountFragment extends BaseFragment {
         final String phone = etPhoneNum.getText().toString().trim();
         final String password = etPasswrod.getText().toString().trim();
         final String name = etName.getText().toString().trim();
-        Observable.zip(Observable.just(phone), Observable.just(password), Observable.just(name), new Func3<String, String, String, Boolean>() {
-            @Override
-            public Boolean call(String phone, String pwd, String name) {
-                return whetherCanLogin(phone, pwd, name);
-            }
-        })
-                .filter(new Func1<Boolean, Boolean>() {
-                    @Override
-                    public Boolean call(Boolean aBoolean) {
-                        return aBoolean;
-                    }
-                })
-
-                .subscribe(new Action1<Boolean>() {
-                    @Override
-                    public void call(Boolean aBoolean) {
-                        showDialog(phone, password, name);
-                    }
-                });
+        Observable.zip(
+                Observable.just(phone), Observable.just(password), Observable.just(name),
+                (phone1, pwd1, name1) -> whetherCanLogin(phone1, pwd1, name1)
+        )
+                .filter(b -> b)
+                .subscribe(aBoolean -> showDialog(phone, password, name));
 
     }
 
     private void showDialog(final String phone, final String password, final String name) {
         //弹窗上确认的点击事件
-        Observable.create(new Observable.OnSubscribe<Object>() {
-            @Override
-            public void call(final Subscriber<? super Object> subscriber) {
-                initDialog(subscriber, phone);
-            }
-        })        //防抖
+        Observable.create(eimtter -> initDialog(eimtter, phone))        //防抖
                 .throttleFirst(3, TimeUnit.SECONDS)
-                .flatMap(new Func1<Object, Observable<String>>() {
-                    @Override
-                    public Observable<String> call(Object o) {//请求网络
-                        return LoginModel.requestAuthCode(phone).compose(RxHelper.<String>handleResult());
-                    }
-                })
-                .compose(this.<String>bindToLifecycle())
+                .flatMap(o -> LoginModel.requestAuthCode(phone).compose(RxHelper.handleResult())
+        )
+                .compose(this.bindToLifecycle())
                 .subscribe(new RxSubscribe<String>() {
                     @Override
-                    protected void _onNext(String s) {
+                    public void _onNext(String s) {
+
+                    }
+
+                    @Override
+                    public  void _onError(String message) {
+                        showRedTip(message);
+                    }
+
+                    @Override
+                    public void onComplete() {
                         //跳转添加验证码页面
                         holdingActivity.openFragment(AuthCodeFragment
                                 .newInstance(phone
                                         , password, name)
                         );
-                    }
-
-                    @Override
-                    protected void _onError(String message) {
-                        showRedTip(message);
-                    }
-
-                    @Override
-                    public void onCompleted() {
-
                     }
                 });
 
@@ -224,21 +200,12 @@ public class RegisterAccountFragment extends BaseFragment {
      * @param checkedChanges
      */
     private void registerBtnEnable(Observable<CharSequence> email, Observable<CharSequence> pwd, Observable<Boolean> checkedChanges) {
-        Observable.combineLatest(email, pwd, checkedChanges, new Func3<CharSequence, CharSequence, Boolean, Boolean>() {
-            @Override
-            public Boolean call(CharSequence email, CharSequence pwd, Boolean cheaked) {
-                return email.length() > 0 && pwd.length() >= 6 && cheaked;
-            }
-        }).compose(this.<Boolean>bindToLifecycle()).subscribe(new Action1<Boolean>() {
-            @Override
-            public void call(Boolean aBoolean) {
-                btRegister.setEnabled(aBoolean);
-            }
-        });
+        Observable.combineLatest(email, pwd, checkedChanges,  (email1, pwd1, cheaked) -> email1.length() > 0 && pwd1.length() >= 6 && cheaked).compose(this.<Boolean>bindToLifecycle())
+                .subscribe( aBoolean -> btRegister.setEnabled(aBoolean));
     }
 
 
-    private void initDialog(final Subscriber<? super Object> subscriber, String phone) {
+    private void initDialog(final ObservableEmitter<Object> subscriber, String phone) {
         RegisterDialogFragment
                 .newInstance(
                         String.format(getString(R.string.register_custom_dialog_tip)
@@ -253,7 +220,7 @@ public class RegisterAccountFragment extends BaseFragment {
 
                     @Override
                     public void onClickSure() {
-                        if (!subscriber.isUnsubscribed()) {
+                        if (!subscriber.isDisposed()) {
                             subscriber.onNext(null);
                         }
                     }

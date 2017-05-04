@@ -85,7 +85,7 @@ public class MyOrderDetailFragment extends BaseLoadingFragment {
                 .compose(RxHelper.<MyOrderDetailBean>handleResult())
                 .subscribe(new RxSubscribe<MyOrderDetailBean>() {
                     @Override
-                    protected void _onNext(MyOrderDetailBean bean) {
+                    public void _onNext(MyOrderDetailBean bean) {
                         adapter.getData().clear();
                         adapter.removeAllHeaderView();
                         adapter.removeAllFooterView();
@@ -148,13 +148,13 @@ public class MyOrderDetailFragment extends BaseLoadingFragment {
                     }
 
                     @Override
-                    protected void _onError(String message) {
+                    public void _onError(String message) {
                         ToastUtil.showToast(getContext(), message);
                         showErrorPage();
                     }
 
                     @Override
-                    public void onCompleted() {
+                    public void onComplete() {
                     }
                 });
     }

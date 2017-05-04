@@ -63,20 +63,20 @@ public class MyFormDetailFragment extends BaseLoadingFragment {
                 .compose(this.<MyFormDetailBean>bindToLifecycle())
                 .subscribe(new RxSubscribe<MyFormDetailBean>() {
                     @Override
-                    protected void _onNext(MyFormDetailBean myFormDetailBean) {
+                    public void _onNext(MyFormDetailBean myFormDetailBean) {
                         checkData(myFormDetailBean);
                         FormDetailMultiAdapter adapter = new FormDetailMultiAdapter(myFormDetailBean.getFormDataVos());
                         rvList.setAdapter(adapter);
                     }
 
                     @Override
-                    protected void _onError(String message) {
+                    public void _onError(String message) {
                         showErrorPage();
                         ToastUtil.showToast(getContext(), message);
                     }
 
                     @Override
-                    public void onCompleted() {
+                    public void onComplete() {
 
                     }
                 });

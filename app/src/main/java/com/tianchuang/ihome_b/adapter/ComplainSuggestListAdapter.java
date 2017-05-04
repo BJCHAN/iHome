@@ -35,14 +35,17 @@ public class ComplainSuggestListAdapter extends BaseMultiItemQuickAdapter<Compla
                 ComplainSuggestProcessedBean.ListVoBean processedListVoBean = item.getProcessedListVoBean();
                 ComplainSuggestProcessedBean.ListVoBean.OwnersInfoVoBean ownersInfoVo = processedListVoBean.getOwnersInfoVo();
                 helper.getView(R.id.bl_complain_suggest_content_apply).setVisibility(View.VISIBLE);
-                if (null != processedListVoBean && null != ownersInfoVo) {
+                if (null != ownersInfoVo) {
                     String name = ownersInfoVo.getOwnersName() + "/" + ownersInfoVo.getBuildingName() + "-" + ownersInfoVo.getBuildingCellName()
                             + "-" + ownersInfoVo.getBuildingUnitName();
+                    helper.setText(R.id.tv_complain_suggest_name, name);
+
+                }
+                if (processedListVoBean != null) {
                     String time = DateUtils.formatDate(processedListVoBean.getCreatedDate(), DateUtils.TYPE_01);
                     String content = processedListVoBean.getContent();
                     String reply = processedListVoBean.getReplyContent();
-                    helper.setText(R.id.tv_complain_suggest_name, name)
-                            .setText(R.id.tv_complain_suggest_time, time)
+                    helper.setText(R.id.tv_complain_suggest_time, time)
                             .setText(R.id.tv_complain_suggest_content, content)
                             .setText(R.id.tv_complain_suggest_content_apply, reply);
                 }
@@ -52,13 +55,15 @@ public class ComplainSuggestListAdapter extends BaseMultiItemQuickAdapter<Compla
                 ComplainSuggestUntratedBean.ListVoBean untratedListVoBean = item.getUntratedListVoBean();
                 ComplainSuggestUntratedBean.ListVoBean.OwnersInfoVoBean ownersInfoVo1 = untratedListVoBean.getOwnersInfoVo();
                 helper.getView(R.id.bl_complain_suggest_content_apply).setVisibility(View.GONE);
-                if (null != untratedListVoBean && null != ownersInfoVo1) {
+                if (null != ownersInfoVo1) {
                     String name = ownersInfoVo1.getOwnersName() + "/" + ownersInfoVo1.getBuildingName() + "-" + ownersInfoVo1.getBuildingCellName()
                             + "-" + ownersInfoVo1.getBuildingUnitName();
+                    helper.setText(R.id.tv_complain_suggest_name, name);
+                }
+                if (untratedListVoBean != null) {
                     String time = DateUtils.formatDate(untratedListVoBean.getCreatedDate(), DateUtils.TYPE_01);
                     String content = untratedListVoBean.getContent();
-                    helper.setText(R.id.tv_complain_suggest_name, name)
-                            .setText(R.id.tv_complain_suggest_time, time)
+                    helper.setText(R.id.tv_complain_suggest_time, time)
                             .setText(R.id.tv_complain_suggest_content, content);
                 }
                 break;

@@ -1,18 +1,30 @@
 package com.tianchuang.ihome_b.http.retrofit;
 
 
+
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.utils.NetworkUtil;
 import com.tianchuang.ihome_b.utils.Utils;
 
-import rx.Subscriber;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by Abyss on 2017/1/10.
- * description:对错误进行处理，自行选择用RxSubscribe或者RxSubscribeWithStatusCode
+ * description:对错误进行处理
  */
 
-public abstract class RxSubscribe<T> extends Subscriber<T> {
+public abstract class RxSubscribe<T> implements Observer<T> {
+    @Override
+    public void onSubscribe(Disposable disposable) {
+        //根据需要重写
+    }
+
+    @Override
+    public void onNext(T t) {
+        _onNext(t);
+    }
+
     @Override
     public void onError(Throwable e) {
         e.printStackTrace();
@@ -28,13 +40,7 @@ public abstract class RxSubscribe<T> extends Subscriber<T> {
         }
     }
 
-    @Override
-    public void onNext(T t) {
-        _onNext(t);
-    }
+    public  abstract void _onNext(T t);
 
-    protected abstract void _onNext(T t);
-
-    protected abstract void _onError(String message);
-
+    public abstract void _onError(String message);
 }

@@ -42,6 +42,9 @@ public class MyOrderOwnerInfoViewHolder extends BaseHolder<MyOrderDetailBean.Own
 
 	@Override
 	public void bindData(final MyOrderDetailBean.OwnersInfoVoBean bean) {
+		if (bean == null) {
+			return;
+		}
 		tvName.setText(StringUtils.getNotNull(bean.getOwnersName()));
 		tvAddress.setText(StringUtils.getNotNull("/" + bean.getBuildingName() + bean.getBuildingCellName() + bean.getBuildingUnitName() + bean.getNum()));
 		tvPhoneNum.setText(StringUtils.getNotNull(bean.getOwnersMobile()));

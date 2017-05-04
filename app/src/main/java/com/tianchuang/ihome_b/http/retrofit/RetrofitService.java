@@ -9,7 +9,7 @@ import com.tianchuang.ihome_b.utils.Utils;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -34,7 +34,7 @@ public class RetrofitService {
                             .client(mOkHttpClient)
                             .baseUrl(BizInterface.API)
                             .addConverterFactory(GsonConverterFactory.create())
-                            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                             .build().create(ShowApi.class);
                 }
             }

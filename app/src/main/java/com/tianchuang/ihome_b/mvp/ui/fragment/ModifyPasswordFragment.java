@@ -7,7 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.jakewharton.rxbinding.widget.RxTextView;
+import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.mvp.ui.activity.ModifyPasswordActivity;
 import com.tianchuang.ihome_b.mvp.MVPBaseFragment;
@@ -17,7 +17,7 @@ import com.tianchuang.ihome_b.utils.FragmentUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  * Created by Abyss on 2017/2/16.

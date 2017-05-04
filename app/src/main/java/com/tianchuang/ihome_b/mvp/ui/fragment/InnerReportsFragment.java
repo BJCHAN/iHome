@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
-import com.jakewharton.rxbinding.view.RxView;
+import com.jakewharton.rxbinding2.view.RxView;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.mvp.ui.activity.InnerReportsActivity;
 import com.tianchuang.ihome_b.adapter.ImagesSelectorAdapter;
@@ -39,8 +39,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
-import rx.functions.Action0;
-import rx.functions.Action1;
 
 /**
  * Created by Abyss on 2017/2/22.
@@ -144,13 +142,8 @@ public class InnerReportsFragment extends BaseFragment implements InnerReportsAc
     protected void initListener() {
         RxView.clicks(loginBt)
                 .throttleFirst(3, TimeUnit.SECONDS)
-                .compose(this.<Void>bindToLifecycle())
-                .subscribe(new Action1<Void>() {
-                    @Override
-                    public void call(Void aVoid) {
-                        requestNet();
-                    }
-                });
+                .compose(this.bindToLifecycle())
+                .subscribe(o->requestNet());
         holdingActivity.setGetImageByCodeListener(this);//选择图片的监听
     }
 
@@ -170,31 +163,26 @@ public class InnerReportsFragment extends BaseFragment implements InnerReportsAc
             }
         }
         InnerReportsModel.requestReportsSubmit(UserUtil.getLoginBean().getPropertyCompanyId(), content, files)
-                .compose(RxHelper.<String>handleResult())
-                .compose(this.<String>bindToLifecycle())
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        showProgress();
-                    }
-                })
+                .compose(RxHelper.handleResult())
+                .compose(this.bindToLifecycle())
+                .doOnSubscribe(o ->showProgress())
                 .subscribe(new RxSubscribe<String>() {
                     @Override
-                    protected void _onNext(String s) {
-                        FragmentUtils.popAddFragment(getFragmentManager(), holdingActivity.getFragmentContainerId(), InnerReportsSuccessFragment.newInstance(), true);
-                        EventBus.getDefault().post(new NotifyHomePageRefreshEvent());
-                        dismissProgress();
+                    public void _onNext(String s) {
+
                     }
 
                     @Override
-                    protected void _onError(String message) {
+                    public void _onError(String message) {
                         ToastUtil.showToast(getContext(), message);
                         dismissProgress();
                     }
 
                     @Override
-                    public void onCompleted() {
-
+                    public void onComplete() {
+                        FragmentUtils.popAddFragment(getFragmentManager(), holdingActivity.getFragmentContainerId(), InnerReportsSuccessFragment.newInstance(), true);
+                        EventBus.getDefault().post(new NotifyHomePageRefreshEvent());
+                        dismissProgress();
                     }
                 });
     }

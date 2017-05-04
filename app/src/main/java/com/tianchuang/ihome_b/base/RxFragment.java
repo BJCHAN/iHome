@@ -3,39 +3,52 @@ package com.tianchuang.ihome_b.base;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
+import android.support.annotation.CheckResult;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
-import com.trello.rxlifecycle.FragmentEvent;
-import com.trello.rxlifecycle.FragmentLifecycleProvider;
-import com.trello.rxlifecycle.RxLifecycle;
 
-import rx.Observable;
-import rx.subjects.BehaviorSubject;
+import com.trello.rxlifecycle2.LifecycleProvider;
+import com.trello.rxlifecycle2.LifecycleTransformer;
+import com.trello.rxlifecycle2.RxLifecycle;
+import com.trello.rxlifecycle2.android.FragmentEvent;
+import com.trello.rxlifecycle2.android.RxLifecycleAndroid;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableTransformer;
+import io.reactivex.subjects.BehaviorSubject;
 
 /**
  * Created by Abyss on 2017/2/9.
  * description:自己项目的rxfragment,RXJava绑定fragment的生命周期
  */
 
-public class RxFragment extends Fragment implements FragmentLifecycleProvider {
+public class RxFragment extends Fragment implements LifecycleProvider<FragmentEvent> {
 
 	private final BehaviorSubject<FragmentEvent> lifecycleSubject = BehaviorSubject.create();
 
 	@Override
+	@NonNull
+	@CheckResult
 	public final Observable<FragmentEvent> lifecycle() {
-		return lifecycleSubject.asObservable();
+		return lifecycleSubject.hide();
 	}
 
 	@Override
-	public final <T> Observable.Transformer<T, T> bindUntilEvent(FragmentEvent event) {
-		return RxLifecycle.bindUntilFragmentEvent(lifecycleSubject, event);
+	@NonNull
+	@CheckResult
+	public final <T> LifecycleTransformer<T> bindUntilEvent(@NonNull FragmentEvent event) {
+		return RxLifecycle.bindUntilEvent(lifecycleSubject, event);
 	}
 
 	@Override
-	public final <T> Observable.Transformer<T, T> bindToLifecycle() {
-		return RxLifecycle.bindFragment(lifecycleSubject);
+	@NonNull
+	@CheckResult
+	public final <T> LifecycleTransformer<T> bindToLifecycle() {
+		return RxLifecycleAndroid.bindFragment(lifecycleSubject);
 	}
+
 
 	@Override
 	@CallSuper

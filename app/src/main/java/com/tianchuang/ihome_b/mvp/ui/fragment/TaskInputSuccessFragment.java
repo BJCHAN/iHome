@@ -74,20 +74,19 @@ public class TaskInputSuccessFragment extends BaseFragment {
                         .compose(this.<String>bindToLifecycle())
                         .subscribe(new RxSubscribe<String>() {
                             @Override
-                            protected void _onNext(String s) {
-                                EventBus.getDefault().post(new NotifyTaskDetailRefreshEvent());
-                                EventBus.getDefault().post(new NotifyHomePageRefreshEvent());//通知主页刷新
-                                holdingActivity.closeAllFragment();
+                            public void _onNext(String s) {
                             }
 
                             @Override
-                            protected void _onError(String message) {
+                            public void _onError(String message) {
                                 ToastUtil.showToast(getContext(), "数据未完成录入");
                             }
 
                             @Override
-                            public void onCompleted() {
-
+                            public void onComplete() {
+                                EventBus.getDefault().post(new NotifyTaskDetailRefreshEvent());
+                                EventBus.getDefault().post(new NotifyHomePageRefreshEvent());//通知主页刷新
+                                holdingActivity.closeAllFragment();
                             }
                         });
                 break;

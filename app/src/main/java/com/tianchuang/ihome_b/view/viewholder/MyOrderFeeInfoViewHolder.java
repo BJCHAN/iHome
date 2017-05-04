@@ -8,12 +8,9 @@ import android.widget.TextView;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.adapter.RepairsFeeAdapter;
 import com.tianchuang.ihome_b.base.BaseHolder;
-import com.tianchuang.ihome_b.bean.MyOrderDetailBean;
 import com.tianchuang.ihome_b.bean.RepairsFeeBean;
 import com.tianchuang.ihome_b.utils.LayoutUtil;
-
-import java.text.DecimalFormat;
-import java.util.List;
+import com.tianchuang.ihome_b.utils.StringUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,8 +21,6 @@ import butterknife.ButterKnife;
  */
 
 public class MyOrderFeeInfoViewHolder extends BaseHolder<RepairsFeeBean> {
-
-
 	@BindView(R.id.tv_price)
 	TextView tvPrice;
 	@BindView(R.id.rv_list)
@@ -40,7 +35,7 @@ public class MyOrderFeeInfoViewHolder extends BaseHolder<RepairsFeeBean> {
 
 	@Override
 	public void bindData(final RepairsFeeBean bean) {
-		String text = new DecimalFormat("#.00").format(bean.getTotalFee());
+		String text = StringUtils.formatNum(bean.getTotalFee());
 		tvPrice.setText("￥"+text);
 		rvList.setLayoutManager(new LinearLayoutManager(rvList.getContext()));
 		rvList.setAdapter(new RepairsFeeAdapter(R.layout.myorder_fee_adapter_item_holder,bean.getRepairsFeeVos()));

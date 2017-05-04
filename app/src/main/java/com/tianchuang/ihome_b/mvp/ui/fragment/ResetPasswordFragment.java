@@ -8,8 +8,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.jakewharton.rxbinding.view.RxView;
-import com.jakewharton.rxbinding.widget.RxTextView;
+import com.jakewharton.rxbinding2.view.RxView;
+import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.mvp.ui.activity.LoginActivity;
 import com.tianchuang.ihome_b.base.BaseFragment;
@@ -20,7 +20,7 @@ import com.tianchuang.ihome_b.utils.VerificationUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  * Created by Abyss on 2017/2/13.
@@ -80,7 +80,7 @@ public class ResetPasswordFragment extends BaseFragment {
 		RxTextView.textChanges(etNewPasswrod)
 				.compose(this.<CharSequence>bindToLifecycle())
 				.map(text -> text.length() >= 6)
-				.subscribe(aBoolean -> RxView.enabled(btSure).call(aBoolean));
+				.subscribe(aBoolean -> RxView.enabled(btSure).accept(aBoolean));
 	}
 
 	@OnClick({R.id.iv_pwd_isvisible, R.id.bt_sure})
@@ -104,24 +104,24 @@ public class ResetPasswordFragment extends BaseFragment {
 				Observable.just(pwd)
 						.filter(this::whetherCanLogin)
 						.flatMap(str->LoginModel.resetPassword(phone, str, code).compose(RxHelper.handleResult()))
-						.doOnSubscribe(this::showProgress)
+						.doOnSubscribe(o ->showProgress())
 						.compose(bindToLifecycle())
 						.subscribe(new RxSubscribe<String>() {
 							@Override
-							protected void _onNext(String s) {
-								activity.closeAllFragment();
-								dismissProgress();
+							public void _onNext(String s) {
+
 							}
 
 							@Override
-							protected void _onError(String message) {
+							public void _onError(String message) {
 								showRedTip(message);
 								dismissProgress();
 							}
 
 							@Override
-							public void onCompleted() {
-
+							public void onComplete() {
+								activity.closeAllFragment();
+								dismissProgress();
 							}
 						});
 				break;

@@ -179,20 +179,20 @@ public class MyTaskControlPointDetailFragment extends BaseLoadingFragment implem
                 .subscribe(new RxSubscribe<TaskPointDetailBean>() {
 
                     @Override
-                    protected void _onNext(TaskPointDetailBean detailBean) {
+                    public void _onNext(TaskPointDetailBean detailBean) {
                         updateUI(detailBean);
                         whereToGo(detailBean);
                     }
 
                     @Override
-                    protected void _onError(String message) {
+                    public void _onError(String message) {
                         showErrorPage();
                         ToastUtil.showToast(getContext(), message);
                     }
 
 
                     @Override
-                    public void onCompleted() {
+                    public void onComplete() {
                         showSucceedPage();
 
                     }
@@ -275,11 +275,11 @@ public class MyTaskControlPointDetailFragment extends BaseLoadingFragment implem
     private void requestTaskQrCode(HashMap<String, String> map) {
         HomePageModel.requestTaskQrCode(map)
                 .compose(RxHelper.handleResult())
-                .doOnSubscribe(this::showProgress)
+                .doOnSubscribe(o ->showProgress())
                 .compose(bindToLifecycle())
                 .subscribe(new RxSubscribe<TaskPointDetailBean>() {
                     @Override
-                    protected void _onNext(TaskPointDetailBean detailBean) {
+                    public void _onNext(TaskPointDetailBean detailBean) {
                         if (detailBean != null) {
                             updateUI(detailBean);
                             addFragment(ControlPointSucceedFragment.newInstance(detailBean));
@@ -290,13 +290,13 @@ public class MyTaskControlPointDetailFragment extends BaseLoadingFragment implem
                     }
 
                     @Override
-                    protected void _onError(String message) {
+                    public void _onError(String message) {
                         ToastUtil.showToast(getContext(), message);
                         dismissProgress();
                     }
 
                     @Override
-                    public void onCompleted() {
+                    public void onComplete() {
                         dismissProgress();
                     }
                 });

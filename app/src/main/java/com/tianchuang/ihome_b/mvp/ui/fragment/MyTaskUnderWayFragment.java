@@ -27,7 +27,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  * Created by Abyss on 2017/3/15.
@@ -108,7 +108,7 @@ public class MyTaskUnderWayFragment extends BaseRefreshAndLoadMoreFragment<MyTas
 //                .compose(bindToLifecycle())
 //                .subscribe(new RxSubscribe<TaskPointDetailBean>() {
 //                    @Override
-//                    protected void _onNext(TaskPointDetailBean detailBean) {
+//                    public void _onNext(TaskPointDetailBean detailBean) {
 //                        if (detailBean != null) {
 //                            Intent intent = new Intent();
 //                            intent.setClass(getContext(), ControlPointDetailActivity.class);
@@ -121,12 +121,12 @@ public class MyTaskUnderWayFragment extends BaseRefreshAndLoadMoreFragment<MyTas
 //                    }
 //
 //                    @Override
-//                    protected void _onError(String message) {
+//                    public void _onError(String message) {
 //                        ToastUtil.showToast(getContext(),message);
 //                    }
 //
 //                    @Override
-//                    public void onCompleted() {
+//                    public void onComplete() {
 //
 //                    }
 //                });

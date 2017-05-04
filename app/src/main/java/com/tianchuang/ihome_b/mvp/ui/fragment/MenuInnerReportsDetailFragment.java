@@ -35,7 +35,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import rx.functions.Action0;
 
 /**
  * Created by Abyss on 2017/2/22.
@@ -141,15 +140,23 @@ public class MenuInnerReportsDetailFragment extends BaseFragment {
         InnerReportsModel.reportsFinished(info.getId())
                 .compose(RxHelper.<String>handleResult())
                 .compose(this.<String>bindToLifecycle())
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        showProgress();
-                    }
-                })
+                .doOnSubscribe(o ->
+                        showProgress()
+
+                )
                 .subscribe(new RxSubscribe<String>() {
                     @Override
-                    protected void _onNext(String s) {
+                    public void _onNext(String s) {
+                    }
+
+                    @Override
+                    public void _onError(String message) {
+                        ToastUtil.showToast(getContext(), message);
+                        dismissProgress();
+                    }
+
+                    @Override
+                    public void onComplete() {
                         dismissProgress();
                         statusBt.setText("已完成");
                         info.setStatus(info.getStatus() + 1);
@@ -157,18 +164,6 @@ public class MenuInnerReportsDetailFragment extends BaseFragment {
                             statusChangeListener.onStatushanged();
                         }
                         EventBus.getDefault().post(new NotifyHomePageRefreshEvent());
-
-                    }
-
-                    @Override
-                    protected void _onError(String message) {
-                        ToastUtil.showToast(getContext(), message);
-                        dismissProgress();
-                    }
-
-                    @Override
-                    public void onCompleted() {
-
                     }
                 });
     }
@@ -177,15 +172,24 @@ public class MenuInnerReportsDetailFragment extends BaseFragment {
         InnerReportsModel.reportsProcessing(info.getId())
                 .compose(RxHelper.<String>handleResult())
                 .compose(this.<String>bindToLifecycle())
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
+                .doOnSubscribe(o -> {
                         showProgress();
                     }
-                })
+                )
                 .subscribe(new RxSubscribe<String>() {
                     @Override
-                    protected void _onNext(String s) {
+                    public void _onNext(String s) {
+                    }
+
+                    @Override
+                    public void _onError(String message) {
+                        dismissProgress();
+                        ToastUtil.showToast(getContext(), message);
+
+                    }
+
+                    @Override
+                    public void onComplete() {
                         if (statusChangeListener != null) {
                             statusChangeListener.onStatushanged();
                         }
@@ -194,19 +198,6 @@ public class MenuInnerReportsDetailFragment extends BaseFragment {
                         info.setProcessEmployeeId(UserUtil.getUserid());
                         EventBus.getDefault().post(new NotifyHomePageRefreshEvent());
                         dismissProgress();
-
-                    }
-
-                    @Override
-                    protected void _onError(String message) {
-                        dismissProgress();
-                        ToastUtil.showToast(getContext(), message);
-
-                    }
-
-                    @Override
-                    public void onCompleted() {
-
                     }
                 });
     }

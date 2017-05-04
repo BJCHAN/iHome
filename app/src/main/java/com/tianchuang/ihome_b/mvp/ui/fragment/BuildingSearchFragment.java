@@ -64,7 +64,7 @@ public class BuildingSearchFragment extends BaseLoadingFragment {
 
 
                     @Override
-                    protected void _onNext(ArrayList<DataBuildingSearchBean> arrayList) {
+                    public void _onNext(ArrayList<DataBuildingSearchBean> arrayList) {
                         mData.clear();
                         mData.addAll(arrayList);
                         checkData(arrayList);
@@ -72,13 +72,13 @@ public class BuildingSearchFragment extends BaseLoadingFragment {
                     }
 
                     @Override
-                    protected void _onError(String message) {
+                    public void _onError(String message) {
                         ToastUtil.showToast(getContext(), message);
                         showErrorPage();
                     }
 
                     @Override
-                    public void onCompleted() {
+                    public void onComplete() {
 
                     }
                 });

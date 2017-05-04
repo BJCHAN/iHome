@@ -2,38 +2,46 @@ package com.tianchuang.ihome_b.base;
 
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
+import android.support.annotation.CheckResult;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
-import com.trello.rxlifecycle.ActivityEvent;
-import com.trello.rxlifecycle.ActivityLifecycleProvider;
-import com.trello.rxlifecycle.RxLifecycle;
 
-import rx.Observable;
-import rx.subjects.BehaviorSubject;
+import com.trello.rxlifecycle2.LifecycleProvider;
+import com.trello.rxlifecycle2.LifecycleTransformer;
+import com.trello.rxlifecycle2.RxLifecycle;
+import com.trello.rxlifecycle2.android.ActivityEvent;
+import com.trello.rxlifecycle2.android.RxLifecycleAndroid;
+import io.reactivex.Observable;
+import io.reactivex.subjects.BehaviorSubject;
 
 /**
  * Created by Abyss on 2017/2/9.
  * description:自己项目的rxfragment,RXJava绑定fragment的生命周期
  */
 
-public class RxFragmentActivity extends AppCompatActivity implements ActivityLifecycleProvider {
+public class RxFragmentActivity extends AppCompatActivity implements LifecycleProvider<ActivityEvent> {
 	private final BehaviorSubject<ActivityEvent> lifecycleSubject = BehaviorSubject.create();
-
 	@Override
+	@NonNull
+	@CheckResult
 	public final Observable<ActivityEvent> lifecycle() {
-		return lifecycleSubject.asObservable();
+		return lifecycleSubject.hide();
 	}
 
 	@Override
-	public final <T> Observable.Transformer<T, T> bindUntilEvent(ActivityEvent event) {
-		return RxLifecycle.bindUntilActivityEvent(lifecycleSubject, event);
+	@NonNull
+	@CheckResult
+	public final <T> LifecycleTransformer<T> bindUntilEvent(@NonNull ActivityEvent event) {
+		return RxLifecycle.bindUntilEvent(lifecycleSubject, event);
 	}
 
 	@Override
-	public final <T> Observable.Transformer<T, T> bindToLifecycle() {
-		return RxLifecycle.bindActivity(lifecycleSubject);
+	@NonNull
+	@CheckResult
+	public final <T> LifecycleTransformer<T> bindToLifecycle() {
+		return RxLifecycleAndroid.bindActivity(lifecycleSubject);
 	}
-
 	@Override
 	@CallSuper
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,4 +83,5 @@ public class RxFragmentActivity extends AppCompatActivity implements ActivityLif
 		lifecycleSubject.onNext(ActivityEvent.DESTROY);
 		super.onDestroy();
 	}
+
 }

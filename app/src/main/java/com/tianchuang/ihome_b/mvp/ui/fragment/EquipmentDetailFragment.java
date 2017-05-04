@@ -72,18 +72,18 @@ public class EquipmentDetailFragment extends BaseLoadingFragment {
                     .compose(this.<EquipmentDetailBean>bindToLifecycle())
                     .subscribe(new RxSubscribe<EquipmentDetailBean>() {
                         @Override
-                        protected void _onNext(EquipmentDetailBean equipmentDetailBean) {
+                        public void _onNext(EquipmentDetailBean equipmentDetailBean) {
                             updateUIByData(equipmentDetailBean);
                         }
 
                         @Override
-                        protected void _onError(String message) {
+                        public void _onError(String message) {
                             showToast(message);
                             showErrorPage();
                         }
 
                         @Override
-                        public void onCompleted() {
+                        public void onComplete() {
                         }
                     });
         }

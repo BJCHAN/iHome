@@ -6,10 +6,10 @@ import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
 import com.tianchuang.ihome_b.mvp.BasePresenterImpl;
 import com.tianchuang.ihome_b.mvp.contract.ModifyPasswordContract;
-import com.tianchuang.ihome_b.utils.ToastUtil;
 import com.tianchuang.ihome_b.utils.VerificationUtil;
 
-import rx.Observable;
+import io.reactivex.Observable;
+
 
 /**
  * Created by Abyss on 2017/4/1.
@@ -22,26 +22,26 @@ public class ModifyPasswordPresenter extends BasePresenterImpl<ModifyPasswordCon
     public void submitPwdChanged(final String oldPwd, final String newPwd, String surePwd) {
         Observable.zip(Observable.just(oldPwd), Observable.just(newPwd), Observable.just(surePwd)
                 , (oldPwd1, newPwd1, surePwd1) -> whetherValidPwd(newPwd1, surePwd1))
-                .doOnSubscribe(()->mView.showProgress())
+                .doOnSubscribe(o->mView.showProgress())
                 .filter(bln -> bln)
                 .flatMap(bln -> LoginModel.modifyPassword(oldPwd, newPwd).compose(RxHelper.handleResult()))
                 .compose(mView.bindToLifecycle())
                 .subscribe(new RxSubscribe<String>() {
                     @Override
-                    protected void _onNext(String s) {
-                        mView.dismissProgress();
-                        mView.startFragment();//跳转第二个页面
+                    public void _onNext(String s) {
+
                     }
 
                     @Override
-                    protected void _onError(String message) {
+                    public void _onError(String message) {
                         mView.showToast(message);
                         mView.dismissProgress();
                     }
 
                     @Override
-                    public void onCompleted() {
-
+                    public void onComplete() {
+                        mView.dismissProgress();
+                        mView.startFragment();//跳转第二个页面
                     }
                 });
     }
