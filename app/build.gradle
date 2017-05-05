@@ -101,7 +101,7 @@ dependencies {
     compile 'com.trello.rxlifecycle2:rxlifecycle:2.0.1'
     compile 'com.trello.rxlifecycle2:rxlifecycle-android:2.0.1'
     compile 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
-
+    compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:v2.8.2'
     compile 'com.orhanobut:logger:1.11'
     compile 'org.litepal.android:core:1.4.1'

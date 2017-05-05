@@ -5,13 +5,11 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.TianChuangApplication;
-import com.tianchuang.ihome_b.permission.MPermission;
 import com.tianchuang.ihome_b.utils.FragmentUtils;
 import com.tianchuang.ihome_b.utils.MaterialDialogsUtil;
 
@@ -61,22 +59,22 @@ public abstract class BaseActivity extends RxFragmentActivity {
         }
     }
 
-    /**
-     * 申请权限
-     *
-     * @param permissionRequestCode 权限的标识码
-     * @param manifestStrings       权限对应的stirng
-     */
-    public void requestPermission(int permissionRequestCode, String[] manifestStrings) {
-        MPermission.with(this)
-                .addRequestCode(permissionRequestCode)
-                .permissions(manifestStrings)
-                .request();
-    }
+//    /**
+//     * 申请权限
+//     *
+//     * @param permissionRequestCode 权限的标识码
+//     * @param manifestStrings       权限对应的stirng
+//     */
+//    public void requestPermission(int permissionRequestCode, String[] manifestStrings) {
+//        MPermission.with(this)
+//                .addRequestCode(permissionRequestCode)
+//                .permissions(manifestStrings)
+//                .request();
+//    }
 
 
     //权限提示框
-    @RequiresApi(api = Build.VERSION_CODES.M)
+//    @RequiresApi(api = Build.VERSION_CODES.M)
     public void showPermissionInfo(String permissionContent, final boolean isCloese) {
         if (materialDialogsUtil == null)
             materialDialogsUtil = new MaterialDialogsUtil(this);

@@ -1,29 +1,17 @@
 package com.tianchuang.ihome_b.mvp.ui.activity;
 
-import android.Manifest;
 import android.content.Intent;
-import android.os.Build;
-import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
-import android.widget.Toast;
 
 import com.hitomi.tilibrary.TransferImage;
-import com.tianchuang.ihome_b.Constants;
-import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.base.ToolBarActivity;
 import com.tianchuang.ihome_b.bean.HomePageMultiItem;
 import com.tianchuang.ihome_b.bean.MyTaskUnderWayItemBean;
-import com.tianchuang.ihome_b.bean.event.TaskOpenScanEvent;
 import com.tianchuang.ihome_b.bean.event.TransferLayoutEvent;
 import com.tianchuang.ihome_b.mvp.ui.fragment.MyTaskFragment;
 import com.tianchuang.ihome_b.mvp.ui.fragment.MyTaskInputDetailFragment;
-import com.tianchuang.ihome_b.permission.MPermission;
-import com.tianchuang.ihome_b.permission.OnMPermissionDenied;
-import com.tianchuang.ihome_b.permission.OnMPermissionGranted;
-import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

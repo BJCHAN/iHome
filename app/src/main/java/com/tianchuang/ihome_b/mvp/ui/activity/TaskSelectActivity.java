@@ -2,18 +2,16 @@ package com.tianchuang.ihome_b.mvp.ui.activity;
 
 import android.Manifest;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
 import com.hitomi.tilibrary.TransferImage;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tianchuang.ihome_b.Constants;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.base.BaseFragment;
-import com.tianchuang.ihome_b.base.QrResultListener;
 import com.tianchuang.ihome_b.base.ToolBarActivity;
 import com.tianchuang.ihome_b.bean.EquipmentDetailBean;
 import com.tianchuang.ihome_b.bean.ListBean;
@@ -23,9 +21,6 @@ import com.tianchuang.ihome_b.bean.event.TransferLayoutEvent;
 import com.tianchuang.ihome_b.mvp.ui.fragment.EquipmentDetailFragment;
 import com.tianchuang.ihome_b.mvp.ui.fragment.MyTaskControlPointDetailFragment;
 import com.tianchuang.ihome_b.mvp.ui.fragment.TaskSelectFragment;
-import com.tianchuang.ihome_b.permission.MPermission;
-import com.tianchuang.ihome_b.permission.OnMPermissionDenied;
-import com.tianchuang.ihome_b.permission.OnMPermissionGranted;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.yuyh.library.imgsel.ImgSelActivity;
 import com.yuyh.library.imgsel.ImgSelConfig;
@@ -126,33 +121,43 @@ public class TaskSelectActivity extends ToolBarActivity {
 
     //基本权限 相机权限请求
     public void requestCameraPermission() {
-        MPermission.with(this)
-                .addRequestCode(Constants.PERMISSION_REQUEST_CODE.BASIC_PERMISSION_CAMERA_REQUEST_CODE)
-                .permissions(Manifest.permission.CAMERA)
-                .request();
+        RxPermissions rxPermissions = new RxPermissions(this);
+        rxPermissions.request(Manifest.permission.CAMERA)
+                .subscribe(granted ->{
+                    if (granted) { // Always true pre-M
+                        Intent intent = new Intent(this, ScanCodeActivity.class);
+                        startActivityForResult(intent, Constants.QrCode.TASK_OPEN_CODE);//打开扫码界面
+                    } else {
+                        showPermissionInfo(getString(R.string.perssion_camera_tip), false);
+                    }
+                });
+//        MPermission.with(this)
+//                .addRequestCode(Constants.PERMISSION_REQUEST_CODE.BASIC_PERMISSION_CAMERA_REQUEST_CODE)
+//                .permissions(Manifest.permission.CAMERA)
+//                .request();
     }
 
 
-    /**
-     * MPermission接管权限处理逻辑
-     */
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        MPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
-    }
-
-
-    @OnMPermissionGranted(Constants.PERMISSION_REQUEST_CODE.BASIC_PERMISSION_CAMERA_REQUEST_CODE)
-    public void onBasicPermissionSucces() {
-        Intent intent = new Intent(TaskSelectActivity.this, ScanCodeActivity.class);
-        startActivityForResult(intent, Constants.QrCode.TASK_OPEN_CODE);//打开扫码界面
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    @OnMPermissionDenied(Constants.PERMISSION_REQUEST_CODE.BASIC_PERMISSION_CAMERA_REQUEST_CODE)
-    public void onBasicPermissionFailed() {
-        showPermissionInfo(getString(R.string.perssion_camera_tip), false);
-    }
+//    /**
+//     * MPermission接管权限处理逻辑
+//     */
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+//        MPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+//    }
+//
+//
+//    @OnMPermissionGranted(Constants.PERMISSION_REQUEST_CODE.BASIC_PERMISSION_CAMERA_REQUEST_CODE)
+//    public void onBasicPermissionSucces() {
+//        Intent intent = new Intent(TaskSelectActivity.this, ScanCodeActivity.class);
+//        startActivityForResult(intent, Constants.QrCode.TASK_OPEN_CODE);//打开扫码界面
+//    }
+//
+//    @RequiresApi(api = Build.VERSION_CODES.M)
+//    @OnMPermissionDenied(Constants.PERMISSION_REQUEST_CODE.BASIC_PERMISSION_CAMERA_REQUEST_CODE)
+//    public void onBasicPermissionFailed() {
+//        showPermissionInfo(getString(R.string.perssion_camera_tip), false);
+//    }
 
     /**
      * 获取图片的回调接口

@@ -157,7 +157,6 @@ public class CarDetailFragment extends BaseFragment {
                                     KeyboardUtils.hideSoftInput(getHoldingActivity());
                                 }
                                 adapter.notifyDataSetChanged();
-                                dismissProgress();
                             }
 
                             @Override
@@ -168,7 +167,7 @@ public class CarDetailFragment extends BaseFragment {
 
                             @Override
                             public void onComplete() {
-
+                                dismissProgress();
                             }
                         });
 

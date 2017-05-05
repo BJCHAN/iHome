@@ -3,10 +3,8 @@ package com.tianchuang.ihome_b.mvp.ui.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -20,6 +18,7 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.android.tpush.XGIOperateCallback;
 import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
@@ -38,13 +37,10 @@ import com.tianchuang.ihome_b.bean.event.OpenScanEvent;
 import com.tianchuang.ihome_b.bean.event.SwitchSuccessEvent;
 import com.tianchuang.ihome_b.bean.model.HomePageModel;
 import com.tianchuang.ihome_b.bean.recyclerview.DrawMenuItemDecoration;
-import com.tianchuang.ihome_b.mvp.ui.fragment.MainFragment;
-import com.tianchuang.ihome_b.mvp.ui.fragment.PropertyListFragment;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
-import com.tianchuang.ihome_b.permission.MPermission;
-import com.tianchuang.ihome_b.permission.OnMPermissionDenied;
-import com.tianchuang.ihome_b.permission.OnMPermissionGranted;
+import com.tianchuang.ihome_b.mvp.ui.fragment.MainFragment;
+import com.tianchuang.ihome_b.mvp.ui.fragment.PropertyListFragment;
 import com.tianchuang.ihome_b.utils.DensityUtil;
 import com.tianchuang.ihome_b.utils.FileUtils;
 import com.tianchuang.ihome_b.utils.FragmentUtils;
@@ -488,33 +484,19 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
 
     //基本权限 相机权限请求
     private void requestCameraPermission() {
-        MPermission.with(this)
-                .addRequestCode(Constants.PERMISSION_REQUEST_CODE.BASIC_PERMISSION_CAMERA_REQUEST_CODE)
-                .permissions(Manifest.permission.CAMERA)
-                .request();
+        RxPermissions rxPermissions = new RxPermissions(this);
+        rxPermissions.request(Manifest.permission.CAMERA)
+                        .subscribe(granted ->{
+                            if (granted) { // Always true pre-M
+                                Intent intent = new Intent(MainActivity.this, ScanCodeActivity.class);
+                                startActivityForResult(intent, Constants.QrCode.HOME_OPEN_CODE);
+                            } else {
+                                showPermissionInfo(getString(R.string.perssion_camera_tip), false);
+                            }
+                        });
     }
 
 
-    /**
-     * MPermission接管权限处理逻辑
-     */
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        MPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
-    }
-
-
-    @OnMPermissionGranted(Constants.PERMISSION_REQUEST_CODE.BASIC_PERMISSION_CAMERA_REQUEST_CODE)
-    public void onBasicPermissionSucces() {
-        Intent intent = new Intent(MainActivity.this, ScanCodeActivity.class);
-        startActivityForResult(intent, Constants.QrCode.HOME_OPEN_CODE);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    @OnMPermissionDenied(Constants.PERMISSION_REQUEST_CODE.BASIC_PERMISSION_CAMERA_REQUEST_CODE)
-    public void onBasicPermissionFailed() {
-        showPermissionInfo(getString(R.string.perssion_camera_tip), false);
-    }
 
     @Override
     protected void onStop() {

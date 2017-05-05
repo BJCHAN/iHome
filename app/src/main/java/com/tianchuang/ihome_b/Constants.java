@@ -33,23 +33,8 @@ public class Constants {
     }
 
     public static class QrCode {
-
         public static final int TASK_OPEN_CODE = 999;//任务请求扫码
         public static final int HOME_OPEN_CODE = 888;//主页扫码
     }
 
-    public static class PERMISSION_REQUEST_CODE {
-        //读写权限
-        public static final int BASIC_PERMISSION_REQUEST_CODE = 100;
-        //电话权限
-        public static final int BASIC_PERMISSION_READ_PHONE_STATE_REQUEST_CODE = 110;
-        //相机权限
-        public static final int BASIC_PERMISSION_CAMERA_REQUEST_CODE = 120;
-        //录音权限
-        public static final int BASIC_PERMISSION_RECORD_AUDIO_REQUEST_CODE = 130;
-        //位置权限
-        public static final int BASIC_PERMISSION_LOCATION_REQUEST_CODE = 140;
-        //通讯录权限
-        public static final int BASIC_PERMISSION_CONTACTS_REQUEST_CODE = 150;
-    }
 }

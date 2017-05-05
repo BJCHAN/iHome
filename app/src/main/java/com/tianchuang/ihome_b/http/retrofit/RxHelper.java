@@ -50,14 +50,15 @@ public class RxHelper {
         return httpModleObservable -> httpModleObservable.flatMap(tHttpModle -> {
             if (tHttpModle.success()) {
                 if (tHttpModle.data == null) {
-                    return Observable.empty();//会直接走onComplete的回调
+                    return Observable.error(new DataIsNullException());
                 }
                 return createDate(tHttpModle.data);
             } else {
-                return Observable.error(new ServerException(tHttpModle.msg));
+                return Observable.error(new ServerException()
+                        .setCode(Integer.parseInt(tHttpModle.code))
+                        .setMessage(tHttpModle.msg));
             }
         }).compose(RxSchedulers.io_main());
-//                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
     public static <T> Observable<T> createDate(final T data) {
