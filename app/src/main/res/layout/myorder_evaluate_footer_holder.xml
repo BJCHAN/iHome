@@ -25,7 +25,7 @@
             android:text="业主评价"
             android:textColor="@color/TC_1"
             android:textSize="15sp"/>
-        <RatingBar
+        <android.support.v7.widget.AppCompatRatingBar
             android:id="@+id/ratingBar"
             style="@style/foodRatingBar"
             android:layout_width="wrap_content"

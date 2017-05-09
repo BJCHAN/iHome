@@ -159,7 +159,6 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
 
     private void initDrawMenu(LoginBean loginBean) {
         drawMenuItems.clear();
-        setIvRightEnable(false);
         List<Integer> menuList = loginBean.getMenuList();
         if (menuList != null && menuList.size() > 0) {
             Observable.fromIterable(menuList)
@@ -176,7 +175,6 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
                             case 8://报修抢单
                                 drawMenuItems.add(new DrawMenuItem().setId(2).setName(itemsNameArray[2]));
                                 drawMenuItems.add(new DrawMenuItem().setId(3).setName(itemsNameArray[3]));
-                                setIvRightEnable(true);//抢单大厅显示
                                 break;
                             case 7://访客列表
                                 drawMenuItems.add(new DrawMenuItem().setId(4).setName(itemsNameArray[4]));
@@ -302,7 +300,6 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
             spinner.setCompoundDrawables(null, null, drawable, null);
             spinner.setCompoundDrawablePadding(DensityUtil.dip2px(this, 5));
             spinner.setText(text);
-            ivRight.setVisibility(View.VISIBLE);
             ivLittleRed.setVisibility(this.noticeCount > 0 ? View.VISIBLE : View.INVISIBLE);
         } else {
             spinner.setCompoundDrawables(null, null, null, null);

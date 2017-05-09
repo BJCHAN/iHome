@@ -39,8 +39,8 @@ public class DataSearchModel {
     /**
      * 设备列表查询
      */
-    public static Observable<HttpModle<ArrayList<EquipmentSearchListItemBean>>> requestEquipmentListSearch(int type, String place) {
-        return RetrofitService.createShowApi().equipmentListSearch(UserUtil.getLoginBean().getPropertyCompanyId(), type, place);
+    public static Observable<HttpModle<ArrayList<EquipmentSearchListItemBean>>> requestEquipmentListSearch(int type) {
+        return RetrofitService.createShowApi().equipmentListSearch(UserUtil.getLoginBean().getPropertyCompanyId(), type);
     }
 
     /**

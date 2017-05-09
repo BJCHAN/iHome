@@ -60,6 +60,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="5dp"
                 android:gravity="center"
+                android:visibility="gone"
                 android:padding="10dp"
                 android:src="@mipmap/rob_hall" />
         </RelativeLayout>

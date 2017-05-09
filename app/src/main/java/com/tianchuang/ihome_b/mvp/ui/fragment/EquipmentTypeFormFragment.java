@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.adapter.EqupmentSearchListAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
@@ -17,14 +18,24 @@ import com.tianchuang.ihome_b.bean.EquipmentSearchListItemBean;
 import com.tianchuang.ihome_b.bean.EquipmentTypeSearchBean;
 import com.tianchuang.ihome_b.bean.model.DataSearchModel;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
+import com.tianchuang.ihome_b.http.retrofit.RxSchedulers;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
 import com.tianchuang.ihome_b.utils.KeyboardUtils;
 import com.tianchuang.ihome_b.utils.ToastUtil;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.Single;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
 
 /**
  * Created by Abyss on 2017/3/1.
@@ -77,19 +88,53 @@ public class EquipmentTypeFormFragment extends BaseFragment {
         rvList.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                EquipmentSearchListItemBean equipmentSearchListItemBean = mData.get(position);
+                EquipmentSearchListItemBean equipmentSearchListItemBean = (EquipmentSearchListItemBean) adapter.getData().get(position);
                 addFragment(EquipmentDetailFragment.newInstance(equipmentSearchListItemBean.getId()));
             }
         });
     }
 
+    @Override
+    protected void initData() {
+        requestNet();
+    }
+
+    @Override
+    protected void initListener() {
+        RxTextView.textChanges(etAddressName)
+                .debounce(400,TimeUnit.MILLISECONDS)
+//                .flatMap(this::getListSingle)
+//                .toList()
+//                .subscribe(newList -> {
+//                    showToast(""+newList.size());
+//                    adapter.setNewData(newList.size()>0?newList:mData);
+//                });
+                .compose(RxSchedulers.main())
+                .subscribe(charSequence -> {
+                    if (TextUtils.isEmpty(charSequence)) {
+                        adapter.setNewData(mData);
+                    } else {
+                        requestNewData(charSequence);
+                    }
+                });
+
+    }
+
+    private void requestNewData(CharSequence address) {
+        Observable.fromIterable(mData)
+                .filter(equipmentSearchListItemBean -> equipmentSearchListItemBean.getPlace().toLowerCase().contains(address.toString().toLowerCase()))
+                .compose(RxSchedulers.io_main())
+                .toList()
+                .subscribe(newList ->adapter.setNewData(newList));
+    }
+
+
     /**
      * 请求网络
      *
-     * @param address
      */
-    private void requestNet(String address) {
-        DataSearchModel.requestEquipmentListSearch(item.getId(), address)
+    private void requestNet() {
+        DataSearchModel.requestEquipmentListSearch(item.getId())
                 .compose(RxHelper.<ArrayList<EquipmentSearchListItemBean>>handleResult())
                 .subscribe(new RxSubscribe<ArrayList<EquipmentSearchListItemBean>>() {
                     @Override
@@ -100,7 +145,7 @@ public class EquipmentTypeFormFragment extends BaseFragment {
                             adapter.notifyDataSetChanged();
                             KeyboardUtils.hideSoftInput(getHoldingActivity());
                         } else {
-                            ToastUtil.showToast(getContext(), "查询结果为空");
+                            ToastUtil.showToast(getContext(), "数据为空");
                         }
 
                     }
@@ -118,14 +163,14 @@ public class EquipmentTypeFormFragment extends BaseFragment {
 
     }
 
-    @OnClick(R.id.tv_sure_button)
-    public void onClick() {
-        final String address = etAddressName.getText().toString().trim();
-        if (TextUtils.isEmpty(address)) {
-            ToastUtil.showToast(getContext(), "输入不能为空");
-            return;
-        }
-        requestNet(address);
-
-    }
+//    @OnClick(R.id.tv_sure_button)
+//    public void onClick() {
+////        final String address = etAddressName.getText().toString().trim();
+////        if (TextUtils.isEmpty(address)) {
+////            ToastUtil.showToast(getContext(), "输入不能为空");
+////            return;
+////        }
+////        getListSingle(address)
+//
+//    }
 }

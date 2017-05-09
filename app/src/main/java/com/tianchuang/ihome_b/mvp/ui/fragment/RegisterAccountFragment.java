@@ -142,7 +142,11 @@ public class RegisterAccountFragment extends BaseFragment {
                 .subscribe(new RxSubscribe<String>() {
                     @Override
                     public void _onNext(String s) {
-
+                        //跳转添加验证码页面
+                        holdingActivity.openFragment(AuthCodeFragment
+                                .newInstance(phone
+                                        , password, name)
+                        );
                     }
 
                     @Override
@@ -152,11 +156,7 @@ public class RegisterAccountFragment extends BaseFragment {
 
                     @Override
                     public void onComplete() {
-                        //跳转添加验证码页面
-                        holdingActivity.openFragment(AuthCodeFragment
-                                .newInstance(phone
-                                        , password, name)
-                        );
+
                     }
                 });
 
@@ -221,7 +221,7 @@ public class RegisterAccountFragment extends BaseFragment {
                     @Override
                     public void onClickSure() {
                         if (!subscriber.isDisposed()) {
-                            subscriber.onNext(null);
+                            subscriber.onNext("");
                         }
                     }
                 })

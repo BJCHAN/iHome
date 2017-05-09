@@ -137,10 +137,6 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                                 intent.setClass(getContext(), MyTaskActivity.class);
                                 startActivityWithAnim(intent);
                             } else {//控制点型
-//                                holdingActivity.setCurrentTaskId(homePageMultiItem.getMyTaskUnderWayItemBean().getId());
-//                                EventBus.getDefault().post(new OpenScanEvent());
-//                                ControlPointDetailActivity
-
                                 intent.setClass(getContext(), ControlPointDetailActivity.class);
                                 intent.putExtra("taskRecordId", homePageMultiItem.getMyTaskUnderWayItemBean().getId());
                                 startActivityWithAnim(intent);
@@ -305,7 +301,9 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             emptyContainer.setVisibility(propertyEnable ? View.GONE : View.VISIBLE);
             mainContent.setVisibility(propertyEnable ? View.VISIBLE : View.GONE);
             holdingActivity.setSpinnerText(loginBean.getPropertyCompanyName());
-            holdingActivity.setIvRightEnable(propertyEnable);
+            List<Integer> menuList = loginBean.getMenuList();
+            //是否显示抢单大厅
+            holdingActivity.setIvRightEnable(menuList != null && menuList.size() > 0 && propertyEnable && menuList.contains(8));
         }
 
     }

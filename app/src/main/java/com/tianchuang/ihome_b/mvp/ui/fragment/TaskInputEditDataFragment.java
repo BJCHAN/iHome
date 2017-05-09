@@ -98,7 +98,9 @@ public class TaskInputEditDataFragment extends BaseFragment {
                     .subscribe(new RxSubscribe<String>() {
                         @Override
                         public void _onNext(String s) {
-
+                            FragmentUtils.popAddFragment(getFragmentManager(),
+                                    holdingActivity.getFragmentContainerId(),
+                                    TaskInputSuccessFragment.newInstance(taskBean), true);
                         }
 
                         @Override
@@ -109,9 +111,7 @@ public class TaskInputEditDataFragment extends BaseFragment {
 
                         @Override
                         public void onComplete() {
-                            FragmentUtils.popAddFragment(getFragmentManager(),
-                                    holdingActivity.getFragmentContainerId(),
-                                    TaskInputSuccessFragment.newInstance(taskBean), true);
+
                             dismissProgress();
 
                         }

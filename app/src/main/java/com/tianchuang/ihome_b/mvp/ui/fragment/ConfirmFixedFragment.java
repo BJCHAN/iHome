@@ -212,21 +212,20 @@ public class ConfirmFixedFragment extends BaseFragment implements MyOrderActivit
                 .subscribe(new RxSubscribe<String>() {
                     @Override
                     public void _onNext(String s) {
-//						FileUtils.deleteImageFile();
-
+                        //跳转到费用明细
+                        EventBus.getDefault().post(new FeeSubmitSuccessEvent());//通知前一个页面刷新
+                        FragmentUtils.popAddFragment(getFragmentManager(), holdingActivity.getFragmentContainerId(), MyOrderFeeDetailFragment.newInstance(repairId), true);
                     }
 
                     @Override
                     public void _onError(String message) {
                         ToastUtil.showToast(getContext(), message);
-//						FileUtils.deleteImageFile();//删除压缩的图片
                     }
 
                     @Override
                     public void onComplete() {
-                        //跳转到费用明细
-                        EventBus.getDefault().post(new FeeSubmitSuccessEvent());//通知前一个页面刷新
-                        FragmentUtils.popAddFragment(getFragmentManager(), holdingActivity.getFragmentContainerId(), MyOrderFeeDetailFragment.newInstance(repairId), true);
+
+
                     }
                 });
 

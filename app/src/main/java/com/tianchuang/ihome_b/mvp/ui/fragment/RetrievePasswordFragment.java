@@ -120,7 +120,8 @@ public class RetrievePasswordFragment extends BaseFragment {
                 .subscribe(new RxSubscribe<String>() {
                     @Override
                     public void _onNext(String s) {
-
+                        showRedTip("");
+                        initTimer();//访问成功开倒计时
                     }
 
                     @Override
@@ -132,8 +133,7 @@ public class RetrievePasswordFragment extends BaseFragment {
 
                     @Override
                     public void onComplete() {
-                        showRedTip("");
-                        initTimer();//访问成功开倒计时
+
                         dismissProgress();
                     }
                 });
@@ -156,7 +156,7 @@ public class RetrievePasswordFragment extends BaseFragment {
                     @Override
                     public void onClickSure() {
                         if (!subscriber.isDisposed()) {
-                            subscriber.onNext(null);
+                            subscriber.onNext("");
                         }
                     }
                 })

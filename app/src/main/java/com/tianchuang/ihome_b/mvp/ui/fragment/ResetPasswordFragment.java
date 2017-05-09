@@ -109,7 +109,8 @@ public class ResetPasswordFragment extends BaseFragment {
 						.subscribe(new RxSubscribe<String>() {
 							@Override
 							public void _onNext(String s) {
-
+								activity.closeAllFragment();
+								dismissProgress();
 							}
 
 							@Override
@@ -120,8 +121,7 @@ public class ResetPasswordFragment extends BaseFragment {
 
 							@Override
 							public void onComplete() {
-								activity.closeAllFragment();
-								dismissProgress();
+
 							}
 						});
 				break;

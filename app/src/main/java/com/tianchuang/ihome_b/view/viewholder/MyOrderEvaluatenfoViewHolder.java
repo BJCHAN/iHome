@@ -1,7 +1,7 @@
 package com.tianchuang.ihome_b.view.viewholder;
 
+import android.support.v7.widget.AppCompatRatingBar;
 import android.view.View;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.tianchuang.ihome_b.R;
@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
 public class MyOrderEvaluatenfoViewHolder extends BaseHolder<EvaluateBean> {
 
 	@BindView(R.id.ratingBar)
-	RatingBar ratingBar;
+	AppCompatRatingBar ratingBar;
 	@BindView(R.id.tv_evaluate_content)
 	TextView tvEvaluateContent;
 

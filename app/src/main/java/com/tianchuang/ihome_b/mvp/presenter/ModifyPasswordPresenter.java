@@ -29,7 +29,8 @@ public class ModifyPasswordPresenter extends BasePresenterImpl<ModifyPasswordCon
                 .subscribe(new RxSubscribe<String>() {
                     @Override
                     public void _onNext(String s) {
-
+                        mView.dismissProgress();
+                        mView.startFragment();//跳转第二个页面
                     }
 
                     @Override
@@ -40,8 +41,7 @@ public class ModifyPasswordPresenter extends BasePresenterImpl<ModifyPasswordCon
 
                     @Override
                     public void onComplete() {
-                        mView.dismissProgress();
-                        mView.startFragment();//跳转第二个页面
+
                     }
                 });
     }

@@ -93,7 +93,10 @@ public class FeeDetailPresenter extends BasePresenterImpl<FeeDetailContract.View
                 .subscribe(new RxSubscribe<String>() {
                     @Override
                     public void _onNext(String s) {
-
+                        mView.showToast("提交成功");
+                        mView.dismissProgress();
+                        mView.removeFragment();
+                        EventBus.getDefault().post(new FeeSubmitSuccessEvent());
                     }
 
                     @Override
@@ -104,10 +107,7 @@ public class FeeDetailPresenter extends BasePresenterImpl<FeeDetailContract.View
 
                     @Override
                     public void onComplete() {
-                        mView.showToast("提交成功");
-                        mView.dismissProgress();
-                        mView.removeFragment();
-                        EventBus.getDefault().post(new FeeSubmitSuccessEvent());
+
                     }
                 });
     }

@@ -10,12 +10,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.tianchuang.ihome_b.R;
-import com.tianchuang.ihome_b.mvp.ui.activity.TaskSelectActivity;
 import com.tianchuang.ihome_b.adapter.ImagesSelectorAdapter;
 import com.tianchuang.ihome_b.adapter.TaskSubmitMultiAdapter;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.CheakBean;
-import com.tianchuang.ihome_b.bean.ControlPointItemBean;
 import com.tianchuang.ihome_b.bean.FormTypeItemBean;
 import com.tianchuang.ihome_b.bean.event.NotifyHomePageRefreshEvent;
 import com.tianchuang.ihome_b.bean.event.TaskFormSubmitSuccessEvent;
@@ -23,10 +21,10 @@ import com.tianchuang.ihome_b.bean.model.MyTaskModel;
 import com.tianchuang.ihome_b.bean.recyclerview.CommonItemDecoration;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
+import com.tianchuang.ihome_b.mvp.ui.activity.TaskSelectActivity;
 import com.tianchuang.ihome_b.utils.DensityUtil;
 import com.tianchuang.ihome_b.utils.LayoutUtil;
 import com.tianchuang.ihome_b.utils.MultipartBuilder;
-import com.tianchuang.ihome_b.utils.StringUtils;
 import com.tianchuang.ihome_b.utils.ToastUtil;
 import com.tianchuang.ihome_b.utils.ViewHelper;
 
@@ -180,7 +178,11 @@ public class TaskControlPointEditFragment extends BaseFragment implements TaskSu
                 .subscribe(new RxSubscribe<String>() {
                     @Override
                     public void _onNext(String s) {
-
+                        dismissProgress();
+                        ToastUtil.showToast(getContext(), "任务提交成功");
+                        removeFragment();
+                        EventBus.getDefault().post(new TaskFormSubmitSuccessEvent());
+                        EventBus.getDefault().post(new NotifyHomePageRefreshEvent());//通知主页刷新
                     }
 
                     @Override
@@ -191,11 +193,7 @@ public class TaskControlPointEditFragment extends BaseFragment implements TaskSu
 
                     @Override
                     public void onComplete() {
-                        dismissProgress();
-                        ToastUtil.showToast(getContext(), "任务提交成功");
-                        removeFragment();
-                        EventBus.getDefault().post(new TaskFormSubmitSuccessEvent());
-                        EventBus.getDefault().post(new NotifyHomePageRefreshEvent());//通知主页刷新
+
                     }
                 });
 

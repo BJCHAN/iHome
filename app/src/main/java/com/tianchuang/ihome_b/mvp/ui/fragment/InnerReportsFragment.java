@@ -169,7 +169,8 @@ public class InnerReportsFragment extends BaseFragment implements InnerReportsAc
                 .subscribe(new RxSubscribe<String>() {
                     @Override
                     public void _onNext(String s) {
-
+                        FragmentUtils.popAddFragment(getFragmentManager(), holdingActivity.getFragmentContainerId(), InnerReportsSuccessFragment.newInstance(), true);
+                        EventBus.getDefault().post(new NotifyHomePageRefreshEvent());
                     }
 
                     @Override
@@ -180,8 +181,7 @@ public class InnerReportsFragment extends BaseFragment implements InnerReportsAc
 
                     @Override
                     public void onComplete() {
-                        FragmentUtils.popAddFragment(getFragmentManager(), holdingActivity.getFragmentContainerId(), InnerReportsSuccessFragment.newInstance(), true);
-                        EventBus.getDefault().post(new NotifyHomePageRefreshEvent());
+
                         dismissProgress();
                     }
                 });

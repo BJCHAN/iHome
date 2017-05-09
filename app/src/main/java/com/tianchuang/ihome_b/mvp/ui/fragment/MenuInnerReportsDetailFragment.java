@@ -147,6 +147,13 @@ public class MenuInnerReportsDetailFragment extends BaseFragment {
                 .subscribe(new RxSubscribe<String>() {
                     @Override
                     public void _onNext(String s) {
+                        dismissProgress();
+                        statusBt.setText("已完成");
+                        info.setStatus(info.getStatus() + 1);
+                        if (statusChangeListener != null) {
+                            statusChangeListener.onStatushanged();
+                        }
+                        EventBus.getDefault().post(new NotifyHomePageRefreshEvent());
                     }
 
                     @Override
@@ -157,13 +164,7 @@ public class MenuInnerReportsDetailFragment extends BaseFragment {
 
                     @Override
                     public void onComplete() {
-                        dismissProgress();
-                        statusBt.setText("已完成");
-                        info.setStatus(info.getStatus() + 1);
-                        if (statusChangeListener != null) {
-                            statusChangeListener.onStatushanged();
-                        }
-                        EventBus.getDefault().post(new NotifyHomePageRefreshEvent());
+
                     }
                 });
     }
@@ -179,6 +180,13 @@ public class MenuInnerReportsDetailFragment extends BaseFragment {
                 .subscribe(new RxSubscribe<String>() {
                     @Override
                     public void _onNext(String s) {
+                        if (statusChangeListener != null) {
+                            statusChangeListener.onStatushanged();
+                        }
+                        statusBt.setText("处理中");
+                        info.setStatus(info.getStatus() + 1);
+                        info.setProcessEmployeeId(UserUtil.getUserid());
+                        EventBus.getDefault().post(new NotifyHomePageRefreshEvent());
                     }
 
                     @Override
@@ -190,13 +198,7 @@ public class MenuInnerReportsDetailFragment extends BaseFragment {
 
                     @Override
                     public void onComplete() {
-                        if (statusChangeListener != null) {
-                            statusChangeListener.onStatushanged();
-                        }
-                        statusBt.setText("处理中");
-                        info.setStatus(info.getStatus() + 1);
-                        info.setProcessEmployeeId(UserUtil.getUserid());
-                        EventBus.getDefault().post(new NotifyHomePageRefreshEvent());
+
                         dismissProgress();
                     }
                 });

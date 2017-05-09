@@ -75,6 +75,9 @@ public class TaskInputSuccessFragment extends BaseFragment {
                         .subscribe(new RxSubscribe<String>() {
                             @Override
                             public void _onNext(String s) {
+                                EventBus.getDefault().post(new NotifyTaskDetailRefreshEvent());
+                                EventBus.getDefault().post(new NotifyHomePageRefreshEvent());//通知主页刷新
+                                holdingActivity.closeAllFragment();
                             }
 
                             @Override
@@ -84,9 +87,7 @@ public class TaskInputSuccessFragment extends BaseFragment {
 
                             @Override
                             public void onComplete() {
-                                EventBus.getDefault().post(new NotifyTaskDetailRefreshEvent());
-                                EventBus.getDefault().post(new NotifyHomePageRefreshEvent());//通知主页刷新
-                                holdingActivity.closeAllFragment();
+
                             }
                         });
                 break;

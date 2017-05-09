@@ -31,6 +31,7 @@ public abstract class RxSubscribe<T> implements Observer<T> {
     public void onError(Throwable e) {
         if (e instanceof DataIsNullException) {
             _onNext(null);
+            onComplete();
         }else if (!NetworkUtil.isConnected(Utils.getContext())) {
             _onError(Utils.getContext().getResources().getString(R.string.network_error_message));
         }else {

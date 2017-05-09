@@ -213,16 +213,16 @@ public class FormSubmitActivity extends BaseActivity implements View.OnClickList
 
                     @Override
                     public void onComplete() {
+
+                    }
+
+                    @Override
+                    public void _onNext(String s) {
                         EventBus.getDefault().post(new MyFormSubmitSuccessEvent());//通知列表刷新
                         EventBus.getDefault().post(new TaskFormSubmitSuccessEvent());//通知任务详情刷新
                         ToastUtil.showToast(FormSubmitActivity.this, "申报成功");
                         finishWithAnim();
                         dismissProgress();
-                    }
-
-                    @Override
-                    public void _onNext(String s) {
-
                     }
 
                     @Override

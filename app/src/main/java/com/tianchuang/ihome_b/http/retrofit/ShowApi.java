@@ -226,12 +226,10 @@ public interface ShowApi {
      * 设备列表查询
      propertyCompanyId:xxx   对应物业公司ID-对应物业列表物业公司ID
      type:xxx        对应设备类型ID
-     place：xxx             设备地点
      */
     @POST(BizInterface.DATA_EQUIPMENT_LIST_SEARCH_URL)
     Observable<HttpModle<ArrayList<EquipmentSearchListItemBean>>> equipmentListSearch(@Query("propertyCompanyId") int propertyCompanyId,
-                                                                                      @Query("type") int type,
-                                                                                      @Query("place") String place);
+                                                                                      @Query("type") int type);
 
     /***
      * 设备详情

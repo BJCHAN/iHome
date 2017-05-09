@@ -119,6 +119,8 @@ public class PropertyListPresenter extends BasePresenterImpl<PropertyListContrac
                 .subscribe(new RxSubscribe<String>() {
                     @Override
                     public void _onNext(String s) {
+                        mView.dismissProgress();
+                        mView.deleteItem(position);
                     }
 
                     @Override
@@ -129,8 +131,7 @@ public class PropertyListPresenter extends BasePresenterImpl<PropertyListContrac
 
                     @Override
                     public void onComplete() {
-                        mView.dismissProgress();
-                        mView.deleteItem(position);
+
                     }
                 });
     }

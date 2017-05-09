@@ -80,7 +80,7 @@ public class StringUtils {
 			Gson gson = new Gson();
 			return gson.toJson(obj);
 		} else if (method == 2) {
-			Gson gson2 = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES).create();
+			Gson gson2 = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.IDENTITY).create();
 			return gson2.toJson(obj);
 		}
 		return "";

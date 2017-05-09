@@ -79,6 +79,8 @@ public class AuthCodeFragment extends BaseFragment {
                 .subscribe(new RxSubscribe<String>() {
                     @Override
                     public void _onNext(String s) {//注册成功
+                        ToastUtil.showToast(getContext(), "注册成功");
+                        holdingActivity.closeAllFragment();//到登录页面
                     }
 
                     @Override
@@ -88,8 +90,7 @@ public class AuthCodeFragment extends BaseFragment {
 
                     @Override
                     public void onComplete() {
-                        ToastUtil.showToast(getContext(), "注册成功");
-                        holdingActivity.closeAllFragment();//到登录页面
+
                     }
                 });
     }
