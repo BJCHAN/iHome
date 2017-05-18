@@ -343,7 +343,7 @@ public interface ShowApi {
                                                 @Query("content") String content);
 
     /**
-     * 我的订单未完成
+     * 我的工单未完成
      *
      * @param propertyCompanyId 应物业公司ID-对应物业列表物业公司ID
      * @param maxId
@@ -354,7 +354,7 @@ public interface ShowApi {
                                                              @Query("maxId") int maxId);
 
     /**
-     * 我的订单已完成
+     * 我的工单已完成
      *
      * @param propertyCompanyId 应物业公司ID-对应物业列表物业公司ID
      * @param maxId
@@ -365,7 +365,7 @@ public interface ShowApi {
                                                            @Query("maxId") int maxId);
 
     /**
-     * 我的订单详情
+     * 我的工单详情
      * params
      * repairsId:xxx               报修ID-对应报修抢单列表ID
      */
@@ -373,9 +373,9 @@ public interface ShowApi {
     Observable<HttpModle<MyOrderDetailBean>> myOrderDetail(@Query("repairsId") int repairsId);
 
     /**
-     * 我的订单详情
+     * 我的工单详情
      * params
-     * repairsId:xxxxxx      报修ID-对应我的订单列表-id
+     * repairsId:xxxxxx      报修ID-对应我的工单列表-id
      * beforePhotos:         维修前图片（至多三张）
      * afterPhotos:          维修后图片（至多三张）
      * content:xxxx          维修文字描述（<=200）

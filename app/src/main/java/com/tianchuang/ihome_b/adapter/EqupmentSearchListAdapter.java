@@ -20,6 +20,6 @@ public class EqupmentSearchListAdapter extends BaseQuickAdapter<EquipmentSearchL
     @Override
     protected void convert(BaseViewHolder helper, EquipmentSearchListItemBean item) {
         helper.setText(R.id.tv_item_name,item.getName())
-                .setText(R.id.tv_item_code,String.format("编号：%s",item.getCode()));
+                .setText(R.id.tv_item_code,item.getCode()+"");
     }
 }

@@ -41,6 +41,7 @@ public class PropertyListFragment extends MVPBaseFragment<PropertyListContract.V
     RecyclerView rvList;
     private MainActivity holdingActivity;
     private PropertyListAdapter listAdapter;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_property_list;
@@ -78,15 +79,15 @@ public class PropertyListFragment extends MVPBaseFragment<PropertyListContract.V
         rvList.setAdapter(listAdapter);
         initmListener();
     }
+
     /**
      * ui设置常用
-     * */
+     */
     @Override
     public void notifyUISetOften(int position) {
         listAdapter.setSelsctedPostion(position);
         listAdapter.notifyDataSetChanged();
     }
-
 
 
     private void initmListener() {
@@ -118,8 +119,8 @@ public class PropertyListFragment extends MVPBaseFragment<PropertyListContract.V
                 UserUtil.setLoginBean(loginBean);//更新内存中的loginbean
                 listAdapter.notifyDataSetChanged();
                 PropertyListFragment.this.removeFragment();
+                EventBus.getDefault().post(new SwitchSuccessEvent(listAdapter.getData().size()));
                 ToastUtil.showToast(holdingActivity, "切换成功");
-                EventBus.getDefault().post(new SwitchSuccessEvent());
             }
         });
         //长按删除需求隐藏,以免后来又加上
@@ -133,6 +134,7 @@ public class PropertyListFragment extends MVPBaseFragment<PropertyListContract.V
 //            }
 //        });
     }
+
     @Override
     public void deleteItem(int position) {
         listAdapter.remove(position);

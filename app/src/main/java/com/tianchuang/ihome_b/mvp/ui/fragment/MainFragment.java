@@ -2,10 +2,12 @@ package com.tianchuang.ihome_b.mvp.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -65,7 +67,7 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     @BindView(R.id.empty_container)
     FrameLayout emptyContainer;
     @BindView(R.id.main_content)
-    LinearLayout mainContent;
+    CoordinatorLayout mainContent;
     @BindView(R.id.rv_list)
     RecyclerView rvList;
     @BindView(R.id.ll_write_form)
@@ -109,6 +111,17 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
         FragmentUtils.addFragment(getFragmentManager(), EmptyFragment.newInstance(getString(R.string.main_empty_text)), R.id.empty_container);
+        LoginBean loginBean = UserUtil.getLoginBean();
+        //首次进入页面
+        if (loginBean != null) {
+            boolean companyNameIsEmpty = TextUtils.isEmpty(loginBean.getPropertyCompanyName());
+            //公司名为空,相当于物业列表为空,不然公司名不会为空
+            if (companyNameIsEmpty) {//禁用物业,直接去物业列表
+                if (getFragmentManager().getBackStackEntryCount() == 1) {
+                    addFragment(PropertyListFragment.newInstance());//避免重复添加
+                }
+            }
+        }
         rvList.setLayoutManager(new LinearLayoutManager(getContext()));
         initTab();
         mData = new ArrayList<>();

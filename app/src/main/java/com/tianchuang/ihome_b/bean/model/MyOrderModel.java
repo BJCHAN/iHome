@@ -16,28 +16,28 @@ import okhttp3.MultipartBody;
 
 /**
  * Created by Abyss on 2017/3/3.
- * description:我的订单
+ * description:我的工单
  */
 
 
 public class MyOrderModel {
 
 	/**
-	 * 未处理订单列表
+	 * 未处理工单列表
 	 */
 	public static Observable<HttpModle<MyOrderListBean>> myOrderUnfinished(int propertyCompanyId, int maxid) {
 		return RetrofitService.createShowApi().myOrderUnfinished(propertyCompanyId, maxid);
 	}
 
 	/**
-	 * 已处理订单列表
+	 * 已处理工单列表
 	 */
 	public static Observable<HttpModle<MyOrderListBean>> myOrderfinished(int propertyCompanyId, int maxid) {
 		return RetrofitService.createShowApi().myOrderfinished(propertyCompanyId, maxid);
 	}
 
 	/**
-	 * 订单详细
+	 * 工单详细
 	 */
 	public static Observable<HttpModle<MyOrderDetailBean>> myOrderDetail(int complaintsId) {
 		return RetrofitService.createShowApi().myOrderDetail(complaintsId);

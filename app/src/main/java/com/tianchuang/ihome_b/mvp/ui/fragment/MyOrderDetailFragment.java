@@ -32,7 +32,7 @@ import butterknife.BindView;
 
 /**
  * Created by Abyss on 2017/3/1.
- * description:我的订单详情
+ * description:我的工单详情
  */
 
 public class MyOrderDetailFragment extends BaseLoadingFragment {
@@ -59,7 +59,7 @@ public class MyOrderDetailFragment extends BaseLoadingFragment {
     @Override
     public void onStart() {
         super.onStart();
-        setToolbarTitle("订单详情");
+        setToolbarTitle("工单详情");
     }
 
     @Override

@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  * Created by Abyss on 2017/2/23.
- * description:我的订单进行中适配器
+ * description:我的工单进行中适配器
  */
 public class MyOrderUnderWayAdapter extends BaseQuickAdapter<MyOrderCommonBean, BaseViewHolder> {
     public MyOrderUnderWayAdapter(int layoutResId, List<MyOrderCommonBean> data) {

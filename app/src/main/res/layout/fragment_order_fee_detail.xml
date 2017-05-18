@@ -104,17 +104,11 @@
                 android:orientation="horizontal"
                 >
 
-                <CheckBox
+                <android.support.v7.widget.AppCompatCheckBox
                     android:id="@+id/cb_isunder_line"
                     android:layout_width="wrap_content"
-                        android:paddingTop="15dp"
-                    android:paddingLeft="10dp"
-                    android:paddingBottom="15dp"
                     android:layout_height="wrap_content"
-                    android:button="@null"
-                    android:text="      "
-                    android:checked="false"
-                    android:drawableRight="@drawable/protocol_checkbox_selector" />
+                    android:checked="false" />
 
                 <TextView
                     android:layout_width="wrap_content"

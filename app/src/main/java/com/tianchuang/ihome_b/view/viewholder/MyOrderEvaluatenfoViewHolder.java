@@ -1,10 +1,12 @@
 package com.tianchuang.ihome_b.view.viewholder;
 
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatRatingBar;
 import android.view.View;
 import android.widget.TextView;
 
 import com.tianchuang.ihome_b.R;
+import com.tianchuang.ihome_b.TianChuangApplication;
 import com.tianchuang.ihome_b.base.BaseHolder;
 import com.tianchuang.ihome_b.bean.EvaluateBean;
 import com.tianchuang.ihome_b.utils.LayoutUtil;

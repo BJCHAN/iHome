@@ -6,4 +6,9 @@ package com.tianchuang.ihome_b.bean.event;
  */
 
 public class SwitchSuccessEvent {
+    public int PropertyListSize = 0;
+
+    public SwitchSuccessEvent(int propertyListSize) {
+        PropertyListSize = propertyListSize;
+    }
 }

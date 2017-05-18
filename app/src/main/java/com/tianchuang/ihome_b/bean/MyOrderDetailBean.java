@@ -131,7 +131,7 @@ public class MyOrderDetailBean implements Serializable {
 		 * id : 1
 		 * refUserType : 1
 		 * refUserId : 1
-		 * content : 创建报修订单
+		 * content : 创建报修工单
 		 * createdDate : 1488252083
 		 * lastUpdatedDate : 1488252083
 		 */

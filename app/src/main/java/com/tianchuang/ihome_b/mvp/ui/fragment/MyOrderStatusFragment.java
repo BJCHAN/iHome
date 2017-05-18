@@ -23,7 +23,7 @@ import io.reactivex.Observable;
 
 /**
  * Created by Abyss on 2017/2/22.
- * description:我的订单（进行中和已完成）
+ * description:我的工单（进行中和已完成）
  */
 
 public class MyOrderStatusFragment extends BaseRefreshAndLoadMoreFragment<MyOrderCommonBean, MyOrderListBean> {

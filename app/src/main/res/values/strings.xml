@@ -24,9 +24,9 @@
     <string name="retrieve_pwd_custom_dialog_tip">找回密码需要验证您的手机号码,\n验证短信将发送到以下手机号：\n%s</string>
     <string name="logout_warning_string">你确认要退出当前账号吗？</string>
     <string name="perssion_camera_tip">在设置-应用-i家帮-权限中开启相机权限，以正常使用拍照、扫一扫等功能</string>
-    <string name="rob_hall_empty_tip">当前还没有报修订单</string>
+    <string name="rob_hall_empty_tip">当前还没有报修工单</string>
     <string name="property_often_text">设为\n常用</string>
-    <string name="property_no_join">您未加入任何物业公司</string>
+    <string name="property_no_join">您还未加入物业管理单位,请与物业公司联系</string>
     <string name="menu_inner_list_empty">还没有未处理完成的内部报事</string>
 
     <!--投诉建议-->
@@ -37,9 +37,9 @@
     <!--投诉建议-->
     <string name="underway">进行中</string>
     <string name="finished">已完成</string>
-    <!--我的订单-->
-    <string name="myorder_underway_empty">您还没有进行中的订单</string>
-    <string name="myorder_finished_empty">您还没有已完成的订单</string>
+    <!--我的工单-->
+    <string name="myorder_underway_empty">您还没有进行中的工单</string>
+    <string name="myorder_finished_empty">您还没有已完成的工单</string>
     <string name="myorder_fee_confirm">我已完成修复</string>
     <string name="myorder_wait_pay">等待用户支付</string>
     <string name="myorder_wait_evaluate">等待用户评价</string>

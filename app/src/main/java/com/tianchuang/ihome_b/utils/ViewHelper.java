@@ -52,7 +52,7 @@ public class ViewHelper {
 	}
 
 	/**
-	 * 我的订单，报修人员信息的底部
+	 * 我的工单，报修人员信息的底部
 	 *
 	 * @param ownersInfoVo
 	 */
@@ -63,7 +63,7 @@ public class ViewHelper {
 	}
 
 	/**
-	 * 我的订单，维修费用的底部
+	 * 我的工单，维修费用的底部
 	 *
 	 * @param feeInfoVo
 	 */
@@ -74,7 +74,7 @@ public class ViewHelper {
 	}
 
 	/**
-	 * 我的订单，评价的底部
+	 * 我的工单，评价的底部
 	 *
 	 * @param evaluateBean
 	 */
@@ -85,7 +85,7 @@ public class ViewHelper {
 	}
 
 	/**
-	 * 我的订单，时间轴的底部
+	 * 我的工单，时间轴的底部
 	 *
 	 * @param list
 	 */

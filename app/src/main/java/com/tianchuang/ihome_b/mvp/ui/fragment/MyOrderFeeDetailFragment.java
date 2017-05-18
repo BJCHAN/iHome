@@ -1,6 +1,7 @@
 package com.tianchuang.ihome_b.mvp.ui.fragment;
 
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.CheckBox;
@@ -40,7 +41,7 @@ public class MyOrderFeeDetailFragment extends MVPBaseFragment<FeeDetailContract.
     @BindView(R.id.tv_sum_price)
     TextView tvSumPrice;
     @BindView(R.id.cb_isunder_line)
-    CheckBox cbIsunderLine;
+    AppCompatCheckBox cbIsunderLine;
     private ArrayList<CommonFeeBean> commonFeeBeenList;
     private ItemRemoveAdapter adapter;
     private int repairId;

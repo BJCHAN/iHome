@@ -8,7 +8,7 @@ import com.tianchuang.ihome_b.R;
 import java.util.List;
 
 /**
- * 我的订单Fragment
+ * 我的工单Fragment
  */
 public class MyOrderFragment extends BaseTogglePagerFragment {
 
@@ -19,7 +19,7 @@ public class MyOrderFragment extends BaseTogglePagerFragment {
     @Override
     public void onStart() {
         super.onStart();
-        setToolbarTitle("我的订单");
+        setToolbarTitle("我的工单");
     }
 
     @Override

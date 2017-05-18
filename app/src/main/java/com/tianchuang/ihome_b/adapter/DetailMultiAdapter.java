@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  * Created by Abyss on 2017/2/9.
- * description:故障详情与投诉详情与订单详情共用
+ * description:故障详情与投诉详情与工单详情共用
  */
 public class DetailMultiAdapter extends BaseDetailMultiAdapter<DetailMultiItem, BaseViewHolder> {
 

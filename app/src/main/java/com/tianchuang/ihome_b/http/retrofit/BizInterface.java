@@ -75,11 +75,11 @@ public interface BizInterface {
     String COMPLAIN_DETAIL_URL = "complaints/detail.html";
     //回复投诉
     String COMPLAIN_REPLY_URL = "complaints/reply.html";
-    //我的订单（未完成）
+    //我的工单（未完成）
     String MY_ORDER_UNFINISHED_URL = "repairs/order/list/new.html";
-    //我的订单（已经完成）
+    //我的工单（已经完成）
     String MY_ORDER_FINISHED_URL = "repairs/order/list/done.html";
-    //我的订单详情
+    //我的工单详情
     String MY_ORDER_DETAIL_URL = "repairs/order/detail.html";
     //维修确认
     String REPAIR_CONFIRM_URL = "repairs/confirm.html";

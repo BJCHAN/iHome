@@ -10,6 +10,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -113,8 +114,8 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         initXGPush();
-        //添加主页fragment
         mainFragment = MainFragment.newInstance().setLittleRedListener(this);
+        //添加主页fragment
         addFragment(mainFragment);
         initView();
         //设置监听
@@ -214,7 +215,7 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
                     case 2://抢单大厅
                         startActivityWithAnim(new Intent(MainActivity.this, RobHallActivity.class));
                         break;
-                    case 3://我的订单
+                    case 3://我的工单
                         startActivityWithAnim(new Intent(MainActivity.this, MyOrderActivity.class));
                         break;
                     case 4://访客列表
@@ -280,13 +281,20 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
                 startActivityWithAnim(new Intent(this, RobHallActivity.class));
                 break;
             case R.id.spinner://物业列表入口
-                if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
-                    addFragment(PropertyListFragment.newInstance());//避免重复添加
-                }
+                startToPropertyListFragment();
                 break;
             case R.id.rl_user_info://菜单上访问个人信息
                 startActivityWithAnim(new Intent(this, PersonalInfoActivity.class));
                 break;
+        }
+    }
+
+    /**
+     * 去物业列表页面
+     */
+    public void startToPropertyListFragment() {
+        if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+            addFragment(PropertyListFragment.newInstance());//避免重复添加
         }
     }
 
@@ -331,7 +339,8 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (KeyEvent.KEYCODE_BACK == keyCode) {
-            if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+            //在主页或者物业列表为空
+            if (getSupportFragmentManager().getBackStackEntryCount() == 1|| TextUtils.isEmpty(UserUtil.getLoginBean().getPropertyCompanyName())) {
                 int drawerLockMode = mDrawerLayout.getDrawerLockMode(GravityCompat.START);
                 if (mDrawerLayout.isDrawerVisible(GravityCompat.START)
                         && (drawerLockMode != DrawerLayout.LOCK_MODE_LOCKED_OPEN)) {//菜单未关闭，先关闭菜单
@@ -412,6 +421,7 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
         }
         setCurrentTaskId(-1);//初始化当前任务id
     }
+
     private void requestTaskQrCode(HashMap<String, String> map) {
         HomePageModel.requestTaskQrCode(map)
                 .compose(RxHelper.handleResult())
@@ -425,14 +435,14 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
                             intent.putExtra("detailBean", detailBean);
                             startActivityWithAnim(intent);
                         } else {
-                            ToastUtil.showToast(getApplicationContext(),"任务为空");
+                            ToastUtil.showToast(getApplicationContext(), "任务为空");
                         }
 
                     }
 
                     @Override
                     public void _onError(String message) {
-                        ToastUtil.showToast(MainActivity.this,message);
+                        ToastUtil.showToast(MainActivity.this, message);
                     }
 
                     @Override
@@ -442,6 +452,7 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
                 });
 
     }
+
     private void requestQrCode(HashMap<String, String> map) {
         HomePageModel.requestQrCode(map)
                 .compose(RxHelper.handleResult())
@@ -483,16 +494,15 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
     private void requestCameraPermission() {
         RxPermissions rxPermissions = new RxPermissions(this);
         rxPermissions.request(Manifest.permission.CAMERA)
-                        .subscribe(granted ->{
-                            if (granted) { // Always true pre-M
-                                Intent intent = new Intent(MainActivity.this, ScanCodeActivity.class);
-                                startActivityForResult(intent, Constants.QrCode.HOME_OPEN_CODE);
-                            } else {
-                                showPermissionInfo(getString(R.string.perssion_camera_tip), false);
-                            }
-                        });
+                .subscribe(granted -> {
+                    if (granted) { // Always true pre-M
+                        Intent intent = new Intent(MainActivity.this, ScanCodeActivity.class);
+                        startActivityForResult(intent, Constants.QrCode.HOME_OPEN_CODE);
+                    } else {
+                        showPermissionInfo(getString(R.string.perssion_camera_tip), false);
+                    }
+                });
     }
-
 
 
     @Override

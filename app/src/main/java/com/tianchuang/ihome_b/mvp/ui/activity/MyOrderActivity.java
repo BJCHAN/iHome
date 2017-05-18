@@ -22,7 +22,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.List;
 /**
  * Created by Abyss on 2017/3/9.
- * description:我的订单
+ * description:我的工单
  */
 public class MyOrderActivity extends ToolBarActivity {
 	private TransferImage mTransferImage;
@@ -40,7 +40,7 @@ public class MyOrderActivity extends ToolBarActivity {
 	@Override
 	protected void initToolBar(Toolbar toolbar) {
 		initNormalToolbar(toolbar, true);
-		setToolbarTitle("我的订单");
+		setToolbarTitle("我的工单");
 	}
 
 	@Override

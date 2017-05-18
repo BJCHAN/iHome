@@ -1,11 +1,11 @@
 package com.tianchuang.ihome_b.mvp.ui.fragment;
 
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -14,11 +14,11 @@ import android.widget.TextView;
 import com.jakewharton.rxbinding2.widget.RxCompoundButton;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.tianchuang.ihome_b.R;
-import com.tianchuang.ihome_b.mvp.ui.activity.LoginActivity;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.model.LoginModel;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
+import com.tianchuang.ihome_b.mvp.ui.activity.LoginActivity;
 import com.tianchuang.ihome_b.utils.VerificationUtil;
 import com.tianchuang.ihome_b.view.RegisterDialogFragment;
 
@@ -28,7 +28,6 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
-
 
 import static com.tianchuang.ihome_b.R.id.iv_pwd_isvisible;
 
@@ -50,7 +49,7 @@ public class RegisterAccountFragment extends BaseFragment {
     @BindView(R.id.bt_register)
     Button btRegister;
     @BindView(R.id.cb_isagree)
-    CheckBox cbIsagree;
+    AppCompatCheckBox cbIsagree;
     @BindView(R.id.tv_register_protocol)
     TextView tvRegisterProtocol;
     @BindView(R.id.login_rl)

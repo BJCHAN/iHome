@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * Created by Abyss on 2017/3/3.
- * description:进行中与未完成订单的bean
+ * description:进行中与未完成工单的bean
  */
 
 public class MyOrderListBean extends BaseListLoadBean<MyOrderCommonBean>{

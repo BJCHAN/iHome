@@ -123,10 +123,11 @@
             android:name=".mvp.ui.activity.VisitorListActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-        <!-- 我的订单 -->
+        <!-- 我的工单 -->
         <activity
             android:name=".mvp.ui.activity.MyOrderActivity"
             android:launchMode="singleTop"
+            android:theme="@style/RatingBarTheme"
             android:screenOrientation="portrait" />
         <!-- 我的任务 -->
         <activity
