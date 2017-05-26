@@ -24,6 +24,7 @@ public class TaskInputDetailBean implements Serializable{
      * enterTypeMsg : 电表
      * buildingDetail : 海创苑(1幢,2幢,3幢,4幢)
      * taskRoomDataList : [{"id":1,"roomId":1,"taskId":4,"taskRecordId":1,"enterType":2,"lastData":0,"currentData":0,"roomInfo":"海创苑1幢1单元101"},{"id":2,"roomId":2,"taskId":4,"taskRecordId":1,"enterType":2,"lastData":0,"currentData":0,"roomInfo":"海创苑1幢1单元102"},{"id":3,"roomId":6,"taskId":4,"taskRecordId":1,"enterType":2,"lastData":0,"currentData":0,"roomInfo":"海创苑1幢1单元105"}]
+     * hide  //是否隐藏
      */
 
     private int id;
@@ -39,6 +40,11 @@ public class TaskInputDetailBean implements Serializable{
     private List<TaskRoomDataListBean> taskRoomDataList;
     private List<TaskAreaListBean> buildingList;
     private int taskRecordId;
+    private boolean hide;
+
+    public boolean isHide() {
+        return hide;
+    }
 
     public int getTaskRecordId() {
         return taskRecordId;

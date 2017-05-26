@@ -16,7 +16,7 @@ public class AboutMessageActivity extends ToolBarActivity {
 
 	@Override
 	protected void initToolBar(Toolbar toolbar) {
-		setToolbarTitle("关于物管宝");
+		setToolbarTitle("关于i家帮");
 		initNormalToolbar(toolbar,true);
 	}
 }

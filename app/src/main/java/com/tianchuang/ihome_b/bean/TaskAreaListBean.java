@@ -23,6 +23,12 @@ public class TaskAreaListBean extends SelectedBean implements Serializable{
     private int id;
     private String name;
     private boolean used;
+    private boolean hide;
+
+    public boolean isHide() {
+        return hide;
+    }
+
     private List<CellListBean> cellList;
 
     public int getId() {
@@ -73,6 +79,11 @@ public class TaskAreaListBean extends SelectedBean implements Serializable{
         private String number;
         private String name;
         private boolean used;
+        private boolean hide;
+
+        public boolean isHide() {
+            return hide;
+        }
         private List<UnitListBean> unitList;
 
         public int getValue() {
@@ -152,6 +163,11 @@ public class TaskAreaListBean extends SelectedBean implements Serializable{
             private int buildingCellId;
             private int value;
             private String name;
+            private boolean hide;
+
+            public boolean isHide() {
+                return hide;
+            }
             private List<BuildingRoomListBean> roomList;
 
             public int getId() {

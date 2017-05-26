@@ -13,7 +13,7 @@ import butterknife.BindView;
 
 /**
  * Created by Abyss on 2017/2/13.
- * description:关于物管宝界面
+ * description:关于i家帮界面
  */
 
 public class AboutMessageFragment extends BaseFragment {
@@ -28,7 +28,7 @@ public class AboutMessageFragment extends BaseFragment {
 
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
-        webView.loadUrl("http://boss-client-test.hecaifu.com/assets/html/aboutus.htm");
+        webView.loadUrl("http://boss.wuguan365.com/assets/html/aboutus.htm");
         webView.setWebViewClient(new WebViewClient(){
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {

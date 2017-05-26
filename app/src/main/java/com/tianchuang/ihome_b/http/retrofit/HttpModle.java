@@ -11,6 +11,7 @@ public class HttpModle<T> implements Serializable {
     public String code;//状态码
     public T data;//数据
     public String msg;//错误信息
+    public boolean hide;//下一级是否隐藏,特殊针对楼宇查询相关
     public boolean success() {
         return "200".equals(code);
     }

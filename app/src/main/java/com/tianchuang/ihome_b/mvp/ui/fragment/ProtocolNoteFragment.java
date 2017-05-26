@@ -35,7 +35,7 @@ public class ProtocolNoteFragment extends BaseFragment {
     public void onStart() {
         super.onStart();
         setToolbarTitle("用户注册协议");
-        webView.loadUrl("http://boss-client-test.hecaifu.com/assets/html/agreement.htm");
+        webView.loadUrl("http://boss.wuguan365.com/assets/html/signupagree.htm");
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {

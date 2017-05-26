@@ -55,7 +55,7 @@ public class SettingActivity extends BaseCustomActivity {
         });
         toolbarTitle.setText("设置");
         setItemText(rlItem1, "修改密码");
-        setItemText(rlItem2, "关于物管宝");
+        setItemText(rlItem2, "关于i家帮");
     }
 
     private void setItemText(RelativeLayout rlItem, String text) {
@@ -69,7 +69,7 @@ public class SettingActivity extends BaseCustomActivity {
             case R.id.setting_item1://修改密码
                 startActivityWithAnim(new Intent(this, ModifyPasswordActivity.class));
                 break;
-            case R.id.setting_item2://关于物管宝
+            case R.id.setting_item2://i家帮
                 startActivityWithAnim(new Intent(this, AboutMessageActivity.class));
                 break;
             case R.id.setting_logout:

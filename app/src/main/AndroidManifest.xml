@@ -74,7 +74,7 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
-        <!-- 关于物管宝 -->
+        <!-- 关于i家帮 -->
         <activity
             android:name=".mvp.ui.activity.AboutMessageActivity"
             android:launchMode="singleTop"

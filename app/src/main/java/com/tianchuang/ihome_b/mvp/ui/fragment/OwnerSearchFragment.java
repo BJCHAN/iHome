@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.OptionsPickerView;
@@ -47,6 +48,14 @@ public class OwnerSearchFragment extends BaseLoadingFragment {
     TextView tvRoom;
     @BindView(R.id.bt_sure)
     Button btSure;
+    @BindView(R.id.ll_area)
+    LinearLayout llArea;
+    @BindView(R.id.ll_building)
+    LinearLayout llBuilding;
+    @BindView(R.id.ll_unit)
+    LinearLayout llUnit;
+    @BindView(R.id.ll_room)
+    LinearLayout llRoom;
     private TaskBuildingAdapter areaAdapter;
     private List<TaskAreaListBean> mData = new ArrayList<>();
     private TaskAreaListBean selestedAreaBean;//被选中的小区
@@ -59,9 +68,18 @@ public class OwnerSearchFragment extends BaseLoadingFragment {
     private ArrayList<TaskAreaListBean.CellListBean> cellItems = new ArrayList<>();
     private ArrayList<TaskAreaListBean.CellListBean.UnitListBean> unitItems = new ArrayList<>();
     private ArrayList<BuildingRoomListBean> roomItems = new ArrayList<>();
+    private boolean isAreaHide = false;
+    private boolean isBuildingHide = false;
+    private boolean isUnitHide = false;
+    private boolean isRoomHide = false;//必有房间号
 
     public static OwnerSearchFragment newInstance() {
         return new OwnerSearchFragment();
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_owner_search_select;
     }
 
     @Override
@@ -70,30 +88,38 @@ public class OwnerSearchFragment extends BaseLoadingFragment {
         rvList.addItemDecoration(new TaskInputSelectDecoration(DensityUtil.dip2px(getContext(), 5)));
         areaAdapter = new TaskBuildingAdapter(mData);
         rvList.setAdapter(areaAdapter);
+//        llArea.setVisibility(View.GONE);
+        llBuilding.setVisibility(View.GONE);
+        llUnit.setVisibility(View.GONE);
+        llRoom.setVisibility(View.GONE);
         DataSearchModel.requestAreaList()//请求小区列表
+                .doOnNext(httpModle -> {
+                    isAreaHide = httpModle.hide;
+                })
                 .compose(RxHelper.<ArrayList<TaskAreaListBean>>handleResult())
                 .compose(this.<ArrayList<TaskAreaListBean>>bindToLifecycle())
                 .subscribe(new RxSubscribe<ArrayList<TaskAreaListBean>>() {
                     @Override
                     public void _onNext(ArrayList<TaskAreaListBean> list) {
+                        setMyVisibility(llArea, isAreaHide);
+                        setMyVisibility(llBuilding, true);
+                        setMyVisibility(llUnit, true);
+                        setMyVisibility(llRoom, true);
                         mData.clear();
                         mData.addAll(list);
                         checkData(list);
-                        rvList.addOnItemTouchListener(new OnItemClickListener() {
-                            @Override
-                            public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
-                                for (TaskAreaListBean data : mData) {
-                                    data.setSelected(false);
+                        if (!isAreaHide) {
+                            rvList.addOnItemTouchListener(new OnItemClickListener() {
+                                @Override
+                                public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {
+                                    selectArea(position);
+                                    adapter.notifyDataSetChanged();
                                 }
-                                selestedAreaBean = mData.get(position);
-                                selestedAreaBean.setSelected(true);
-                                selectedBuildingClear();
-                                selectedUnitClear();
-                                selectedRoomClear();
-                                requestBuildingList();
-                                adapter.notifyDataSetChanged();
-                            }
-                        });
+                            });
+                        } else {
+                            selectArea(0);
+                        }
+
 
                     }
 
@@ -109,6 +135,27 @@ public class OwnerSearchFragment extends BaseLoadingFragment {
                 });
     }
 
+
+    private void setMyVisibility(LinearLayout ll, boolean hide) {
+        ll.setVisibility(hide ? View.GONE : View.VISIBLE);
+    }
+
+    //选择分区位置
+    private void selectArea(int position) {
+        for (TaskAreaListBean data : mData) {
+            data.setSelected(false);
+        }
+        selestedAreaBean = mData.get(position);
+        selestedAreaBean.setSelected(true);
+        if ("没有分区".equals(selestedAreaBean.getName())) {
+            setMyVisibility(llArea, true);
+        }
+        selectedBuildingClear();
+        selectedUnitClear();
+        selectedRoomClear();
+        requestBuildingList();
+    }
+
     @Override
     protected void initData() {
 
@@ -120,11 +167,6 @@ public class OwnerSearchFragment extends BaseLoadingFragment {
         setToolbarTitle("业主查询");
     }
 
-    @Override
-    protected int getLayoutId() {
-        return R.layout.fragment_owner_search_select;
-    }
-
 
     @OnClick({R.id.tv_building, R.id.tv_unit, R.id.tv_room, R.id.bt_sure})
     public void onViewClicked(View view) {
@@ -133,21 +175,21 @@ public class OwnerSearchFragment extends BaseLoadingFragment {
                 if (cellItems.size() > 0) {
                     pvBuildingOptions.show();
                 } else {
-                    ToastUtil.showToast(getContext(), "请先选择小区");
+                    ToastUtil.showToast(getContext(), "楼宇数据为空");
                 }
                 break;
             case R.id.tv_unit://选择单元
                 if (unitItems.size() > 0) {
                     pvUnitOptions.show();
                 } else {
-                    ToastUtil.showToast(getContext(), "请先选择楼宇");
+                    ToastUtil.showToast(getContext(), "单元数据为空");
                 }
                 break;
             case R.id.tv_room://选择单元
                 if (roomItems.size() > 0) {
                     pvRoomOptions.show();
                 } else {
-                    ToastUtil.showToast(getContext(), "请先选择单元");
+                    ToastUtil.showToast(getContext(), "房间数据为空");
                 }
                 break;
             case R.id.bt_sure://查询
@@ -203,18 +245,30 @@ public class OwnerSearchFragment extends BaseLoadingFragment {
      */
     private void requestBuildingList() {
         DataSearchModel.requestBuildingList(selestedAreaBean.getId())
+                .doOnNext(httpModle -> {
+                    isBuildingHide = httpModle.hide;
+                })
                 .compose(RxHelper.<ArrayList<TaskAreaListBean.CellListBean>>handleResult())
                 .compose(this.<ArrayList<TaskAreaListBean.CellListBean>>bindToLifecycle())
-                .doOnSubscribe(o -> {
-                            showProgress();
-                        }
-                )
+//                .doOnSubscribe(o -> {
+//                            showProgress();
+//                        }
+//                )
                 .subscribe(new RxSubscribe<ArrayList<TaskAreaListBean.CellListBean>>() {
                     @Override
                     public void _onNext(ArrayList<TaskAreaListBean.CellListBean> cellListBeen) {
+                        setMyVisibility(llBuilding, isBuildingHide);
+                        setMyVisibility(llUnit, true);
+                        setMyVisibility(llRoom, true);
                         selestedAreaBean.setCellList(cellListBeen);
                         if (cellListBeen != null && cellListBeen.size() > 0) {
-                            initBuildingOptionPicker(selestedAreaBean);//初始化楼宇选择器
+                            cellItems.addAll(selestedAreaBean.getCellList());
+                            if (isBuildingHide) {
+                                selectedBuildingBean = cellItems.get(0);
+                                requestUnitList();//请求单元列表
+                            } else {
+                                initBuildingOptionPicker(selestedAreaBean);//初始化楼宇选择器
+                            }
 
                         }
 
@@ -223,12 +277,12 @@ public class OwnerSearchFragment extends BaseLoadingFragment {
                     @Override
                     public void _onError(String message) {
                         ToastUtil.showToast(getContext(), message);
-                        dismissProgress();
+//                        dismissProgress();
                     }
 
                     @Override
                     public void onComplete() {
-                        dismissProgress();
+//                        dismissProgress();
                     }
                 });
     }
@@ -236,31 +290,43 @@ public class OwnerSearchFragment extends BaseLoadingFragment {
     /**
      * 请求单元列表
      */
-    private void requestUnitList(int buildingId) {
-        DataSearchModel.requestUnitList(buildingId)
+    private void requestUnitList() {
+        DataSearchModel.requestUnitList(selectedBuildingBean.getValue())
+                .doOnNext(httpModle -> {
+                    isUnitHide = httpModle.hide;
+                })
                 .compose(RxHelper.<ArrayList<TaskAreaListBean.CellListBean.UnitListBean>>handleResult())
                 .compose(this.<ArrayList<TaskAreaListBean.CellListBean.UnitListBean>>bindToLifecycle())
-                .doOnSubscribe(o ->
-
-                        showProgress()
-
-                )
+//                .doOnSubscribe(o ->
+//                        showProgress()
+//                )
                 .subscribe(new RxSubscribe<ArrayList<TaskAreaListBean.CellListBean.UnitListBean>>() {
                     @Override
                     public void _onNext(ArrayList<TaskAreaListBean.CellListBean.UnitListBean> unitListBeen) {
+                        setMyVisibility(llUnit, isUnitHide);
+                        setMyVisibility(llRoom, true);
                         selectedBuildingBean.setUnitList(unitListBeen);
-                        initUnitOptionPicker(selectedBuildingBean);
+                        //还原初始状态
+                        selectedUnitClear();
+                        selectedRoomClear();
+                        unitItems.addAll(selectedBuildingBean.getUnitList());
+                        if (isUnitHide) {
+                            selectedUnitBean = unitItems.get(0);
+                            requestRoomList();
+                        } else {
+                            initUnitOptionPicker(selectedBuildingBean);
+                        }
                     }
 
                     @Override
                     public void _onError(String message) {
                         ToastUtil.showToast(getContext(), message);
-                        dismissProgress();
+//                        dismissProgress();
                     }
 
                     @Override
                     public void onComplete() {
-                        dismissProgress();
+//                        dismissProgress();
                     }
                 });
 
@@ -269,18 +335,22 @@ public class OwnerSearchFragment extends BaseLoadingFragment {
     /**
      * 请求房间列表
      */
-    private void requestRoomList(int value) {
-        DataSearchModel.requestRoomList(value)
+    private void requestRoomList() {
+        DataSearchModel.requestRoomList(selectedUnitBean.getValue())
                 .compose(RxHelper.<ArrayList<BuildingRoomListBean>>handleResult())
                 .compose(this.<ArrayList<BuildingRoomListBean>>bindToLifecycle())
-                .doOnSubscribe(o -> {
-                        showProgress();
-                    }
-                )
+//                .doOnSubscribe(o -> {
+//                            showProgress();
+//                        }
+//                )
                 .subscribe(new RxSubscribe<ArrayList<BuildingRoomListBean>>() {
                     @Override
                     public void _onNext(ArrayList<BuildingRoomListBean> buildingRoomListBeen) {
+                        setMyVisibility(llRoom, isRoomHide);
                         selectedUnitBean.setRoomList(buildingRoomListBeen);
+                        //还原初始状态
+                        selectedRoomClear();
+                        roomItems.addAll(selectedUnitBean.getRoomList());
                         initRoomOptionPicker(selectedUnitBean);
                     }
 
@@ -292,7 +362,7 @@ public class OwnerSearchFragment extends BaseLoadingFragment {
 
                     @Override
                     public void onComplete() {
-                        dismissProgress();
+//                        dismissProgress();
                     }
                 });
 
@@ -326,7 +396,6 @@ public class OwnerSearchFragment extends BaseLoadingFragment {
     }
 
     private void initBuildingOptionPicker(TaskAreaListBean selestedAreaBean) {//条件选择器初始化，自定义布局
-        cellItems.addAll(selestedAreaBean.getCellList());
         // 注意，自定义布局中，optionspicker 或者 timepicker 的布局必须要有（即WheelView内容部分），否则会报空指针
         // 具体可参考demo 里面的两个自定义布局
         pvBuildingOptions = new OptionsPickerView.Builder(getContext(), new OptionsPickerView.OnOptionsSelectListener() {
@@ -336,7 +405,7 @@ public class OwnerSearchFragment extends BaseLoadingFragment {
                 selectedBuildingBean = cellItems.get(options1);
                 String tx = selectedBuildingBean.getPickerViewText();
                 tvBuilding.setText(tx);
-                requestUnitList(selectedBuildingBean.getValue());//请求单元列表
+                requestUnitList();//请求单元列表
             }
         })
                 .setLayoutRes(R.layout.pickerview_custom_options, new CustomListener() {
@@ -364,15 +433,12 @@ public class OwnerSearchFragment extends BaseLoadingFragment {
 
 
     private void initUnitOptionPicker(TaskAreaListBean.CellListBean cellListBean) {
-        //还原初始状态
-        selectedUnitClear();
-        selectedRoomClear();
+
         List<TaskAreaListBean.CellListBean.UnitListBean> unitList = cellListBean.getUnitList();
         if (unitList.size() <= 0) {
             ToastUtil.showToast(getContext(), "数据为空");
             return;
         }
-        unitItems.addAll(unitList);
         pvUnitOptions = new OptionsPickerView.Builder(getContext(), new OptionsPickerView.OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int option2, int options3, View v) {
@@ -380,7 +446,7 @@ public class OwnerSearchFragment extends BaseLoadingFragment {
                 selectedUnitBean = unitItems.get(options1);
                 String tx = selectedUnitBean.getPickerViewText();
                 tvUnit.setText(tx);
-                requestRoomList(selectedUnitBean.getValue());
+                requestRoomList();
             }
         })
                 .setLayoutRes(R.layout.pickerview_custom_options, new CustomListener() {
@@ -408,14 +474,11 @@ public class OwnerSearchFragment extends BaseLoadingFragment {
 
 
     private void initRoomOptionPicker(TaskAreaListBean.CellListBean.UnitListBean unitListBean) {
-        //还原初始状态
-        selectedRoomClear();
         List<BuildingRoomListBean> roomList = unitListBean.getRoomList();
         if (roomList.size() <= 0) {
             ToastUtil.showToast(getContext(), "数据为空");
             return;
         }
-        roomItems.addAll(roomList);
         pvRoomOptions = new OptionsPickerView.Builder(getContext(), new OptionsPickerView.OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int option2, int options3, View v) {
@@ -447,6 +510,5 @@ public class OwnerSearchFragment extends BaseLoadingFragment {
                 .build();
         pvRoomOptions.setPicker(roomItems);//添加数据
     }
-
 
 }

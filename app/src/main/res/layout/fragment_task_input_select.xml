@@ -59,13 +59,16 @@
             android:background="@color/background_gray" />
 
         <LinearLayout
+            android:paddingBottom="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <LinearLayout
+                android:id="@+id/ll_area"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:paddingBottom="20dp"
                 android:paddingLeft="15dp">
 
@@ -76,7 +79,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:text="分区" />
-
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_list"
                     android:layout_width="wrap_content"
@@ -84,25 +86,26 @@
                     android:layout_marginLeft="12dp"
                     android:layout_marginTop="20dp"
                     android:layout_toRightOf="@id/tv_dot1" />
-
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="15dp"
+                android:id="@+id/ll_building"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="15dp">
                 <TextView
                     android:id="@+id/tv_dot2"
                     style="@style/normal_content_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/rv_list"
-                    android:layout_marginTop="29dp"
                     android:text="楼宇" />
-
                 <TextView
                     android:id="@+id/tv_building"
                     style="@style/normal_content_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/rv_list"
                     android:layout_marginLeft="11dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_toRightOf="@id/tv_dot2"
                     android:background="@drawable/bg_edittext_normal_shape"
                     android:drawablePadding="18dp"
                     android:drawableRight="@drawable/double_arrow"
@@ -111,15 +114,21 @@
                     android:padding="9dp"
                     android:hint="请选择楼宇"
                     android:textColorHint="@color/TC_2"
-                     />
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_unit"
+                android:layout_marginTop="15dp"
 
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="15dp">
                 <TextView
                     android:id="@+id/tv_dot3"
                     style="@style/normal_content_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_building"
-                    android:layout_marginTop="29dp"
                     android:text="单元" />
 
                 <TextView
@@ -127,10 +136,7 @@
                     style="@style/normal_content_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_building"
                     android:layout_marginLeft="11dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_toRightOf="@id/tv_dot3"
                     android:background="@drawable/bg_edittext_normal_shape"
                     android:drawablePadding="18dp"
                     android:drawableRight="@drawable/double_arrow"
@@ -139,49 +145,36 @@
                     android:padding="9dp"
                     android:textColorHint="@color/TC_2"
                     android:hint="请选择单元"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="15dp"
 
+                android:id="@+id/ll_room"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="15dp">
                 <TextView
                     android:id="@+id/tv_dot4"
                     style="@style/normal_content_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_unit"
-                    android:layout_marginTop="29dp"
                     android:text="房间" />
                 <TextView
+                    android:minWidth="120dp"
                     android:id="@+id/tv_room"
                     style="@style/normal_content_text"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_unit"
+                    android:layout_height="38dp"
                     android:layout_marginLeft="11dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_toRightOf="@id/tv_dot3"
-                    android:background="@drawable/bg_edittext_normal_shape"
                     android:drawablePadding="18dp"
                     android:drawableRight="@drawable/double_arrow"
                     android:lines="1"
-                    android:minWidth="120dp"
-                    android:padding="9dp"
                     android:textColorHint="@color/TC_2"
-                    android:hint="请选择房间"/>
-                <!--<EditText-->
-                    <!--android:lines="1"-->
-                    <!--android:minWidth="120dp"-->
-                    <!--android:id="@+id/tv_room"-->
-                    <!--style="@style/normal_content_text"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="38dp"-->
-                    <!--android:layout_below="@id/tv_unit"-->
-                    <!--android:layout_marginLeft="11dp"-->
-                    <!--android:layout_marginTop="20dp"-->
-                    <!--android:layout_toRightOf="@id/tv_dot3"-->
-                    <!--android:background="@drawable/bg_edittext_gray_shape"-->
-                    <!--android:drawablePadding="28dp"-->
-                    <!--android:inputType="number"-->
-                    <!--android:padding="9dp" />-->
-
-            </RelativeLayout>
+                    android:hint="请选择房间"
+                    android:background="@drawable/bg_edittext_normal_shape"
+                    android:padding="9dp" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
