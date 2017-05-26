@@ -41,7 +41,7 @@ public class NotificationListFragment extends BaseRefreshAndLoadMoreFragment<Not
 
     @Override
     protected Observable<NotificationListBean> getNetObservable(int maxId) {
-        return NotificationModel.notificationList(maxId).compose(RxHelper.<NotificationListBean>handleResult());
+        return NotificationModel.INSTANCE.notificationList(maxId).compose(RxHelper.<NotificationListBean>handleResult());
     }
 
     @Override

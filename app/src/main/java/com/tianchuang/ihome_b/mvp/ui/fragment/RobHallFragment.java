@@ -57,7 +57,7 @@ public class RobHallFragment extends BaseRefreshAndLoadMoreFragment<RobHallListI
 
     @Override
     protected Observable<RobHallListBean> getNetObservable(int maxId) {
-        return RobHallModel.requestRobHallList(UserUtil.getLoginBean().getPropertyCompanyId(), maxId)
+        return RobHallModel.INSTANCE.requestRobHallList(UserUtil.getLoginBean().getPropertyCompanyId(), maxId)
                 .compose(RxHelper.<RobHallListBean>handleResult());
     }
 

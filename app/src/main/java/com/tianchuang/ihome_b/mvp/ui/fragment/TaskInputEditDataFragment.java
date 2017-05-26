@@ -91,7 +91,7 @@ public class TaskInputEditDataFragment extends BaseFragment {
 
             String formatNum = StringUtils.formatNumWithFour(currentData);
             tvCurrentData.setText(formatNum);
-            MyTaskModel.taskCurrentDataSubmit(dataInfo.getId(), formatNum)
+            MyTaskModel.INSTANCE.taskCurrentDataSubmit(dataInfo.getId(), formatNum)
                     .compose(RxHelper.<String>handleResult())
                     .doOnSubscribe(o -> showProgress())
                     .compose(this.<String>bindToLifecycle())

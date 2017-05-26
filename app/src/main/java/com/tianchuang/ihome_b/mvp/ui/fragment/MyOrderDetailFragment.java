@@ -80,7 +80,7 @@ public class MyOrderDetailFragment extends BaseLoadingFragment {
 
     @Override
     protected void initData() {
-        MyOrderModel.myOrderDetail(id)
+        MyOrderModel.INSTANCE.myOrderDetail(id)
                 .compose(this.<HttpModle<MyOrderDetailBean>>bindToLifecycle())
                 .compose(RxHelper.<MyOrderDetailBean>handleResult())
                 .subscribe(new RxSubscribe<MyOrderDetailBean>() {

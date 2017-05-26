@@ -57,7 +57,7 @@ public class BuildingSearchFragment extends BaseLoadingFragment {
 
     @Override
     protected void initData() {
-        DataSearchModel.requestBuildingSearch()
+        DataSearchModel.INSTANCE.requestBuildingSearch()
                 .compose(RxHelper.<ArrayList<DataBuildingSearchBean>>handleResult())
                 .compose(this.<ArrayList<DataBuildingSearchBean>>bindToLifecycle())
                 .subscribe(new RxSubscribe<ArrayList<DataBuildingSearchBean>>() {

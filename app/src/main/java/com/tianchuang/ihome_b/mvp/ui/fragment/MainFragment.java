@@ -176,7 +176,7 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         if (loginBean == null || !loginBean.getPropertyEnable()) {
             return;
         }
-        HomePageModel.homePageList()
+        HomePageModel.INSTANCE.homePageList()
                 .compose(RxHelper.handleResult())
                 .compose(bindToLifecycle())
                 .retry(2)
@@ -212,7 +212,7 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     private void parseResult(HomePageBean homePageBean) {
         Observable.just(homePageBean)
                 .observeOn(Schedulers.io())
-                .map(bean -> HomePageModel.getHomePageMultiItemList(bean))
+                .map(bean -> HomePageModel.INSTANCE.getHomePageMultiItemList(bean))
                 .compose(bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<HomePageMultiItem>>() {

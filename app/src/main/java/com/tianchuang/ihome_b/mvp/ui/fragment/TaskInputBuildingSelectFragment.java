@@ -298,7 +298,7 @@ public class TaskInputBuildingSelectFragment extends BaseFragment {
 
     @NonNull
     private Observable<TaskInputResponseBean> getTaskInputResponseBeanObservable(Integer roomId) {
-        return MyTaskModel.taskInputSubmit(taskBean.getTaskRecordId(), selectedUnitBean.getBuildingId(), selectedUnitBean.getBuildingCellId(), selectedUnitBean.getId(), roomId)
+        return MyTaskModel.INSTANCE.taskInputSubmit(taskBean.getTaskRecordId(), selectedUnitBean.getBuildingId(), selectedUnitBean.getBuildingCellId(), selectedUnitBean.getId(), roomId)
                 .compose(RxHelper.<TaskInputResponseBean>handleResult())
                 .compose(this.<TaskInputResponseBean>bindToLifecycle())
                 .doOnSubscribe(o -> {
@@ -460,7 +460,7 @@ public class TaskInputBuildingSelectFragment extends BaseFragment {
      * 请求房间列表
      */
     private void requestRooms(TaskAreaListBean.CellListBean.UnitListBean selectedUnitBean) {
-        MyTaskModel.requestRoomNumList(selectedUnitBean.getBuildingId(), selectedUnitBean.getBuildingCellId(), selectedUnitBean.getId())
+        MyTaskModel.INSTANCE.requestRoomNumList(selectedUnitBean.getBuildingId(), selectedUnitBean.getBuildingCellId(), selectedUnitBean.getId())
                 .compose(RxHelper.handleResult())
                 .compose(bindToLifecycle())
                 .subscribe(new RxSubscribe<ArrayList<BuildingRoomItemBean>>() {

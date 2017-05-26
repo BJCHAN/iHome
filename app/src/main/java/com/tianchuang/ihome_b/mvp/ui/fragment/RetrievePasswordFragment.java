@@ -113,7 +113,7 @@ public class RetrievePasswordFragment extends BaseFragment {
     private void showDialog(final String phone) {
         Observable.create(emitter -> initDialog(emitter, phone))
                 .flatMap(o ->{showProgress();
-                return LoginModel.retrievePassword(etPhoneNum.getText().toString().trim()).compose(RxHelper.<String>handleResult());
+                return LoginModel.INSTANCE.retrievePassword(etPhoneNum.getText().toString().trim()).compose(RxHelper.<String>handleResult());
                 }
         )
                 .compose(this.bindToLifecycle())

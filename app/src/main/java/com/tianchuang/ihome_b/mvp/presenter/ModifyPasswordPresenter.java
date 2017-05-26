@@ -24,7 +24,7 @@ public class ModifyPasswordPresenter extends BasePresenterImpl<ModifyPasswordCon
                 , (oldPwd1, newPwd1, surePwd1) -> whetherValidPwd(newPwd1, surePwd1))
                 .doOnSubscribe(o->mView.showProgress())
                 .filter(bln -> bln)
-                .flatMap(bln -> LoginModel.modifyPassword(oldPwd, newPwd).compose(RxHelper.handleResult()))
+                .flatMap(bln -> LoginModel.INSTANCE.modifyPassword(oldPwd, newPwd).compose(RxHelper.handleResult()))
                 .compose(mView.bindToLifecycle())
                 .subscribe(new RxSubscribe<String>() {
                     @Override

@@ -92,7 +92,7 @@ public class OwnerSearchFragment extends BaseLoadingFragment {
         llBuilding.setVisibility(View.GONE);
         llUnit.setVisibility(View.GONE);
         llRoom.setVisibility(View.GONE);
-        DataSearchModel.requestAreaList()//请求小区列表
+        DataSearchModel.INSTANCE.requestAreaList()//请求小区列表
                 .doOnNext(httpModle -> {
                     isAreaHide = httpModle.hide;
                 })
@@ -203,7 +203,7 @@ public class OwnerSearchFragment extends BaseLoadingFragment {
     }
 
     private void requestOwnerDetail(int value) {
-        DataSearchModel.requestOwnerDetail(value)
+        DataSearchModel.INSTANCE.requestOwnerDetail(value)
                 .compose(RxHelper.<OwnerDetailBean>handleResult())
                 .compose(this.<OwnerDetailBean>bindToLifecycle())
                 .doOnSubscribe(o -> {
@@ -244,7 +244,7 @@ public class OwnerSearchFragment extends BaseLoadingFragment {
      * 请求楼宇列表
      */
     private void requestBuildingList() {
-        DataSearchModel.requestBuildingList(selestedAreaBean.getId())
+        DataSearchModel.INSTANCE.requestBuildingList(selestedAreaBean.getId())
                 .doOnNext(httpModle -> {
                     isBuildingHide = httpModle.hide;
                 })
@@ -291,7 +291,7 @@ public class OwnerSearchFragment extends BaseLoadingFragment {
      * 请求单元列表
      */
     private void requestUnitList() {
-        DataSearchModel.requestUnitList(selectedBuildingBean.getValue())
+        DataSearchModel.INSTANCE.requestUnitList(selectedBuildingBean.getValue())
                 .doOnNext(httpModle -> {
                     isUnitHide = httpModle.hide;
                 })
@@ -336,7 +336,7 @@ public class OwnerSearchFragment extends BaseLoadingFragment {
      * 请求房间列表
      */
     private void requestRoomList() {
-        DataSearchModel.requestRoomList(selectedUnitBean.getValue())
+        DataSearchModel.INSTANCE.requestRoomList(selectedUnitBean.getValue())
                 .compose(RxHelper.<ArrayList<BuildingRoomListBean>>handleResult())
                 .compose(this.<ArrayList<BuildingRoomListBean>>bindToLifecycle())
 //                .doOnSubscribe(o -> {

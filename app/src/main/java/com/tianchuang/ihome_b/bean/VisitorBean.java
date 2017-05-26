@@ -73,14 +73,14 @@ public class VisitorBean extends BaseListLoadBean<VisitorBean.VisitorItemBean> {
 
             VisitorItemBean model = (VisitorItemBean) o;
 
-            if (id != model.id) return false;
+            if (getId() != model.getId()) return false;
             return mobile != null ? mobile.equals(model.mobile) : model.mobile == null;
 
         }
 
         @Override
         public int hashCode() {
-            int result = (int) (id ^ (id >>> 32));
+            int result = (int) (getId() ^ (getId() >>> 32));
             result = 31 * result + (mobile != null ? mobile.hashCode() : 0);
             return result;
         }

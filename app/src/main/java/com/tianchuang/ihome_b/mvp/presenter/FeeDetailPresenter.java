@@ -43,8 +43,8 @@ public class FeeDetailPresenter extends BasePresenterImpl<FeeDetailContract.View
     public void fetchFeeList() {
         materialList = new ArrayList<>();
         chargeTypeList = new ArrayList<>();
-        Observable<ArrayList<MaterialListItemBean>> materialListObservable = MyOrderModel.materialList().compose(RxHelper.handleResult());
-        Observable<ArrayList<ChargeTypeListItemBean>> chargeTypeListObservable = MyOrderModel.chargeTypeList().compose(RxHelper.handleResult());
+        Observable<ArrayList<MaterialListItemBean>> materialListObservable = MyOrderModel.INSTANCE.materialList().compose(RxHelper.handleResult());
+        Observable<ArrayList<ChargeTypeListItemBean>> chargeTypeListObservable = MyOrderModel.INSTANCE.chargeTypeList().compose(RxHelper.handleResult());
         getChargeTypeAndMaterialList(materialListObservable, chargeTypeListObservable)
                 .retry(2)
                 .subscribe(new RxSubscribe<Object>() {
@@ -86,7 +86,7 @@ public class FeeDetailPresenter extends BasePresenterImpl<FeeDetailContract.View
      */
     @Override
     public void requestSubmit(int repairId, boolean checked, ArrayList<CommonFeeBean> commonFeeBeenList) {
-        MyOrderModel.submitFeeList(repairId, checked ? 1 : 0, StringUtils.toJson(commonFeeBeenList, 2))
+        MyOrderModel.INSTANCE.submitFeeList(repairId, checked ? 1 : 0, StringUtils.toJson(commonFeeBeenList, 2))
                 .compose(RxHelper.handleResult())
                 .compose(mView.bindToLifecycle())
                 .doOnSubscribe(o->mView.showProgress())

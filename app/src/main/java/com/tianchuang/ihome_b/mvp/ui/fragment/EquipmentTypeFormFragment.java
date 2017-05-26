@@ -134,7 +134,7 @@ public class EquipmentTypeFormFragment extends BaseFragment {
      *
      */
     private void requestNet() {
-        DataSearchModel.requestEquipmentListSearch(item.getId())
+        DataSearchModel.INSTANCE.requestEquipmentListSearch(item.getId())
                 .compose(RxHelper.<ArrayList<EquipmentSearchListItemBean>>handleResult())
                 .subscribe(new RxSubscribe<ArrayList<EquipmentSearchListItemBean>>() {
                     @Override

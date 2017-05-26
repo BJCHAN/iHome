@@ -307,14 +307,14 @@ public class ComplainSuggestListFragment extends BaseLoadingFragment implements 
     //请求数据 未处理投诉建议列表
     @NonNull
     private Observable<ComplainSuggestUntratedBean> getComplainSuggestUntratedBean(int maxid) {
-        return ComplainSuggestModel.complainSuggestUntrated(UserUtil.getLoginBean().getPropertyCompanyId(), maxid)
+        return ComplainSuggestModel.INSTANCE.complainSuggestUntrated(UserUtil.getLoginBean().getPropertyCompanyId(), maxid)
                 .compose(RxHelper.<ComplainSuggestUntratedBean>handleResult());
     }
 
     //请求数据 已处理投诉建议列表
     @NonNull
     private Observable<ComplainSuggestProcessedBean> getComplainSuggestProcessedBean(int maxid) {
-        return ComplainSuggestModel.complainSuggestProcessed(UserUtil.getLoginBean().getPropertyCompanyId(), maxid)
+        return ComplainSuggestModel.INSTANCE.complainSuggestProcessed(UserUtil.getLoginBean().getPropertyCompanyId(), maxid)
                 .compose(RxHelper.<ComplainSuggestProcessedBean>handleResult());
     }
 }

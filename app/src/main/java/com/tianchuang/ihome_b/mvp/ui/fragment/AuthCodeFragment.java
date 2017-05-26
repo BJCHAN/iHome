@@ -75,7 +75,7 @@ public class AuthCodeFragment extends BaseFragment {
     @OnClick(R.id.bt_sure)
     public void onClick() {
         String authCode = etAuthCode.getText().toString().trim();
-        LoginModel.requestRegisterAccount(phone, passwrod, authCode, name).compose(RxHelper.<String>handleResult())
+        LoginModel.INSTANCE.requestRegisterAccount(phone, passwrod, authCode, name).compose(RxHelper.<String>handleResult())
                 .subscribe(new RxSubscribe<String>() {
                     @Override
                     public void _onNext(String s) {//注册成功
@@ -145,7 +145,7 @@ public class AuthCodeFragment extends BaseFragment {
      * 请求网络发送验证码
      */
     public void requestNetForCode() {
-        LoginModel.requestAuthCode(phone)
+        LoginModel.INSTANCE.requestAuthCode(phone)
                 .compose(RxHelper.handleResult())
                 .compose(bindToLifecycle())
                 .subscribe(new RxSubscribe<String>() {

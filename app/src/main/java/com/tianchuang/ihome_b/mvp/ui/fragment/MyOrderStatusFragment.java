@@ -74,10 +74,10 @@ public class MyOrderStatusFragment extends BaseRefreshAndLoadMoreFragment<MyOrde
     @Override
     protected Observable<MyOrderListBean> getNetObservable(int maxId) {
         if (currentType == UNDER_WAY) {
-            return MyOrderModel.myOrderUnfinished(UserUtil.getLoginBean().getPropertyCompanyId(), maxId)
+            return MyOrderModel.INSTANCE.myOrderUnfinished(UserUtil.getLoginBean().getPropertyCompanyId(), maxId)
                     .compose(RxHelper.<MyOrderListBean>handleResult());
         } else {
-            return MyOrderModel.myOrderfinished(UserUtil.getLoginBean().getPropertyCompanyId(), maxId)
+            return MyOrderModel.INSTANCE.myOrderfinished(UserUtil.getLoginBean().getPropertyCompanyId(), maxId)
                     .compose(RxHelper.<MyOrderListBean>handleResult());
         }
     }

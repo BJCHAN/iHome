@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/login_rl"
+    android:id="@+id/loginRl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
@@ -17,7 +17,7 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/et_name"
+                android:id="@+id/etName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="47dp"
@@ -37,7 +37,7 @@
                 android:textSize="15sp" />
 
             <EditText
-                android:id="@+id/et_phone_num"
+                android:id="@+id/etPhoneNum"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="47dp"
@@ -64,7 +64,7 @@
                 android:background="@drawable/bg_edittext_normal_shape">
 
                 <EditText
-                    android:id="@+id/et_passwrod"
+                    android:id="@+id/etPasswrod"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
@@ -80,13 +80,14 @@
                     android:textSize="15sp" />
 
                 <ImageView
-                    android:id="@+id/iv_pwd_isvisible"
+                    android:id="@+id/ivPwdIsvisible"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
                     android:padding="10dp"
-                    android:src="@mipmap/pwd_invisible_icon" />
+                    android:src="@mipmap/pwd_invisible_icon"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -97,7 +98,7 @@
                 android:layout_marginTop="12dp">
 
                 <TextView
-                    android:id="@+id/tv_red_tip"
+                    android:id="@+id/tvRedTip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
@@ -108,7 +109,7 @@
             </RelativeLayout>
 
             <Button
-                android:id="@+id/bt_register"
+                android:id="@+id/btRegister"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -124,6 +125,7 @@
                 android:textSize="15sp" />
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -143,11 +145,13 @@
                     android:layout_marginLeft="8dp"
                     android:gravity="center"
                     android:text="我同意"
+                    android:visibility="gone"
                     android:textColor="@color/TC_1"
                     android:textSize="13sp" />
 
                 <TextView
-                    android:id="@+id/tv_register_protocol"
+                    android:visibility="gone"
+                    android:id="@+id/tvRegisterProtocol"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="1dp"

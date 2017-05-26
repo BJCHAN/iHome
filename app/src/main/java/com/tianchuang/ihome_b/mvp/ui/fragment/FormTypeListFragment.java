@@ -48,7 +48,7 @@ public class FormTypeListFragment extends BaseRefreshAndLoadMoreFragment<FormTyp
 
     @Override
     protected Observable<FormTypeListBean> getNetObservable(int maxId) {
-        return FormModel.formTypeList(maxId).compose(RxHelper.<FormTypeListBean>handleResult());
+        return FormModel.INSTANCE.formTypeList(maxId).compose(RxHelper.<FormTypeListBean>handleResult());
     }
 
     @Override

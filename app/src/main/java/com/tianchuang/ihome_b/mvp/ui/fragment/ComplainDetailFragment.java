@@ -77,7 +77,7 @@ public class ComplainDetailFragment extends BaseLoadingFragment {
      */
     @Override
     protected void initData() {
-        ComplainSuggestModel.complainDetail(id)
+        ComplainSuggestModel.INSTANCE.complainDetail(id)
                 .compose(this.<HttpModle<ComplainDetailBean>>bindToLifecycle())
                 .compose(RxHelper.<ComplainDetailBean>handleResult())
                 .subscribe(new RxSubscribe<ComplainDetailBean>() {
@@ -135,7 +135,7 @@ public class ComplainDetailFragment extends BaseLoadingFragment {
      * @param content
      */
     private void requestNetToReplay(int id, String content) {
-        ComplainSuggestModel.complainReply(id, content)
+        ComplainSuggestModel.INSTANCE.complainReply(id, content)
                 .compose(this.<HttpModle<String>>bindToLifecycle())
                 .doOnSubscribe(o->showProgress())
                 .subscribe(new Observer<HttpModle<String>>() {

@@ -69,7 +69,7 @@ public class TaskInputSuccessFragment extends BaseFragment {
                 EventBus.getDefault().post(new NotifyTaskDetailRefreshEvent());
                 break;
             case R.id.tv_finish:
-                MyTaskModel.taskFinishedConfirm(bean.getTaskRecordId())
+                MyTaskModel.INSTANCE.taskFinishedConfirm(bean.getTaskRecordId())
                         .compose(RxHelper.<String>handleResult())
                         .compose(this.<String>bindToLifecycle())
                         .subscribe(new RxSubscribe<String>() {

@@ -61,7 +61,7 @@ public class EquipmentTypeFragment extends BaseLoadingFragment {
 
     @Override
     protected void initData() {
-        DataSearchModel.requestEquipmentTypeSearch()
+        DataSearchModel.INSTANCE.requestEquipmentTypeSearch()
                 .compose(RxHelper.<ArrayList<EquipmentTypeSearchBean>>handleResult())
                 .compose(this.<ArrayList<EquipmentTypeSearchBean>>bindToLifecycle())
                 .subscribe(new RxSubscribe<ArrayList<EquipmentTypeSearchBean>>() {

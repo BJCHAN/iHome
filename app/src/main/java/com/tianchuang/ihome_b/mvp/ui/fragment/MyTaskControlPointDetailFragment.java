@@ -173,7 +173,7 @@ public class MyTaskControlPointDetailFragment extends BaseLoadingFragment implem
      * 请求详情数据
      */
     private void requestDetailData() {
-        MyTaskModel.taskControlPointDetail(taskRecordId)//请求控制点数据
+        MyTaskModel.INSTANCE.taskControlPointDetail(taskRecordId)//请求控制点数据
                 .compose(RxHelper.handleResult())
                 .compose(this.bindToLifecycle())
                 .subscribe(new RxSubscribe<TaskPointDetailBean>() {
@@ -273,7 +273,7 @@ public class MyTaskControlPointDetailFragment extends BaseLoadingFragment implem
     }
 
     private void requestTaskQrCode(HashMap<String, String> map) {
-        HomePageModel.requestTaskQrCode(map)
+        HomePageModel.INSTANCE.requestTaskQrCode(map)
                 .compose(RxHelper.handleResult())
                 .doOnSubscribe(o ->showProgress())
                 .compose(bindToLifecycle())

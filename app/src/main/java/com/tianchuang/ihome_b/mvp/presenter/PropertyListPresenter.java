@@ -30,7 +30,7 @@ public class PropertyListPresenter extends BasePresenterImpl<PropertyListContrac
 
     @Override
     public void requestPropertyListData() {
-        PropertyModel.requestPropertyList()
+        PropertyModel.INSTANCE.requestPropertyList()
                 .compose(RxHelper.handleResult())
                 .compose(mView.bindToLifecycle())
                 .subscribe(new RxSubscribe<ArrayList<PropertyListItemBean>>() {
@@ -69,7 +69,7 @@ public class PropertyListPresenter extends BasePresenterImpl<PropertyListContrac
 
     @Override
     public void requestSetOften(PropertyListItemBean propertyListItemBean, int position) {
-        PropertyModel.requestSetOften(propertyListItemBean.getId())
+        PropertyModel.INSTANCE.requestSetOften(propertyListItemBean.getId())
                 .map(HttpModle::success)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -112,7 +112,7 @@ public class PropertyListPresenter extends BasePresenterImpl<PropertyListContrac
 
     @Override
     public void requestDelete(int position) {
-        PropertyModel.propertyDelete(data.get(position).getId())
+        PropertyModel.INSTANCE.propertyDelete(data.get(position).getId())
                 .compose(mView.bindToLifecycle())
                 .doOnSubscribe(o->mView.showProgress())
                 .compose(RxHelper.handleResult())

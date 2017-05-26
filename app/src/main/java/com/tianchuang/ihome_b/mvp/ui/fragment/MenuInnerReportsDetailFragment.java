@@ -137,7 +137,7 @@ public class MenuInnerReportsDetailFragment extends BaseFragment {
     }
 
     private void requestFinished() {
-        InnerReportsModel.reportsFinished(info.getId())
+        InnerReportsModel.INSTANCE.reportsFinished(info.getId())
                 .compose(RxHelper.<String>handleResult())
                 .compose(this.<String>bindToLifecycle())
                 .doOnSubscribe(o ->
@@ -170,7 +170,7 @@ public class MenuInnerReportsDetailFragment extends BaseFragment {
     }
 
     private void requestProcessing() {
-        InnerReportsModel.reportsProcessing(info.getId())
+        InnerReportsModel.INSTANCE.reportsProcessing(info.getId())
                 .compose(RxHelper.<String>handleResult())
                 .compose(this.<String>bindToLifecycle())
                 .doOnSubscribe(o -> {

@@ -58,7 +58,7 @@ public class MyFormDetailFragment extends BaseLoadingFragment {
             tvName.setText(StringUtils.getNotNull(bean.getTypeName()));
             tvDate.setText(StringUtils.getNotNull(DateUtils.formatDate(bean.getCreatedDate(), DateUtils.TYPE_05)));
         }
-        FormModel.myFormDetail(bean.getId())
+        FormModel.INSTANCE.myFormDetail(bean.getId())
                 .compose(RxHelper.<MyFormDetailBean>handleResult())
                 .compose(this.<MyFormDetailBean>bindToLifecycle())
                 .subscribe(new RxSubscribe<MyFormDetailBean>() {

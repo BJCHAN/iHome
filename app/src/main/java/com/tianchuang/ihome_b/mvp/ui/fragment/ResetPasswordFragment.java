@@ -103,7 +103,7 @@ public class ResetPasswordFragment extends BaseFragment {
 				 String pwd = etNewPasswrod.getText().toString().trim();
 				Observable.just(pwd)
 						.filter(this::whetherCanLogin)
-						.flatMap(str->LoginModel.resetPassword(phone, str, code).compose(RxHelper.handleResult()))
+						.flatMap(str-> LoginModel.INSTANCE.resetPassword(phone, str, code).compose(RxHelper.handleResult()))
 						.doOnSubscribe(o ->showProgress())
 						.compose(bindToLifecycle())
 						.subscribe(new RxSubscribe<String>() {

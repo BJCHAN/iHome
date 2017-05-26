@@ -49,7 +49,7 @@ public class MenuInnerReportsFragment extends BaseRefreshAndLoadMoreFragment<Men
      */
     @Override
     protected Observable<MenuInnerListBean> getNetObservable(int maxId) {
-        return InnerReportsModel.requestReportsList(UserUtil.getLoginBean().getPropertyCompanyId(), maxId)
+        return InnerReportsModel.INSTANCE.requestReportsList(UserUtil.getLoginBean().getPropertyCompanyId(), maxId)
                 .compose(RxHelper.<MenuInnerListBean>handleResult());
     }
 

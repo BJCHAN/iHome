@@ -162,7 +162,7 @@ public class InnerReportsFragment extends BaseFragment implements InnerReportsAc
                 files.add(new File(imagesMultipleItem.getUrl()));
             }
         }
-        InnerReportsModel.requestReportsSubmit(UserUtil.getLoginBean().getPropertyCompanyId(), content, files)
+        InnerReportsModel.INSTANCE.requestReportsSubmit(UserUtil.getLoginBean().getPropertyCompanyId(), content, files)
                 .compose(RxHelper.handleResult())
                 .compose(this.bindToLifecycle())
                 .doOnSubscribe(o ->showProgress())

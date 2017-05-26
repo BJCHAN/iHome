@@ -82,7 +82,7 @@ public class MyTaskUnderWayFragment extends BaseRefreshAndLoadMoreFragment<MyTas
 
     @Override
     protected Observable<MyTaskUnderWayListBean> getNetObservable(int maxId) {
-        return MyTaskModel.myTaskUnderWayList(maxId).compose(RxHelper.<MyTaskUnderWayListBean>handleResult());
+        return MyTaskModel.INSTANCE.myTaskUnderWayList(maxId).compose(RxHelper.<MyTaskUnderWayListBean>handleResult());
     }
 
     @Override

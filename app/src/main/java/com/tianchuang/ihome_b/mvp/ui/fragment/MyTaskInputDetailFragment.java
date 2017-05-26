@@ -89,7 +89,7 @@ public class MyTaskInputDetailFragment extends BaseLoadingFragment {
 
     @Override
     protected void initData() {
-        MyTaskModel.taskInputDetail(taskRecordId)
+        MyTaskModel.INSTANCE.taskInputDetail(taskRecordId)
                 .compose(RxHelper.<TaskInputDetailBean>handleResult())
 //                .doOnSubscribe(new Action0() {
 //                    @Override

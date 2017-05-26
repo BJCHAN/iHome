@@ -44,7 +44,7 @@ public class MyTaskFinishedFragment extends BaseRefreshAndLoadMoreFragment<MyTas
      * 请求详情数据
      */
     private void requestDetailData(int taskRecordId) {
-        MyTaskModel.taskControlPointDetail(taskRecordId)//请求控制点数据
+        MyTaskModel.INSTANCE.taskControlPointDetail(taskRecordId)//请求控制点数据
                 .compose(RxHelper.handleResult())
                 .compose(this.bindToLifecycle())
                 .doOnSubscribe(o->showProgress())
@@ -72,7 +72,7 @@ public class MyTaskFinishedFragment extends BaseRefreshAndLoadMoreFragment<MyTas
     }
     @Override
     protected Observable<MyTaskUnderWayListBean> getNetObservable(int maxId) {
-        return MyTaskModel.myTaskFinishList(maxId).compose(RxHelper.<MyTaskUnderWayListBean>handleResult());
+        return MyTaskModel.INSTANCE.myTaskFinishList(maxId).compose(RxHelper.<MyTaskUnderWayListBean>handleResult());
     }
 
     @Override

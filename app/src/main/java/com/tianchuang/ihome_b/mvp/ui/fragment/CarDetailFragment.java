@@ -132,7 +132,7 @@ public class CarDetailFragment extends BaseFragment {
                     ToastUtil.showToast(getContext(), "车牌号不能为空");
                     return;
                 }
-                DataSearchModel.carDetail(carSelectedItem.getName() + plateNum)
+                DataSearchModel.INSTANCE.carDetail(carSelectedItem.getName() + plateNum)
                         .compose(RxHelper.<CarDetailBean>handleResult())
                         .compose(this.<CarDetailBean>bindToLifecycle())
                         .doOnSubscribe(o ->showProgress())

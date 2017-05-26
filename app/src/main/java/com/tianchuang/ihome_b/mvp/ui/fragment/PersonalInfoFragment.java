@@ -57,7 +57,7 @@ public class PersonalInfoFragment extends BaseLoadingFragment {
         mData = new ArrayList<>();
         adapter = new PersonalInfoAdapter(mData);
         rvList.setAdapter(adapter);
-        HomePageModel.requestPersonInfo()
+        HomePageModel.INSTANCE.requestPersonInfo()
                 .compose(RxHelper.<ArrayList<PersonalInfoBean>>handleResult())
                 .compose(this.<ArrayList<PersonalInfoBean>>bindToLifecycle())
                 .subscribe(new RxSubscribe<ArrayList<PersonalInfoBean>>() {

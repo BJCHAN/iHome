@@ -106,7 +106,7 @@ public class LoginFragment extends BaseFragment {
                 (phone1,pwd1) ->whetherCanLogin(phone)
         )
                 .filter(b ->b )
-                .flatMap(b -> LoginModel.requestLogin(phone, pwd).compose(RxHelper.handleResult())
+                .flatMap(b -> LoginModel.INSTANCE.requestLogin(phone, pwd).compose(RxHelper.handleResult())
 
                 )
                 .compose(this.bindToLifecycle())

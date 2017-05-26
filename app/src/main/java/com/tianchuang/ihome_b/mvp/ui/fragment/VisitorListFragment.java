@@ -49,7 +49,7 @@ public class VisitorListFragment extends BaseRefreshAndLoadMoreFragment<VisitorB
 
     @Override
     protected Observable<VisitorBean> getNetObservable(int maxId) {
-        return VisitorListModel.visitorList(maxId, phone)
+        return VisitorListModel.INSTANCE.visitorList(maxId, phone)
                 .compose(RxHelper.<VisitorBean>handleResult());
     }
 

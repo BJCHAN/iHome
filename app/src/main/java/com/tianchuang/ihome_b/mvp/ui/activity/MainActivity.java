@@ -423,7 +423,7 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
     }
 
     private void requestTaskQrCode(HashMap<String, String> map) {
-        HomePageModel.requestTaskQrCode(map)
+        HomePageModel.INSTANCE.requestTaskQrCode(map)
                 .compose(RxHelper.handleResult())
                 .compose(bindToLifecycle())
                 .subscribe(new RxSubscribe<TaskPointDetailBean>() {
@@ -454,7 +454,7 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
     }
 
     private void requestQrCode(HashMap<String, String> map) {
-        HomePageModel.requestQrCode(map)
+        HomePageModel.INSTANCE.requestQrCode(map)
                 .compose(RxHelper.handleResult())
                 .compose(this.bindToLifecycle())
                 .subscribe(new RxSubscribe<ArrayList<QrCodeBean>>() {

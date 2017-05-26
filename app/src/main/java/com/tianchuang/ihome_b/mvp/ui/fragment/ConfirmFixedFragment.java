@@ -205,7 +205,7 @@ public class ConfirmFixedFragment extends BaseFragment implements MyOrderActivit
             return beforePhotos;
         })
                 .observeOn(Schedulers.io())
-                .switchMap(parts ->  MyOrderModel.confirmOrder(repairId, content, parts)
+                .switchMap(parts ->  MyOrderModel.INSTANCE.confirmOrder(repairId, content, parts)
                     )
                 .compose(this.bindToLifecycle())
                 .compose(RxHelper.handleResult())

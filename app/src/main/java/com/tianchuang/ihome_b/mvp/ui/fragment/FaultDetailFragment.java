@@ -68,7 +68,7 @@ public class FaultDetailFragment extends BaseLoadingFragment {
         RobHallListItem item = (RobHallListItem) getArguments().getSerializable("item");
         if (item != null) {
             repairsId = item.getId();
-            RobHallModel.requestRobHallRepairDetail(repairsId)
+            RobHallModel.INSTANCE.requestRobHallRepairDetail(repairsId)
                     .compose(RxHelper.handleResult())
                     .compose(this.bindToLifecycle())
                     .subscribe(new RxSubscribe<RobHallRepairDetailListBean>() {
@@ -98,7 +98,7 @@ public class FaultDetailFragment extends BaseLoadingFragment {
                     .throttleFirst(3, TimeUnit.SECONDS)
                     .flatMap(o -> {
                                 showProgress();
-                                return RobHallModel.requestRobRepair(repairsId);
+                                return RobHallModel.INSTANCE.requestRobRepair(repairsId);
                             }
                     )
                     .compose(this.bindToLifecycle())

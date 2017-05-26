@@ -60,7 +60,7 @@ public class NotificationDetailFragment extends BaseLoadingFragment {
     @Override
     protected void initData() {
         int noticeId = getArguments().getInt("noticeId");
-        NotificationModel.notificationDetail(noticeId)
+        NotificationModel.INSTANCE.notificationDetail(noticeId)
                 .compose(RxHelper.<NotificationItemBean>handleResult())
                 .compose(this.<NotificationItemBean>bindToLifecycle())
                 .subscribe(new RxSubscribe<NotificationItemBean>() {

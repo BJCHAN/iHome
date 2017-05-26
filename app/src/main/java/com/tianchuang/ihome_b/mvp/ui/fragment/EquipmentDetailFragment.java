@@ -67,7 +67,7 @@ public class EquipmentDetailFragment extends BaseLoadingFragment {
         if (serializable != null) {
             updateUIByData(((EquipmentDetailBean) serializable));
         } else {
-            DataSearchModel.equipmentDetail(id)
+            DataSearchModel.INSTANCE.equipmentDetail(id)
                     .compose(RxHelper.<EquipmentDetailBean>handleResult())
                     .compose(this.<EquipmentDetailBean>bindToLifecycle())
                     .subscribe(new RxSubscribe<EquipmentDetailBean>() {

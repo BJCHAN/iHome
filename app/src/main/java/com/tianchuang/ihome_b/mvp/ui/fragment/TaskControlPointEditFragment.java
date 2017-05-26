@@ -170,7 +170,7 @@ public class TaskControlPointEditFragment extends BaseFragment implements TaskSu
                     }
                     return parts;
                 })//请求网络
-                .flatMap(parts -> MyTaskModel.taskFormSubmit(taskRecordId, formTypeItemBean.getId(), submitTextMap, parts)
+                .flatMap(parts -> MyTaskModel.INSTANCE.taskFormSubmit(taskRecordId, formTypeItemBean.getId(), submitTextMap, parts)
                         .compose(RxHelper.handleResult())
                 )
                 .observeOn(AndroidSchedulers.mainThread())

@@ -203,7 +203,7 @@ public class FormSubmitActivity extends BaseActivity implements View.OnClickList
                 .flatMap(new Function<List<MultipartBody.Part>, Observable<String>>() {
                     @Override
                     public Observable<String> apply(List<MultipartBody.Part> parts) {
-                        return FormModel.formSubmit(formTypeItemBean.getId(), submitTextMap, parts).compose(RxHelper.<String>handleResult());
+                        return FormModel.INSTANCE.formSubmit(formTypeItemBean.getId(), submitTextMap, parts).compose(RxHelper.<String>handleResult());
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())

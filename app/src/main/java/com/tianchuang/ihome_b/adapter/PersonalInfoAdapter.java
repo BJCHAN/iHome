@@ -22,6 +22,7 @@ public class PersonalInfoAdapter extends BaseQuickAdapter<PersonalInfoBean,BaseV
     protected void convert(BaseViewHolder helper, PersonalInfoBean item) {
         helper.setText(R.id.tv_address, StringUtils.getNotNull(String.format("%s-%s", item.getProjectName(), item.getPropertyName())))
                 .setText(R.id.tv_postion, StringUtils.getNotNull(item.getPositionInfo()))
+                .setText(R.id.tv_name,StringUtils.getNotNull("物业经理："+item.getName()))
                 .setText(R.id.tv_phone, StringUtils.getNotNull(String.format("手机：%s (非工作时间)",item.getMobile())));
     }
 }

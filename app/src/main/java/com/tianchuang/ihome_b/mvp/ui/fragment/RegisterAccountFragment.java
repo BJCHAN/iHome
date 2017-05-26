@@ -29,32 +29,30 @@ import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 
-import static com.tianchuang.ihome_b.R.id.iv_pwd_isvisible;
 
 /**
  * Created by Abyss on 2017/2/13.
  * description:注册账号页面
  */
-
 public class RegisterAccountFragment extends BaseFragment {
 
-    @BindView(R.id.et_phone_num)
+    @BindView(R.id.etPhoneNum)
     EditText etPhoneNum;
-    @BindView(R.id.et_passwrod)
+    @BindView(R.id.etPasswrod)
     EditText etPasswrod;
-    @BindView(iv_pwd_isvisible)
+    @BindView(R.id.ivPwdIsvisible)
     ImageView ivPwdIsvisible;
-    @BindView(R.id.tv_red_tip)
+    @BindView(R.id.tvRedTip)
     TextView tvRedTip;
-    @BindView(R.id.bt_register)
+    @BindView(R.id.btRegister)
     Button btRegister;
-    @BindView(R.id.cb_isagree)
-    AppCompatCheckBox cbIsagree;
-    @BindView(R.id.tv_register_protocol)
+//    @BindView(R.id.cb_isagree)
+//    AppCompatCheckBox cbIsagree;
+    @BindView(R.id.tvRegisterProtocol)
     TextView tvRegisterProtocol;
-    @BindView(R.id.login_rl)
+    @BindView(R.id.loginRl)
     RelativeLayout loginRl;
-    @BindView(R.id.et_name)
+    @BindView(R.id.etName)
     EditText etName;
     private LoginActivity holdingActivity;
     private Boolean isPwdVisible = false;
@@ -72,8 +70,8 @@ public class RegisterAccountFragment extends BaseFragment {
     protected void initListener() {
         Observable<CharSequence> email = RxTextView.textChanges(etPhoneNum);
         Observable<CharSequence> pwd = RxTextView.textChanges(etPasswrod);
-        Observable<Boolean> checkedChanges = RxCompoundButton.checkedChanges(cbIsagree);
-        registerBtnEnable(email, pwd, checkedChanges);//控制登录按钮是否可用
+//        Observable<Boolean> checkedChanges = RxCompoundButton.checkedChanges(cbIsagree);
+        registerBtnEnable(email, pwd);//控制登录按钮是否可用
     }
 
     @Override
@@ -88,16 +86,16 @@ public class RegisterAccountFragment extends BaseFragment {
     }
 
 
-    @OnClick({R.id.bt_register, R.id.tv_register_protocol, iv_pwd_isvisible})
+    @OnClick({R.id.btRegister, R.id.tvRegisterProtocol, R.id.ivPwdIsvisible})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.bt_register:
+            case R.id.btRegister:
                 goToRegister(etPhoneNum, etPasswrod);
                 break;
-            case R.id.tv_register_protocol://注册协议入口
+            case R.id.tvRegisterProtocol://注册协议入口
                 holdingActivity.openFragment(ProtocolNoteFragment.newInstance());
                 break;
-            case iv_pwd_isvisible://密码是否可见
+            case R.id.ivPwdIsvisible://密码是否可见
                 if (isPwdVisible) {
                     ivPwdIsvisible.setImageResource(R.mipmap.pwd_invisible_icon);
                     etPasswrod.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
@@ -135,7 +133,7 @@ public class RegisterAccountFragment extends BaseFragment {
         //弹窗上确认的点击事件
         Observable.create(eimtter -> initDialog(eimtter, phone))        //防抖
                 .throttleFirst(3, TimeUnit.SECONDS)
-                .flatMap(o -> LoginModel.requestAuthCode(phone).compose(RxHelper.handleResult())
+                .flatMap(o -> LoginModel.INSTANCE.requestAuthCode(phone).compose(RxHelper.handleResult())
         )
                 .compose(this.bindToLifecycle())
                 .subscribe(new RxSubscribe<String>() {
@@ -196,10 +194,9 @@ public class RegisterAccountFragment extends BaseFragment {
      *
      * @param email
      * @param pwd
-     * @param checkedChanges
      */
-    private void registerBtnEnable(Observable<CharSequence> email, Observable<CharSequence> pwd, Observable<Boolean> checkedChanges) {
-        Observable.combineLatest(email, pwd, checkedChanges,  (email1, pwd1, cheaked) -> email1.length() > 0 && pwd1.length() >= 6 && cheaked).compose(this.<Boolean>bindToLifecycle())
+    private void registerBtnEnable(Observable<CharSequence> email, Observable<CharSequence> pwd) {
+        Observable.combineLatest(email, pwd,  (email1, pwd1) -> email1.length() > 0 && pwd1.length() >= 6).compose(this.<Boolean>bindToLifecycle())
                 .subscribe( aBoolean -> btRegister.setEnabled(aBoolean));
     }
 
