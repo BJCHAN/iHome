@@ -24,18 +24,10 @@ import com.tianchuang.ihome_b.utils.KeyboardUtils;
 import com.tianchuang.ihome_b.utils.ToastUtil;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
-import io.reactivex.Single;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
-import io.reactivex.functions.Predicate;
 
 /**
  * Created by Abyss on 2017/3/1.

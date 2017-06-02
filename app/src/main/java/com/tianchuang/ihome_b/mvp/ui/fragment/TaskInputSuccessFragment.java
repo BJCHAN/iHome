@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.tianchuang.ihome_b.R;
+import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
 import com.tianchuang.ihome_b.mvp.ui.activity.MyTaskActivity;
 import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.bean.TaskInputResponseBean;
@@ -13,7 +14,6 @@ import com.tianchuang.ihome_b.bean.event.NotifyHomePageRefreshEvent;
 import com.tianchuang.ihome_b.bean.event.NotifyTaskDetailRefreshEvent;
 import com.tianchuang.ihome_b.bean.model.MyTaskModel;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
-import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
 import com.tianchuang.ihome_b.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;

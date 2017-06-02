@@ -1,31 +1,17 @@
 package com.tianchuang.ihome_b.mvp.ui.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.adapter.MyTaskUnderWayAdapter;
-import com.tianchuang.ihome_b.base.QrResultListener;
-import com.tianchuang.ihome_b.base.ToolBarActivity;
 import com.tianchuang.ihome_b.bean.MyTaskUnderWayItemBean;
 import com.tianchuang.ihome_b.bean.MyTaskUnderWayListBean;
-import com.tianchuang.ihome_b.bean.TaskPointDetailBean;
-import com.tianchuang.ihome_b.bean.event.TaskOpenScanEvent;
-import com.tianchuang.ihome_b.bean.model.HomePageModel;
 import com.tianchuang.ihome_b.bean.model.MyTaskModel;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
-import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
 import com.tianchuang.ihome_b.mvp.ui.activity.ControlPointDetailActivity;
-import com.tianchuang.ihome_b.mvp.ui.activity.MainActivity;
-import com.tianchuang.ihome_b.mvp.ui.activity.MyTaskActivity;
-import com.tianchuang.ihome_b.utils.ToastUtil;
-import com.tianchuang.ihome_b.utils.UserUtil;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import io.reactivex.Observable;
 

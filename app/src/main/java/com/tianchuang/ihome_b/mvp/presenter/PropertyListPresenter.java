@@ -32,21 +32,21 @@ public class PropertyListPresenter extends BasePresenterImpl<PropertyListContrac
     public void requestPropertyListData() {
         PropertyModel.INSTANCE.requestPropertyList()
                 .compose(RxHelper.handleResult())
-                .compose(mView.bindToLifecycle())
+                .compose(getMView().bindToLifecycle())
                 .subscribe(new RxSubscribe<ArrayList<PropertyListItemBean>>() {
                     @Override
                     public void _onNext(ArrayList<PropertyListItemBean> propertyList) {
                         data = propertyList;
-                        mView.showSucceedPage();
+                        getMView().showSucceedPage();
                         setCurrentProperty(propertyList);
-                        mView.initAdapter(propertyList);
+                        getMView().initAdapter(propertyList);
 
                     }
 
                     @Override
                     public void _onError(String message) {
-                        mView.showToast(message);
-                        mView.showErrorPage();
+                        getMView().showToast(message);
+                        getMView().showErrorPage();
                     }
 
                     @Override
@@ -61,7 +61,7 @@ public class PropertyListPresenter extends BasePresenterImpl<PropertyListContrac
     private void setCurrentProperty(ArrayList<PropertyListItemBean> propertyList) {
         Observable.fromIterable(propertyList)
                 .filter(bean->bean.getPropertyCompanyId()== UserUtil.getLoginBean().getPropertyCompanyId())//当前的物业
-                .compose(mView.bindToLifecycle())
+                .compose(getMView().bindToLifecycle())
                 .subscribe(propertyListItemBean -> {
                     propertyListItemBean.setCurrentProperty(true);
                 });
@@ -73,7 +73,7 @@ public class PropertyListPresenter extends BasePresenterImpl<PropertyListContrac
                 .map(HttpModle::success)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(o -> mView.showProgress())
+                .doOnSubscribe(o -> getMView().showProgress())
                 .subscribe(new Observer<Boolean>() {
                     @Override
                     public void onComplete() {
@@ -81,7 +81,7 @@ public class PropertyListPresenter extends BasePresenterImpl<PropertyListContrac
 
                     @Override
                     public void onError(Throwable e) {
-                        mView.dismissProgress();
+                        getMView().dismissProgress();
                     }
 
                     @Override
@@ -100,12 +100,12 @@ public class PropertyListPresenter extends BasePresenterImpl<PropertyListContrac
                             //储存到数据库中
                             UserInfoDbHelper.saveUserInfo(loginBean, UserUtil.getUserid());
                             bean.setOftenUse(!bean.getOftenUse());
-                            mView.notifyUISetOften(position);//通知ui设置常用
+                            getMView().notifyUISetOften(position);//通知ui设置常用
 
                         } else {
-                            mView.showToast("设为常用失败");
+                            getMView().showToast("设为常用失败");
                         }
-                        mView.dismissProgress();
+                        getMView().dismissProgress();
                     }
                 });
     }
@@ -113,20 +113,20 @@ public class PropertyListPresenter extends BasePresenterImpl<PropertyListContrac
     @Override
     public void requestDelete(int position) {
         PropertyModel.INSTANCE.propertyDelete(data.get(position).getId())
-                .compose(mView.bindToLifecycle())
-                .doOnSubscribe(o->mView.showProgress())
+                .compose(getMView().bindToLifecycle())
+                .doOnSubscribe(o-> getMView().showProgress())
                 .compose(RxHelper.handleResult())
                 .subscribe(new RxSubscribe<String>() {
                     @Override
                     public void _onNext(String s) {
-                        mView.dismissProgress();
-                        mView.deleteItem(position);
+                        getMView().dismissProgress();
+                        getMView().deleteItem(position);
                     }
 
                     @Override
                     public void _onError(String message) {
-                        mView.showToast(message);
-                        mView.dismissProgress();
+                        getMView().showToast(message);
+                        getMView().dismissProgress();
                     }
 
                     @Override

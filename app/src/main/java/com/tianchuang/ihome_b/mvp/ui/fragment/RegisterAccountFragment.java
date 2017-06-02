@@ -1,7 +1,6 @@
 package com.tianchuang.ihome_b.mvp.ui.fragment;
 
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatCheckBox;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.jakewharton.rxbinding2.widget.RxCompoundButton;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.base.BaseFragment;

@@ -67,7 +67,7 @@ public class PropertyListFragment extends MVPBaseFragment<PropertyListContract.V
     @Override
     protected void initData() {
         //请求物业列表的数据
-        mPresenter.requestPropertyListData();
+        getMPresenter().requestPropertyListData();
     }
 
     @Override
@@ -99,7 +99,7 @@ public class PropertyListFragment extends MVPBaseFragment<PropertyListContract.V
                     case R.id.fl_often_btn:
                         PropertyListItemBean propertyListItemBean = PropertyListFragment.this.listAdapter.getData().get(position);
                         if (!propertyListItemBean.getOftenUse()) {//已经是常用的不用再请求
-                            mPresenter.requestSetOften(propertyListItemBean, position);
+                            getMPresenter().requestSetOften(propertyListItemBean, position);
                         }
                         break;
                     default:

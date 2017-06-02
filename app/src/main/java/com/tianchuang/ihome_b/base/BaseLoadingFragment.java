@@ -103,30 +103,30 @@ public abstract class BaseLoadingFragment extends BaseFragment {
         try {
             @SuppressWarnings("unchecked") List<Object> ds = (List<Object>) datas;
             if (ds.size() == 0) {
-                loadingPager.showPagerView(LoadingPager.STATE_EMPTY);
+                loadingPager.showPagerView(LoadingPager.Companion.getSTATE_EMPTY());
             } else {
-                loadingPager.showPagerView(LoadingPager.STATE_SUCCEED);
+                loadingPager.showPagerView(LoadingPager.Companion.getSTATE_SUCCEED());
             }
         } catch (Exception e) {
             e.printStackTrace();
             if ("".equals(datas)) {
-                loadingPager.showPagerView(LoadingPager.STATE_EMPTY);
+                loadingPager.showPagerView(LoadingPager.Companion.getSTATE_EMPTY());
             } else {
-                loadingPager.showPagerView(LoadingPager.STATE_SUCCEED);
+                loadingPager.showPagerView(LoadingPager.Companion.getSTATE_SUCCEED());
             }
         }
 
     }
 
     public void showErrorPage() {
-        loadingPager.showPagerView(LoadingPager.STATE_ERROR);
+        loadingPager.showPagerView(LoadingPager.Companion.getSTATE_ERROR());
     }
 
     public void showEmptyPage() {
-        loadingPager.showPagerView(LoadingPager.STATE_EMPTY);
+        loadingPager.showPagerView(LoadingPager.Companion.getSTATE_EMPTY());
     }
 
     public void showSucceedPage() {
-        loadingPager.showPagerView(LoadingPager.STATE_SUCCEED);
+        loadingPager.showPagerView(LoadingPager.Companion.getSTATE_SUCCEED());
     }
 }

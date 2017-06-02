@@ -83,7 +83,7 @@ public class ModifyPasswordFragment extends MVPBaseFragment<ModifyPasswordContra
         final String oldPwd = etOldPasswrod.getText().toString().trim();
         final String newPwd = etNewPasswrod.getText().toString().trim();
         String surePwd = etSurePasswrod.getText().toString().trim();
-        mPresenter.submitPwdChanged(oldPwd, newPwd, surePwd);
+        getMPresenter().submitPwdChanged(oldPwd, newPwd, surePwd);
     }
 
     /**

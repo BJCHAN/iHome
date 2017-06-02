@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.tianchuang.ihome_b.R;
 import com.tianchuang.ihome_b.adapter.EquipmentDetailAdapter;
-import com.tianchuang.ihome_b.base.BaseFragment;
 import com.tianchuang.ihome_b.base.BaseLoadingFragment;
 import com.tianchuang.ihome_b.bean.EquipmentDetailBean;
 import com.tianchuang.ihome_b.bean.model.DataSearchModel;

@@ -97,24 +97,24 @@ public class MyOrderFeeDetailFragment extends MVPBaseFragment<FeeDetailContract.
      */
     @Override
     protected void initData() {
-        mPresenter.fetchFeeList();
+        getMPresenter().fetchFeeList();
     }
 
     @OnClick({R.id.tv_add_material, R.id.tv_add_charge, R.id.bt_sure})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_add_material://材料弹窗
-                MaterialTypeDialogFragment.newInstance(new ListBean().setMaterialTypeList(mPresenter.getMaterialList()))
+                MaterialTypeDialogFragment.newInstance(new ListBean().setMaterialTypeList(getMPresenter().getMaterialList()))
                         .show(getFragmentManager(), "");
                 break;
             case R.id.tv_add_charge://费用弹窗
-                ChargeTypeDialogFragment.newInstance(new ListBean().setChargeTypeList(mPresenter.getChargeTypeList()))
+                ChargeTypeDialogFragment.newInstance(new ListBean().setChargeTypeList(getMPresenter().getChargeTypeList()))
                         .setOnChargeTypeSelectedListener(this)
                         .show(getFragmentManager(), "");
                 break;
             case R.id.bt_sure:
                 boolean checked = cbIsunderLine.isChecked();
-                mPresenter.requestSubmit(repairId, checked, commonFeeBeenList);//请求网络提交费用信息
+                getMPresenter().requestSubmit(repairId, checked, commonFeeBeenList);//请求网络提交费用信息
                 break;
         }
     }

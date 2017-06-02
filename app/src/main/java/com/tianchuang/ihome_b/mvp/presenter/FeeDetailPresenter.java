@@ -50,7 +50,7 @@ public class FeeDetailPresenter extends BasePresenterImpl<FeeDetailContract.View
                 .subscribe(new RxSubscribe<Object>() {
                     @Override
                     public void onComplete() {
-                        mView.showSucceedPage();
+                        getMView().showSucceedPage();
                     }
 
                     @Override
@@ -71,8 +71,8 @@ public class FeeDetailPresenter extends BasePresenterImpl<FeeDetailContract.View
 
                     @Override
                     public void _onError(String message) {
-                        mView.showToast(message);
-                        mView.showErrorPage();
+                        getMView().showToast(message);
+                        getMView().showErrorPage();
                     }
                 });
     }
@@ -88,21 +88,21 @@ public class FeeDetailPresenter extends BasePresenterImpl<FeeDetailContract.View
     public void requestSubmit(int repairId, boolean checked, ArrayList<CommonFeeBean> commonFeeBeenList) {
         MyOrderModel.INSTANCE.submitFeeList(repairId, checked ? 1 : 0, StringUtils.toJson(commonFeeBeenList, 2))
                 .compose(RxHelper.handleResult())
-                .compose(mView.bindToLifecycle())
-                .doOnSubscribe(o->mView.showProgress())
+                .compose(getMView().bindToLifecycle())
+                .doOnSubscribe(o-> getMView().showProgress())
                 .subscribe(new RxSubscribe<String>() {
                     @Override
                     public void _onNext(String s) {
-                        mView.showToast("提交成功");
-                        mView.dismissProgress();
-                        mView.removeFragment();
+                        getMView().showToast("提交成功");
+                        getMView().dismissProgress();
+                        getMView().removeFragment();
                         EventBus.getDefault().post(new FeeSubmitSuccessEvent());
                     }
 
                     @Override
                     public void _onError(String message) {
-                        mView.dismissProgress();
-                        mView.showToast(message);
+                        getMView().dismissProgress();
+                        getMView().showToast(message);
                     }
 
                     @Override
@@ -115,6 +115,6 @@ public class FeeDetailPresenter extends BasePresenterImpl<FeeDetailContract.View
 
     private Observable<Object> getChargeTypeAndMaterialList(Observable<ArrayList<MaterialListItemBean>> materialListObservable, Observable<ArrayList<ChargeTypeListItemBean>> chargeTypeListObservable) {
         return Observable.merge(materialListObservable, chargeTypeListObservable)
-                .compose(mView.bindToLifecycle());
+                .compose(getMView().bindToLifecycle());
     }
 }

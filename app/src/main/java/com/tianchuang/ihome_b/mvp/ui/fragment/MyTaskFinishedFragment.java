@@ -14,7 +14,6 @@ import com.tianchuang.ihome_b.utils.ToastUtil;
 import java.util.ArrayList;
 
 import io.reactivex.Observable;
-import io.reactivex.Observable;
 
 /**
  * Created by Abyss on 2017/3/15.
