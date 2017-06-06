@@ -18,6 +18,7 @@ abstract class MVPBaseFragment<V : BaseView, T : BasePresenterImpl<V>> : BaseLoa
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mPresenter = InstanceUtils.getInstance<T>(this, 1)
+        @Suppress("UNCHECKED_CAST")
         mPresenter!!.attachView(this as V)
     }
 

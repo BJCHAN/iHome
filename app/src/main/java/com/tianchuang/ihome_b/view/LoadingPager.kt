@@ -3,6 +3,7 @@ package com.tianchuang.ihome_b.view
 import android.content.Context
 import android.support.annotation.LayoutRes
 import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.tianchuang.ihome_b.utils.LayoutUtil
 
@@ -18,7 +19,6 @@ abstract class LoadingPager : FrameLayout {
     private var mErrorView: View? = null// 错误的view
     private var mEmptyView: View? = null// 空的view
     var succeedView: View? = null
-        private set// 成功的view
 
     private var mState: Int = 0 // 默认的状态
 
@@ -82,9 +82,8 @@ abstract class LoadingPager : FrameLayout {
 
         if (mState == STATE_SUCCEED && succeedView == null) {
             succeedView = createSuccessView()
-            addView(succeedView, FrameLayout.LayoutParams
-
-            (FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT))
+            addView(succeedView,FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
+                    FrameLayout.LayoutParams.MATCH_PARENT))
         }
         if (null != succeedView) {
             succeedView!!.visibility = if (mState == STATE_SUCCEED)
@@ -111,7 +110,7 @@ abstract class LoadingPager : FrameLayout {
      * 制作界面
      */
 
-    protected abstract fun createSuccessView(): View
+    protected abstract fun createSuccessView(): View?
 
     /**
      * 处理下载 耗时操作

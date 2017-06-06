@@ -16,15 +16,15 @@ abstract class MVPBaseActivity<V : BaseView, T : BasePresenterImpl<V>> : BaseCus
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mPresenter = InstanceUtils.getInstance<T>(this, 1)
-        mPresenter!!.attachView(this as V)
+        @Suppress("UNCHECKED_CAST")
+        mPresenter!!.attachView(this as V )
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        if (mPresenter != null) {
-            //            mPresenter.unsubscribe();
-            mPresenter!!.detachView()
-        }
+            mPresenter?.let {
+                mPresenter!!.detachView()
+            }
     }
 
 }

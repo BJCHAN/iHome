@@ -97,8 +97,8 @@ public class TaskSelectActivity extends ToolBarActivity {
                 }
                 if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
                     String result = bundle.getString(CodeUtils.RESULT_STRING);
-                    if (qrResultListener != null) {
-                        qrResultListener.qrResult(result);
+                    if (getQrResultListener() != null) {
+                        getQrResultListener().qrResult(result);
                     }
                 } else if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_FAILED) {
                     Toast.makeText(TaskSelectActivity.this, "解析二维码失败", Toast.LENGTH_LONG).show();

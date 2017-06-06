@@ -18,12 +18,12 @@ import io.reactivex.functions.Function3
  */
 
 class ModifyPasswordPresenter : BasePresenterImpl<ModifyPasswordContract.View>(), ModifyPasswordContract.Presenter {
-
     //提交密码修改
     override fun submitPwdChanged(oldPwd: String, newPwd: String, surePwd: String) {
-        Observable.zip(Observable.just(oldPwd), Observable.just(newPwd), Observable.just(surePwd), Function3<String, String, String, Boolean> { s, newPwd1, surePwd1 -> whetherValidPwd(newPwd1, surePwd1) })
+        Observable.zip(Observable.just(oldPwd), Observable.just(newPwd), Observable.just(surePwd)
+                , Function3<String, String, String, Boolean> { _, newPwd1, surePwd1 -> whetherValidPwd(newPwd1, surePwd1) })
                 .doOnSubscribe { mView!!.showProgress() }
-                .filter { aBoolean -> aBoolean!! }
+                .filter { aBoolean -> aBoolean }
                 .flatMap { LoginModel.modifyPassword(oldPwd, newPwd).compose(RxHelper.handleResult<String>()) }
                 .compose(mView!!.bindToLifecycle<String>())
                 .subscribe(object : RxSubscribe<String>() {

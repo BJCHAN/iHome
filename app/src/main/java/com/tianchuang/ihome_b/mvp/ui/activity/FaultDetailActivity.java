@@ -14,6 +14,7 @@ import com.tianchuang.ihome_b.mvp.ui.fragment.FaultDetailFragment;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Abyss on 2017/2/22.
@@ -21,46 +22,46 @@ import org.greenrobot.eventbus.ThreadMode;
  */
 public class FaultDetailActivity extends ToolBarActivity {
 
-	private RobHallListItem item;
-	private TransferImage mTransferImage;
+    private RobHallListItem item;
+    private TransferImage mTransferImage;
 
-	@Override
-	protected BaseFragment getFirstFragment() {
-		return FaultDetailFragment.newInstance(item);
-	}
+    @Override
+    protected BaseFragment getFirstFragment() {
+        return FaultDetailFragment.newInstance(item);
+    }
 
-	@Override
-	protected void handleIntent(Intent intent) {
-		item = ((RobHallListItem) intent.getExtras().getSerializable("item"));
-		EventBus.getDefault().register(this);
-	}
+    @Override
+    protected void handleIntent(Intent intent) {
+        item = ((RobHallListItem) intent.getExtras().getSerializable("item"));
+        EventBus.getDefault().register(this);
+    }
 
-	@Override
-	protected void initToolBar(Toolbar toolbar) {
-		initNormalToolbar(toolbar,true);
-		setToolbarTitle("故障详情");
-	}
+    @Override
+    protected void initToolBar(@NotNull Toolbar toolbar) {
+        super.initToolBar(toolbar);
+        setToolbarTitle("故障详情");
+    }
 
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		EventBus.getDefault().unregister(this);
-	}
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 
-	@Subscribe(threadMode = ThreadMode.MAIN)
-	public void onMessageEvent(TransferLayoutEvent event) {//接收浏览图片layout的引用
-		this.mTransferImage = event.transferImage;
-	}
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(TransferLayoutEvent event) {//接收浏览图片layout的引用
+        this.mTransferImage = event.transferImage;
+    }
 
-	//返回键返回事件
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (KeyEvent.KEYCODE_BACK == keyCode) {
-			if (mTransferImage != null && mTransferImage.isShown()) {
-				mTransferImage.dismiss();
-				return true;
-			}
-		}
-		return super.onKeyDown(keyCode, event);
-	}
+    //返回键返回事件
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (KeyEvent.KEYCODE_BACK == keyCode) {
+            if (mTransferImage != null && mTransferImage.isShown()) {
+                mTransferImage.dismiss();
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }

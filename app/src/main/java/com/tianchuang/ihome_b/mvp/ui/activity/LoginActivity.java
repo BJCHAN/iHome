@@ -17,7 +17,6 @@ import com.tianchuang.ihome_b.utils.UserUtil;
  * description:登录注册模块
  */
 public class LoginActivity extends ToolBarActivity {
-	private Toolbar toolbar;
 
 	@Override
 	protected BaseFragment getFirstFragment() {
@@ -27,9 +26,9 @@ public class LoginActivity extends ToolBarActivity {
 
 	@Override
 	protected void initToolBar(Toolbar toolbar) {
+		super.initToolBar(toolbar);
 		checkToWhere();
-		this.toolbar = toolbar;
-		toolbar.setVisibility(View.INVISIBLE);
+		getSupportActionBar().hide();
 		SystemUtil.changeStatusBarColor(this, R.color.white);//改变状态栏颜色
 		toolbar.setNavigationIcon(R.mipmap.back);
 		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -90,10 +89,10 @@ public class LoginActivity extends ToolBarActivity {
 	 */
 	private void setToolbarVisible(Boolean isVisible) {
 		if (isVisible) {
-			toolbar.setVisibility(View.VISIBLE);
+			getSupportActionBar().show();
 			SystemUtil.changeStatusBarColor(this, R.color.app_primary_color);
 		} else {
-			toolbar.setVisibility(View.INVISIBLE);
+			getSupportActionBar().hide();
 			SystemUtil.changeStatusBarColor(this, R.color.white);//改变状态栏颜色
 		}
 	}

@@ -105,7 +105,7 @@ public class MyTaskControlPointDetailFragment extends BaseLoadingFragment implem
 
     @Override
     protected void initView(View view, Bundle savedInstanceState) {
-        holdingActivity.setQrResultListener(this);
+        holdingActivity.registerQrResultListener(this);
         if (getArguments().getSerializable("detailBean") != null) {
             taskPointDetailBean = (TaskPointDetailBean) getArguments().getSerializable("detailBean");
             this.taskRecordId = taskPointDetailBean.getId();
