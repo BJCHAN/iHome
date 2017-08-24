@@ -9,3 +9,8 @@
 .externalNativeBuild
 /.idea/
 /gradle
+/tianchuang.keystore
+app/src/main/jniLibs/
+gradlew
+gradlew.bat
+src/main/jniLibs/
