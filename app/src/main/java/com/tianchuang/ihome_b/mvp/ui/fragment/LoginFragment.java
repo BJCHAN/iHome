@@ -23,6 +23,9 @@ import com.tianchuang.ihome_b.utils.VerificationUtil;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.Observable;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 
 
 /**
@@ -69,6 +72,7 @@ public class LoginFragment extends BaseFragment {
     @Override
     protected void initData() {
 
+
     }
 
     @Override
@@ -91,6 +95,7 @@ public class LoginFragment extends BaseFragment {
                 break;
         }
     }
+
 
     /**
      * 登录的操作

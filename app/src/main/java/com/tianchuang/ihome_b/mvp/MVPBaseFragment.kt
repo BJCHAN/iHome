@@ -1,8 +1,6 @@
 package com.tianchuang.ihome_b.mvp
 
-import android.content.Context
 import android.os.Bundle
-
 import com.tianchuang.ihome_b.base.BaseLoadingFragment
 import com.tianchuang.ihome_b.utils.InstanceUtils
 
@@ -27,7 +25,6 @@ abstract class MVPBaseFragment<V : BaseView, T : BasePresenterImpl<V>> : BaseLoa
         if (mPresenter != null) {
             mPresenter!!.detachView()
         }
-
     }
 
 }

@@ -99,7 +99,7 @@ class PropertyListPresenter : BasePresenterImpl<PropertyListContract.View>(), Pr
     override fun requestDelete(position: Int) {
         PropertyModel.propertyDelete(data!![position].id)
                 .compose(mView!!.bindToLifecycle<HttpModle<String>>())
-                .doOnSubscribe { o -> mView!!.showProgress() }
+                .doOnSubscribe { _ -> mView!!.showProgress() }
                 .compose(RxHelper.handleResult<String>())
                 .subscribe(object : RxSubscribe<String>() {
                     override fun _onNext(s: String) {

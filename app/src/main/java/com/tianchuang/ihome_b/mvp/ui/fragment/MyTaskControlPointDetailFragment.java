@@ -130,7 +130,7 @@ public class MyTaskControlPointDetailFragment extends BaseLoadingFragment implem
                     return;
                 }
                 TaskPointDetailBean.FormTypeVoListBean formTypeVoListBean = mListForms.get(position);
-                if (formTypeVoListBean.isDone()) {//去结果页面
+                if (formTypeVoListBean.getDone()) {//去结果页面
                     addFragment(TaskControlPointResultFragment.newInstance(formTypeVoListBean));
                 }
             }

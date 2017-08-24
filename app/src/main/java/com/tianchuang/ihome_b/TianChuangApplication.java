@@ -28,12 +28,15 @@ public class TianChuangApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            return;
+
+        if (Constants.DEBUG_MODE) {
+            if (LeakCanary.isInAnalyzerProcess(this)) {
+                return;
+            }
+            LeakCanary.install(this);//检测内存泄露的工具
+            //todo 调试工具,正式发布时去掉
+            Stetho.initializeWithDefaults(this);//调试工具
         }
-        LeakCanary.install(this);//检测内存泄露的工具
-        //todo 调试工具,正式发布时去掉
-        Stetho.initializeWithDefaults(this);//调试工具
         if (application == null)
             application = this;
         Utils.init(this);//初始化工具类

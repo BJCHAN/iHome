@@ -71,7 +71,7 @@ public class ControlPointSucceedFragment extends BaseLoadingFragment {
             tvSure.setVisibility(View.INVISIBLE);
         } else {
             Observable.fromIterable(formTypeVoList)
-                    .filter(typeVoListBean -> typeVoListBean.isDone())
+                    .filter(typeVoListBean -> typeVoListBean.getDone())
                     .toList()
                     .subscribe(list -> {
                         if (list.size() == formTypeVoList.size()) {

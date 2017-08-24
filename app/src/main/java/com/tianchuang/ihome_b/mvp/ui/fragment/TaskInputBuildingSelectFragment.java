@@ -357,7 +357,7 @@ public class TaskInputBuildingSelectFragment extends BaseFragment {
         //还原初始状态
         unitsClear();
         roomsClear();
-        selectedBuildingBean = selestedBean.getCellList().get(position);
+        selectedBuildingBean = cellItems.get(position);
         initUnitOptionPicker(selectedBuildingBean);
         String tx = selectedBuildingBean.getPickerViewText();
         tvBuilding.setText(tx);

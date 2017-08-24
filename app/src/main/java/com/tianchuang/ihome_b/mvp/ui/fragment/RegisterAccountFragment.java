@@ -110,7 +110,6 @@ public class RegisterAccountFragment extends BaseFragment {
 
     /**
      * 注册的操作
-     *
      * @param etPhoneNum
      * @param etPasswrod
      */

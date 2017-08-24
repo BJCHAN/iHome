@@ -145,8 +145,8 @@ public class OkHttpClientManager {
 //                .addNetworkInterceptor(rewriteCacheControlInterceptor)
                 .addNetworkInterceptor(new BaseInterceptor())
                 .addInterceptor(rewriteCacheControlInterceptor)
-                .addNetworkInterceptor(new StethoInterceptor())//stetho调试工具
                 // todo 调试工具,正式发布时去掉
+//                .addNetworkInterceptor(new StethoInterceptor())//stetho调试工具
                 .cookieJar(new CookieJar() {        //cookie enabled
                     private final HashMap<HttpUrl, List<Cookie>> cookieStore = new HashMap<>();
 

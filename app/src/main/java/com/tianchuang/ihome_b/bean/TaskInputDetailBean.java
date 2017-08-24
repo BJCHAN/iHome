@@ -1,5 +1,7 @@
 package com.tianchuang.ihome_b.bean;
 
+import com.chad.library.adapter.base.entity.MultiItemEntity;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -41,6 +43,7 @@ public class TaskInputDetailBean implements Serializable{
     private List<TaskAreaListBean> buildingList;
     private int taskRecordId;
     private boolean hide;
+    private String taskExplains;
 
     public boolean isHide() {
         return hide;
@@ -148,5 +151,14 @@ public class TaskInputDetailBean implements Serializable{
 
     public void setTaskRoomDataList(List<TaskRoomDataListBean> taskRoomDataList) {
         this.taskRoomDataList = taskRoomDataList;
+    }
+
+
+    public String getTaskExplains() {
+        return taskExplains;
+    }
+
+    public void setTaskExplains(String taskExplains) {
+        this.taskExplains = taskExplains;
     }
 }

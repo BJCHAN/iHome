@@ -105,7 +105,7 @@ class TaskPointDetailBean : Serializable {
         var formTypeId: Int = 0
         var id: Int = 0
         var formTypeVo: FormTypeItemBean? = null
-        var isDone: Boolean = false
+        var done: Boolean = false
         var formDetailVo: MyFormDetailBean? = null
 
 

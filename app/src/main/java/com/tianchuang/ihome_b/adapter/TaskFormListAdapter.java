@@ -31,7 +31,7 @@ public class TaskFormListAdapter extends BaseQuickAdapter<TaskPointDetailBean.Fo
     protected void convert(BaseViewHolder helper, final TaskPointDetailBean.FormTypeVoListBean item) {
         TextView date = helper.getView(R.id.tv_point_date);
         ImageView point = helper.getView(R.id.iv_little_point);
-        if (item.isDone()) {
+        if (item.getDone()) {
             date.setText(StringUtils.getNotNull("已完成"));
             Drawable img = ContextCompat.getDrawable(date.getContext(), R.mipmap.menu_arrow);
             // 调用setCompoundDrawables时，必须调用Drawable.setBounds()方法,否则图片不显示

@@ -8,8 +8,5 @@ import java.io.Serializable
  */
 
 open class BaseItemLoadBean : Serializable {
-
-
     var id: Int = 0
-
 }

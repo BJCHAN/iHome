@@ -2,6 +2,7 @@ package com.tianchuang.ihome_b.utils;
 
 import android.view.View;
 
+import com.tianchuang.ihome_b.bean.TaskInputDetailBean;
 import com.tianchuang.ihome_b.view.viewholder.DetailFooterViewHolder;
 import com.tianchuang.ihome_b.view.viewholder.DetailHeaderViewHolder;
 import com.tianchuang.ihome_b.view.viewholder.EmptyViewHolder;
@@ -15,6 +16,7 @@ import com.tianchuang.ihome_b.bean.EvaluateBean;
 import com.tianchuang.ihome_b.bean.MyOrderDetailBean;
 import com.tianchuang.ihome_b.bean.RepairsFeeBean;
 import com.tianchuang.ihome_b.view.viewholder.TaskHeaderViewHolder;
+import com.tianchuang.ihome_b.view.viewholder.TaskInputHeaderViewHolder;
 
 import java.util.List;
 
@@ -109,6 +111,14 @@ public class ViewHelper {
 	public static View getTaskHeaderView(String Name) {
 		TaskHeaderViewHolder holder = new TaskHeaderViewHolder();
 		holder.bindData(Name);
+		return holder.getholderView();
+	}
+	/**
+	 * 任务录入的头部
+	 */
+	public static View getTaskInputHeaderView(TaskInputDetailBean bean) {
+		TaskInputHeaderViewHolder holder = new TaskInputHeaderViewHolder();
+		holder.bindData(bean);
 		return holder.getholderView();
 	}
 

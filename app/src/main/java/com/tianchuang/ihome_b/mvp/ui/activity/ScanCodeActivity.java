@@ -33,7 +33,6 @@ public class ScanCodeActivity extends AppCompatActivity {
 		CodeUtils.setFragmentArgs(scanCodeFragment, R.layout.my_camera);
 		scanCodeFragment.setAnalyzeCallback(analyzeCallback);
 		getSupportFragmentManager().beginTransaction().replace(R.id.fl_my_container, scanCodeFragment).commit();
-
 		initView();
 	}
 

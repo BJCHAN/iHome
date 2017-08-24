@@ -1,6 +1,7 @@
 package com.tianchuang.ihome_b.mvp.ui.fragment;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +20,7 @@ import com.tianchuang.ihome_b.http.retrofit.RxHelper;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
 import com.tianchuang.ihome_b.utils.DateUtils;
 import com.tianchuang.ihome_b.utils.ToastUtil;
+import com.tianchuang.ihome_b.utils.ViewHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -38,18 +40,6 @@ import butterknife.OnClick;
 public class MyTaskInputDetailFragment extends BaseLoadingFragment {
     @BindView(R.id.rv_list)
     RecyclerView rvList;
-    @BindView(R.id.tv_title)
-    TextView tvTitle;
-    @BindView(R.id.tv_date)
-    TextView tvDate;
-    @BindView(R.id.tv_content)
-    TextView tvContent;
-    @BindView(R.id.tv_type)
-    TextView tvType;
-    @BindView(R.id.tv_address)
-    TextView tvAddress;
-    @BindView(R.id.tv_finish_date)
-    TextView tvFinishDate;
     @BindView(R.id.bt_sure)
     Button btSure;
     private int taskRecordId;
@@ -81,9 +71,9 @@ public class MyTaskInputDetailFragment extends BaseLoadingFragment {
         EventBus.getDefault().register(this);
         this.item = (MyTaskUnderWayItemBean) getArguments().getSerializable("item");
         taskRecordId = item.getId();
-        CustomLinearLayoutManager layoutManager = new CustomLinearLayoutManager(getContext());
-        layoutManager.setScrollEnabled(false);
-        rvList.setLayoutManager(layoutManager);
+//        CustomLinearLayoutManager layoutManager = new CustomLinearLayoutManager(getContext());
+//        layoutManager.setScrollEnabled(false);
+        rvList.setLayoutManager(new LinearLayoutManager(getContext()));
 
     }
 
@@ -91,43 +81,33 @@ public class MyTaskInputDetailFragment extends BaseLoadingFragment {
     protected void initData() {
         MyTaskModel.INSTANCE.taskInputDetail(taskRecordId)
                 .compose(RxHelper.<TaskInputDetailBean>handleResult())
-//                .doOnSubscribe(new Action0() {
-//                    @Override
-//                    public void call() {
-//                        showProgress();
-//                    }
-//                })
                 .compose(this.<TaskInputDetailBean>bindToLifecycle())
                 .subscribe(new RxSubscribe<TaskInputDetailBean>() {
 
                     @Override
                     public void _onNext(TaskInputDetailBean taskInputDetailBean) {
-                            taskInputDetailBean.setTaskRecordId(taskRecordId);
-                            MyTaskInputDetailFragment.this.taskInputDetailBean = taskInputDetailBean;
-                            tvTitle.setText(getNotNull(item.getTaskName()));
-                            tvDate.setText(getNotNull(DateUtils.formatDate(item.getCreatedDate(), DateUtils.TYPE_01)));
-                            tvContent.setText(getNotNull(item.getTaskExplains()));
-                            tvType.setText(getNotNull(taskInputDetailBean.getEnterTypeMsg()));
-                            tvAddress.setText(getNotNull(taskInputDetailBean.getBuildingDetail()));
-                            tvFinishDate.setText(getNotNull(DateUtils.formatDate(taskInputDetailBean.getFinishTime(), DateUtils.TYPE_01)));
-                            btSure.setVisibility(taskInputDetailBean.getStatus()==2? View.INVISIBLE:View.VISIBLE);
+                        taskInputDetailBean.setTaskRecordId(taskRecordId);
+                        taskInputDetailBean.setTaskExplains(item.getTaskExplains());
+                        MyTaskInputDetailFragment.this.taskInputDetailBean = taskInputDetailBean;
+                        TaskInputDetailListAdapter adapter = new TaskInputDetailListAdapter(mListData);
+                        View headerView = ViewHelper.getTaskInputHeaderView(taskInputDetailBean);
+                        adapter.addHeaderView(headerView);
                             if (taskInputDetailBean.getTaskRoomDataList().size() > 0) {
                                 mListData.addAll(taskInputDetailBean.getTaskRoomDataList());
                             }
-                            rvList.setAdapter(new TaskInputDetailListAdapter(mListData));
+                        rvList.setAdapter(adapter);
+                        btSure.setVisibility(taskInputDetailBean.getStatus()==2? View.INVISIBLE:View.VISIBLE);
                     }
 
                     @Override
                     public void _onError(String message) {
                         showErrorPage();
                         ToastUtil.showToast(getContext(), message);
-//                        dismissProgress();
                     }
 
                     @Override
                     public void onComplete() {
                         showSucceedPage();
-//                        dismissProgress();
                     }
                 });
     }
