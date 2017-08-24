@@ -27,8 +27,8 @@ ext {
     compileSdkVersion = 26
     targetSdkVersion = compileSdkVersion
     minSdkVersion = 15      //4.0
-    versionCode = 4
-    versionName = "1.0.4"
+    versionCode = 5
+    versionName = "1.0.5"
     supportLibVersion = '25.3.1'
 }
 
