@@ -20,9 +20,9 @@ public class SubmitRadioDecoration extends RecyclerView.ItemDecoration {
 	@Override
 	public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
 
-		if (parent.getChildLayoutPosition(view) % 5 != 0) {
-			outRect.left = space;
-		}
+//		if (parent.getChildLayoutPosition(view) % 4 != 0) {
+//			outRect.left = space;
+//		}
 		outRect.bottom=5;
 	}
 

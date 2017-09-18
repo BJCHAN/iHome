@@ -2,6 +2,7 @@ package com.tianchuang.ihome_b.mvp.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -106,6 +107,8 @@ public class FormSubmitActivity extends BaseActivity implements View.OnClickList
 
     private void initView(FormTypeItemBean formTypeItemBean) {
         mRecyclerView.addItemDecoration(new CommonItemDecoration(DensityUtil.dip2px(this, 20)));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         fields = formTypeItemBean.getFields();
         if (fields.size() > 0) {
             editTexts = new SparseArray<>();
@@ -118,9 +121,6 @@ public class FormSubmitActivity extends BaseActivity implements View.OnClickList
             view.findViewById(R.id.tv_submit).setOnClickListener(this);
             submitMultiAdapter.addFooterView(view);
             mRecyclerView.setAdapter(submitMultiAdapter);
-            CustomLinearLayoutManager customLinearLayoutManager = new CustomLinearLayoutManager(FormSubmitActivity.this);
-            customLinearLayoutManager.setScrollEnabled(false);
-            mRecyclerView.setLayoutManager(customLinearLayoutManager);
         }
     }
 

@@ -76,12 +76,12 @@ public class TaskSubmitMultiAdapter extends BaseMultiItemQuickAdapter<FormTypeIt
             case TYPE_RADIO://单选列表
                 helper.setText(R.id.tv_radio_name, getNotNull(item.getName()));
                 RecyclerView radioList = (RecyclerView) helper.getView(R.id.rv_radio_list);
-                radioList.setLayoutManager(new MyGridLayoutManager(radioList.getContext(), 5,radioList.getMeasuredWidth()));
+                radioList.setLayoutManager(new MyGridLayoutManager(radioList.getContext(), 4,radioList.getMeasuredWidth()));
                 List<FormTypeItemBean.FieldsBean.FieldExtrasBean> fieldExtras = item.getFieldExtras();
                 if (fieldExtras.size() > 0) {
                     RadioTypeAdapter radioTypeAdapter = new RadioTypeAdapter(R.layout.form_type_radio_item_holder, fieldExtras);
                     radioList.setAdapter(radioTypeAdapter);
-                    radioList.addItemDecoration(new SubmitRadioDecoration(DensityUtil.dip2px(radioList.getContext(), 20)));
+                    radioList.addItemDecoration(new SubmitRadioDecoration(DensityUtil.dip2px(radioList.getContext(), 10)));
                     radioList.addOnItemTouchListener(new OnItemClickListener() {
                         @Override
                         public void onSimpleItemClick(BaseQuickAdapter adapter, View view, int position) {

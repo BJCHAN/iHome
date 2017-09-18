@@ -15,7 +15,7 @@ import android.view.WindowManager;
  */
 public class SystemUtil {
     /**
-     * 改变状态栏颜色 针对Android5.0+
+     * 改变状态栏颜色
      */
     public static void changeStatusBarColor(Context context, int colorRes) {
         if (null != context && context instanceof Activity) {

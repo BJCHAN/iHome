@@ -28,7 +28,6 @@ public class TianChuangApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         if (Constants.DEBUG_MODE) {
             if (LeakCanary.isInAnalyzerProcess(this)) {
                 return;

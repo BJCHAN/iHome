@@ -8,5 +8,4 @@ package com.tianchuang.ihome_b.mvp
 interface BasePresenter<in V : BaseView> {
     fun attachView(view: V)
     fun detachView()
-    //    void unsubscribe();
 }

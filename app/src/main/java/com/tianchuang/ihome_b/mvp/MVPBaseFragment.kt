@@ -1,6 +1,9 @@
 package com.tianchuang.ihome_b.mvp
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import com.tianchuang.ihome_b.base.BaseLoadingFragment
 import com.tianchuang.ihome_b.utils.InstanceUtils
 
@@ -19,7 +22,6 @@ abstract class MVPBaseFragment<V : BaseView, T : BasePresenterImpl<V>> : BaseLoa
         @Suppress("UNCHECKED_CAST")
         mPresenter!!.attachView(this as V)
     }
-
     override fun onDestroy() {
         super.onDestroy()
         if (mPresenter != null) {

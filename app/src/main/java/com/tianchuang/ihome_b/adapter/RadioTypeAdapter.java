@@ -1,6 +1,7 @@
 package com.tianchuang.ihome_b.adapter;
 
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -17,20 +18,21 @@ import java.util.List;
 public class RadioTypeAdapter extends BaseQuickAdapter<FormTypeItemBean.FieldsBean.FieldExtrasBean, BaseViewHolder> {
 
 
-	public RadioTypeAdapter(int layoutResId, List<FormTypeItemBean.FieldsBean.FieldExtrasBean> data) {
-		super(layoutResId, data);
-	}
+    public RadioTypeAdapter(int layoutResId, List<FormTypeItemBean.FieldsBean.FieldExtrasBean> data) {
+        super(layoutResId, data);
+    }
 
-	@Override
-	protected void convert(BaseViewHolder helper, FormTypeItemBean.FieldsBean.FieldExtrasBean item) {
-		helper.setText(R.id.tv_equipment_name, item.getValue());
-		View view = helper.getView(R.id.tv_equipment_name);
-		if (item.isSelected()) {
-			view.setSelected(true);
-		} else {
-			view.setSelected(false);
-		}
+
+    @Override
+    protected void convert(BaseViewHolder helper, FormTypeItemBean.FieldsBean.FieldExtrasBean item) {
+        helper.setText(R.id.tv_equipment_name, item.getValue());
+        View view = helper.getView(R.id.tv_equipment_name);
+        if (item.isSelected()) {
+            view.setSelected(true);
+        } else {
+            view.setSelected(false);
+        }
 //		mView.setSelected(item.isSelected());
-	}
+    }
 
 }
