@@ -11,4 +11,5 @@ class HomePageBean {
     var complaintsVos: List<ComplainDetailBean>? = null //  投诉
     var internalReportVos: List<MenuInnerReportsItemBean>? = null//  内部报事
     var taskRecordVos: List<MyTaskUnderWayItemBean>? = null //  任务
+    var repairs: RobHallListItem? = null//抢单大厅提醒
 }

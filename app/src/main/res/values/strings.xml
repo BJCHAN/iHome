@@ -45,6 +45,7 @@
     <string name="myorder_wait_evaluate">等待用户评价</string>
     <!--主页-->
     <string name="main_empty_text">系统维护中，请与物业公司联系</string>
+    <string name="main_tips">抢单\n大厅</string>
     <!--我的任务-->
     <string name="mytask_finished_empty">您还没有已完成的任务</string>
     <!--表单-->

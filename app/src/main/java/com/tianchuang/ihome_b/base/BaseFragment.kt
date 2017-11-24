@@ -58,13 +58,14 @@ abstract class BaseFragment : RxFragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
         if (null != mRootView) {//处理fragment的view重复加载
             val parent  = mRootView?.parent
             if (parent!=null)(parent as ViewGroup).removeView(mRootView)
         } else {
             mRootView = inflater!!.inflate(layoutId, container, false)
             bind = ButterKnife.bind(this, mRootView!!)
-            initView(mRootView, savedInstanceState)
+            initView(mRootView!!, savedInstanceState)
             initData()
             initListener()
         }

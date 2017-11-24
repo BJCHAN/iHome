@@ -9,12 +9,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.tianchuang.ihome_b.R;
+import com.tianchuang.ihome_b.bean.RobHallListItem;
 import com.tianchuang.ihome_b.http.retrofit.RxSubscribe;
 import com.tianchuang.ihome_b.mvp.ui.activity.ComplainSuggestActivity;
 import com.tianchuang.ihome_b.mvp.ui.activity.ControlPointDetailActivity;
@@ -35,6 +39,9 @@ import com.tianchuang.ihome_b.bean.event.OpenScanEvent;
 import com.tianchuang.ihome_b.bean.event.SwitchSuccessEvent;
 import com.tianchuang.ihome_b.bean.model.HomePageModel;
 import com.tianchuang.ihome_b.http.retrofit.RxHelper;
+import com.tianchuang.ihome_b.mvp.ui.activity.RobHallActivity;
+import com.tianchuang.ihome_b.utils.DateUtils;
+import com.tianchuang.ihome_b.utils.DensityUtil;
 import com.tianchuang.ihome_b.utils.FragmentUtils;
 import com.tianchuang.ihome_b.utils.ToastUtil;
 import com.tianchuang.ihome_b.utils.UserUtil;
@@ -78,6 +85,12 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     LinearLayout llMainQuery;
     @BindView(R.id.swipeLayout)
     SwipeRefreshLayout swipeLayout;
+    @BindView(R.id.rl_main_tip)
+    RelativeLayout rlMainTip;
+    @BindView(R.id.tv_title)
+    TextView tvTitle;
+    @BindView(R.id.tv_description)
+    TextView tvDescription;
     private MainActivity holdingActivity;
     private HomeMultiAdapter homeMultiAdapter;
     private List<HomePageMultiItem> mData;
@@ -118,7 +131,7 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             //公司名为空,相当于物业列表为空,不然公司名不会为空
             if (companyNameIsEmpty) {//禁用物业,直接去物业列表
                 if (getFragmentManager().getBackStackEntryCount() == 1) {
-                    addFragment(PropertyListFragment.newInstance());//避免重复添加
+                    addFragment(PropertyListFragment.Companion.newInstance());//避免重复添加
                 }
             }
         }
@@ -164,6 +177,7 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                             intent.setClass(getContext(), ManageNotificationActivity.class);
                             startActivityWithAnim(intent);
                             break;
+                        default:
                     }
                 }
             }
@@ -210,6 +224,18 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
      * 解析网络数据
      */
     private void parseResult(HomePageBean homePageBean) {
+        RobHallListItem repairs = homePageBean.getRepairs();
+        if (repairs == null) {
+            rlMainTip.setVisibility(View.GONE);
+        } else {
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) rlMainTip.getLayoutParams();
+            layoutParams.setMargins(0, DensityUtil.dip2px(getContext(), 10), 0, 0);
+            rlMainTip.setLayoutParams(layoutParams);
+            rlMainTip.setVisibility(View.VISIBLE);
+            tvTitle.setText(String.format("%s | %s", repairs.getRepairsTypeName()
+                    , DateUtils.formatDate(repairs.getCreatedDate(), DateUtils.TYPE_07)));
+            tvDescription.setText(getNotNull(repairs.getContent()));
+        }
         Observable.just(homePageBean)
                 .observeOn(Schedulers.io())
                 .map(bean -> HomePageModel.INSTANCE.getHomePageMultiItemList(bean))
@@ -322,7 +348,7 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     }
 
 
-    @OnClick({R.id.ll_rich_scan, R.id.ll_write_form, R.id.ll_internal_reports, R.id.ll_main_query})
+    @OnClick({R.id.ll_rich_scan, R.id.ll_write_form, R.id.ll_internal_reports, R.id.ll_main_query, R.id.rl_main_tip})
     public void onClick(View view) {
         currentPostion = -1;//初始化当前的位置
         switch (view.getId()) {
@@ -338,6 +364,10 @@ public class MainFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             case R.id.ll_main_query://查询
                 startActivity(new Intent(getHoldingActivity(), DataSearchActivity.class));
                 break;
+            case R.id.rl_main_tip://抢单大厅
+                startActivityWithAnim(new Intent(getHoldingActivity(), RobHallActivity.class));
+                break;
+            default:
         }
     }
 

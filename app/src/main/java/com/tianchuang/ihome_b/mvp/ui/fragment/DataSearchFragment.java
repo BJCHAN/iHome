@@ -68,6 +68,7 @@ public class DataSearchFragment extends BaseFragment {
 					case 4://车辆查询
 						addFragment(CarDetailFragment.newInstance());
 						break;
+						default:
 				}
 			}
 		});

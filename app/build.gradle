@@ -1,12 +1,8 @@
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'walle'
 
-retrolambda {
-    javaVersion JavaVersion.VERSION_1_7
-}
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -73,6 +69,7 @@ repositories {
     flatDir {
         dirs 'aars'
     }
+    google()
 }
 
 dependencies {

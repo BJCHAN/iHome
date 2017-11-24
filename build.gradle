@@ -5,11 +5,11 @@ buildscript {
 
     repositories {
         jcenter()
-        mavenCentral()
+        google()
+
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
-        classpath 'me.tatarka:gradle-retrolambda:3.6.0'
+        classpath 'com.android.tools.build:gradle:3.0.1'
 //        classpath 'com.android.tools.build:gradle:3.0.0-alpha2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.meituan.android.walle:plugin:1.1.3'
@@ -18,12 +18,13 @@ buildscript {
 
 allprojects {
     repositories {
+        google()
         jcenter()
         maven { url "https://jitpack.io" }
     }
 }
 ext {
-    buildToolsVersion = "25.0.2"
+    buildToolsVersion = "26.0.2"
     compileSdkVersion = 26
     targetSdkVersion = compileSdkVersion
     minSdkVersion = 15      //4.0

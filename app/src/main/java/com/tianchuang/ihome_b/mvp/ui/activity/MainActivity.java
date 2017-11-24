@@ -189,6 +189,7 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
                             case 10://投诉建议
                                 drawMenuItems.add(new DrawMenuItem().setId(6).setName(itemsNameArray[6]));
                                 break;
+                            default:
 
                         }
                     });
@@ -286,6 +287,7 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
             case R.id.rl_user_info://菜单上访问个人信息
                 startActivityWithAnim(new Intent(this, PersonalInfoActivity.class));
                 break;
+                default:
         }
     }
 
@@ -294,7 +296,7 @@ public class MainActivity extends BaseActivity implements MainFragment.LittleRed
      */
     public void startToPropertyListFragment() {
         if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
-            addFragment(PropertyListFragment.newInstance());//避免重复添加
+            addFragment(PropertyListFragment.Companion.newInstance());//避免重复添加
         }
     }
 

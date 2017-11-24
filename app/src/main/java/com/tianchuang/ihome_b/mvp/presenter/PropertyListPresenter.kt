@@ -76,8 +76,8 @@ class PropertyListPresenter : BasePresenterImpl<PropertyListContract.View>(), Pr
 
                     }
 
-                    override fun onNext(aBoolean: Boolean?) {
-                        if (aBoolean!!) {//设为常用成功
+                    override fun onNext(t: Boolean) {
+                        if (t) {//设为常用成功
                             for (propertyListItemBean in data!!) {
                                 propertyListItemBean.oftenUse = false
                             }
