@@ -30,7 +30,6 @@ import com.tianchuang.ihome_b.utils.LayoutUtil;
 import com.tianchuang.ihome_b.utils.MultipartBuilder;
 import com.tianchuang.ihome_b.utils.ToastUtil;
 import com.tianchuang.ihome_b.utils.ViewHelper;
-import com.yuyh.library.imgsel.ImgSelActivity;
 import com.yuyh.library.imgsel.ImgSelConfig;
 
 import org.greenrobot.eventbus.EventBus;
@@ -107,8 +106,10 @@ public class FormSubmitActivity extends BaseActivity implements View.OnClickList
 
     private void initView(FormTypeItemBean formTypeItemBean) {
         mRecyclerView.addItemDecoration(new CommonItemDecoration(DensityUtil.dip2px(this, 20)));
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
+//        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        CustomLinearLayoutManager customLinearLayoutManager = new CustomLinearLayoutManager(FormSubmitActivity.this);
+        customLinearLayoutManager.setScrollEnabled(true);
+        mRecyclerView.setLayoutManager(customLinearLayoutManager);
         fields = formTypeItemBean.getFields();
         if (fields.size() > 0) {
             editTexts = new SparseArray<>();

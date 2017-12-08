@@ -62,6 +62,7 @@ public class SubmitMultiAdapter extends BaseMultiItemQuickAdapter<FormTypeItemBe
     }
 
 
+    @Override
     protected void convert(BaseViewHolder helper, final FormTypeItemBean.FieldsBean item) {
         switch (helper.getItemViewType()) {
             case TYPE_TEXT://提交文本
@@ -106,11 +107,15 @@ public class SubmitMultiAdapter extends BaseMultiItemQuickAdapter<FormTypeItemBe
                 imageRecyclerView.setLayoutManager(new GridLayoutManager(imContext, 3));
                 ImgSelConfig config = ImagesSelectorUtils.getImgSelConfig();
                 //初始化图片选择器
-                ImagesSelectorAdapter selectorAdapter = new ImagesSelectorAdapter(getListData());
-                selectorAdapter.setConfig(config);
-                selectorAdapter.setId(item.getId());
-                selectorAdapter.setKeyField(item.getFieldKey());
-                imagesSelectorAdapters.add(selectorAdapter);//存储数据
+                ImagesSelectorAdapter selectorAdapter = getImageSelectorAdapterById(item.getId());
+                if (selectorAdapter == null) {
+                    selectorAdapter = new ImagesSelectorAdapter(getListData());
+                    selectorAdapter.setConfig(config);
+                    selectorAdapter.setId(item.getId());
+                    selectorAdapter.setKeyField(item.getFieldKey());
+                    selectorAdapter.setMustPut(item.isMustInput());
+                    imagesSelectorAdapters.add(selectorAdapter);//存储数据
+                }
                 imageRecyclerView.setAdapter(selectorAdapter);
                 imageRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
                     @Override
@@ -129,10 +134,12 @@ public class SubmitMultiAdapter extends BaseMultiItemQuickAdapter<FormTypeItemBe
                             case ImagesMultipleItem.IMG:
                                 removeImage(imagesSelectorAdapter, position);
                                 break;
+                                default:
                         }
                     }
                 });
                 break;
+                default:
         }
     }
 
@@ -240,7 +247,7 @@ public class SubmitMultiAdapter extends BaseMultiItemQuickAdapter<FormTypeItemBe
         List<ImagesMultipleItem> mData = adapter.getData();
         ArrayList<File> files = new ArrayList<>();
         for (ImagesMultipleItem imagesMultipleItem : mData) {
-            if (imagesMultipleItem.getItemType() == imagesMultipleItem.IMG) {
+            if (imagesMultipleItem.getItemType() == ImagesMultipleItem.IMG) {
                 files.add(new File(imagesMultipleItem.getUrl()));
             }
         }

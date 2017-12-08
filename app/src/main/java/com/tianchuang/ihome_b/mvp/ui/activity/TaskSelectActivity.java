@@ -22,7 +22,6 @@ import com.tianchuang.ihome_b.mvp.ui.fragment.EquipmentDetailFragment;
 import com.tianchuang.ihome_b.mvp.ui.fragment.MyTaskControlPointDetailFragment;
 import com.tianchuang.ihome_b.mvp.ui.fragment.TaskSelectFragment;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
-import com.yuyh.library.imgsel.ImgSelActivity;
 import com.yuyh.library.imgsel.ImgSelConfig;
 
 import org.greenrobot.eventbus.EventBus;

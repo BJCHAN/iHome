@@ -155,7 +155,8 @@
             android:name=".mvp.ui.activity.TaskSelectActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".mvp.ui.activity.PersonalInfoActivity" />
-
+<activity android:name=".mvp.ui.activity.ImgSelActivity"  android:launchMode="singleTop"
+    />
         <!-- 【必须】 信鸽receiver广播接收 -->
         <receiver
             android:name="com.tencent.android.tpush.XGPushReceiver"
