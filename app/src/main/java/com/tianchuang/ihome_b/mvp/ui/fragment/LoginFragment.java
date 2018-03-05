@@ -92,8 +92,17 @@ public class LoginFragment extends BaseFragment {
                 break;
             case R.id.registerbt://注册账户
                 mActivity.openFragment(RegisterAccountFragment.newInstance());
+                clearData();
                 break;
+            default:
         }
+    }
+
+    private void clearData() {
+        etPhoneNum.setText("");
+        etPasswrod.setText("");
+        tvRedTip.setVisibility(View.INVISIBLE);
+        tvRedTip.setText("");
     }
 
 
@@ -108,14 +117,14 @@ public class LoginFragment extends BaseFragment {
         final String pwd = etPasswrod.getText().toString().trim();
         Observable.zip(Observable.just(phone), Observable.just(pwd),
 
-                (phone1,pwd1) ->whetherCanLogin(phone)
+                (phone1, pwd1) -> whetherCanLogin(phone)
         )
-                .filter(b ->b )
+                .filter(b -> b)
                 .flatMap(b -> LoginModel.INSTANCE.requestLogin(phone, pwd).compose(RxHelper.handleResult())
 
                 )
                 .compose(this.bindToLifecycle())
-                .doOnSubscribe(o ->showProgress())
+                .doOnSubscribe(o -> showProgress())
                 .subscribe(new RxSubscribe<LoginBean>() {
                     @Override
                     public void _onNext(LoginBean s) {
@@ -166,7 +175,7 @@ public class LoginFragment extends BaseFragment {
      */
     private void loginBtnEnable(Observable<CharSequence> phone, Observable<CharSequence> pwd) {
         Observable.combineLatest(phone, pwd,
-                (email1,pwd1) ->email1.length() > 0 && pwd1.length() >= 6
+                (email1, pwd1) -> email1.length() > 0 && pwd1.length() >= 6
         ).compose(this.bindToLifecycle()).subscribe(b -> mLoginBt.setEnabled(b));
     }
 }

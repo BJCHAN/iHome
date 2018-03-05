@@ -9,7 +9,7 @@ public class Constants {
     // TODO 开发用，发布时置为false
     public static final boolean DEBUG_MODE = true;// 应用内各种日志打印的开关，debug版本为true，release版本为false
     // TODO 开发用，发布时置为false
-    public static final boolean HTTP_DEBUG_MODE = true;// 网络请求主机地址开关，debug版本为true，release版本为false
+    public static final boolean HTTP_DEBUG_MODE = false;// 网络请求主机地址开关，debug版本为true，release版本为false
 
     public static class ConfigureTimeouts {
         /* 从连接池中取连接的超时时间 */

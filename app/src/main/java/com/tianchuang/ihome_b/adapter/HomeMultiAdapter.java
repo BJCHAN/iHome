@@ -45,15 +45,18 @@ public class HomeMultiAdapter extends BaseMultiItemQuickAdapter<HomePageMultiIte
             case HomePageMultiItem.TYPE_INNER_REPORT://内部报事
                 MenuInnerReportsItemBean menuInnerReportsItemBean = item.getMenuInnerReportsItemBean();
                 PropertyListItemBean propertyEmployeeRoleVo = menuInnerReportsItemBean.getPropertyEmployeeRoleVo();
-                helper.setText(R.id.tv_content, menuInnerReportsItemBean.getContent())
-                        .setText(R.id.tv_info, propertyEmployeeRoleVo.getDepartmentName()
-                                + "/" + propertyEmployeeRoleVo.getEmployeeName());
+                if (propertyEmployeeRoleVo != null) {
+                    helper .setText(R.id.tv_info, StringUtils.getNotNull(propertyEmployeeRoleVo.getDepartmentName())
+                            + "/" + StringUtils.getNotNull(propertyEmployeeRoleVo.getEmployeeName()));
+                }
+                helper.setText(R.id.tv_content, menuInnerReportsItemBean.getContent());
                 break;
             case HomePageMultiItem.TYPE_NOTICE://通知
                 NotificationItemBean notificationItemBean = item.getNotificationItemBean();
                 helper.setText(R.id.tv_type, StringUtils.getNotNull(notificationItemBean.getTitle()))
                         .setText(R.id.tv_content, StringUtils.getNotNull(notificationItemBean.getContent()));
                 break;
+                default:
         }
     }
 }

@@ -230,7 +230,7 @@
         <provider
             android:name="com.tencent.mid.api.MidProvider"
             android:authorities="com.tianchuang.ihome_b.TENCENT.MID.V3"
-            android:exported="true"></provider>
+            android:exported="true"/>
         <!-- 【必须】 请修改为APP的AccessId，“21”开头的10位数字，中间没空格 -->
         <meta-data
             android:name="XG_V2_ACCESS_ID"

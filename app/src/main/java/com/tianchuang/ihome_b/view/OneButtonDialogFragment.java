@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.tianchuang.ihome_b.R;
+import com.tianchuang.ihome_b.database.UserInfo;
 import com.tianchuang.ihome_b.utils.DensityUtil;
 
 import butterknife.BindView;
@@ -28,6 +29,11 @@ import butterknife.Unbinder;
 
 public class OneButtonDialogFragment extends DialogFragment {
 
+
+	@Override
+	public void setUserVisibleHint(boolean isVisibleToUser) {
+		super.setUserVisibleHint(isVisibleToUser);
+	}
 
 	@BindView(R.id.tv_tip)
 	TextView tvTip;
